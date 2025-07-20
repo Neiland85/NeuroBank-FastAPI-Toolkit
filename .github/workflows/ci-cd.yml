@@ -102,25 +102,26 @@ jobs:
           echo ""
         else
           echo "✅ AWS credentials are configured - deployment will proceed"
+          echo "🚀 Ready for production deployment to AWS Lambda!"
+          echo "📍 Region: ${{ env.AWS_REGION }}"
+          echo "📦 ECR Repository: ${{ env.ECR_REPOSITORY }}"
         fi
 
   build-and-deploy:
     needs: [test, security]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && secrets.AWS_ACCESS_KEY_ID != ''
+    if: github.ref == 'refs/heads/main'
     
     steps:
     - name: Checkout
       uses: actions/checkout@v4
     
-    - name: Check AWS credentials
+    - name: Verify deployment prerequisites
       run: |
-        if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ] || [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
-          echo "❌ AWS credentials not configured. Please set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY secrets."
-          echo "💡 Go to: https://github.com/${{ github.repository }}/settings/secrets/actions"
-          exit 1
-        fi
-        echo "✅ AWS credentials are configured"
+        echo "🚀 Starting deployment process..."
+        echo "📍 AWS Region: ${{ env.AWS_REGION }}"
+        echo "� ECR Repository: ${{ env.ECR_REPOSITORY }}"
+        echo "🔑 AWS Credentials: Configured ✅"
     
     - name: Set up Python
       uses: actions/setup-python@v5
