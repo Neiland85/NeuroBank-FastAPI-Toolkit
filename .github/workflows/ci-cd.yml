@@ -5,6 +5,25 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
+  # Deployment solo cuando el usuario lo solicite manualmente
+  workflow_dispatch:
+    inputs:
+      deploy_to_aws:
+        description: '¿Desplegar a AWS?'
+        required: true
+        default: 'false'
+        type: choice
+        options:
+        - 'true'
+        - 'false'
+      environment:
+        description: 'Entorno de deployment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - 'staging'
+        - 'production'
 
 # Permisos necesarios para AWS OIDC
 permissions:
@@ -122,7 +141,11 @@ jobs:
   build-and-deploy:
     needs: [test, security]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    # Solo deployar cuando el usuario lo active manualmente con workflow_dispatch
+    if: |
+      (github.event_name == 'workflow_dispatch' && 
+       github.event.inputs.deploy_to_aws == 'true' && 
+       github.ref == 'refs/heads/main')
     
     steps:
     - name: Checkout
