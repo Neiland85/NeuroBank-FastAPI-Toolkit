@@ -74,14 +74,53 @@ jobs:
           bandit-report.json
           safety-report.json
 
-  build-and-deploy:
+  deployment-check:
     needs: [test, security]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     
     steps:
+    - name: Check deployment readiness
+      run: |
+        echo "🔍 Checking deployment readiness..."
+        if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ] || [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+          echo ""
+          echo "⚠️  AWS CREDENTIALS NOT CONFIGURED"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "To enable automatic deployment, please configure:"
+          echo ""
+          echo "1. Go to: https://github.com/${{ github.repository }}/settings/secrets/actions"
+          echo "2. Add these Repository Secrets:"
+          echo "   • AWS_ACCESS_KEY_ID"
+          echo "   • AWS_SECRET_ACCESS_KEY" 
+          echo "   • API_KEY (for your application)"
+          echo ""
+          echo "3. Also create an ECR repository named: ${{ env.ECR_REPOSITORY }}"
+          echo ""
+          echo "✅ Tests and Security scans completed successfully!"
+          echo "🚀 Deployment will run automatically once credentials are configured"
+          echo ""
+        else
+          echo "✅ AWS credentials are configured - deployment will proceed"
+        fi
+
+  build-and-deploy:
+    needs: [test, security]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && secrets.AWS_ACCESS_KEY_ID != ''
+    
+    steps:
     - name: Checkout
       uses: actions/checkout@v4
+    
+    - name: Check AWS credentials
+      run: |
+        if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ] || [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+          echo "❌ AWS credentials not configured. Please set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY secrets."
+          echo "💡 Go to: https://github.com/${{ github.repository }}/settings/secrets/actions"
+          exit 1
+        fi
+        echo "✅ AWS credentials are configured"
     
     - name: Set up Python
       uses: actions/setup-python@v5
