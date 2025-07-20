@@ -5,10 +5,36 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
+  # Deployment solo cuando el usuario lo solicite manualmente
+  workflow_dispatch:
+    inputs:
+      deploy_to_aws:
+        description: '¿Desplegar a AWS?'
+        required: true
+        default: 'false'
+        type: choice
+        options:
+        - 'true'
+        - 'false'
+      environment:
+        description: 'Entorno de deployment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - 'staging'
+        - 'production'
+
+# Permisos necesarios para AWS OIDC
+permissions:
+  id-token: write   # Para AWS OIDC authentication
+  contents: read    # Para hacer checkout del código
 
 env:
   AWS_REGION: eu-west-1
   ECR_REPOSITORY: neurobank-fastapi
+  AWS_ACCOUNT_ID: 120242956739
+  AWS_ROLE_ARN: arn:aws:iam::120242956739:role/GitHubActionsOIDCRole
 
 jobs:
   test:
@@ -83,44 +109,54 @@ jobs:
     - name: Check deployment readiness
       run: |
         echo "🔍 Checking deployment readiness..."
-        if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ] || [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+        if [ -z "${{ secrets.AWS_ACCOUNT_ID }}" ]; then
           echo ""
-          echo "⚠️  AWS CREDENTIALS NOT CONFIGURED"
+          echo "⚠️  AWS OIDC NOT CONFIGURED"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "To enable automatic deployment, please configure:"
           echo ""
           echo "1. Go to: https://github.com/${{ github.repository }}/settings/secrets/actions"
-          echo "2. Add these Repository Secrets:"
-          echo "   • AWS_ACCESS_KEY_ID"
-          echo "   • AWS_SECRET_ACCESS_KEY" 
-          echo "   • API_KEY (for your application)"
+          echo "2. Add this Repository Secret:"
+          echo "   • AWS_ACCOUNT_ID (your 12-digit AWS account number)"
+          echo "   • API_KEY (for your application - optional)"
           echo ""
-          echo "3. Also create an ECR repository named: ${{ env.ECR_REPOSITORY }}"
+          echo "3. Ensure AWS OIDC role exists:"
+          echo "   • Role name: GitHubActionsOIDCRole"
+          echo "   • Trust policy allows: ${{ github.repository }}"
+          echo ""
+          echo "4. Also create an ECR repository named: ${{ env.ECR_REPOSITORY }}"
           echo ""
           echo "✅ Tests and Security scans completed successfully!"
-          echo "🚀 Deployment will run automatically once credentials are configured"
+          echo "🚀 Deployment will run automatically once OIDC is configured"
           echo ""
         else
-          echo "✅ AWS credentials are configured - deployment will proceed"
+          echo "✅ AWS OIDC is configured - deployment will proceed"
           echo "🚀 Ready for production deployment to AWS Lambda!"
           echo "📍 Region: ${{ env.AWS_REGION }}"
           echo "📦 ECR Repository: ${{ env.ECR_REPOSITORY }}"
+          echo "🔐 AWS Role: ${{ env.AWS_ROLE_ARN }}"
+          echo "🏗️  Using secure OIDC authentication (no long-term keys) ✨"
         fi
 
   build-and-deploy:
     needs: [test, security]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    # Solo deployar cuando el usuario lo active manualmente con workflow_dispatch
+    if: |
+      (github.event_name == 'workflow_dispatch' && 
+       github.event.inputs.deploy_to_aws == 'true' && 
+       github.ref == 'refs/heads/main')
     
     steps:
     - name: Checkout
       uses: actions/checkout@v4
     
-    - name: Verify deployment prerequisites
+    - name: Verify OIDC prerequisites
       run: |
-        echo "🚀 Starting deployment process..."
+        echo "🚀 Starting OIDC-secured deployment process..."
         echo "📍 AWS Region: ${{ env.AWS_REGION }}"
         echo "📦 ECR Repository: ${{ env.ECR_REPOSITORY }}"
+        develop
         echo "🔑 Checking AWS Credentials..."
         
         # Verify secrets are available (without exposing them)
@@ -136,12 +172,28 @@ jobs:
           exit 1
         else
           echo "✅ AWS_SECRET_ACCESS_KEY is available"
+
+        echo "� AWS Role ARN: ${{ env.AWS_ROLE_ARN }}"
+        echo "🏗️  Using secure OIDC authentication ✨"
+        
+        # Verify AWS Account ID is available
+        if [ -z "${{ secrets.AWS_ACCOUNT_ID }}" ]; then
+          echo "❌ AWS_ACCOUNT_ID secret is missing"
+          echo "💡 Add it in: https://github.com/${{ github.repository }}/settings/secrets/actions"
+          exit 1
+        else
+          echo "✅ AWS_ACCOUNT_ID is configured"
+        main
         fi
         
         if [ -z "${{ secrets.API_KEY }}" ]; then
           echo "⚠️  API_KEY is missing - using default"
         else
+        develop
           echo "✅ API_KEY is available"
+
+          echo "✅ API_KEY is configured"
+        main
         fi
     
     - name: Set up Python
@@ -149,12 +201,18 @@ jobs:
       with:
         python-version: '3.11'
     
-    - name: Configure AWS credentials
+    - name: Configure AWS credentials via OIDC
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        role-to-assume: ${{ env.AWS_ROLE_ARN }}
         aws-region: ${{ env.AWS_REGION }}
+        role-session-name: GitHubActions-${{ github.run_id }}
+    
+    - name: Debug AWS identity
+      run: |
+        echo "🧪 Testing AWS OIDC connection..."
+        aws sts get-caller-identity
+        echo "✅ AWS OIDC connection successful!"
     
     - name: Test AWS connection
       run: |
@@ -201,3 +259,9 @@ jobs:
           --region ${{ env.AWS_REGION }} \
           --parameter-overrides ApiKey=${{ secrets.API_KEY || 'default-api-key' }}
         echo "🎉 Deployment completed successfully!"
+        develop
+
+        echo "📋 Stack: neurobank-api"
+        echo "📍 Region: ${{ env.AWS_REGION }}"
+        echo "🔗 Check AWS Lambda console for endpoint URL"
+         main
