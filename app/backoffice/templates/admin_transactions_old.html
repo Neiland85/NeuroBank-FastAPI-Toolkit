@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --neuro-primary: #1e3a8a;
+            --neuro-secondary: #1e40af;
+            --neuro-accent: #3b82f6;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .admin-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 20px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--neuro-primary) !important;
+        }
+        
+        .btn-neuro {
+            background: linear-gradient(45deg, var(--neuro-primary), var(--neuro-accent));
+            border: none;
+            color: white;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+        }
+        
+        .transaction-detail {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--neuro-accent);
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-completed { background-color: #d1fae5; color: #065f46; }
+        .status-pending { background-color: #fef3c7; color: #92400e; }
+        .status-failed { background-color: #fee2e2; color: #991b1b; }
+        .status-cancelled { background-color: #f3f4f6; color: #374151; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: rgba(30, 58, 138, 0.9);">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/backoffice/">
+                <i class="fas fa-university me-2"></i>
+                NeuroBank Admin
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/backoffice/">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                <a class="nav-link active" href="/backoffice/admin/transactions">
+                    <i class="bi bi-receipt"></i> Transactions
+                </a>
+                <a class="nav-link" href="/backoffice/admin/users">
+                    <i class="bi bi-people"></i> Users
+                </a>
+                <a class="nav-link" href="/backoffice/admin/reports">
+                    <i class="bi bi-graph-up"></i> Reports
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="admin-panel">
+                    <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">
+                            <i class="fas fa-receipt text-primary me-2"></i>
+                            Transaction Management
+                        </h3>
+                        <div>
+                            <button class="btn btn-neuro me-2" onclick="exportTransactions()">
+                                <i class="bi bi-download"></i> Export CSV
+                            </button>
+                            <button class="btn btn-outline-primary" onclick="refreshTransactions()">
+                                <i class="bi bi-arrow-clockwise"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <!-- Filters -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <label class="form-label">Status Filter</label>
+                                <select class="form-select" id="statusFilter">
+                                    <option value="">All Status</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="failed">Failed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Transaction Type</label>
+                                <select class="form-select" id="typeFilter">
+                                    <option value="">All Types</option>
+                                    <option value="transfer">Transfer</option>
+                                    <option value="deposit">Deposit</option>
+                                    <option value="withdrawal">Withdrawal</option>
+                                    <option value="payment">Payment</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Amount Range</label>
+                                <select class="form-select" id="amountFilter">
+                                    <option value="">All Amounts</option>
+                                    <option value="0-100">$0 - $100</option>
+                                    <option value="100-1000">$100 - $1,000</option>
+                                    <option value="1000-10000">$1,000 - $10,000</option>
+                                    <option value="10000+">$10,000+</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button class="btn btn-primary w-100" onclick="applyFilters()">
+                                    <i class="bi bi-funnel"></i> Apply Filters
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Transaction Stats -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="text-center p-3 bg-light rounded">
+                                    <h4 class="text-success" id="totalTransactions">--</h4>
+                                    <small class="text-muted">Total Transactions</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center p-3 bg-light rounded">
+                                    <h4 class="text-info" id="totalVolume">--</h4>
+                                    <small class="text-muted">Total Volume</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center p-3 bg-light rounded">
+                                    <h4 class="text-warning" id="pendingCount">--</h4>
+                                    <small class="text-muted">Pending</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center p-3 bg-light rounded">
+                                    <h4 class="text-danger" id="failedCount">--</h4>
+                                    <small class="text-muted">Failed</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transactions Table -->
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Transaction ID</th>
+                                        <th>Type</th>
+                                        <th>From Account</th>
+                                        <th>To Account</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Timestamp</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactionsTable">
+                                    <tr>
+                                        <td colspan="8" class="text-center py-4">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <nav aria-label="Transactions pagination">
+                            <ul class="pagination justify-content-center" id="pagination">
+                                <!-- Pagination will be generated by JS -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction Detail Modal -->
+    <div class="modal fade" id="transactionModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Transaction Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="transactionDetails">
+                    <!-- Content loaded dynamically -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" onclick="flagTransaction()">Flag as Suspicious</button>
+                    <button type="button" class="btn btn-primary" onclick="processTransaction()">Process</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let currentPage = 1;
+        let transactions = [];
+        let filteredTransactions = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTransactions();
+        });
+
+        async function loadTransactions() {
+            try {
+                const response = await fetch('/backoffice/api/transactions?limit=100');
+                transactions = await response.json();
+                filteredTransactions = [...transactions];
+                updateStats();
+                displayTransactions();
+            } catch (error) {
+                console.error('Error loading transactions:', error);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalTransactions').textContent = filteredTransactions.length;
+            
+            const totalVolume = filteredTransactions.reduce((sum, tx) => sum + parseFloat(tx.amount), 0);
+            document.getElementById('totalVolume').textContent = `$${totalVolume.toLocaleString()}`;
+            
+            const pendingCount = filteredTransactions.filter(tx => tx.status === 'pending').length;
+            document.getElementById('pendingCount').textContent = pendingCount;
+            
+            const failedCount = filteredTransactions.filter(tx => tx.status === 'failed').length;
+            document.getElementById('failedCount').textContent = failedCount;
+        }
+
+        function displayTransactions() {
+            const tbody = document.getElementById('transactionsTable');
+            tbody.innerHTML = '';
+            
+            const itemsPerPage = 20;
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageTransactions = filteredTransactions.slice(start, end);
+            
+            pageTransactions.forEach(tx => {
+                const row = document.createElement('tr');
+                const statusClass = `status-${tx.status}`;
+                
+                row.innerHTML = `
+                    <td><code>${tx.id}</code></td>
+                    <td>
+                        <i class="${getTransactionIcon(tx.type)} me-1"></i>
+                        ${tx.type.charAt(0).toUpperCase() + tx.type.slice(1)}
+                    </td>
+                    <td><code>${tx.from_account}</code></td>
+                    <td><code>${tx.to_account}</code></td>
+                    <td class="fw-bold">$${parseFloat(tx.amount).toLocaleString()}</td>
+                    <td>
+                        <span class="status-badge ${statusClass}">
+                            ${tx.status.toUpperCase()}
+                        </span>
+                    </td>
+                    <td class="text-muted">${new Date(tx.timestamp).toLocaleString()}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" onclick="viewTransaction('${tx.id}')">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-warning" onclick="editTransaction('${tx.id}')">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            updatePagination();
+        }
+
+        function updatePagination() {
+            const pagination = document.getElementById('pagination');
+            const itemsPerPage = 20;
+            const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
+            
+            pagination.innerHTML = '';
+            
+            // Previous button
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prevLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage - 1})">Previous</a>`;
+            pagination.appendChild(prevLi);
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
+                pagination.appendChild(li);
+            }
+            
+            // Next button
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage + 1})">Next</a>`;
+            pagination.appendChild(nextLi);
+        }
+
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredTransactions.length / 20);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                displayTransactions();
+            }
+        }
+
+        function applyFilters() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            const amountFilter = document.getElementById('amountFilter').value;
+            
+            filteredTransactions = transactions.filter(tx => {
+                let matches = true;
+                
+                if (statusFilter && tx.status !== statusFilter) matches = false;
+                if (typeFilter && tx.type !== typeFilter) matches = false;
+                
+                if (amountFilter) {
+                    const amount = parseFloat(tx.amount);
+                    switch (amountFilter) {
+                        case '0-100':
+                            if (amount > 100) matches = false;
+                            break;
+                        case '100-1000':
+                            if (amount <= 100 || amount > 1000) matches = false;
+                            break;
+                        case '1000-10000':
+                            if (amount <= 1000 || amount > 10000) matches = false;
+                            break;
+                        case '10000+':
+                            if (amount <= 10000) matches = false;
+                            break;
+                    }
+                }
+                
+                return matches;
+            });
+            
+            currentPage = 1;
+            updateStats();
+            displayTransactions();
+        }
+
+        function viewTransaction(id) {
+            const tx = transactions.find(t => t.id === id);
+            if (tx) {
+                const details = document.getElementById('transactionDetails');
+                details.innerHTML = `
+                    <div class="transaction-detail">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Transaction Information</h6>
+                                <p><strong>ID:</strong> <code>${tx.id}</code></p>
+                                <p><strong>Type:</strong> ${tx.type.charAt(0).toUpperCase() + tx.type.slice(1)}</p>
+                                <p><strong>Status:</strong> <span class="status-badge status-${tx.status}">${tx.status.toUpperCase()}</span></p>
+                                <p><strong>Amount:</strong> $${parseFloat(tx.amount).toLocaleString()}</p>
+                                <p><strong>Currency:</strong> ${tx.currency}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Account Information</h6>
+                                <p><strong>From Account:</strong> <code>${tx.from_account}</code></p>
+                                <p><strong>To Account:</strong> <code>${tx.to_account}</code></p>
+                                <p><strong>Description:</strong> ${tx.description}</p>
+                                <p><strong>Timestamp:</strong> ${new Date(tx.timestamp).toLocaleString()}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                new bootstrap.Modal(document.getElementById('transactionModal')).show();
+            }
+        }
+
+        function getTransactionIcon(type) {
+            const icons = {
+                'transfer': 'fas fa-exchange-alt text-primary',
+                'deposit': 'fas fa-arrow-down text-success', 
+                'withdrawal': 'fas fa-arrow-up text-danger',
+                'payment': 'fas fa-credit-card text-info'
+            };
+            return icons[type] || 'fas fa-circle text-secondary';
+        }
+
+        function refreshTransactions() {
+            loadTransactions();
+        }
+
+        function exportTransactions() {
+            // Mock export functionality
+            alert('Exporting transactions to CSV... (Mock functionality for demo)');
+        }
+
+        function editTransaction(id) {
+            alert(`Edit transaction ${id} (Mock functionality for demo)`);
+        }
+
+        function flagTransaction() {
+            alert('Transaction flagged as suspicious (Mock functionality for demo)');
+        }
+
+        function processTransaction() {
+            alert('Transaction processed (Mock functionality for demo)');
+        }
+    </script>
+</body>
+</html>

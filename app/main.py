@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 import logging
 import datetime
 import os
 from .routers import operator
+from .backoffice import router as backoffice_router
 from .utils.logging import setup_logging
 
 # Configuración constantes
@@ -13,16 +15,27 @@ APP_VERSION = "1.0.0"
 APP_DESCRIPTION = """
 ## 🏦 NeuroBank FastAPI Toolkit
 
-**Professional banking operations API** with enterprise-grade features:
+**Professional banking operations API** with enterprise-grade features and **admin backoffice dashboard**:
 
 ### 🚀 Key Features
 - **Banking Operations**: Comprehensive account management and transactions
+- **Admin Dashboard**: Visual backoffice panel at `/backoffice/` with real-time metrics
 - **Security First**: API key authentication and request validation
 - **Production Ready**: AWS serverless deployment with monitoring
 - **High Performance**: Async operations with optimized response times
 
+### 🎨 Backoffice Dashboard
+- **Real-time Metrics**: Live transaction monitoring and system health
+- **Interactive Charts**: Chart.js visualizations for business intelligence
+- **Transaction Management**: Advanced filtering and administration tools
+- **Responsive Design**: Bootstrap 5 with professional banking UI
+- **Protected Admin Panels**: Secure administrative access
+
 ### 🛠️ Technical Stack
 - **FastAPI**: Modern, fast web framework for building APIs
+- **Jinja2**: Template engine for dynamic HTML generation
+- **Bootstrap 5**: Professional UI framework with responsive design
+- **Chart.js**: Interactive data visualizations
 - **Pydantic**: Data validation using Python type annotations
 - **AWS Lambda**: Serverless compute platform
 - **CloudWatch**: Monitoring and logging
@@ -30,6 +43,7 @@ APP_DESCRIPTION = """
 ### 📚 API Documentation
 - **Swagger UI**: Available at `/docs` (interactive documentation)
 - **ReDoc**: Available at `/redoc` (alternative documentation)
+- **Admin Dashboard**: Available at `/backoffice/` (visual interface)
 
 ### 🔐 Authentication
 All endpoints require a valid API key in the `X-API-Key` header.
@@ -89,6 +103,7 @@ app.add_middleware(
 
 # Incluir routers
 app.include_router(operator.router, prefix="/operator", tags=["operator"])
+app.include_router(backoffice_router.router, tags=["backoffice"])
 
 # Health check endpoint
 @app.get(

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title or "NeuroBank Admin" }}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .admin-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(15px);
+            margin: 20px 0;
+        }
+        
+        .btn-neuro {
+            background: linear-gradient(45deg, #1e3a8a, #3b82f6);
+            border: none;
+            color: white;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+        }
+        
+        .filter-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .transaction-card {
+            background: white;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .transaction-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-completed { background-color: #d1fae5; color: #065f46; }
+        .status-pending { background-color: #fef3c7; color: #92400e; }
+        .status-failed { background-color: #fee2e2; color: #991b1b; }
+        .status-cancelled { background-color: #f3f4f6; color: #374151; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: rgba(30, 58, 138, 0.95);">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/backoffice/">
+                <i class="bi bi-building"></i> NeuroBank Admin
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/backoffice/">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                <a class="nav-link active" href="/backoffice/admin/transactions">
+                    <i class="bi bi-receipt"></i> Transactions
+                </a>
+                <a class="nav-link" href="/backoffice/admin/users">
+                    <i class="bi bi-people"></i> Users
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="admin-panel">
+                    <!-- Header -->
+                    <div class="p-4 border-bottom">
+                        <h2><i class="bi bi-receipt-cutoff"></i> Gestión de Transacciones</h2>
+                        <p class="text-muted">Panel de administración de transacciones bancarias</p>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-4">
+                        <!-- Stats -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h4 id="totalTransactions">0</h4>
+                                        <small class="text-muted">Total Transacciones</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h4 id="totalVolume">$0</h4>
+                                        <small class="text-muted">Volumen Total</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h4 id="successRate">0%</h4>
+                                        <small class="text-muted">Tasa de Éxito</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h4 id="avgAmount">$0</h4>
+                                        <small class="text-muted">Monto Promedio</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Filters -->
+                        <div class="filter-section">
+                            <h5>Filtros</h5>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="searchQuery" 
+                                           placeholder="Buscar transacciones..." onkeyup="searchTransactions()">
+                                </div>
+                                <div class="col-md-2">
+                                    <select class="form-select" id="statusFilter" onchange="filterTransactions()">
+                                        <option value="">Todos los estados</option>
+                                        <option value="completed">Completadas</option>
+                                        <option value="pending">Pendientes</option>
+                                        <option value="failed">Fallidas</option>
+                                        <option value="cancelled">Canceladas</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <select class="form-select" id="typeFilter" onchange="filterTransactions()">
+                                        <option value="">Todos los tipos</option>
+                                        <option value="transfer">Transferencias</option>
+                                        <option value="deposit">Depósitos</option>
+                                        <option value="withdrawal">Retiros</option>
+                                        <option value="payment">Pagos</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-neuro w-100" onclick="refreshData()">
+                                        <i class="bi bi-arrow-clockwise"></i> Actualizar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transactions List -->
+                        <div id="transactionsList">
+                            <!-- Loading -->
+                            <div class="text-center py-4" id="loading">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                                <p class="mt-2">Cargando transacciones...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTransactions();
+        });
+
+        // Load transactions
+        async function loadTransactions() {
+            try {
+                console.log('Loading transactions...');
+                
+                // Show loading
+                document.getElementById('loading').style.display = 'block';
+                
+                const response = await fetch('/backoffice/api/transactions/search?page=1&page_size=20');
+                const data = await response.json();
+                
+                console.log('Data received:', data);
+                
+                displayTransactions(data.transactions || []);
+                updateStats(data);
+                
+                // Hide loading
+                document.getElementById('loading').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading transactions:', error);
+                document.getElementById('transactionsList').innerHTML = 
+                    '<div class="alert alert-danger">Error cargando transacciones: ' + error.message + '</div>';
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        // Display transactions
+        function displayTransactions(transactions) {
+            const container = document.getElementById('transactionsList');
+            
+            if (!transactions || transactions.length === 0) {
+                container.innerHTML = '<div class="alert alert-info">No se encontraron transacciones</div>';
+                return;
+            }
+
+            const html = transactions.map(tx => `
+                <div class="transaction-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6>${tx.reference || tx.id}</h6>
+                            <small class="text-muted">${tx.description || 'Sin descripción'}</small>
+                        </div>
+                        <div class="text-end">
+                            <span class="status-badge status-${tx.status}">${getStatusText(tx.status)}</span>
+                            <div class="mt-1">
+                                <strong>$${Math.abs(tx.amount || 0).toLocaleString()}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = html;
+        }
+
+        // Update statistics
+        function updateStats(data) {
+            const transactions = data.transactions || [];
+            
+            document.getElementById('totalTransactions').textContent = data.total || transactions.length;
+            
+            const totalVolume = transactions.reduce((sum, t) => sum + Math.abs(t.amount || 0), 0);
+            document.getElementById('totalVolume').textContent = '$' + totalVolume.toLocaleString();
+            
+            const completedCount = transactions.filter(t => t.status === 'completed').length;
+            const successRate = transactions.length > 0 ? (completedCount / transactions.length * 100).toFixed(1) : 0;
+            document.getElementById('successRate').textContent = successRate + '%';
+            
+            const avgAmount = transactions.length > 0 ? totalVolume / transactions.length : 0;
+            document.getElementById('avgAmount').textContent = '$' + avgAmount.toLocaleString(undefined, {maximumFractionDigits: 0});
+        }
+
+        // Search transactions
+        function searchTransactions() {
+            console.log('Searching transactions...');
+            loadTransactions();
+        }
+
+        // Filter transactions
+        function filterTransactions() {
+            console.log('Filtering transactions...');
+            loadTransactions();
+        }
+
+        // Refresh data
+        function refreshData() {
+            console.log('Refreshing data...');
+            loadTransactions();
+        }
+
+        // Helper function
+        function getStatusText(status) {
+            const texts = {
+                'completed': 'Completada',
+                'pending': 'Pendiente',
+                'failed': 'Fallida',
+                'cancelled': 'Cancelada'
+            };
+            return texts[status] || status;
+        }
+    </script>
+</body>
+</html>

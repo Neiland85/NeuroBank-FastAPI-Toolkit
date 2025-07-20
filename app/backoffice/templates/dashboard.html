@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --neuro-primary: #1e3a8a;
+            --neuro-secondary: #1e40af;
+            --neuro-accent: #3b82f6;
+            --neuro-success: #10b981;
+            --neuro-warning: #f59e0b;
+            --neuro-danger: #ef4444;
+            --neuro-dark: #1f2937;
+            --neuro-light: #f8fafc;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--neuro-primary);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border-left: 4px solid;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .metric-card.primary { border-left-color: var(--neuro-primary); }
+        .metric-card.success { border-left-color: var(--neuro-success); }
+        .metric-card.warning { border-left-color: var(--neuro-warning); }
+        .metric-card.info { border-left-color: var(--neuro-accent); }
+        
+        .metric-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .metric-icon.primary { background: linear-gradient(45deg, var(--neuro-primary), var(--neuro-secondary)); }
+        .metric-icon.success { background: linear-gradient(45deg, #10b981, #059669); }
+        .metric-icon.warning { background: linear-gradient(45deg, #f59e0b, #d97706); }
+        .metric-icon.info { background: linear-gradient(45deg, var(--neuro-accent), #2563eb); }
+        
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .transaction-table {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-completed { background-color: #d1fae5; color: #065f46; }
+        .status-pending { background-color: #fef3c7; color: #92400e; }
+        .status-failed { background-color: #fee2e2; color: #991b1b; }
+        .status-cancelled { background-color: #f3f4f6; color: #374151; }
+        
+        .system-health {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+        }
+        
+        .progress {
+            height: 8px;
+            border-radius: 10px;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--neuro-primary) !important;
+        }
+        
+        .btn-neuro {
+            background: linear-gradient(45deg, var(--neuro-primary), var(--neuro-accent));
+            border: none;
+            color: white;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-neuro:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
+            color: white;
+        }
+        
+        .loading-spinner {
+            display: none;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .loading .loading-spinner {
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg dashboard-header sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-university me-2"></i>
+                NeuroBank Admin Dashboard
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text me-3">
+                    <i class="bi bi-clock"></i>
+                    {{ current_time }}
+                </span>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle btn btn-outline-primary" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle"></i> Admin
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/backoffice/admin/transactions"><i class="bi bi-receipt"></i> Transactions</a></li>
+                        <li><a class="dropdown-item" href="/backoffice/admin/users"><i class="bi bi-people"></i> Users</a></li>
+                        <li><a class="dropdown-item" href="/backoffice/admin/reports"><i class="bi bi-graph-up"></i> Reports</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/docs"><i class="bi bi-book"></i> API Documentation</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <!-- Metrics Cards Row -->
+        <div class="row mb-4">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card metric-card primary h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="metric-icon primary me-3">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-title text-muted mb-1">Transactions Today</h6>
+                            <h3 class="mb-0" id="total-transactions">
+                                <span class="loading-spinner">Loading...</span>
+                            </h3>
+                            <small class="text-success">
+                                <i class="bi bi-arrow-up"></i> +12% from yesterday
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card metric-card success h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="metric-icon success me-3">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-title text-muted mb-1">Total Volume</h6>
+                            <h3 class="mb-0" id="total-volume">
+                                <span class="loading-spinner">Loading...</span>
+                            </h3>
+                            <small class="text-success">
+                                <i class="bi bi-arrow-up"></i> +8% from yesterday
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card metric-card warning h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="metric-icon warning me-3">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-title text-muted mb-1">Active Accounts</h6>
+                            <h3 class="mb-0" id="active-accounts">
+                                <span class="loading-spinner">Loading...</span>
+                            </h3>
+                            <small class="text-success">
+                                <i class="bi bi-arrow-up"></i> +23 new today
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card metric-card info h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="metric-icon info me-3">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-title text-muted mb-1">Success Rate</h6>
+                            <h3 class="mb-0" id="success-rate">
+                                <span class="loading-spinner">Loading...</span>
+                            </h3>
+                            <small class="text-success">
+                                <i class="bi bi-check-circle"></i> Excellent performance
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row mb-4">
+            <div class="col-lg-8">
+                <div class="chart-container">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">
+                            <i class="fas fa-chart-bar text-primary me-2"></i>
+                            Transactions by Hour
+                        </h5>
+                        <button class="btn btn-sm btn-outline-primary" onclick="refreshChart('hourly')">
+                            <i class="bi bi-arrow-clockwise"></i> Refresh
+                        </button>
+                    </div>
+                    <canvas id="hourlyChart" height="100"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="chart-container">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">
+                            <i class="fas fa-chart-pie text-success me-2"></i>
+                            Transaction Status
+                        </h5>
+                        <button class="btn btn-sm btn-outline-success" onclick="refreshChart('status')">
+                            <i class="bi bi-arrow-clockwise"></i> Refresh
+                        </button>
+                    </div>
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Health & Recent Transactions Row -->
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="system-health">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">
+                            <i class="fas fa-heartbeat text-danger me-2"></i>
+                            System Health
+                        </h5>
+                        <span class="badge bg-success" id="system-status">Loading...</span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>CPU Usage</span>
+                            <span id="cpu-usage">--</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" id="cpu-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Memory Usage</span>
+                            <span id="memory-usage">--</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" id="memory-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <i class="fas fa-database text-success fa-2x"></i>
+                            <div class="mt-2">
+                                <small class="text-muted">Database</small>
+                                <div class="fw-bold text-success" id="db-status">Operational</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <i class="fas fa-cloud text-info fa-2x"></i>
+                            <div class="mt-2">
+                                <small class="text-muted">API Gateway</small>
+                                <div class="fw-bold text-info" id="api-status">Operational</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 p-2 bg-light rounded">
+                        <small class="text-muted">
+                            <i class="bi bi-clock-history"></i>
+                            Uptime: <span id="uptime">Loading...</span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="transaction-table">
+                    <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list text-primary me-2"></i>
+                            Recent Transactions
+                        </h5>
+                        <button class="btn btn-sm btn-neuro" onclick="refreshTransactions()">
+                            <i class="bi bi-arrow-clockwise"></i> Refresh
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Timestamp</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactions-table">
+                                    <tr>
+                                        <td colspan="5" class="text-center py-4">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Global chart instances
+        let hourlyChart, statusChart;
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+            loadSystemHealth();
+            loadTransactions();
+            loadCharts();
+            
+            // Auto refresh every 30 seconds
+            setInterval(() => {
+                loadDashboardData();
+                loadSystemHealth();
+            }, 30000);
+            
+            // Refresh transactions every 60 seconds
+            setInterval(() => {
+                loadTransactions();
+            }, 60000);
+        });
+
+        // Load dashboard metrics
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('/backoffice/api/metrics');
+                const data = await response.json();
+                
+                document.getElementById('total-transactions').innerHTML = data.total_transactions.toLocaleString();
+                document.getElementById('total-volume').innerHTML = `$${parseFloat(data.total_volume).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+                document.getElementById('active-accounts').innerHTML = data.active_accounts.toLocaleString();
+                document.getElementById('success-rate').innerHTML = `${data.success_rate}%`;
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+            }
+        }
+
+        // Load system health
+        async function loadSystemHealth() {
+            try {
+                const response = await fetch('/backoffice/api/system-health');
+                const data = await response.json();
+                
+                document.getElementById('system-status').textContent = data.status;
+                document.getElementById('system-status').className = `badge bg-${data.status === 'healthy' ? 'success' : 'danger'}`;
+                
+                document.getElementById('cpu-usage').textContent = `${data.cpu_usage}%`;
+                document.getElementById('cpu-bar').style.width = `${data.cpu_usage}%`;
+                
+                document.getElementById('memory-usage').textContent = `${data.memory_usage}%`;
+                document.getElementById('memory-bar').style.width = `${data.memory_usage}%`;
+                
+                document.getElementById('uptime').textContent = data.uptime;
+            } catch (error) {
+                console.error('Error loading system health:', error);
+            }
+        }
+
+        // Load recent transactions
+        async function loadTransactions() {
+            try {
+                const response = await fetch('/backoffice/api/transactions?limit=10');
+                const transactions = await response.json();
+                
+                const tbody = document.getElementById('transactions-table');
+                tbody.innerHTML = '';
+                
+                transactions.forEach(tx => {
+                    const row = document.createElement('tr');
+                    const statusClass = `status-${tx.status}`;
+                    const typeIcon = getTransactionIcon(tx.type);
+                    
+                    row.innerHTML = `
+                        <td><code>${tx.id}</code></td>
+                        <td>
+                            <i class="${typeIcon} me-1"></i>
+                            ${tx.type.charAt(0).toUpperCase() + tx.type.slice(1)}
+                        </td>
+                        <td class="fw-bold">$${parseFloat(tx.amount).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                        <td>
+                            <span class="status-badge ${statusClass}">
+                                ${tx.status}
+                            </span>
+                        </td>
+                        <td class="text-muted">
+                            ${new Date(tx.timestamp).toLocaleString()}
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading transactions:', error);
+            }
+        }
+
+        // Load charts
+        async function loadCharts() {
+            await loadHourlyChart();
+            await loadStatusChart();
+        }
+
+        // Load hourly transactions chart
+        async function loadHourlyChart() {
+            try {
+                const response = await fetch('/backoffice/api/charts/transactions-by-hour');
+                const data = await response.json();
+                
+                const ctx = document.getElementById('hourlyChart').getContext('2d');
+                
+                if (hourlyChart) {
+                    hourlyChart.destroy();
+                }
+                
+                hourlyChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Transactions',
+                            data: data.data,
+                            backgroundColor: data.backgroundColor,
+                            borderColor: data.borderColor,
+                            borderWidth: data.borderWidth,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(0,0,0,0.05)'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading hourly chart:', error);
+            }
+        }
+
+        // Load status chart
+        async function loadStatusChart() {
+            try {
+                const response = await fetch('/backoffice/api/charts/transaction-status');
+                const data = await response.json();
+                
+                const ctx = document.getElementById('statusChart').getContext('2d');
+                
+                if (statusChart) {
+                    statusChart.destroy();
+                }
+                
+                statusChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            data: data.data,
+                            backgroundColor: data.backgroundColor,
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 15,
+                                    usePointStyle: true
+                                }
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading status chart:', error);
+            }
+        }
+
+        // Utility functions
+        function getTransactionIcon(type) {
+            const icons = {
+                'transfer': 'fas fa-exchange-alt text-primary',
+                'deposit': 'fas fa-arrow-down text-success',
+                'withdrawal': 'fas fa-arrow-up text-danger',
+                'payment': 'fas fa-credit-card text-info'
+            };
+            return icons[type] || 'fas fa-circle text-secondary';
+        }
+
+        function refreshChart(type) {
+            if (type === 'hourly') {
+                loadHourlyChart();
+            } else if (type === 'status') {
+                loadStatusChart();
+            }
+        }
+
+        function refreshTransactions() {
+            loadTransactions();
+        }
+
+        // Add some animations
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            const range = end - start;
+            const minTimer = 50;
+            let stepTime = Math.abs(Math.floor(duration / range));
+            stepTime = Math.max(stepTime, minTimer);
+            const startTime = new Date().getTime();
+            const endTime = startTime + duration;
+            
+            function run() {
+                const now = new Date().getTime();
+                const remaining = Math.max((endTime - now) / duration, 0);
+                const value = Math.round(end - (remaining * range));
+                obj.innerHTML = value.toLocaleString();
+                if (value === end) {
+                    return;
+                }
+                setTimeout(run, stepTime);
+            }
+            run();
+        }
+    </script>
+</body>
+</html>
