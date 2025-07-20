@@ -1,0 +1,18 @@
+[bandit]
+# Configuración de Bandit para NeuroBank FastAPI Toolkit
+
+# Excluir directorios
+exclude_dirs = ["/tests", ".venv", "__pycache__"]
+
+# Saltar tests específicos
+skips = [
+    "B101",  # assert_used - normal en tests
+    "B601",  # paramiko_calls - no usamos paramiko
+    "B602",  # subprocess_popen_with_shell_equals_true
+]
+
+# Nivel de confianza mínimo para reportar
+confidence = "MEDIUM"
+
+# Formateo de salida
+format = "json"
