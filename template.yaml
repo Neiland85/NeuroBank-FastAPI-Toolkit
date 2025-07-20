@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'NeuroBank FastAPI Toolkit - Serverless deployment'
+
+Globals:
+  Function:
+    Timeout: 30
+    Environment:
+      Variables:
+        API_KEY: !Ref ApiKey
+        AWS_XRAY_TRACING_NAME: NeuroBankAPI
+
+Parameters:
+  Stage:
+    Type: String
+    Default: prod
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+  
+  ApiKey:
+    Type: String
+    Default: mi-super-secret-key-2025
+    NoEcho: true
+
+Resources:
+  NeuroBankFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub 'neurobank-api-${Stage}'
+      CodeUri: .
+      Handler: lambda_handler.handler
+      Runtime: python3.11
+      MemorySize: 512
+      Timeout: 30
+      Tracing: Active
+      Environment:
+        Variables:
+          API_KEY: !Ref ApiKey
+      Events:
+        ApiGateway:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+            RestApiId: !Ref NeuroBankApi
+        
+  NeuroBankApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub 'neurobank-api-${Stage}'
+      StageName: !Ref Stage
+      TracingEnabled: true
+      Cors:
+        AllowMethods: "'*'"
+        AllowHeaders: "'*'"
+        AllowOrigin: "'*'"
+
+  # CloudWatch Log Group
+  NeuroBankLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/neurobank-api-${Stage}'
+      RetentionInDays: 14
+
+Outputs:
+  NeuroBankApiUrl:
+    Description: 'API Gateway endpoint URL'
+    Value: !Sub 'https://${NeuroBankApi}.execute-api.${AWS::Region}.amazonaws.com/${Stage}/'
+    
+  NeuroBankFunctionArn:
+    Description: 'Lambda Function ARN'
+    Value: !GetAtt NeuroBankFunction.Arn
