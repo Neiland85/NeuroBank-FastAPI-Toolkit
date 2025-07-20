@@ -3,7 +3,7 @@
 # 🏦 NeuroBank FastAPI Toolkit
 
 <p align="center">
-  <img src="https://via.placeholder.com/120x120/1e3a8a/ffffff?text=🏦" alt="NeuroBank Logo" width="120" height="120">
+  <img src="https://img.shields.io/badge/🏦-NeuroBank-1e3a8a?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMjIgOFYxNkgxOFYxMEg2VjE2SDJWOE4xMiAyWiIgZmlsbD0iIzFFM0E4QSIvPgo8L3N2Zz4K" alt="NeuroBank Logo" width="200">
 </p>
 
 ### 🚀 **Enterprise-Grade Banking Administration Platform**
@@ -65,7 +65,31 @@
 
 ### 🎨 **Professional Banking Dashboard Preview**
 
-![Banking Dashboard](https://via.placeholder.com/900x500/1e3a8a/ffffff?text=🏦+Professional+Banking+Dashboard+🚀%0A%0A✨+Real-time+Metrics+📊+Interactive+Charts+💳+Transaction+Management%0A%0A🔒+Secure+Authentication+⚡+FastAPI+Backend+📱+Responsive+Design)
+<div align="center">
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                          🏦 NeuroBank Admin Dashboard                           │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│  📊 METRICS              💳 TRANSACTIONS           👥 USERS                     │
+│  ┌─────────────┐         ┌─────────────┐          ┌─────────────┐               │
+│  │ Total: 156  │         │ Pending: 12 │          │ Active: 89  │               │
+│  │ Volume: $42K│         │ Failed: 3   │          │ New: 15     │               │
+│  │ Success:98.7│         │ Success:141 │          │ Blocked: 2  │               │
+│  └─────────────┘         └─────────────┘          └─────────────┘               │
+│                                                                                 │
+│  📈 REAL-TIME CHARTS     � TRANSACTION SEARCH     📋 QUICK ACTIONS            │
+│  ┌─────────────────┐    ┌─────────────────┐       ┌─────────────────┐          │
+│  │ ████████▀▀▀▀▀▀  │    │ [Search....... ]│       │ ⚡ Export Data   │          │
+│  │ ████▀▀          │    │ Status: All  ▼  │       │ 📊 Generate Rpt │          │
+│  │ ██▀▀            │    │ Type: All    ▼  │       │ 🔄 Sync System  │          │
+│  └─────────────────┘    └─────────────────┘       └─────────────────┘          │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+**� Interactive Features:** Real-time Updates • Advanced Filtering • Mobile Responsive • Chart.js Integration
+
+</div>
 
 <p align="center">
   <strong>🏆 Enterprise-Level Features:</strong>
@@ -845,7 +869,16 @@ graph LR
 
 #### **🎨 Color Palette**
 
-![Primary](https://via.placeholder.com/100x50/1e3a8a/ffffff?text=Primary) ![Secondary](https://via.placeholder.com/100x50/3b82f6/ffffff?text=Secondary) ![Success](https://via.placeholder.com/100x50/10b981/ffffff?text=Success) ![Warning](https://via.placeholder.com/100x50/f59e0b/ffffff?text=Warning) ![Danger](https://via.placeholder.com/100x50/ef4444/ffffff?text=Danger)
+<div align="center">
+
+| **Primary** | **Secondary** | **Success** | **Warning** | **Danger** |
+|-------------|---------------|-------------|-------------|------------|
+| ![#1e3a8a](https://img.shields.io/badge/-%231e3a8a-1e3a8a?style=flat-square&logoColor=white) | ![#3b82f6](https://img.shields.io/badge/-%233b82f6-3b82f6?style=flat-square&logoColor=white) | ![#10b981](https://img.shields.io/badge/-%2310b981-10b981?style=flat-square&logoColor=white) | ![#f59e0b](https://img.shields.io/badge/-%23f59e0b-f59e0b?style=flat-square&logoColor=white) | ![#ef4444](https://img.shields.io/badge/-%23ef4444-ef4444?style=flat-square&logoColor=white) |
+| `#1e3a8a` | `#3b82f6` | `#10b981` | `#f59e0b` | `#ef4444` |
+
+**Banking Theme** • **Professional Trust** • **Accessibility Compliant**
+
+</div>
 
 </div>
 
