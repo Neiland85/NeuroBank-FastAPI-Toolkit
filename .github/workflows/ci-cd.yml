@@ -156,6 +156,23 @@ jobs:
         echo "🚀 Starting OIDC-secured deployment process..."
         echo "📍 AWS Region: ${{ env.AWS_REGION }}"
         echo "📦 ECR Repository: ${{ env.ECR_REPOSITORY }}"
+        develop
+        echo "🔑 Checking AWS Credentials..."
+        
+        # Verify secrets are available (without exposing them)
+        if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
+          echo "❌ AWS_ACCESS_KEY_ID is missing"
+          exit 1
+        else
+          echo "✅ AWS_ACCESS_KEY_ID is available"
+        fi
+        
+        if [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+          echo "❌ AWS_SECRET_ACCESS_KEY is missing"
+          exit 1
+        else
+          echo "✅ AWS_SECRET_ACCESS_KEY is available"
+
         echo "� AWS Role ARN: ${{ env.AWS_ROLE_ARN }}"
         echo "🏗️  Using secure OIDC authentication ✨"
         
@@ -166,12 +183,17 @@ jobs:
           exit 1
         else
           echo "✅ AWS_ACCOUNT_ID is configured"
+        main
         fi
         
         if [ -z "${{ secrets.API_KEY }}" ]; then
           echo "⚠️  API_KEY is missing - using default"
         else
+        develop
+          echo "✅ API_KEY is available"
+
           echo "✅ API_KEY is configured"
+        main
         fi
     
     - name: Set up Python
@@ -191,6 +213,12 @@ jobs:
         echo "🧪 Testing AWS OIDC connection..."
         aws sts get-caller-identity
         echo "✅ AWS OIDC connection successful!"
+    
+    - name: Test AWS connection
+      run: |
+        echo "🧪 Testing AWS connection..."
+        aws sts get-caller-identity
+        echo "✅ AWS connection successful!"
     
     - name: Setup SAM CLI
       uses: aws-actions/setup-sam@v2
@@ -231,6 +259,9 @@ jobs:
           --region ${{ env.AWS_REGION }} \
           --parameter-overrides ApiKey=${{ secrets.API_KEY || 'default-api-key' }}
         echo "🎉 Deployment completed successfully!"
+        develop
+
         echo "📋 Stack: neurobank-api"
         echo "📍 Region: ${{ env.AWS_REGION }}"
         echo "🔗 Check AWS Lambda console for endpoint URL"
+         main
