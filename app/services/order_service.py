@@ -1,12 +1,15 @@
 def get_order_status(order_id: str) -> dict:
     """
-    Obtiene el estado de un pedido.
-    Por ahora es mock; conecta aquí tu BBDD o servicio externo.
+    **Servicio para obtener el estado de una orden bancaria**
+    
+    Por ahora es mock; conecta aquí tu base de datos o servicio externo.
+    En producción, aquí irían las consultas a sistemas bancarios reales.
     """
-    # TODO: Lógica real
+    # TODO: Implementar lógica real con base de datos
+    # Simulación de respuesta realista para testing
     return {
         "order_id": order_id,
-        "status": "En tránsito",
-        "carrier": "Correos Express",
-        "eta": "2025-07-25"
+        "status": "processing",
+        "carrier": "VISA_NETWORK",
+        "eta": "2025-07-20T16:30:00Z"
     }
