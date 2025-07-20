@@ -1,6 +1,6 @@
 import os
 from functools import lru_cache
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from typing import List
 
 class Settings(BaseSettings):
@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     debug: bool = os.getenv("DEBUG", "false").lower() == "true"
     
     # CORS Configuration - usando el dominio privado de Railway
-    cors_origins: List[str] = self._get_cors_origins()
+    cors_origins: List[str] = []
     
     # AWS Configuration
     aws_region: str = os.getenv("AWS_REGION", "eu-west-1")
@@ -58,6 +58,8 @@ class Settings(BaseSettings):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        # Configurar CORS origins después de la inicialización
+        self.cors_origins = self._get_cors_origins()
         # Validación de configuración crítica
         if not self.api_key:
             raise ValueError("API_KEY environment variable is required")
