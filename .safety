@@ -1,0 +1,50 @@
+# 🛡️ Safety Security Scanner Configuration para NeuroBank FastAPI Toolkit
+# Configuración para análisis de vulnerabilidades en dependencias
+
+[safety]
+# Nivel de severidad mínimo para reportar
+# Opciones: low, medium, high, critical
+minimum_severity = "medium"
+
+# Formato de salida
+# Opciones: text, json, bare
+output_format = "json"
+
+# Incluir información adicional en el reporte
+include_description = true
+include_severity = true
+include_advisory = true
+
+# Base de datos de vulnerabilidades
+# Opciones: safety (default), osv (experimental)
+database = "safety"
+
+# Excluir vulnerabilidades específicas por ID (si son false positives)
+# ignore = [
+#     "12345",  # Ejemplo: vulnerability ID to ignore
+#     "67890"
+# ]
+
+# Solo verificar dependencias de producción (excluir dev dependencies)
+# production_only = true
+
+# Timeout para requests en segundos
+timeout = 60
+
+# Proxy settings si es necesario
+# proxy_host = ""
+# proxy_port = ""
+# proxy_protocol = "http"
+
+# Configuración adicional para entornos CI/CD
+[ci]
+# Fallar el build si se encuentran vulnerabilidades críticas
+fail_on_critical = true
+fail_on_high = true
+fail_on_medium = false
+fail_on_low = false
+
+# Output adicional para CI
+show_audit_id = true
+show_cve = true
+show_affected_package = true
