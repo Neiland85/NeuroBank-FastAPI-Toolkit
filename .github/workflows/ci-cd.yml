@@ -6,9 +6,16 @@ on:
   pull_request:
     branches: [ main ]
 
+# Permisos necesarios para AWS OIDC
+permissions:
+  id-token: write   # Para AWS OIDC authentication
+  contents: read    # Para hacer checkout del código
+
 env:
   AWS_REGION: eu-west-1
   ECR_REPOSITORY: neurobank-fastapi
+  AWS_ACCOUNT_ID: 120242956739
+  AWS_ROLE_ARN: arn:aws:iam::120242956739:role/GitHubActionsOIDCRole
 
 jobs:
   test:
@@ -83,28 +90,33 @@ jobs:
     - name: Check deployment readiness
       run: |
         echo "🔍 Checking deployment readiness..."
-        if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ] || [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+        if [ -z "${{ secrets.AWS_ACCOUNT_ID }}" ]; then
           echo ""
-          echo "⚠️  AWS CREDENTIALS NOT CONFIGURED"
+          echo "⚠️  AWS OIDC NOT CONFIGURED"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "To enable automatic deployment, please configure:"
           echo ""
           echo "1. Go to: https://github.com/${{ github.repository }}/settings/secrets/actions"
-          echo "2. Add these Repository Secrets:"
-          echo "   • AWS_ACCESS_KEY_ID"
-          echo "   • AWS_SECRET_ACCESS_KEY" 
-          echo "   • API_KEY (for your application)"
+          echo "2. Add this Repository Secret:"
+          echo "   • AWS_ACCOUNT_ID (your 12-digit AWS account number)"
+          echo "   • API_KEY (for your application - optional)"
           echo ""
-          echo "3. Also create an ECR repository named: ${{ env.ECR_REPOSITORY }}"
+          echo "3. Ensure AWS OIDC role exists:"
+          echo "   • Role name: GitHubActionsOIDCRole"
+          echo "   • Trust policy allows: ${{ github.repository }}"
+          echo ""
+          echo "4. Also create an ECR repository named: ${{ env.ECR_REPOSITORY }}"
           echo ""
           echo "✅ Tests and Security scans completed successfully!"
-          echo "🚀 Deployment will run automatically once credentials are configured"
+          echo "🚀 Deployment will run automatically once OIDC is configured"
           echo ""
         else
-          echo "✅ AWS credentials are configured - deployment will proceed"
+          echo "✅ AWS OIDC is configured - deployment will proceed"
           echo "🚀 Ready for production deployment to AWS Lambda!"
           echo "📍 Region: ${{ env.AWS_REGION }}"
           echo "📦 ECR Repository: ${{ env.ECR_REPOSITORY }}"
+          echo "🔐 AWS Role: ${{ env.AWS_ROLE_ARN }}"
+          echo "🏗️  Using secure OIDC authentication (no long-term keys) ✨"
         fi
 
   build-and-deploy:
@@ -116,29 +128,58 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     
-    - name: Verify deployment prerequisites
+    - name: Verify OIDC prerequisites
       run: |
-        echo "🚀 Starting deployment process..."
+        echo "🚀 Starting OIDC-secured deployment process..."
         echo "📍 AWS Region: ${{ env.AWS_REGION }}"
-        echo "� ECR Repository: ${{ env.ECR_REPOSITORY }}"
-        echo "🔑 AWS Credentials: Configured ✅"
+        echo "📦 ECR Repository: ${{ env.ECR_REPOSITORY }}"
+        echo "� AWS Role ARN: ${{ env.AWS_ROLE_ARN }}"
+        echo "🏗️  Using secure OIDC authentication ✨"
+        
+        # Verify AWS Account ID is available
+        if [ -z "${{ secrets.AWS_ACCOUNT_ID }}" ]; then
+          echo "❌ AWS_ACCOUNT_ID secret is missing"
+          echo "💡 Add it in: https://github.com/${{ github.repository }}/settings/secrets/actions"
+          exit 1
+        else
+          echo "✅ AWS_ACCOUNT_ID is configured"
+        fi
+        
+        if [ -z "${{ secrets.API_KEY }}" ]; then
+          echo "⚠️  API_KEY is missing - using default"
+        else
+          echo "✅ API_KEY is configured"
+        fi
     
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
     
-    - name: Configure AWS credentials
+    - name: Configure AWS credentials via OIDC
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        role-to-assume: ${{ env.AWS_ROLE_ARN }}
         aws-region: ${{ env.AWS_REGION }}
+        role-session-name: GitHubActions-${{ github.run_id }}
+    
+    - name: Debug AWS identity
+      run: |
+        echo "🧪 Testing AWS OIDC connection..."
+        aws sts get-caller-identity
+        echo "✅ AWS OIDC connection successful!"
     
     - name: Setup SAM CLI
       uses: aws-actions/setup-sam@v2
       with:
         use-installer: true
+    
+    - name: Create ECR repository if not exists
+      run: |
+        echo "📦 Ensuring ECR repository exists..."
+        aws ecr describe-repositories --repository-names ${{ env.ECR_REPOSITORY }} --region ${{ env.AWS_REGION }} || \
+        aws ecr create-repository --repository-name ${{ env.ECR_REPOSITORY }} --region ${{ env.AWS_REGION }}
+        echo "✅ ECR repository ready"
     
     - name: Login to Amazon ECR
       id: login-ecr
@@ -149,12 +190,24 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
+        echo "🔨 Building Docker image..."
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        echo "📤 Pushing to ECR..."
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "✅ Docker image pushed successfully!"
     
     - name: Deploy to AWS Lambda
       run: |
+        echo "🚀 Starting SAM deployment..."
         sam build --region ${{ env.AWS_REGION }}
-        sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name neurobank-api --capabilities CAPABILITY_IAM --region ${{ env.AWS_REGION }} --parameter-overrides ApiKey=${{ secrets.API_KEY }}
+        sam deploy --no-confirm-changeset --no-fail-on-empty-changeset \
+          --stack-name neurobank-api \
+          --capabilities CAPABILITY_IAM \
+          --region ${{ env.AWS_REGION }} \
+          --parameter-overrides ApiKey=${{ secrets.API_KEY || 'default-api-key' }}
+        echo "🎉 Deployment completed successfully!"
+        echo "📋 Stack: neurobank-api"
+        echo "📍 Region: ${{ env.AWS_REGION }}"
+        echo "🔗 Check AWS Lambda console for endpoint URL"
