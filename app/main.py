@@ -92,12 +92,15 @@ app = FastAPI(
     ]
 )
 
-# Configurar CORS
+# Configurar CORS - usando configuración de Railway
+from .config import get_settings
+settings = get_settings()
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # En producción, especificar dominios exactos
+    allow_origins=settings.cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
 
@@ -157,7 +160,14 @@ async def health_check():
             "service": APP_NAME,
             "version": APP_VERSION,
             "timestamp": f"{datetime.datetime.now(datetime.timezone.utc).isoformat()}",
-            "environment": os.getenv("ENVIRONMENT", "development"),
+            "environment": os.getenv("ENVIRONMENT", "production"),
+            "railway": {
+                "project_name": os.getenv("RAILWAY_PROJECT_NAME", "unknown"),
+                "project_id": os.getenv("RAILWAY_PROJECT_ID", "unknown"),
+                "service_name": os.getenv("RAILWAY_SERVICE_NAME", "unknown"),
+                "environment_name": os.getenv("RAILWAY_ENVIRONMENT_NAME", "unknown"),
+                "private_domain": os.getenv("RAILWAY_PRIVATE_DOMAIN", "unknown")
+            },
             "uptime_seconds": "N/A"  # Se puede implementar con un contador global
         }
     )
@@ -237,4 +247,5 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

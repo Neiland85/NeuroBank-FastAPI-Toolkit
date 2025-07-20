@@ -3,9 +3,9 @@ import os
 from httpx import AsyncClient, ASGITransport
 from app.main import app
 
-# Configurar API key para tests - debe coincidir con la de dependencies.py
-API_KEY = "test-api-key-12345"  # Valor por defecto de get_api_key()
-os.environ["API_KEY"] = API_KEY
+# Configurar API key para tests - usando variable de entorno
+TEST_API_KEY = "test_secure_key_for_testing_only_not_production"
+os.environ["API_KEY"] = TEST_API_KEY
 
 @pytest.mark.asyncio
 async def test_order_status():
@@ -16,7 +16,7 @@ async def test_order_status():
     ) as ac:
         resp = await ac.get(
             "/operator/order_status/ORD-2025-001234",
-            headers={"X-API-Key": API_KEY}
+            headers={"X-API-Key": TEST_API_KEY}
         )
     
     assert resp.status_code == 200
@@ -36,7 +36,7 @@ async def test_generate_invoice():
         resp = await ac.post(
             "/operator/generate_invoice",
             json={"order_id": "ORD-2025-001234"},
-            headers={"X-API-Key": API_KEY}
+            headers={"X-API-Key": TEST_API_KEY}
         )
     
     assert resp.status_code == 200
@@ -56,7 +56,7 @@ async def test_order_status_with_bearer_token():
     ) as ac:
         resp = await ac.get(
             "/operator/order_status/ORD-2025-001234",
-            headers={"Authorization": f"Bearer {API_KEY}"}
+            headers={"Authorization": f"Bearer {TEST_API_KEY}"}
         )
     
     assert resp.status_code == 200
