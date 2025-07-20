@@ -30,7 +30,16 @@ API_KEY = tu-api-key-para-la-app (opcional)
 
 ## 🚀 Cómo Funciona
 
-### Flujo de Autenticación
+### Flujo de Control Manual
+1. **Push automático** ejecuta solo **tests** y **security scans**
+2. **Deployment requiere confirmación manual**:
+   - Ve a GitHub Actions en tu repositorio
+   - Selecciona "CI/CD Pipeline"  
+   - Haz clic en "Run workflow"
+   - Selecciona "true" para desplegar a AWS
+3. **No deployments automáticos** - total control del usuario
+
+### Flujo de Autenticación OIDC
 1. GitHub Actions genera un **JWT token temporal**
 2. AWS verifica el token contra el **OIDC provider**
 3. Si es válido, asume el **IAM role** temporalmente

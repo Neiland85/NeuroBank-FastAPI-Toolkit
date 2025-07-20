@@ -1,0 +1,229 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  NeuroBank FastAPI Toolkit
+  
+  SAM Template para desplegar la aplicación FastAPI en AWS Lambda con API Gateway
+
+# Parámetros configurables
+Parameters:
+  Environment:
+    Type: String
+    Default: production
+    AllowedValues:
+      - development
+      - staging
+      - production
+    Description: Environment stage
+    
+  ApiKey:
+    Type: String
+    Default: default-api-key-change-me
+    NoEcho: true
+    Description: API Key para autenticación
+
+# Variables globales
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 512
+    Runtime: python3.11
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        ENVIRONMENT: !Ref Environment
+        API_KEY: !Ref ApiKey
+        PYTHONPATH: /var/task
+    Tracing: Active  # AWS X-Ray tracing
+
+Resources:
+  # Función Lambda principal
+  NeuroBankFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub 'NeuroBank-${Environment}-Function'
+      CodeUri: .
+      Handler: lambda_handler.lambda_handler
+      Description: NeuroBank FastAPI Toolkit API
+      
+      # Configuración de eventos
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+            RestApiId: !Ref NeuroBankApi
+        RootApiEvent:
+          Type: Api
+          Properties:
+            Path: /
+            Method: ANY
+            RestApiId: !Ref NeuroBankApi
+      
+      # Configuración de red y seguridad
+      ReservedConcurrencyLimit: 10
+      
+      # Políticas IAM
+      Policies:
+        - CloudWatchLogsFullAccess
+        - AWSXRayDaemonWriteAccess
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+              Resource: !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/NeuroBank-${Environment}-Function*'
+
+  # API Gateway
+  NeuroBankApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub 'NeuroBank-${Environment}-API'
+      StageName: !Ref Environment
+      Description: API Gateway para NeuroBank FastAPI Toolkit
+      
+      # Configuración CORS
+      Cors:
+        AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowOrigin: "'*'"
+        AllowCredentials: false
+      
+      # Configuración de autenticación - SAM maneja automáticamente Usage Plan
+      Auth:
+        ApiKeyRequired: true
+        UsagePlan:
+          CreateUsagePlan: PER_API
+          Description: Plan de uso para NeuroBank API
+          Quota:
+            Limit: 10000
+            Period: MONTH
+          Throttle:
+            BurstLimit: 100
+            RateLimit: 50
+      
+      # Configuración de logging
+      AccessLogSetting:
+        DestinationArn: !GetAtt ApiGatewayLogGroup.Arn
+        Format: >
+          {"requestId":"$context.requestId",
+           "ip":"$context.identity.sourceIp",
+           "caller":"$context.identity.caller",
+           "user":"$context.identity.user",
+           "requestTime":"$context.requestTime",
+           "httpMethod":"$context.httpMethod",
+           "resourcePath":"$context.resourcePath",
+           "status":"$context.status",
+           "protocol":"$context.protocol",
+           "responseLength":"$context.responseLength"}
+      
+      # Variables de stage
+      Variables:
+        Environment: !Ref Environment
+
+  # CloudWatch Log Group para API Gateway
+  ApiGatewayLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/aws/apigateway/NeuroBank-${Environment}'
+      RetentionInDays: 30
+
+  # CloudWatch Log Group para Lambda
+  LambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/NeuroBank-${Environment}-Function'
+      RetentionInDays: 30
+
+  # CloudWatch Dashboard para monitoreo
+  NeuroBankDashboard:
+    Type: AWS::CloudWatch::Dashboard
+    Properties:
+      DashboardName: !Sub 'NeuroBank-${Environment}-Dashboard'
+      DashboardBody: !Sub |
+        {
+          "widgets": [
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 0,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "AWS/Lambda", "Invocations", "FunctionName", "NeuroBank-${Environment}-Function" ],
+                  [ ".", "Errors", ".", "." ],
+                  [ ".", "Duration", ".", "." ]
+                ],
+                "period": 300,
+                "stat": "Sum",
+                "region": "${AWS::Region}",
+                "title": "Lambda Metrics"
+              }
+            },
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 6,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "AWS/ApiGateway", "Count", "ApiName", "NeuroBank-${Environment}-API" ],
+                  [ ".", "Latency", ".", "." ],
+                  [ ".", "4XXError", ".", "." ],
+                  [ ".", "5XXError", ".", "." ]
+                ],
+                "period": 300,
+                "stat": "Sum",
+                "region": "${AWS::Region}",
+                "title": "API Gateway Metrics"
+              }
+            }
+          ]
+        }
+
+# Outputs importantes
+Outputs:
+  NeuroBankApi:
+    Description: "API Gateway endpoint URL para NeuroBank FastAPI Toolkit"
+    Value: !Sub "https://${NeuroBankApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/"
+    Export:
+      Name: !Sub "${AWS::StackName}-ApiUrl"
+
+  NeuroBankFunction:
+    Description: "NeuroBank Lambda Function ARN"
+    Value: !GetAtt NeuroBankFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-FunctionArn"
+
+  ApiKeyInstructions:
+    Description: "Instrucciones para obtener la API Key"
+    Value: !Sub |
+      La API Key se crea automáticamente por SAM.
+      Encuéntrala en: https://console.aws.amazon.com/apigateway/home?region=${AWS::Region}#/api-keys
+      Busca claves asociadas con el API: NeuroBank-${Environment}-API
+
+  CloudWatchDashboard:
+    Description: "CloudWatch Dashboard URL"
+    Value: !Sub "https://console.aws.amazon.com/cloudwatch/home?region=${AWS::Region}#dashboards:name=NeuroBank-${Environment}-Dashboard"
+
+  LogGroup:
+    Description: "CloudWatch Logs Group"
+    Value: !Sub "https://console.aws.amazon.com/cloudwatch/home?region=${AWS::Region}#logsV2:log-groups/log-group/$2Faws$2Flambda$2FNeuroBank-${Environment}-Function"
+
+  DeploymentInfo:
+    Description: "Información importante post-deployment"
+    Value: !Sub |
+      Stack: ${AWS::StackName}
+      Región: ${AWS::Region}
+      Entorno: ${Environment}
+      
+      🔑 IMPORTANTE: 
+      - La API Key se genera automáticamente
+      - Configúrala en GitHub Secrets como API_KEY
+      - El endpoint requiere el header X-Api-Key para autenticación
