@@ -120,8 +120,29 @@ jobs:
       run: |
         echo "🚀 Starting deployment process..."
         echo "📍 AWS Region: ${{ env.AWS_REGION }}"
-        echo "� ECR Repository: ${{ env.ECR_REPOSITORY }}"
-        echo "🔑 AWS Credentials: Configured ✅"
+        echo "📦 ECR Repository: ${{ env.ECR_REPOSITORY }}"
+        echo "🔑 Checking AWS Credentials..."
+        
+        # Verify secrets are available (without exposing them)
+        if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
+          echo "❌ AWS_ACCESS_KEY_ID is missing"
+          exit 1
+        else
+          echo "✅ AWS_ACCESS_KEY_ID is available"
+        fi
+        
+        if [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+          echo "❌ AWS_SECRET_ACCESS_KEY is missing"
+          exit 1
+        else
+          echo "✅ AWS_SECRET_ACCESS_KEY is available"
+        fi
+        
+        if [ -z "${{ secrets.API_KEY }}" ]; then
+          echo "⚠️  API_KEY is missing - using default"
+        else
+          echo "✅ API_KEY is available"
+        fi
     
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -135,10 +156,23 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
     
+    - name: Test AWS connection
+      run: |
+        echo "🧪 Testing AWS connection..."
+        aws sts get-caller-identity
+        echo "✅ AWS connection successful!"
+    
     - name: Setup SAM CLI
       uses: aws-actions/setup-sam@v2
       with:
         use-installer: true
+    
+    - name: Create ECR repository if not exists
+      run: |
+        echo "📦 Ensuring ECR repository exists..."
+        aws ecr describe-repositories --repository-names ${{ env.ECR_REPOSITORY }} --region ${{ env.AWS_REGION }} || \
+        aws ecr create-repository --repository-name ${{ env.ECR_REPOSITORY }} --region ${{ env.AWS_REGION }}
+        echo "✅ ECR repository ready"
     
     - name: Login to Amazon ECR
       id: login-ecr
@@ -149,12 +183,21 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
+        echo "🔨 Building Docker image..."
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        echo "📤 Pushing to ECR..."
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        echo "✅ Docker image pushed successfully!"
     
     - name: Deploy to AWS Lambda
       run: |
+        echo "🚀 Starting SAM deployment..."
         sam build --region ${{ env.AWS_REGION }}
-        sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name neurobank-api --capabilities CAPABILITY_IAM --region ${{ env.AWS_REGION }} --parameter-overrides ApiKey=${{ secrets.API_KEY }}
+        sam deploy --no-confirm-changeset --no-fail-on-empty-changeset \
+          --stack-name neurobank-api \
+          --capabilities CAPABILITY_IAM \
+          --region ${{ env.AWS_REGION }} \
+          --parameter-overrides ApiKey=${{ secrets.API_KEY || 'default-api-key' }}
+        echo "🎉 Deployment completed successfully!"
