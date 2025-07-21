@@ -1,8 +1,10 @@
-import pytest
 import os
-from httpx import AsyncClient, ASGITransport
-from app.main import app
+
+import pytest
+from httpx import ASGITransport, AsyncClient
+
 from app.config import get_settings
+from app.main import app
 
 # Obtener API key del sistema de configuración
 settings = get_settings()

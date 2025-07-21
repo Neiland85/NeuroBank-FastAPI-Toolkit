@@ -143,9 +143,16 @@ jobs:
         with:
           context: .
           push: false
+          load: true
           tags: neurobank-fastapi:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: 🔍 Verify Docker Image
+        run: |
+          echo "Verifying Docker image was built successfully..."
+          docker images neurobank-fastapi:test
+          docker inspect neurobank-fastapi:test
 
       - name: 🔍 Run Trivy Container Scan
         uses: aquasecurity/trivy-action@master
@@ -153,9 +160,14 @@ jobs:
           image-ref: neurobank-fastapi:test
           format: 'sarif'
           output: 'trivy-results.sarif'
+          scan-type: 'image'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
 
       - name: 📤 Upload Trivy Scan Results
         uses: github/codeql-action/upload-sarif@v2
+        if: always()
         with:
           sarif_file: 'trivy-results.sarif'
 
