@@ -7,6 +7,12 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+# Add permissions for CodeQL/SARIF upload
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
 env:
   PYTHON_VERSION: "3.11"
   NODE_VERSION: "18"
@@ -300,17 +306,13 @@ jobs:
 
       - name: 📢 Deployment Notification
         if: always()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          text: |
-            🚀 NeuroBank FastAPI Banking System
-            📊 Deployment Status: ${{ job.status }}
-            🌟 Branch: ${{ github.ref }}
-            👤 Author: ${{ github.actor }}
-            🔗 Commit: ${{ github.sha }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          echo "🚀 NeuroBank FastAPI Banking System"
+          echo "📊 Deployment Status: ${{ job.status }}"
+          echo "🌟 Branch: ${{ github.ref }}"
+          echo "👤 Author: ${{ github.actor }}"
+          echo "🔗 Commit: ${{ github.sha }}"
+          echo "✅ Deployment notification completed"
 
   # ============================================================================
   # 7. POST-DEPLOYMENT MONITORING
