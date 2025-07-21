@@ -8,7 +8,12 @@ security = HTTPBearer(auto_error=False)
 
 def get_api_key() -> str:
     """Obtiene la API key desde las variables de entorno"""
-    return os.getenv("API_KEY", "test-api-key-12345")
+    if not (api_key := os.getenv("API_KEY")):
+        # En tests, permitir API key de testing
+        if os.getenv("PYTEST_CURRENT_TEST"):
+            return "test_secure_key_for_testing_only_not_production"
+        raise ValueError("API_KEY environment variable is required")
+    return api_key
 
 def verify_api_key(
     request: Request,
