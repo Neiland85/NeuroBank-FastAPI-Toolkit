@@ -1,9 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Path
-from pydantic import BaseModel, Field
 from typing import List
-from ..services.order_service import get_order_status
-from ..services.invoice_service import generate_invoice
+
+from fastapi import APIRouter, Depends, HTTPException, Path, status
+from pydantic import BaseModel, Field
+
 from ..auth.dependencies import verify_api_key
+from ..services.invoice_service import generate_invoice
+from ..services.order_service import get_order_status
 
 # Router con documentación mejorada
 router = APIRouter(

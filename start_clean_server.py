@@ -3,9 +3,10 @@
 Script simple para probar el servidor FastAPI
 """
 
-import uvicorn
-import sys
 import os
+import sys
+
+import uvicorn
 
 # Añadir el directorio actual al PATH
 sys.path.insert(0, os.getcwd())

@@ -1,11 +1,13 @@
+import datetime
+import logging
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-import logging
-import datetime
-import os
-from .routers import operator
+
 from .backoffice import router as backoffice_router
+from .routers import operator
 from .utils.logging import setup_logging
 
 # Configuración constantes

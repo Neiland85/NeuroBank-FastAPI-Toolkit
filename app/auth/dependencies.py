@@ -1,7 +1,9 @@
-from fastapi import HTTPException, Depends, Request
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import os
 from typing import Optional
+
+from fastapi import Depends, HTTPException, Request
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+
 from ..config import get_settings
 
 # Configuración del esquema de seguridad
