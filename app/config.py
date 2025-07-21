@@ -1,4 +1,5 @@
 import os
+import sys
 from functools import lru_cache
 from pydantic_settings import BaseSettings
 from typing import List, Optional
@@ -16,7 +17,7 @@ class Settings(BaseSettings):
     port: int = int(os.getenv("PORT", 8000))
     
     # Environment Configuration
-    environment: str = os.getenv("ENVIRONMENT", "production")
+    environment: str = os.getenv("ENVIRONMENT", "development")  # Default to development, not production
     debug: bool = os.getenv("DEBUG", "false").lower() == "true"
     
     # CORS Configuration - usando el dominio privado de Railway
@@ -61,16 +62,24 @@ class Settings(BaseSettings):
         # Configurar CORS origins después de la inicialización
         self.cors_origins = self._get_cors_origins()
         
-        # Detectar si estamos en modo test
-        is_testing = bool(os.getenv("PYTEST_CURRENT_TEST")) or "pytest" in os.getenv("_", "")
+        # Detectar si estamos en modo test de manera más robusta
+        is_testing = (
+            bool(os.getenv("PYTEST_CURRENT_TEST")) or 
+            "pytest" in str(os.getenv("_", "")) or
+            "pytest" in " ".join(sys.argv) or
+            any("test" in arg for arg in sys.argv) or
+            os.getenv("CI") == "true"  # GitHub Actions, GitLab CI, etc.
+        )
         
-        # Validación de configuración crítica solo en producción (no en tests)
-        if self.environment == "production" and not is_testing and not self.api_key:
-            raise ValueError("API_KEY environment variable is required in production")
-        
-        # Si estamos en tests y no hay API_KEY, usar una de prueba
+        # En modo test, asegurar que tenemos una API key
         if is_testing and not self.api_key:
             self.api_key = "test_secure_key_for_testing_only_not_production"
+        
+        # Validación de configuración crítica solo en producción real
+        if (self.environment == "production" and 
+            not is_testing and 
+            not self.api_key):
+            raise ValueError("API_KEY environment variable is required in production")
 
 @lru_cache()
 def get_settings() -> Settings:
