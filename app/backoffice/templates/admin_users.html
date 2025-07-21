@@ -1,514 +1,504 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
-    
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <style>
-        :root {
-            --neuro-primary: #1e3a8a;
-            --neuro-secondary: #1e40af;
-            --neuro-accent: #3b82f6;
-            --neuro-success: #10b981;
-            --neuro-warning: #f59e0b;
-            --neuro-danger: #ef4444;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .admin-panel {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(15px);
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        
-        .navbar-brand {
-            font-weight: 700;
-            color: var(--neuro-primary) !important;
-        }
-        
-        .btn-neuro {
-            background: linear-gradient(45deg, var(--neuro-primary), var(--neuro-accent));
-            border: none;
-            color: white;
-            border-radius: 10px;
-            padding: 10px 20px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-neuro:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            color: white;
-        }
-        
-        .user-card {
-            background: white;
-            border-radius: 15px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
-        }
-        
-        .user-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-        
-        .status-active { 
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            color: #065f46; 
-            border: 1px solid #34d399;
-        }
-        .status-inactive { 
-            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-            color: #991b1b;
-            border: 1px solid #ef4444;
-        }
-        .status-blocked { 
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-            color: #374151;
-            border: 1px solid #6b7280;
-        }
-        
-        .filter-section {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .search-input {
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 12px 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .search-input:focus {
-            border-color: var(--neuro-accent);
-            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management - NeuroBank Admin</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-        .avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--neuro-primary), var(--neuro-accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-        }
-    </style>
+  <style>
+    :root {
+      --neuro-primary: #1e3a8a;
+      --neuro-secondary: #1e40af;
+      --neuro-accent: #3b82f6;
+      --neuro-success: #10b981;
+      --neuro-warning: #f59e0b;
+      --neuro-danger: #ef4444;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .admin-panel {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(15px);
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .btn-neuro {
+      background: linear-gradient(45deg, var(--neuro-primary), var(--neuro-accent));
+      border: none;
+      color: white;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-neuro:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
+      color: white;
+    }
+
+    .user-card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid var(--neuro-primary);
+      transition: all 0.3s ease;
+    }
+
+    .user-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .status-badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-active {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+
+    .status-inactive {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    .status-pending {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-blocked {
+      background-color: #f3f4f6;
+      color: #374151;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container-fluid py-4">
-        <div class="admin-panel">
-            <!-- Navigation -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-white px-4">
-                <a class="navbar-brand" href="/backoffice/">
-                    🏦 NeuroBank Admin Panel
-                </a>
-                
-                <div class="navbar-nav ms-auto">
-                    <a class="nav-link" href="/backoffice/">
-                        <i class="fas fa-tachometer-alt me-1"></i>Dashboard
-                    </a>
-                    <a class="nav-link" href="/backoffice/admin/transactions">
-                        <i class="fas fa-exchange-alt me-1"></i>Transacciones
-                    </a>
-                    <a class="nav-link active" href="/backoffice/admin/users">
-                        <i class="fas fa-users me-1"></i>Usuarios
-                    </a>
-                    <a class="nav-link" href="/backoffice/admin/reports">
-                        <i class="fas fa-chart-bar me-1"></i>Reportes
-                    </a>
-                    <a class="nav-link" href="/docs" target="_blank">
-                        <i class="fas fa-book me-1"></i>API Docs
-                    </a>
-                </div>
-            </nav>
-
-            <!-- Content -->
-            <div class="container-fluid p-4">
-                <!-- Header -->
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <h2 class="fw-bold text-dark mb-2">
-                            <i class="fas fa-users me-3" style="color: var(--neuro-primary);"></i>
-                            Administración de Usuarios
-                        </h2>
-                        <p class="text-muted">Gestiona usuarios, permisos y estados de cuenta</p>
-                    </div>
-                </div>
-
-                <!-- Filters -->
-                <div class="filter-section">
-                    <h5 class="fw-bold mb-3"><i class="fas fa-filter me-2"></i>Filtros de Búsqueda</h5>
-                    
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="form-label fw-bold">Buscar Usuario</label>
-                            <input type="text" 
-                                   class="form-control search-input" 
-                                   id="searchInput"
-                                   placeholder="Nombre, email o ID..."
-                                   onkeyup="applyFilters()">
-                        </div>
-                        
-                        <div class="col-md-2">
-                            <label class="form-label fw-bold">Estado</label>
-                            <select class="form-select search-input" id="statusFilter" onchange="applyFilters()">
-                                <option value="">Todos los estados</option>
-                                <option value="active">Activos</option>
-                                <option value="inactive">Inactivos</option>
-                                <option value="blocked">Bloqueados</option>
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-2">
-                            <label class="form-label fw-bold">Tipo</label>
-                            <select class="form-select search-input" id="typeFilter" onchange="applyFilters()">
-                                <option value="">Todos los tipos</option>
-                                <option value="standard">Estándar</option>
-                                <option value="premium">Premium</option>
-                                <option value="business">Empresarial</option>
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-2">
-                            <label class="form-label fw-bold">Fecha Desde</label>
-                            <input type="date" 
-                                   class="form-control search-input" 
-                                   id="dateFromFilter"
-                                   onchange="applyFilters()">
-                        </div>
-                        
-                        <div class="col-md-2">
-                            <label class="form-label fw-bold">Fecha Hasta</label>
-                            <input type="date" 
-                                   class="form-control search-input" 
-                                   id="dateToFilter"
-                                   onchange="applyFilters()">
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <button class="btn btn-outline-secondary me-2" onclick="clearFilters()">
-                                <i class="fas fa-times me-1"></i>Limpiar Filtros
-                            </button>
-                            <button class="btn btn-neuro" onclick="applyFilters()">
-                                <i class="fas fa-search me-1"></i>Aplicar Filtros
-                            </button>
-                            <button class="btn btn-outline-success ms-3" onclick="exportUsers()">
-                                <i class="fas fa-download me-1"></i>Exportar CSV
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Users List -->
-                <div class="row" id="usersList">
-                    <div class="col-12 text-center py-5">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Cargando usuarios...</span>
-                        </div>
-                        <p class="mt-3 text-muted">Cargando usuarios...</p>
-                    </div>
-                </div>
-
-                <!-- Pagination -->
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <nav aria-label="Users pagination">
-                            <ul class="pagination justify-content-center" id="pagination">
-                                <!-- Pagination will be populated by JavaScript -->
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background: rgba(30, 58, 138, 0.95);">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/backoffice/">
+        <i class="fas fa-university me-2"></i>
+        NeuroBank Admin
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="navbar-nav ms-auto">
+          <a class="nav-link" href="/backoffice/">
+            <i class="bi bi-speedometer2 me-1"></i> Dashboard
+          </a>
+          <a class="nav-link" href="/backoffice/admin/transactions">
+            <i class="bi bi-receipt me-1"></i> Transactions
+          </a>
+          <a class="nav-link active" href="/backoffice/admin/users">
+            <i class="bi bi-people me-1"></i> Users
+          </a>
+          <a class="nav-link" href="/backoffice/admin/reports">
+            <i class="bi bi-graph-up me-1"></i> Reports
+          </a>
         </div>
+      </div>
     </div>
+  </nav>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        let currentPage = 1;
-        let currentFilters = {};
-        
-        // Load users on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadUsers();
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="admin-panel">
+          <!-- Header -->
+          <div class="p-4 border-bottom bg-light">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h2 class="mb-1">
+                  <i class="fas fa-users me-2"></i>
+                  Gestión de Usuarios
+                </h2>
+                <p class="text-muted mb-0">Panel administrativo para gestión de usuarios bancarios</p>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-neuro" onclick="refreshUsers()">
+                  <i class="fas fa-sync-alt me-2"></i>Actualizar
+                </button>
+                <button class="btn btn-success" onclick="exportUsers()">
+                  <i class="fas fa-file-excel me-2"></i>Exportar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div class="p-4 bg-light border-bottom">
+            <div class="row g-3">
+              <div class="col-md-3">
+                <label class="form-label">Buscar Usuario</label>
+                <input type="text" class="form-control" id="searchUser" placeholder="Nombre, email o ID...">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Estado</label>
+                <select class="form-select" id="statusFilter">
+                  <option value="">Todos los estados</option>
+                  <option value="active">Activo</option>
+                  <option value="inactive">Inactivo</option>
+                  <option value="pending">Pendiente</option>
+                  <option value="blocked">Bloqueado</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Tipo de Cuenta</label>
+                <select class="form-select" id="accountTypeFilter">
+                  <option value="">Todos los tipos</option>
+                  <option value="personal">Personal</option>
+                  <option value="business">Empresarial</option>
+                  <option value="premium">Premium</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">&nbsp;</label>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-primary flex-fill" onclick="searchUsers()">
+                    <i class="fas fa-search me-1"></i>Buscar
+                  </button>
+                  <button class="btn btn-outline-secondary" onclick="clearFilters()">
+                    <i class="fas fa-times me-1"></i>Limpiar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Users List -->
+          <div class="p-4" id="usersContainer">
+            <!-- Loading -->
+            <div class="text-center py-5" id="loadingSpinner">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="mt-3">Cargando usuarios...</p>
+            </div>
+
+            <!-- Users will be loaded here -->
+            <div id="usersList" style="display: none;"></div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="p-4 border-top bg-light">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="text-muted">
+                Mostrando <span id="showingCount">0</span> de <span id="totalUsers">0</span> usuarios
+              </div>
+              <nav>
+                <div class="btn-group" id="paginationContainer">
+                  <!-- Pagination buttons will be generated here -->
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Global variables
+    let currentPage = 1;
+    let currentFilters = {};
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function () {
+      loadUsers();
+      setupEventListeners();
+    });
+
+    // Setup event listeners
+    function setupEventListeners() {
+      document.getElementById('searchUser').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+          searchUsers();
+        }
+      });
+    }
+
+    // Load users data
+    async function loadUsers(page = 1) {
+      toggleLoading(true);
+
+      try {
+        // Simulate API call with mock data
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        const mockUsers = generateMockUsers();
+        displayUsers(mockUsers);
+        updatePagination(mockUsers);
+
+      } catch (error) {
+        console.error('Error loading users:', error);
+        showError('Error al cargar usuarios');
+      } finally {
+        toggleLoading(false);
+      }
+    }
+
+    // Generate mock users data
+    function generateMockUsers() {
+      const statuses = ['active', 'inactive', 'pending', 'blocked'];
+      const accountTypes = ['personal', 'business', 'premium'];
+      const names = ['Juan Pérez', 'María García', 'Carlos López', 'Ana Martín', 'Luis González', 'Elena Ruiz', 'Pedro Sánchez', 'Laura Fernández'];
+
+      const users = [];
+      for (let i = 1; i <= 50; i++) {
+        users.push({
+          id: 1000 + i,
+          name: names[Math.floor(Math.random() * names.length)],
+          email: `user${i}@neurobank.com`,
+          status: statuses[Math.floor(Math.random() * statuses.length)],
+          accountType: accountTypes[Math.floor(Math.random() * accountTypes.length)],
+          balance: (Math.random() * 50000).toFixed(2),
+          lastLogin: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
+          createdAt: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toISOString()
         });
+      }
 
-        async function loadUsers(page = 1) {
-            currentPage = page;
-            const container = document.getElementById('usersList');
-            
-            try {
-                // Build query parameters
-                const params = new URLSearchParams({
-                    page: page,
-                    page_size: 12,
-                    ...currentFilters
-                });
-                
-                // Generate mock users data
-                const users = generateMockUsers(page);
-                displayUsers(users);
-                updatePagination(users.total, page, 12);
-                
-            } catch (error) {
-                showError('Error al cargar usuarios: ' + error.message);
-            }
-        }
+      return {
+        users: users.slice((currentPage - 1) * 10, currentPage * 10),
+        total: users.length,
+        page: currentPage,
+        total_pages: Math.ceil(users.length / 10)
+      };
+    }
 
-        function generateMockUsers(page) {
-            const statuses = ['active', 'inactive', 'blocked'];
-            const types = ['standard', 'premium', 'business'];
-            const names = ['Ana García', 'Carlos Ruiz', 'María López', 'Pedro Santos', 'Laura Martín', 'José González'];
-            
-            const users = [];
-            const pageSize = 12;
-            const total = 89;
-            
-            for (let i = 0; i < Math.min(pageSize, total - (page - 1) * pageSize); i++) {
-                const name = names[Math.floor(Math.random() * names.length)];
-                users.push({
-                    id: `USR${String((page - 1) * pageSize + i + 1).padStart(4, '0')}`,
-                    name: name,
-                    email: name.toLowerCase().replace(' ', '.') + '@email.com',
-                    status: statuses[Math.floor(Math.random() * statuses.length)],
-                    type: types[Math.floor(Math.random() * types.length)],
-                    balance: Math.floor(Math.random() * 50000) + 1000,
-                    last_login: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
-                    created_at: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toISOString()
-                });
-            }
-            
-            return { users, total, page, pages: Math.ceil(total / pageSize) };
-        }
+    // Display users
+    function displayUsers(data) {
+      const container = document.getElementById('usersList');
 
-        function displayUsers(data) {
-            const container = document.getElementById('usersList');
-            
-            if (!data.users || data.users.length === 0) {
-                container.innerHTML = `
-                    <div class="col-12 text-center py-5">
+      if (!data.users || data.users.length === 0) {
+        container.innerHTML = `
+                    <div class="text-center py-5">
                         <i class="fas fa-users fa-3x text-muted mb-3"></i>
-                        <h5 class="text-muted">No se encontraron usuarios</h5>
-                        <p class="text-muted">Intenta ajustar los filtros de búsqueda</p>
+                        <p class="text-muted">No se encontraron usuarios</p>
                     </div>
                 `;
-                return;
-            }
-            
-            let html = '';
-            data.users.forEach(user => {
-                html += `
-                    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-                        <div class="user-card p-3">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar me-3">
-                                    ${user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+        return;
+      }
+
+      const usersHtml = data.users.map(user => `
+                <div class="user-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-placeholder me-3" style="width: 40px; height: 40px; background: linear-gradient(45deg, #1e3a8a, #3b82f6); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <span class="text-white fw-bold">${user.name.split(' ').map(n => n[0]).join('')}</span>
                                 </div>
                                 <div>
-                                    <h6 class="mb-1 fw-bold">${user.name}</h6>
-                                    <small class="text-muted">${user.id}</small>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <small class="text-muted d-block">
-                                    <i class="fas fa-envelope me-1"></i>${user.email}
-                                </small>
-                                <small class="text-muted d-block">
-                                    <i class="fas fa-dollar-sign me-1"></i>$${user.balance.toLocaleString()}
-                                </small>
-                                <small class="text-muted d-block">
-                                    <i class="fas fa-clock me-1"></i>Último: ${formatDate(user.last_login)}
-                                </small>
-                            </div>
-                            
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <span class="badge status-${user.status} px-3 py-2">
-                                    ${getStatusText(user.status)}
-                                </span>
-                                <span class="badge bg-secondary px-2 py-1" style="font-size: 0.7em;">
-                                    ${user.type.toUpperCase()}
-                                </span>
-                            </div>
-                            
-                            <div class="d-grid gap-1">
-                                <button class="btn btn-sm btn-neuro" onclick="viewUser('${user.id}')">
-                                    <i class="fas fa-eye me-1"></i>Ver Detalles
-                                </button>
-                                <div class="btn-group" role="group">
-                                    <button class="btn btn-sm btn-outline-warning" onclick="editUser('${user.id}')">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-${user.status === 'blocked' ? 'success' : 'danger'}" onclick="toggleUserStatus('${user.id}', '${user.status}')">
-                                        <i class="fas fa-${user.status === 'blocked' ? 'unlock' : 'lock'}"></i>
-                                    </button>
+                                    <h6 class="mb-1">${user.name}</h6>
+                                    <small class="text-muted">ID: ${user.id}</small>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-        }
-
-        function updatePagination(total, currentPage, pageSize) {
-            const totalPages = Math.ceil(total / pageSize);
-            const pagination = document.getElementById('pagination');
-            
-            let html = '';
-            
-            // Previous button
-            html += `
-                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                    <a class="page-link" href="#" onclick="loadUsers(${currentPage - 1})" ${currentPage === 1 ? 'tabindex="-1"' : ''}>
-                        <i class="fas fa-chevron-left"></i>
-                    </a>
-                </li>
-            `;
-            
-            // Page numbers
-            const startPage = Math.max(1, currentPage - 2);
-            const endPage = Math.min(totalPages, currentPage + 2);
-            
-            for (let i = startPage; i <= endPage; i++) {
-                html += `
-                    <li class="page-item ${i === currentPage ? 'active' : ''}">
-                        <a class="page-link" href="#" onclick="loadUsers(${i})">${i}</a>
-                    </li>
-                `;
-            }
-            
-            // Next button
-            html += `
-                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                    <a class="page-link" href="#" onclick="loadUsers(${currentPage + 1})" ${currentPage === totalPages ? 'tabindex="-1"' : ''}>
-                        <i class="fas fa-chevron-right"></i>
-                    </a>
-                </li>
-            `;
-            
-            pagination.innerHTML = html;
-        }
-
-        // Filter functions
-        function applyFilters() {
-            const searchInput = document.getElementById('searchInput').value;
-            const statusFilter = document.getElementById('statusFilter').value;
-            const typeFilter = document.getElementById('typeFilter').value;
-            const dateFromFilter = document.getElementById('dateFromFilter').value;
-            const dateToFilter = document.getElementById('dateToFilter').value;
-            
-            currentFilters = {
-                ...(searchInput && { query: searchInput }),
-                ...(statusFilter && { status: statusFilter }),
-                ...(typeFilter && { type: typeFilter }),
-                ...(dateFromFilter && { date_from: dateFromFilter }),
-                ...(dateToFilter && { date_to: dateToFilter })
-            };
-            
-            loadUsers(1);
-        }
-
-        function clearFilters() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('statusFilter').value = '';
-            document.getElementById('typeFilter').value = '';
-            document.getElementById('dateFromFilter').value = '';
-            document.getElementById('dateToFilter').value = '';
-            
-            currentFilters = {};
-            loadUsers(1);
-        }
-
-        // User actions
-        function viewUser(userId) {
-            alert(`Ver detalles del usuario: ${userId}`);
-        }
-
-        function editUser(userId) {
-            alert(`Editar usuario: ${userId}`);
-        }
-
-        function toggleUserStatus(userId, currentStatus) {
-            const newStatus = currentStatus === 'blocked' ? 'active' : 'blocked';
-            const action = newStatus === 'blocked' ? 'bloquear' : 'desbloquear';
-            
-            if (confirm(`¿Está seguro que desea ${action} el usuario ${userId}?`)) {
-                alert(`Usuario ${userId} ${newStatus === 'blocked' ? 'bloqueado' : 'desbloqueado'} correctamente`);
-                loadUsers(currentPage);
-            }
-        }
-
-        async function exportUsers() {
-            try {
-                alert('Exportando usuarios a CSV...');
-            } catch (error) {
-                console.error('Error exporting users:', error);
-            }
-        }
-
-        // Helper functions
-        function getStatusText(status) {
-            const texts = {
-                'active': 'Activo',
-                'inactive': 'Inactivo',
-                'blocked': 'Bloqueado'
-            };
-            return texts[status] || status;
-        }
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-        }
-
-        function showError(message) {
-            const container = document.getElementById('usersList');
-            container.innerHTML = `
-                <div class="col-12">
-                    <div class="alert alert-danger" role="alert">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        ${message}
+                        <div class="col-md-3">
+                            <strong>Email:</strong><br>
+                            <span class="text-muted">${user.email}</span>
+                        </div>
+                        <div class="col-md-2">
+                            <strong>Estado:</strong><br>
+                            <span class="status-badge status-${user.status}">${getStatusText(user.status)}</span>
+                        </div>
+                        <div class="col-md-2">
+                            <strong>Saldo:</strong><br>
+                            <span class="fw-bold text-success">$${parseFloat(user.balance).toLocaleString()}</span>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="d-flex gap-1">
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewUser(${user.id})" title="Ver detalles">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="editUser(${user.id})" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="blockUser(${user.id})" title="Bloquear">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            `).join('');
+
+      container.innerHTML = usersHtml;
+
+      // Update stats
+      document.getElementById('showingCount').textContent = data.users.length;
+      document.getElementById('totalUsers').textContent = data.total;
+    }
+
+    // Update pagination
+    function updatePagination(data) {
+      const container = document.getElementById('paginationContainer');
+
+      if (data.total_pages <= 1) {
+        container.innerHTML = '';
+        return;
+      }
+
+      let paginationHtml = '';
+
+      // Previous button
+      if (data.page > 1) {
+        paginationHtml += `
+                    <button class="btn btn-outline-primary" onclick="changePage(${data.page - 1})">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                `;
+      }
+
+      // Page numbers
+      const startPage = Math.max(1, data.page - 2);
+      const endPage = Math.min(data.total_pages, data.page + 2);
+
+      for (let i = startPage; i <= endPage; i++) {
+        paginationHtml += `
+                    <button class="btn ${i === data.page ? 'btn-primary' : 'btn-outline-primary'}" onclick="changePage(${i})">
+                        ${i}
+                    </button>
+                `;
+      }
+
+      // Next button
+      if (data.page < data.total_pages) {
+        paginationHtml += `
+                    <button class="btn btn-outline-primary" onclick="changePage(${data.page + 1})">
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                `;
+      }
+
+      container.innerHTML = paginationHtml;
+    }
+
+    // Utility functions
+    function getStatusText(status) {
+      const statusMap = {
+        'active': 'Activo',
+        'inactive': 'Inactivo',
+        'pending': 'Pendiente',
+        'blocked': 'Bloqueado'
+      };
+      return statusMap[status] || status;
+    }
+
+    function toggleLoading(show) {
+      const spinner = document.getElementById('loadingSpinner');
+      const list = document.getElementById('usersList');
+
+      if (show) {
+        spinner.style.display = 'block';
+        list.style.display = 'none';
+      } else {
+        spinner.style.display = 'none';
+        list.style.display = 'block';
+      }
+    }
+
+    function showError(message) {
+      const container = document.getElementById('usersList');
+      container.innerHTML = `
+                <div class="alert alert-danger text-center">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    ${message}
+                </div>
             `;
-        }
-    </script>
+    }
+
+    // Event handlers
+    function changePage(page) {
+      currentPage = page;
+      loadUsers(page);
+    }
+
+    function searchUsers() {
+      currentFilters = {
+        search: document.getElementById('searchUser').value,
+        status: document.getElementById('statusFilter').value,
+        accountType: document.getElementById('accountTypeFilter').value
+      };
+      currentPage = 1;
+      loadUsers(1);
+    }
+
+    function clearFilters() {
+      document.getElementById('searchUser').value = '';
+      document.getElementById('statusFilter').value = '';
+      document.getElementById('accountTypeFilter').value = '';
+      currentFilters = {};
+      currentPage = 1;
+      loadUsers(1);
+    }
+
+    function refreshUsers() {
+      loadUsers(currentPage);
+
+      // Show success message
+      const btn = event.target.closest('button');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check me-2"></i>Actualizado';
+      btn.classList.add('btn-success');
+      btn.classList.remove('btn-neuro');
+
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('btn-success');
+        btn.classList.add('btn-neuro');
+      }, 2000);
+    }
+
+    function exportUsers() {
+      // Mock export functionality
+      alert('Exportando usuarios... (Funcionalidad demo)');
+    }
+
+    function viewUser(id) {
+      alert(`Ver detalles del usuario ${id} (Funcionalidad demo)`);
+    }
+
+    function editUser(id) {
+      alert(`Editar usuario ${id} (Funcionalidad demo)`);
+    }
+
+    function blockUser(id) {
+      if (confirm('¿Está seguro de que desea bloquear este usuario?')) {
+        alert(`Usuario ${id} bloqueado (Funcionalidad demo)`);
+        loadUsers(currentPage);
+      }
+    }
+  </script>
 </body>
+
 </html>

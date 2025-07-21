@@ -127,7 +127,7 @@ class InvoiceResponse(BaseModel):
 # ----- Endpoints con documentación completa -----
 
 @router.get(
-    "/order_status/{order_id}",
+    "/order/{order_id}",
     response_model=OrderStatusResponse,
     summary="📊 Consultar Estado de Orden",
     description="""
@@ -208,7 +208,7 @@ async def order_status(
     return get_order_status(order_id)
 
 @router.post(
-    "/generate_invoice",
+    "/invoice/{invoice_id}",
     response_model=InvoiceResponse,
     summary="🧾 Generar Factura",
     description="""
@@ -278,7 +278,14 @@ async def order_status(
         }
     }
 )
-async def invoice(data: InvoiceRequest):
+async def invoice(
+    invoice_id: str = Path(
+        ..., 
+        description="ID de la factura a generar",
+        examples=["INV-2025-789012"]
+    ),
+    data: InvoiceRequest = None
+):
     """
     **Endpoint para generar facturas de órdenes bancarias**
     

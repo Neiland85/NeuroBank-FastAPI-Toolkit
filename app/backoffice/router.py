@@ -3,17 +3,7 @@
 Enterprise-grade admin panel para impresionar reclutadores bancarios
 """
 
-from fastapi import API@router.get("/admin/transactions", response_class=HTMLResponse, summary="Panel de Administración de Transacciones")
-async def admin_transactions(request: Request):
-    """
-    💳 **Panel Administrativo de Transacciones**
-    
-    Panel completo de gestión de transacciones con filtros y acciones.
-    """
-    return templates.TemplateResponse("admin_transactions.html", {
-        "request": request,
-        "title": "Transaction Management - NeuroBank Admin"
-    })uest, HTTPException
+from fastapi import APIRouter, Request, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -155,9 +145,9 @@ async def admin_transactions(request: Request):
     """
     🔐 **Panel Administrativo de Transacciones**
     
-    Panel administrativo de transacciones para demostración.
+    Panel administrativo de transacciones con funcionalidad completa.
     """
-    return templates.TemplateResponse("basic_dashboard.html", {
+    return templates.TemplateResponse("admin_transactions.html", {
         "request": request,
         "title": "Transaction Management - NeuroBank Admin"
     })
@@ -167,7 +157,7 @@ async def admin_users(request: Request):
     """
     👥 **Panel Administrativo de Usuarios**
     
-    Panel completo de gestión de usuarios con filtros y acciones.
+    Panel administrativo de usuarios con funcionalidad completa.
     """
     return templates.TemplateResponse("admin_users.html", {
         "request": request,
@@ -179,7 +169,7 @@ async def admin_reports(request: Request):
     """
     📈 **Panel de Reportes Administrativos**
     
-    Panel completo de reportes financieros con gráficos y métricas.
+    Panel de reportes financieros con análisis avanzado.
     """
     return templates.TemplateResponse("admin_reports.html", {
         "request": request,
