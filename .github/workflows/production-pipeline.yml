@@ -302,10 +302,21 @@ jobs:
           echo "Verifying Railway CLI installation..."
           railway --help | head -5
           
-          echo "Deploying to Railway..."
-          railway up --detach
+          echo "Checking Railway authentication..."
+          if [ -z "$RAILWAY_TOKEN" ]; then
+            echo "❌ RAILWAY_TOKEN is not set"
+            exit 1
+          fi
+          echo "✅ RAILWAY_TOKEN is configured"
           
-          echo "Deployment initiated successfully!"
+          echo "Deploying to Railway..."
+          railway up --detach || {
+            echo "❌ Railway deployment failed, retrying once..."
+            sleep 10
+            railway up --detach
+          }
+          
+          echo "✅ Deployment initiated successfully!"
 
       - name: 🏥 Post-Deployment Health Check
         run: |
