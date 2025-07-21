@@ -77,23 +77,15 @@ app = FastAPI(
         "url": "https://opensource.org/licenses/MIT",
     },
     servers=[
-        {
-            "url": "https://api.neurobank.com",
-            "description": "Production server"
-        },
-        {
-            "url": "https://staging-api.neurobank.com", 
-            "description": "Staging server"
-        },
-        {
-            "url": "http://localhost:8000",
-            "description": "Development server"
-        }
-    ]
+        {"url": "https://api.neurobank.com", "description": "Production server"},
+        {"url": "https://staging-api.neurobank.com", "description": "Staging server"},
+        {"url": "http://localhost:8000", "description": "Development server"},
+    ],
 )
 
 # Configurar CORS - usando configuración de Railway
 from .config import get_settings
+
 settings = get_settings()
 
 app.add_middleware(
@@ -107,6 +99,7 @@ app.add_middleware(
 # Incluir routers
 app.include_router(operator.router, prefix="/api", tags=["api"])
 app.include_router(backoffice_router.router, tags=["backoffice"])
+
 
 # Health check endpoint
 @app.get(
@@ -126,24 +119,24 @@ app.include_router(backoffice_router.router, tags=["backoffice"])
                         "version": "1.0.0",
                         "timestamp": "2025-07-20T15:30:45.123456Z",
                         "environment": "production",
-                        "uptime_seconds": 3600
+                        "uptime_seconds": 3600,
                     }
                 }
-            }
+            },
         }
-    }
+    },
 )
 async def health_check():
     """
     **Endpoint de verificación de salud del sistema**
-    
+
     Retorna información detallada sobre:
     - ✅ Estado del servicio
-    - 📊 Versión actual 
+    - 📊 Versión actual
     - ⏰ Timestamp de respuesta
     - 🌍 Entorno de ejecución
     - ⏱️ Tiempo de actividad
-    
+
     **Casos de uso:**
     - Monitoreo automatizado (Kubernetes, Docker, AWS)
     - Load balancers health checks
@@ -152,7 +145,7 @@ async def health_check():
     """
     import datetime
     import os
-    
+
     return JSONResponse(
         status_code=200,
         content={
@@ -166,11 +159,12 @@ async def health_check():
                 "project_id": os.getenv("RAILWAY_PROJECT_ID", "unknown"),
                 "service_name": os.getenv("RAILWAY_SERVICE_NAME", "unknown"),
                 "environment_name": os.getenv("RAILWAY_ENVIRONMENT_NAME", "unknown"),
-                "private_domain": os.getenv("RAILWAY_PRIVATE_DOMAIN", "unknown")
+                "private_domain": os.getenv("RAILWAY_PRIVATE_DOMAIN", "unknown"),
             },
-            "uptime_seconds": "N/A"  # Se puede implementar con un contador global
-        }
+            "uptime_seconds": "N/A",  # Se puede implementar con un contador global
+        },
     )
+
 
 # Root endpoint
 @app.get(
@@ -187,38 +181,35 @@ async def health_check():
                     "example": {
                         "message": "Welcome to NeuroBank FastAPI Toolkit",
                         "version": "1.0.0",
-                        "status": "operational", 
-                        "documentation": {
-                            "swagger_ui": "/docs",
-                            "redoc": "/redoc"
-                        },
+                        "status": "operational",
+                        "documentation": {"swagger_ui": "/docs", "redoc": "/redoc"},
                         "endpoints": {
                             "health_check": "/health",
-                            "operator_operations": "/operator"
+                            "operator_operations": "/operator",
                         },
                         "features": [
                             "🏦 Banking Operations",
-                            "🔐 API Key Authentication", 
+                            "🔐 API Key Authentication",
                             "📊 Real-time Monitoring",
-                            "☁️ AWS Serverless Ready"
-                        ]
+                            "☁️ AWS Serverless Ready",
+                        ],
                     }
                 }
-            }
+            },
         }
-    }
+    },
 )
 async def root():
     """
     **Endpoint de bienvenida de la API**
-    
+
     Proporciona información general sobre la API incluyendo:
     - 📋 Información básica del servicio
     - 🔗 Enlaces de navegación rápida
     - 📚 Acceso a documentación
     - ⚡ Estado operacional
     - 🎯 Características principales
-    
+
     **Útil para:**
     - Verificación rápida de conectividad
     - Descubrimiento de endpoints principales
@@ -229,38 +220,33 @@ async def root():
         "message": f"Welcome to {APP_NAME}",
         "version": APP_VERSION,
         "status": "operational",
-        "documentation": {
-            "swagger_ui": "/docs", 
-            "redoc": "/redoc"
-        },
-        "endpoints": {
-            "health_check": "/health",
-            "operator_operations": "/operator"
-        },
+        "documentation": {"swagger_ui": "/docs", "redoc": "/redoc"},
+        "endpoints": {"health_check": "/health", "operator_operations": "/operator"},
         "features": [
             "🏦 Banking Operations",
             "🔐 API Key Authentication",
-            "📊 Real-time Monitoring", 
-            "☁️ AWS Serverless Ready"
-        ]
+            "📊 Real-time Monitoring",
+            "☁️ AWS Serverless Ready",
+        ],
     }
+
 
 if __name__ == "__main__":
     import uvicorn
     import uvloop
-    
+
     # Use uvloop for better performance
     uvloop.install()
-    
+
     port = int(os.getenv("PORT", 8000))
     workers = int(os.getenv("WORKERS", 1))  # Single worker for Railway
-    
+
     uvicorn.run(
-        "app.main:app", 
-        host="0.0.0.0", 
+        "app.main:app",
+        host="0.0.0.0",
         port=port,
         workers=workers,
         loop="uvloop",
         access_log=True,
-        timeout_keep_alive=120
+        timeout_keep_alive=120,
     )
