@@ -42,9 +42,9 @@ ENV PORT=8000
 ENV ENVIRONMENT=production
 ENV WORKERS=1
 
-# Health check específico para Railway
+# Health check específico para Railway con puerto dinámico
 HEALTHCHECK --interval=30s --timeout=30s --start-period=10s --retries=3 \
-  CMD curl -f http://localhost:$PORT/health || exit 1
+  CMD sh -c 'curl -f http://localhost:$PORT/health || exit 1'
 
-# Comando optimizado para Railway con single worker
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1", "--loop", "uvloop", "--timeout-keep-alive", "120", "--access-log"]
+# Comando optimizado para Railway con puerto dinámico
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1 --loop uvloop --timeout-keep-alive 120 --access-log"]
