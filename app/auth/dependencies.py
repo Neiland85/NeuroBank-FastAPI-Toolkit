@@ -2,18 +2,17 @@ from fastapi import HTTPException, Depends, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import os
 from typing import Optional
+from ..config import get_settings
 
 # Configuración del esquema de seguridad
 security = HTTPBearer(auto_error=False)
 
 def get_api_key() -> str:
-    """Obtiene la API key desde las variables de entorno"""
-    if not (api_key := os.getenv("API_KEY")):
-        # En tests, permitir API key de testing
-        if os.getenv("PYTEST_CURRENT_TEST"):
-            return "test_secure_key_for_testing_only_not_production"
+    """Obtiene la API key desde la configuración centralizada"""
+    settings = get_settings()
+    if not settings.api_key:
         raise ValueError("API_KEY environment variable is required")
-    return api_key
+    return settings.api_key
 
 def verify_api_key(
     request: Request,

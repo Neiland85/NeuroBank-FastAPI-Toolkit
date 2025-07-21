@@ -145,9 +145,9 @@ async def admin_transactions(request: Request):
     """
     🔐 **Panel Administrativo de Transacciones**
     
-    Panel administrativo de transacciones para demostración.
+    Panel administrativo de transacciones con funcionalidad completa.
     """
-    return templates.TemplateResponse("basic_dashboard.html", {
+    return templates.TemplateResponse("admin_transactions.html", {
         "request": request,
         "title": "Transaction Management - NeuroBank Admin"
     })
@@ -157,9 +157,9 @@ async def admin_users(request: Request):
     """
     👥 **Panel Administrativo de Usuarios**
     
-    Panel administrativo de usuarios para demostración.
+    Panel administrativo de usuarios con funcionalidad completa.
     """
-    return templates.TemplateResponse("basic_dashboard.html", {
+    return templates.TemplateResponse("admin_users.html", {
         "request": request,
         "title": "User Management - NeuroBank Admin"
     })
@@ -169,9 +169,9 @@ async def admin_reports(request: Request):
     """
     📈 **Panel de Reportes Administrativos**
     
-    Panel de reportes financieros para demostración.
+    Panel de reportes financieros con análisis avanzado.
     """
-    return templates.TemplateResponse("basic_dashboard.html", {
+    return templates.TemplateResponse("admin_reports.html", {
         "request": request,
         "title": "Financial Reports - NeuroBank Admin"
     })

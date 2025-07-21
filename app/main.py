@@ -105,7 +105,7 @@ app.add_middleware(
 )
 
 # Incluir routers
-app.include_router(operator.router, prefix="/operator", tags=["operator"])
+app.include_router(operator.router, prefix="/api", tags=["api"])
 app.include_router(backoffice_router.router, tags=["backoffice"])
 
 # Health check endpoint
@@ -247,5 +247,20 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
+    import uvloop
+    
+    # Use uvloop for better performance
+    uvloop.install()
+    
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    workers = int(os.getenv("WORKERS", 1))  # Single worker for Railway
+    
+    uvicorn.run(
+        "app.main:app", 
+        host="0.0.0.0", 
+        port=port,
+        workers=workers,
+        loop="uvloop",
+        access_log=True,
+        timeout_keep_alive=120
+    )

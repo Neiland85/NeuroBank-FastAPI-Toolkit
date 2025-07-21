@@ -2,10 +2,11 @@ import pytest
 import os
 from httpx import AsyncClient, ASGITransport
 from app.main import app
+from app.config import get_settings
 
-# Configurar API key para tests - usando variable de entorno
-TEST_API_KEY = "test_secure_key_for_testing_only_not_production"
-os.environ["API_KEY"] = TEST_API_KEY
+# Obtener API key del sistema de configuración
+settings = get_settings()
+TEST_API_KEY = settings.api_key
 
 @pytest.mark.asyncio
 async def test_order_status():
@@ -15,7 +16,7 @@ async def test_order_status():
         base_url="http://test"
     ) as ac:
         resp = await ac.get(
-            "/operator/order_status/ORD-2025-001234",
+            "/api/order/ORD-2025-001234",
             headers={"X-API-Key": TEST_API_KEY}
         )
     
@@ -34,7 +35,7 @@ async def test_generate_invoice():
         base_url="http://test"
     ) as ac:
         resp = await ac.post(
-            "/operator/generate_invoice",
+            "/api/invoice/INV-2025-001",
             json={"order_id": "ORD-2025-001234"},
             headers={"X-API-Key": TEST_API_KEY}
         )
@@ -55,7 +56,7 @@ async def test_order_status_with_bearer_token():
         base_url="http://test"
     ) as ac:
         resp = await ac.get(
-            "/operator/order_status/ORD-2025-001234",
+            "/api/order/ORD-2025-001234",
             headers={"Authorization": f"Bearer {TEST_API_KEY}"}
         )
     
@@ -70,7 +71,7 @@ async def test_order_status_unauthorized():
         transport=ASGITransport(app=app), 
         base_url="http://test"
     ) as ac:
-        resp = await ac.get("/operator/order_status/ORD-2025-001234")
+        resp = await ac.get("/api/order/ORD-2025-001234")
     
     assert resp.status_code == 401
     data = resp.json()
@@ -84,7 +85,7 @@ async def test_order_status_forbidden():
         base_url="http://test"
     ) as ac:
         resp = await ac.get(
-            "/operator/order_status/ORD-2025-001234",
+            "/api/order/ORD-2025-001234",
             headers={"X-API-Key": "wrong-api-key"}
         )
     
