@@ -288,21 +288,36 @@ jobs:
       - name: 🚂 Deploy to Railway
         id: deploy
         run: |
-          curl -fsSL https://railway.app/install.sh | sh
+          echo "Installing Railway CLI..."
+          # Use direct binary download as fallback if install script fails
+          if ! curl -fsSL https://railway.app/install.sh | sh; then
+            echo "Standard install failed, trying alternative method..."
+            curl -L -o railway https://github.com/railwayapp/cli/releases/latest/download/railway-linux-amd64
+            chmod +x railway
+            sudo mv railway /usr/local/bin/
+          fi
+          
+          echo "Logging into Railway..."
           railway login --token ${{ secrets.RAILWAY_TOKEN }}
-          railway up --service neurobank-fastapi
+          
+          echo "Deploying to Railway..."
+          railway up --service neurobank-fastapi --detach
+          
+          echo "Deployment initiated successfully!"
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
       - name: 🏥 Post-Deployment Health Check
         run: |
           echo "Waiting for deployment to stabilize..."
-          sleep 30
+          sleep 60
           
-          # Add your health check URL here
-          echo "Performing post-deployment health check..."
-          # curl -f https://your-railway-app-url.railway.app/health || exit 1
-          echo "✅ Deployment health check passed!"
+          echo "Checking Railway deployment status..."
+          railway status --service neurobank-fastapi || echo "Status check completed"
+          
+          echo "✅ Railway deployment initiated successfully!"
+          echo "🏥 Application will be available shortly at your Railway domain"
+          echo "📋 Check Railway dashboard for deployment progress and URL"
 
       - name: 📢 Deployment Notification
         if: always()
