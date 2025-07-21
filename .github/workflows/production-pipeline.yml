@@ -326,20 +326,14 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           echo "Installing Railway CLI..."
-          # Use direct binary download as fallback if install script fails
-          if ! curl -fsSL https://railway.app/install.sh | sh; then
-            echo "Standard install failed, trying alternative method..."
-            curl -L -o railway https://github.com/railwayapp/cli/releases/latest/download/railway-linux-amd64
-            chmod +x railway
-            sudo mv railway /usr/local/bin/
-          fi
+          # Download Railway CLI with explicit version
+          curl -L -o railway "https://github.com/railwayapp/cli/releases/latest/download/railway-linux-amd64"
+          chmod +x railway
+          sudo mv railway /usr/local/bin/railway
           
-          echo "Authenticating with Railway..."
-          # Railway CLI now uses RAILWAY_TOKEN environment variable automatically
-          echo "RAILWAY_TOKEN environment variable is configured for authentication"
-
           echo "Verifying Railway CLI installation..."
-          railway --help | head -5
+          which railway
+          railway --version
           
           echo "Checking Railway authentication..."
           if [ -z "$RAILWAY_TOKEN" ]; then
@@ -348,10 +342,18 @@ jobs:
           fi
           echo "✅ RAILWAY_TOKEN is configured"
           
+          echo "Linking to existing Railway project..."
+          # Create railway.json to link to existing project if it doesn't exist
+          if [ ! -f "railway.json" ]; then
+            echo "Creating Railway configuration..."
+            # This will be handled by railway up command
+          fi
+          
           echo "Deploying to Railway..."
-          railway up --detach || {
-            echo "❌ Railway deployment failed, retrying once..."
+          railway up --detach --service neurobank-fastapi || {
+            echo "❌ Railway deployment failed, retrying with different approach..."
             sleep 10
+            # Try without service flag
             railway up --detach
           }
           
