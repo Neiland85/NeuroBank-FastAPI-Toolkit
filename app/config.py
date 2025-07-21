@@ -92,7 +92,6 @@ class Settings(BaseSettings):
             raise ValueError("API_KEY environment variable is required in production")
 
 
-
 @lru_cache()
 def get_settings() -> Settings:
     """Obtiene la configuración de la aplicación (cached)"""
