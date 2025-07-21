@@ -287,6 +287,8 @@ jobs:
 
       - name: 🚂 Deploy to Railway
         id: deploy
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           echo "Installing Railway CLI..."
           # Use direct binary download as fallback if install script fails
@@ -297,16 +299,30 @@ jobs:
             sudo mv railway /usr/local/bin/
           fi
           
+         develop
           echo "Authenticating with Railway..."
           # Railway CLI now uses RAILWAY_TOKEN environment variable automatically
           echo "RAILWAY_TOKEN environment variable is configured for authentication"
+
+          echo "Verifying Railway CLI installation..."
+          railway --help | head -5
+          
+          echo "Checking Railway authentication..."
+          if [ -z "$RAILWAY_TOKEN" ]; then
+            echo "❌ RAILWAY_TOKEN is not set"
+            exit 1
+          fi
+          echo "✅ RAILWAY_TOKEN is configured"
+           main
           
           echo "Deploying to Railway..."
-          railway up --service neurobank-fastapi --detach
+          railway up --detach || {
+            echo "❌ Railway deployment failed, retrying once..."
+            sleep 10
+            railway up --detach
+          }
           
-          echo "Deployment initiated successfully!"
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          echo "✅ Deployment initiated successfully!"
 
       - name: 🏥 Post-Deployment Health Check
         run: |
