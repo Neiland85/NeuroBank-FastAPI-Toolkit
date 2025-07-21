@@ -287,6 +287,8 @@ jobs:
 
       - name: 🚂 Deploy to Railway
         id: deploy
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           echo "Installing Railway CLI..."
           # Use direct binary download as fallback if install script fails
@@ -297,15 +299,13 @@ jobs:
             sudo mv railway /usr/local/bin/
           fi
           
-          echo "Setting Railway authentication..."
-          export RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}
+          echo "Verifying Railway CLI installation..."
+          railway version
           
           echo "Deploying to Railway..."
-          railway up --service neurobank-fastapi --detach
+          railway up --detach
           
           echo "Deployment initiated successfully!"
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
       - name: 🏥 Post-Deployment Health Check
         run: |
