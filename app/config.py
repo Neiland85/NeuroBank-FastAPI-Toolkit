@@ -1,8 +1,10 @@
 import os
 import sys
 from functools import lru_cache
-from pydantic_settings import BaseSettings
 from typing import List, Optional
+
+from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
     """Configuración de la aplicación optimizada para Railway"""
@@ -15,13 +17,11 @@ class Settings(BaseSettings):
     # Server Configuration
     host: str = "0.0.0.0"
     port: int = int(os.getenv("PORT", 8000))
-    
-    # Environment Configuration
-       develop
-    environment: str = os.getenv("ENVIRONMENT", "production")
 
-    environment: str = os.getenv("ENVIRONMENT", "development")  # Default to development, not production
-      main
+    # Environment Configuration
+    environment: str = os.getenv(
+        "ENVIRONMENT", "development"
+    )  # Default to development, not production
     debug: bool = os.getenv("DEBUG", "false").lower() == "true"
     
     # CORS Configuration - usando el dominio privado de Railway
@@ -65,9 +65,8 @@ class Settings(BaseSettings):
         super().__init__(**kwargs)
         # Configurar CORS origins después de la inicialización
         self.cors_origins = self._get_cors_origins()
-        
-        develop
-        # Detectar si estamos en modo test
+
+        # Detectar si estamos en modo test de manera más robusta
         is_testing = bool(os.getenv("PYTEST_CURRENT_TEST")) or "pytest" in os.getenv("_", "")
         
         # Validación de configuración crítica solo en producción (no en tests)
@@ -99,7 +98,7 @@ class Settings(BaseSettings):
             not is_testing and 
             not self.api_key):
             raise ValueError("API_KEY environment variable is required in production")
-         main
+
 
 @lru_cache()
 def get_settings() -> Settings:
