@@ -68,14 +68,17 @@ class Settings(BaseSettings):
             "pytest" in str(os.getenv("_", "")) or
             "pytest" in " ".join(sys.argv) or
             any("test" in arg for arg in sys.argv) or
-            os.getenv("CI") == "true"  # GitHub Actions, GitLab CI, etc.
+            os.getenv("CI") == "true" or  # GitHub Actions, GitLab CI, etc.
+            os.getenv("GITHUB_ACTIONS") == "true" or  # Específico de GitHub Actions
+            self.environment in ["testing", "development", "dev"]  # Entornos explícitos
         )
         
-        # En modo test, asegurar que tenemos una API key
+        # En modo test o CI, asegurar que tenemos una API key
         if is_testing and not self.api_key:
             self.api_key = "test_secure_key_for_testing_only_not_production"
+            print(f"🔧 Auto-configured API_KEY for testing environment (CI={os.getenv('CI')}, GITHUB_ACTIONS={os.getenv('GITHUB_ACTIONS')}, ENVIRONMENT={self.environment})")
         
-        # Validación de configuración crítica solo en producción real
+        # Validación de configuración crítica solo en producción real (no testing)
         if (self.environment == "production" and 
             not is_testing and 
             not self.api_key):
