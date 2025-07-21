@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --neuro-primary: #1e3a8a;
+            --neuro-secondary: #1e40af;
+            --neuro-accent: #3b82f6;
+            --neuro-success: #10b981;
+            --neuro-warning: #f59e0b;
+            --neuro-danger: #ef4444;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .admin-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(15px);
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--neuro-primary) !important;
+        }
+        
+        .btn-neuro {
+            background: linear-gradient(45deg, var(--neuro-primary), var(--neuro-accent));
+            border: none;
+            color: white;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-neuro:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+        
+        .report-card {
+            background: white;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--neuro-primary);
+            margin-bottom: 10px;
+        }
+        
+        .metric-label {
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .filter-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .search-input {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            border-color: var(--neuro-accent);
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        .report-header {
+            background: linear-gradient(45deg, var(--neuro-primary), var(--neuro-accent));
+            color: white;
+            padding: 20px;
+            margin: -1px -1px 20px -1px;
+            border-radius: 15px 15px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="admin-panel">
+            <!-- Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-white px-4" aria-label="Navegación principal">
+                <a class="navbar-brand" href="/backoffice/">
+                    🏦 NeuroBank Admin Panel
+                </a>
+                
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="/backoffice/">
+                        <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                    </a>
+                    <a class="nav-link" href="/backoffice/admin/transactions">
+                        <i class="fas fa-exchange-alt me-1"></i>Transacciones
+                    </a>
+                    <a class="nav-link" href="/backoffice/admin/users">
+                        <i class="fas fa-users me-1"></i>Usuarios
+                    </a>
+                    <a class="nav-link active" href="/backoffice/admin/reports">
+                        <i class="fas fa-chart-bar me-1"></i>Reportes
+                    </a>
+                    <a class="nav-link" href="/docs" target="_blank">
+                        <i class="fas fa-book me-1"></i>API Docs
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Content -->
+            <div class="container-fluid p-4">
+                <!-- Header -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h2 class="fw-bold text-dark mb-2">
+                            <i class="fas fa-chart-bar me-3" style="color: var(--neuro-primary);"></i>
+                            Reportes Financieros
+                        </h2>
+                        <p class="text-muted">Análisis detallado de métricas y tendencias bancarias</p>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="filter-section">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-calendar me-2"></i>Período del Reporte</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold" for="reportType">Tipo de Reporte</label>
+                            <select class="form-select search-input" id="reportType" onchange="generateReport()">
+                                <option value="daily">Reporte Diario</option>
+                                <option value="weekly">Reporte Semanal</option>
+                                <option value="monthly" selected>Reporte Mensual</option>
+                                <option value="quarterly">Reporte Trimestral</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold" for="dateFromReport">Fecha Desde</label>
+                            <input type="date" 
+                                   class="form-control search-input" 
+                                   id="dateFromReport"
+                                   onchange="generateReport()">
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold" for="dateToReport">Fecha Hasta</label>
+                            <input type="date" 
+                                   class="form-control search-input" 
+                                   id="dateToReport"
+                                   onchange="generateReport()">
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold" for="reportCategory">Categoría</label>
+                            <select class="form-select search-input" id="reportCategory" onchange="generateReport()">
+                                <option value="all">Todas las Categorías</option>
+                                <option value="transactions">Solo Transacciones</option>
+                                <option value="users">Solo Usuarios</option>
+                                <option value="revenue">Solo Ingresos</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button class="btn btn-neuro" onclick="generateReport()">
+                                <i class="fas fa-chart-line me-1"></i>Generar Reporte
+                            </button>
+                            <button class="btn btn-outline-success ms-2" onclick="exportReport()">
+                                <i class="fas fa-download me-1"></i>Exportar PDF
+                            </button>
+                            <button class="btn btn-outline-info ms-2" onclick="exportExcel()">
+                                <i class="fas fa-file-excel me-1"></i>Exportar Excel
+                            </button>
+                            <button class="btn btn-outline-secondary ms-2" onclick="scheduleReport()">
+                                <i class="fas fa-clock me-1"></i>Programar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h5 class="fw-bold mb-3"><i class="fas fa-tachometer-alt me-2"></i>Métricas Clave</h5>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="metric-card">
+                            <div class="metric-value" id="totalRevenue">$0</div>
+                            <div class="metric-label">Ingresos Totales</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="metric-card">
+                            <div class="metric-value" id="totalTransactions">0</div>
+                            <div class="metric-label">Total Transacciones</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="metric-card">
+                            <div class="metric-value" id="avgTicket">$0</div>
+                            <div class="metric-label">Ticket Promedio</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="metric-card">
+                            <div class="metric-value" id="growthRate">0%</div>
+                            <div class="metric-label">Crecimiento</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="row mb-4">
+                    <div class="col-lg-8">
+                        <div class="report-card">
+                            <div class="report-header">
+                                <h6 class="mb-0"><i class="fas fa-chart-line me-2"></i>Tendencia de Transacciones</h6>
+                            </div>
+                            <div class="p-3">
+                                <div class="chart-container">
+                                    <canvas id="transactionChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="report-card">
+                            <div class="report-header">
+                                <h6 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Tipos de Transacción</h6>
+                            </div>
+                            <div class="p-3">
+                                <div class="chart-container">
+                                    <canvas id="typeChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reports Table -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="report-card">
+                            <div class="report-header">
+                                <h6 class="mb-0"><i class="fas fa-table me-2"></i>Detalle de Transacciones por Período</h6>
+                            </div>
+                            <div class="p-3">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="reportsTable">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Período</th>
+                                                <th>Transacciones</th>
+                                                <th>Volumen</th>
+                                                <th>Promedio</th>
+                                                <th>Crecimiento</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="reportsTableBody">
+                                            <tr>
+                                                <td colspan="6" class="text-center py-4">
+                                                    <div class="spinner-border text-primary" role="status">
+                                                        <span class="visually-hidden">Cargando reportes...</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        let transactionChart, typeChart;
+        
+        // Load reports on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setDefaultDates();
+            generateReport();
+        });
+
+        function setDefaultDates() {
+            const today = new Date();
+            const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+            
+            document.getElementById('dateFromReport').value = lastMonth.toISOString().split('T')[0];
+            document.getElementById('dateToReport').value = today.toISOString().split('T')[0];
+        }
+
+        function generateReport() {
+            updateMetrics();
+            updateCharts();
+            updateReportsTable();
+        }
+
+        function updateMetrics() {
+            // Generate mock metrics
+            const totalRevenue = Math.floor(Math.random() * 500000) + 100000;
+            const totalTransactions = Math.floor(Math.random() * 5000) + 1000;
+            const avgTicket = Math.floor(totalRevenue / totalTransactions);
+            const growthRate = (Math.random() * 20 - 5).toFixed(1);
+            
+            animateNumber('totalRevenue', totalRevenue, '$');
+            animateNumber('totalTransactions', totalTransactions);
+            animateNumber('avgTicket', avgTicket, '$');
+            document.getElementById('growthRate').textContent = growthRate + '%';
+        }
+
+        function updateCharts() {
+            createTransactionChart();
+            createTypeChart();
+        }
+
+        function createTransactionChart() {
+            const ctx = document.getElementById('transactionChart').getContext('2d');
+            
+            // Destroy existing chart
+            if (transactionChart) {
+                transactionChart.destroy();
+            }
+            
+            const labels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
+            const data = labels.map(() => Math.floor(Math.random() * 1000) + 200);
+            
+            transactionChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Transacciones',
+                        data: data,
+                        borderColor: '#1e3a8a',
+                        backgroundColor: 'rgba(30, 58, 138, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function createTypeChart() {
+            const ctx = document.getElementById('typeChart').getContext('2d');
+            
+            // Destroy existing chart
+            if (typeChart) {
+                typeChart.destroy();
+            }
+            
+            typeChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Transferencias', 'Depósitos', 'Retiros', 'Pagos'],
+                    datasets: [{
+                        data: [35, 25, 20, 20],
+                        backgroundColor: [
+                            '#1e3a8a',
+                            '#3b82f6',
+                            '#10b981',
+                            '#f59e0b'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateReportsTable() {
+            const tbody = document.getElementById('reportsTableBody');
+            
+            // Generate mock data
+            const periods = ['Enero 2024', 'Febrero 2024', 'Marzo 2024', 'Abril 2024', 'Mayo 2024'];
+            let html = '';
+            
+            periods.forEach(period => {
+                const transactions = Math.floor(Math.random() * 1000) + 200;
+                const volume = Math.floor(Math.random() * 100000) + 20000;
+                const average = Math.floor(volume / transactions);
+                const growth = (Math.random() * 20 - 10).toFixed(1);
+                
+                html += `
+                    <tr>
+                        <td><strong>${period}</strong></td>
+                        <td>${transactions.toLocaleString()}</td>
+                        <td>$${volume.toLocaleString()}</td>
+                        <td>$${average.toLocaleString()}</td>
+                        <td>
+                            <span class="badge bg-${growth >= 0 ? 'success' : 'danger'}">
+                                ${growth >= 0 ? '+' : ''}${growth}%
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewPeriodDetail('${period}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-success ms-1" onclick="exportPeriod('${period}')">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML = html;
+        }
+
+        // Action functions
+        function exportReport() {
+            alert('Generando reporte en PDF...');
+        }
+
+        function exportExcel() {
+            alert('Exportando a Excel...');
+        }
+
+        function scheduleReport() {
+            alert('Abrir configuración de reportes programados...');
+        }
+
+        function viewPeriodDetail(period) {
+            alert(`Ver detalles del período: ${period}`);
+        }
+
+        function exportPeriod(period) {
+            alert(`Exportar datos del período: ${period}`);
+        }
+
+        // Helper functions
+        function animateNumber(elementId, target, prefix = '') {
+            const element = document.getElementById(elementId);
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = prefix + Math.floor(current).toLocaleString();
+            }, 20);
+        }
+    </script>
+</body>
+</html>
