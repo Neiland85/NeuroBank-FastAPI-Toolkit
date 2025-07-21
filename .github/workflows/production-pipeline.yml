@@ -297,8 +297,9 @@ jobs:
             sudo mv railway /usr/local/bin/
           fi
           
-          echo "Logging into Railway..."
-          railway login --token ${{ secrets.RAILWAY_TOKEN }}
+          echo "Authenticating with Railway..."
+          # Railway CLI now uses RAILWAY_TOKEN environment variable automatically
+          echo "RAILWAY_TOKEN environment variable is configured for authentication"
           
           echo "Deploying to Railway..."
           railway up --service neurobank-fastapi --detach
@@ -318,6 +319,8 @@ jobs:
           echo "✅ Railway deployment initiated successfully!"
           echo "🏥 Application will be available shortly at your Railway domain"
           echo "📋 Check Railway dashboard for deployment progress and URL"
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
       - name: 📢 Deployment Notification
         if: always()
