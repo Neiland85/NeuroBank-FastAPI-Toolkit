@@ -1,0 +1,36 @@
+{
+  "name": "neurobank-fastapi-frontend",
+  "version": "1.0.0",
+  "description": "Frontend optimization tools for NeuroBank FastAPI Banking System",
+  "scripts": {
+    "optimize": "npm run minify-css && npm run minify-js",
+    "minify-css": "cleancss -o app/static/css/styles.min.css app/static/css/*.css",
+    "minify-js": "uglifyjs app/static/js/*.js -o app/static/js/bundle.min.js"
+  },
+  "devDependencies": {
+    "clean-css-cli": "^5.6.2",
+    "uglify-js": "^3.17.4",
+    "html-minifier-terser": "^7.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Neiland85/NeuroBank-FastAPI-Toolkit.git"
+  },
+  "keywords": [
+    "banking",
+    "fastapi",
+    "railway",
+    "optimization",
+    "frontend"
+  ],
+  "author": "NeuroBank Team",
+  "license": "MIT",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "bugs": {
+    "url": "https://github.com/Neiland85/NeuroBank-FastAPI-Toolkit/issues"
+  },
+  "homepage": "https://github.com/Neiland85/NeuroBank-FastAPI-Toolkit#readme"
+}

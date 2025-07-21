@@ -36,25 +36,25 @@
 <tr>
 <td width="25%">
 
-🎮 **[LIVE DEMO](http://localhost:8000/backoffice/)**<br>
+🎮 **[LIVE DEMO](#-live-access-points)**<br>
 *Interactive Dashboard*
 
 </td>
 <td width="25%">
 
-📊 **[API DOCS](http://localhost:8000/docs)**<br>
+📊 **[API DOCS](#-api-endpoints)**<br>
 *Swagger Interface*
 
 </td>
 <td width="25%">
 
-🚀 **[QUICK DEPLOY](#-quick-start)**<br>
+🚀 **[QUICK DEPLOY](#quick-start)**<br>
 *One-Click Setup*
 
 </td>
 <td width="25%">
 
-📱 **[FEATURES](#-key-features)**<br>
+📱 **[FEATURES](#key-features)**<br>
 *Technical Showcase*
 
 </td>
@@ -141,13 +141,13 @@ chmod +x deploy_production.sh && ./deploy_production.sh
 <div align="center">
 
 ### 🎯 **Core Sections**
-[🎯 Project Overview](#-project-overview) • [✨ Key Features](#-key-features) • [🏗️ Architecture](#️-architecture) • [🚀 Quick Start](#-quick-start)
+[🎯 Project Overview](#project-overview) • [✨ Key Features](#key-features) • [🏗️ Architecture](#architecture) • [🚀 Quick Start](#quick-start)
 
 ### 📊 **Technical Details**  
-[🔗 Live Access Points](#-live-access-points) • [📱 Dashboard Preview](#-dashboard-preview) • [🔧 Technical Stack](#-technical-stack) • [📂 Project Structure](#-project-structure)
+[🔗 Live Access Points](#live-access-points) • [📱 Dashboard Preview](#dashboard-preview) • [🔧 Technical Stack](#technical-stack) • [📂 Project Structure](#project-structure)
 
 ### 🚀 **Deployment & Operations**
-[🌐 API Endpoints](#-api-endpoints) • [🚀 Production Deployment](#-production-deployment) • [🧪 Testing & Development](#-testing--development)
+[🌐 API Endpoints](#api-endpoints) • [🚀 Production Deployment](#production-deployment) • [🧪 Testing & Development](#testing--development)
 
 ### 📈 **Advanced Topics**
 [📊 Monitoring & Health](#-monitoring--health) • [🔒 Security Features](#-security-features) • [📈 Performance](#-performance) • [🎨 UI/UX Design](#-uiux-design)
