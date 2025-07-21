@@ -19,9 +19,17 @@ class Settings(BaseSettings):
     port: int = int(os.getenv("PORT", 8000))
 
     # Environment Configuration
+    hotfix/pipeline-isort-formatting-fix
     environment: str = os.getenv(
         "ENVIRONMENT", "development"
     )  # Default to development, not production
+
+       develop
+    environment: str = os.getenv("ENVIRONMENT", "production")
+
+    environment: str = os.getenv("ENVIRONMENT", "development")  # Default to development, not production
+      main
+    develop
     debug: bool = os.getenv("DEBUG", "false").lower() == "true"
 
     # CORS Configuration - usando el dominio privado de Railway
@@ -67,6 +75,20 @@ class Settings(BaseSettings):
         super().__init__(**kwargs)
         # Configurar CORS origins después de la inicialización
         self.cors_origins = self._get_cors_origins()
+       hotfix/pipeline-isort-formatting-fix
+        
+        develop
+        # Detectar si estamos en modo test
+        is_testing = bool(os.getenv("PYTEST_CURRENT_TEST")) or "pytest" in os.getenv("_", "")
+        
+        # Validación de configuración crítica solo en producción (no en tests)
+        if self.environment == "production" and not is_testing and not self.api_key:
+            raise ValueError("API_KEY environment variable is required in production")
+        
+        # Si estamos en tests y no hay API_KEY, usar una de prueba
+        if is_testing and not self.api_key:
+            self.api_key = "test_secure_key_for_testing_only_not_production"
+       develop
 
         # Detectar si estamos en modo test de manera más robusta
         is_testing = (
@@ -90,6 +112,7 @@ class Settings(BaseSettings):
         # Validación de configuración crítica solo en producción real (no testing)
         if self.environment == "production" and not is_testing and not self.api_key:
             raise ValueError("API_KEY environment variable is required in production")
+         main
 
 
 @lru_cache()
