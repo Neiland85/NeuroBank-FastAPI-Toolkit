@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      deploy_to_railway:
+        description: 'Deploy to Railway (only for testing)'
+        required: false
+        default: false
+        type: boolean
 
 # Add permissions for CodeQL/SARIF upload
 permissions:
@@ -311,7 +317,7 @@ jobs:
     name: 🚀 Railway Production Deployment
     runs-on: ubuntu-latest
     needs: [pre-deployment]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: (github.ref == 'refs/heads/main' && github.event_name == 'push') || github.event.inputs.deploy_to_railway == 'true'
     environment:
       name: production
       url: ${{ steps.deploy.outputs.url }}
@@ -326,14 +332,24 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           echo "Installing Railway CLI..."
-          # Download Railway CLI with explicit version
-          curl -L -o railway "https://github.com/railwayapp/cli/releases/latest/download/railway-linux-amd64"
-          chmod +x railway
-          sudo mv railway /usr/local/bin/railway
+          # Use specific version that is known to work
+          RAILWAY_VERSION="v3.17.1"
+          curl -L -o railway "https://github.com/railwayapp/cli/releases/download/${RAILWAY_VERSION}/railway-linux-amd64" || {
+            echo "Failed to download specific version, trying alternative..."
+            # Alternative: Use npm installation
+            npm install -g @railway/cli
+            ln -sf $(npm root -g)/@railway/cli/bin/railway /usr/local/bin/railway
+          }
+          
+          # Make executable if downloaded directly
+          if [ -f "railway" ]; then
+            chmod +x railway
+            sudo mv railway /usr/local/bin/railway
+          fi
           
           echo "Verifying Railway CLI installation..."
           which railway
-          railway --version
+          railway --version || railway version
           
           echo "Checking Railway authentication..."
           if [ -z "$RAILWAY_TOKEN" ]; then
@@ -342,18 +358,12 @@ jobs:
           fi
           echo "✅ RAILWAY_TOKEN is configured"
           
-          echo "Linking to existing Railway project..."
-          # Create railway.json to link to existing project if it doesn't exist
-          if [ ! -f "railway.json" ]; then
-            echo "Creating Railway configuration..."
-            # This will be handled by railway up command
-          fi
-          
           echo "Deploying to Railway..."
-          railway up --detach --service neurobank-fastapi || {
-            echo "❌ Railway deployment failed, retrying with different approach..."
-            sleep 10
-            # Try without service flag
+          # Use railway up without specific service first
+          railway up --detach || {
+            echo "❌ Basic deployment failed, trying with project linking..."
+            # Try to link to existing project if needed
+            railway login --token "$RAILWAY_TOKEN" 2>/dev/null || true
             railway up --detach
           }
           
