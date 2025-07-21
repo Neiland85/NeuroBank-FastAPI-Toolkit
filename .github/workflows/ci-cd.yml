@@ -39,6 +39,13 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    
+    # ✅ Variables de entorno para tests
+    env:
+      API_KEY: "NeuroBankDemo2025-SecureKey-ForTestingOnly"
+      ENVIRONMENT: "testing"
+      CI: "true"
+    
     steps:
     - uses: actions/checkout@v4
     
@@ -64,6 +71,13 @@ jobs:
 
   security:
     runs-on: ubuntu-latest
+    
+    # ✅ Variables de entorno para security checks
+    env:
+      API_KEY: "NeuroBankDemo2025-SecureKey-ForTestingOnly"
+      ENVIRONMENT: "testing"
+      CI: "true"
+    
     steps:
     - uses: actions/checkout@v4
     
