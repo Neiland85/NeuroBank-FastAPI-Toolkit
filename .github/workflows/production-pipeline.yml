@@ -300,7 +300,7 @@ jobs:
           fi
           
           echo "Verifying Railway CLI installation..."
-          railway version
+          railway --help | head -5
           
           echo "Deploying to Railway..."
           railway up --detach
