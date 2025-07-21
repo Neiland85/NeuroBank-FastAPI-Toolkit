@@ -55,3 +55,4 @@ Thumbs.db
 # Security reports
 bandit-report.json
 safety-report.json
+.env.local

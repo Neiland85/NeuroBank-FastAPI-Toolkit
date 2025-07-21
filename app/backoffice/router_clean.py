@@ -3,17 +3,18 @@
 Enterprise-grade admin panel para impresionar reclutadores bancarios
 """
 
-from fastapi import APIRouter, Request, HTTPException
-from fastapi.templating import Jinja2Templates
+import random
+import uuid
+from datetime import datetime, timedelta
+from decimal import Decimal
+from enum import Enum
+from typing import Any, Dict, List
+
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from datetime import datetime, timedelta
-from typing import Dict, List, Any
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
-import random
-from decimal import Decimal
-import uuid
-from enum import Enum
 
 # Router configuration
 router = APIRouter(prefix="/backoffice", tags=["Backoffice Dashboard"])
@@ -23,11 +24,13 @@ templates = Jinja2Templates(directory="app/backoffice/templates")
 # 📊 MODELS FOR DASHBOARD DATA
 # ================================
 
+
 class TransactionStatus(str, Enum):
     PENDING = "pending"
     COMPLETED = "completed"
     FAILED = "failed"
     CANCELLED = "cancelled"
+
 
 class TransactionType(str, Enum):
     TRANSFER = "transfer"
@@ -35,40 +38,50 @@ class TransactionType(str, Enum):
     WITHDRAWAL = "withdrawal"
     PAYMENT = "payment"
 
+
 class DashboardMetrics(BaseModel):
     """Métricas principales del dashboard"""
+
     total_transactions: int = Field(..., description="Total de transacciones hoy")
     total_volume: Decimal = Field(..., description="Volumen total en USD")
     active_accounts: int = Field(..., description="Cuentas activas")
     success_rate: float = Field(..., description="Tasa de éxito de transacciones")
-    avg_response_time: float = Field(..., description="Tiempo de respuesta promedio (ms)")
+    avg_response_time: float = Field(
+        ..., description="Tiempo de respuesta promedio (ms)"
+    )
     api_calls_today: int = Field(..., description="Llamadas API hoy")
+
 
 # ================================
 # 🏠 MAIN DASHBOARD ROUTES
 # ================================
 
+
 @router.get("/", response_class=HTMLResponse, summary="Admin Dashboard Principal")
 async def dashboard_home(request: Request):
     """
     🏦 **NeuroBank Admin Dashboard**
-    
+
     Dashboard principal del backoffice con métricas en tiempo real.
     """
-    return templates.TemplateResponse("basic_dashboard.html", {
-        "request": request,
-        "title": "NeuroBank Admin Dashboard"
-    })
+    return templates.TemplateResponse(
+        "basic_dashboard.html",
+        {"request": request, "title": "NeuroBank Admin Dashboard"},
+    )
+
 
 # ================================
 # 📊 API ENDPOINTS
 # ================================
 
-@router.get("/api/metrics", response_model=DashboardMetrics, summary="Métricas del Dashboard")
+
+@router.get(
+    "/api/metrics", response_model=DashboardMetrics, summary="Métricas del Dashboard"
+)
 async def get_dashboard_metrics():
     """
     📊 **Métricas en Tiempo Real**
-    
+
     Retorna métricas actualizadas del sistema bancario.
     """
     return DashboardMetrics(
@@ -77,8 +90,9 @@ async def get_dashboard_metrics():
         active_accounts=random.randint(80, 120),
         success_rate=round(random.uniform(96.5, 99.2), 1),
         avg_response_time=round(random.uniform(45.0, 120.0), 1),
-        api_calls_today=random.randint(500, 800)
+        api_calls_today=random.randint(500, 800),
     )
+
 
 @router.get("/api/transactions/search")
 async def search_transactions(
@@ -86,105 +100,130 @@ async def search_transactions(
     status: str = "",
     transaction_type: str = "",
     page: int = 1,
-    page_size: int = 20
+    page_size: int = 20,
 ):
     """
     🔍 **API de Búsqueda de Transacciones**
-    
+
     Endpoint para filtrar transacciones con múltiples criterios.
     """
     # Generar transacciones mock
     transactions = []
     total = random.randint(100, 200)
-    
+
     for i in range(min(page_size, total)):
         tx_id = str(uuid.uuid4())[:8]
-        transactions.append({
-            "id": tx_id,
-            "reference": f"TXN-{tx_id.upper()}",
-            "amount": round(random.uniform(100, 5000), 2),
-            "currency": "USD",
-            "status": random.choice(["completed", "pending", "failed", "cancelled"]),
-            "type": random.choice(["transfer", "deposit", "withdrawal", "payment"]),
-            "user_id": random.randint(1000, 9999),
-            "description": f"Transaction {tx_id}",
-            "created_at": (datetime.now() - timedelta(hours=random.randint(1, 72))).isoformat()
-        })
-    
+        transactions.append(
+            {
+                "id": tx_id,
+                "reference": f"TXN-{tx_id.upper()}",
+                "amount": round(random.uniform(100, 5000), 2),
+                "currency": "USD",
+                "status": random.choice(
+                    ["completed", "pending", "failed", "cancelled"]
+                ),
+                "type": random.choice(["transfer", "deposit", "withdrawal", "payment"]),
+                "user_id": random.randint(1000, 9999),
+                "description": f"Transaction {tx_id}",
+                "created_at": (
+                    datetime.now() - timedelta(hours=random.randint(1, 72))
+                ).isoformat(),
+            }
+        )
+
     return {
         "transactions": transactions,
         "total": total,
         "page": page,
         "page_size": page_size,
-        "total_pages": (total + page_size - 1) // page_size
+        "total_pages": (total + page_size - 1) // page_size,
     }
+
 
 @router.get("/api/system-health", summary="Estado del Sistema")
 async def get_system_health():
     """
     🏥 **Monitoreo de Salud del Sistema**
-    
+
     Verifica el estado de los componentes críticos del sistema.
     """
     return {
         "status": "healthy",
         "database": "online",
-        "api_gateway": "operational", 
+        "api_gateway": "operational",
         "cache": "active",
         "uptime": "99.9%",
         "last_check": datetime.now().isoformat(),
-        "response_time": f"{random.randint(45, 120)}ms"
+        "response_time": f"{random.randint(45, 120)}ms",
     }
+
 
 # ================================
 # 🔐 ADMIN PANEL ROUTES
 # ================================
 
-@router.get("/admin/transactions", response_class=HTMLResponse, summary="Panel de Administración de Transacciones")
+
+@router.get(
+    "/admin/transactions",
+    response_class=HTMLResponse,
+    summary="Panel de Administración de Transacciones",
+)
 async def admin_transactions(request: Request):
     """
     🔐 **Panel Administrativo de Transacciones**
-    
+
     Panel administrativo de transacciones para demostración.
     """
-    return templates.TemplateResponse("basic_dashboard.html", {
-        "request": request,
-        "title": "Transaction Management - NeuroBank Admin"
-    })
+    return templates.TemplateResponse(
+        "basic_dashboard.html",
+        {"request": request, "title": "Transaction Management - NeuroBank Admin"},
+    )
 
-@router.get("/admin/users", response_class=HTMLResponse, summary="Panel de Administración de Usuarios")
+
+@router.get(
+    "/admin/users",
+    response_class=HTMLResponse,
+    summary="Panel de Administración de Usuarios",
+)
 async def admin_users(request: Request):
     """
     👥 **Panel Administrativo de Usuarios**
-    
+
     Panel administrativo de usuarios para demostración.
     """
-    return templates.TemplateResponse("basic_dashboard.html", {
-        "request": request,
-        "title": "User Management - NeuroBank Admin"
-    })
+    return templates.TemplateResponse(
+        "basic_dashboard.html",
+        {"request": request, "title": "User Management - NeuroBank Admin"},
+    )
 
-@router.get("/admin/reports", response_class=HTMLResponse, summary="Panel de Reportes Administrativos")
+
+@router.get(
+    "/admin/reports",
+    response_class=HTMLResponse,
+    summary="Panel de Reportes Administrativos",
+)
 async def admin_reports(request: Request):
     """
     📈 **Panel de Reportes Administrativos**
-    
+
     Panel de reportes financieros para demostración.
     """
-    return templates.TemplateResponse("basic_dashboard.html", {
-        "request": request,
-        "title": "Financial Reports - NeuroBank Admin"
-    })
+    return templates.TemplateResponse(
+        "basic_dashboard.html",
+        {"request": request, "title": "Financial Reports - NeuroBank Admin"},
+    )
+
 
 # ================================
 # ℹ️ SYSTEM INFO
 # ================================
 
+
 @router.get("/info", summary="Información del Sistema de Backoffice")
 async def backoffice_info():
     """
     ℹ️ **Información del Sistema de Backoffice**
-    
+
     Endpoint informativo sobre las capacidades del dashboard.
     """
     return {
@@ -198,7 +237,7 @@ async def backoffice_info():
             "Financial reporting",
             "Interactive charts",
             "Protected admin panels",
-            "Responsive design"
+            "Responsive design",
         ],
         "endpoints": {
             "dashboard": "/backoffice/",
@@ -208,13 +247,13 @@ async def backoffice_info():
             "admin_panels": [
                 "/backoffice/admin/transactions",
                 "/backoffice/admin/users",
-                "/backoffice/admin/reports"
-            ]
+                "/backoffice/admin/reports",
+            ],
         },
         "tech_stack": [
             "FastAPI",
             "Jinja2 Templates",
             "Bootstrap 5 for UI",
-            "Real-time data updates"
-        ]
+            "Real-time data updates",
+        ],
     }
