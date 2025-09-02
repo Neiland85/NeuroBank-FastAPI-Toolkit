@@ -354,8 +354,12 @@ jobs:
             exit 1
           fi
 
-          # Login with token
-          if ! vercel login --token "$VERCEL_TOKEN"; then
+          # Set Vercel token as environment variable (new authentication method)
+          export VERCEL_TOKEN="$VERCEL_TOKEN"
+          echo "✅ Vercel token configured via environment variable"
+
+          # Verify authentication
+          if ! vercel whoami; then
             echo "❌ Vercel authentication failed"
             exit 1
           fi
