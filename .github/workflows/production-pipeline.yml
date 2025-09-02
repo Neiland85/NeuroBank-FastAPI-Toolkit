@@ -12,6 +12,11 @@ on:
         required: false
         default: false
         type: boolean
+      deploy_to_vercel:
+        description: 'Deploy to Vercel (only for testing)'
+        required: false
+        default: false
+        type: boolean
 
 # Add permissions for CodeQL/SARIF upload
 permissions:
@@ -313,11 +318,11 @@ jobs:
   # ============================================================================
   # 6. RAILWAY DEPLOYMENT (Production Only)
   # ============================================================================
-  railway-deployment:
-    name: 🚀 Railway Production Deployment
+  vercel-deployment:
+    name: 🚀 Vercel Production Deployment
     runs-on: ubuntu-latest
     needs: [pre-deployment]
-    if: (github.ref == 'refs/heads/main' && github.event_name == 'push') || github.event.inputs.deploy_to_railway == 'true'
+    if: (github.ref == 'refs/heads/main' && github.event_name == 'push') || github.event.inputs.deploy_to_vercel == 'true'
     environment:
       name: production
       url: ${{ steps.deploy.outputs.url }}
@@ -326,105 +331,98 @@ jobs:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
 
-      - name: 🐍 Setup Node.js for Railway CLI
+      - name: 🟢 Setup Node.js for Vercel CLI
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: 🚂 Deploy to Railway
+      - name: 🚀 Deploy to Vercel
         id: deploy
         env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          echo "🚀 Starting Railway deployment process..."
+          echo "🚀 Starting Vercel deployment process..."
 
-          # Method 1: Try npm installation first (most reliable)
-          echo "📦 Installing Railway CLI via npm..."
-          npm install -g @railway/cli || {
-            echo "❌ npm installation failed, trying alternative method..."
-
-            # Method 2: Download from GitHub releases with better error handling
-            echo "⬇️ Downloading Railway CLI from GitHub releases..."
-            RAILWAY_VERSION="v3.17.1"
-
-            # Try multiple download URLs
-            if curl -L -o railway "https://github.com/railwayapp/cli/releases/download/${RAILWAY_VERSION}/railway-linux-amd64"; then
-              echo "✅ Download successful"
-            elif curl -L -o railway "https://github.com/railwayapp/cli/releases/download/${RAILWAY_VERSION}/railway_linux_amd64"; then
-              echo "✅ Download successful (alternative URL)"
-            else
-              echo "❌ All download methods failed"
-              exit 1
-            fi
-
-            # Verify the downloaded file
-            if [ ! -f "railway" ]; then
-              echo "❌ Downloaded file not found"
-              exit 1
-            fi
-
-            # Check if file is a valid binary (not HTML error page)
-            if head -n 1 railway | grep -q "Not Found\|404\|HTML"; then
-              echo "❌ Downloaded file appears to be an error page, not a binary"
-              cat railway
-              exit 1
-            fi
-
-            # Make executable and move to PATH
-            chmod +x railway
-            sudo mv railway /usr/local/bin/railway
-          }
+          # Install Vercel CLI
+          echo "📦 Installing Vercel CLI..."
+          npm install -g vercel
 
           # Verify installation
-          echo "🔍 Verifying Railway CLI installation..."
-          if ! command -v railway &> /dev/null; then
-            echo "❌ Railway CLI not found in PATH"
-            which railway || echo "railway command not found"
-            exit 1
-          fi
+          echo "🔍 Verifying Vercel CLI installation..."
+          vercel --version
 
-          echo "✅ Railway CLI installed successfully"
-          railway --version || railway version
-
-          # Authenticate with Railway
-          echo "🔐 Authenticating with Railway..."
-          if [ -z "$RAILWAY_TOKEN" ]; then
-            echo "❌ RAILWAY_TOKEN environment variable is not set"
+          # Authenticate with Vercel
+          echo "🔐 Authenticating with Vercel..."
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "❌ VERCEL_TOKEN environment variable is not set"
             exit 1
           fi
 
           # Login with token
-          if ! railway login --token "$RAILWAY_TOKEN"; then
-            echo "❌ Railway authentication failed"
+          if ! vercel login --token "$VERCEL_TOKEN"; then
+            echo "❌ Vercel authentication failed"
             exit 1
           fi
 
-          echo "✅ Successfully authenticated with Railway"
+          echo "✅ Successfully authenticated with Vercel"
 
-          # Deploy to Railway
-          echo "🚀 Deploying application to Railway..."
-          if ! railway up --detach; then
-            echo "❌ Railway deployment failed"
-            railway status || echo "Could not get deployment status"
+          # Link to project (if needed)
+          echo "🔗 Linking to Vercel project..."
+          if [ -n "$VERCEL_ORG_ID" ] && [ -n "$VERCEL_PROJECT_ID" ]; then
+            vercel link --project "$VERCEL_PROJECT_ID" --org "$VERCEL_ORG_ID" --yes || true
+          fi
+
+          # Deploy to Vercel
+          echo "🚀 Deploying application to Vercel..."
+          if ! vercel --prod --yes; then
+            echo "❌ Vercel deployment failed"
             exit 1
           fi
 
-          echo "✅ Railway deployment initiated successfully!"
+          echo "✅ Vercel deployment initiated successfully!"
 
           # Get deployment URL
           echo "🔗 Getting deployment URL..."
           sleep 10
-          railway status || echo "Could not get deployment status"
+          DEPLOYMENT_URL=$(vercel ls | grep "https://" | head -n 1 | awk '{print $2}')
+          if [ -n "$DEPLOYMENT_URL" ]; then
+            echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+            echo "✅ Deployment URL: $DEPLOYMENT_URL"
+          else
+            echo "⚠️ Could not retrieve deployment URL"
+          fi
 
       - name: 🏥 Post-Deployment Health Check
         run: |
           echo "⏳ Waiting for deployment to stabilize..."
           sleep 60
 
-          echo "🔍 Checking Railway deployment status..."
-          railway status || echo "⚠️ Could not retrieve deployment status"
+          # Try to get the deployment URL from Vercel
+          DEPLOYMENT_URL=$(vercel ls 2>/dev/null | grep "https://" | head -n 1 | awk '{print $2}' || echo "")
 
-          echo "✅ Railway deployment process completed!"
+          if [ -n "$DEPLOYMENT_URL" ]; then
+            echo "🔍 Checking Vercel deployment health at: $DEPLOYMENT_URL"
+
+            # Health check
+            if curl -f -s "$DEPLOYMENT_URL/api/health" > /dev/null 2>&1; then
+              echo "✅ Health check passed!"
+            else
+              echo "⚠️ Health check failed, but deployment may still be initializing"
+            fi
+
+            # Check main application
+            if curl -f -s "$DEPLOYMENT_URL/" > /dev/null 2>&1; then
+              echo "✅ Main application accessible"
+            else
+              echo "⚠️ Main application not yet accessible"
+            fi
+          else
+            echo "⚠️ Could not determine deployment URL for health checks"
+          fi
+
+          echo "✅ Vercel deployment process completed!"
 
       - name: 📢 Deployment Notification
         if: always()
@@ -442,7 +440,7 @@ jobs:
   post-deployment-monitoring:
     name: 📊 Post-Deployment Monitoring
     runs-on: ubuntu-latest
-    needs: [railway-deployment]
+    needs: [vercel-deployment]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
     steps:
@@ -489,7 +487,7 @@ jobs:
           echo "  ✅ Docker Security & Build Validation"
           echo "  ✅ Frontend Asset Optimization"
           echo "  ✅ Pre-Deployment Validation"
-          echo "  ✅ Railway Production Deployment"
+          echo "  ✅ Vercel Production Deployment"
           echo "  ✅ Post-Deployment Monitoring"
           echo ""
           echo "🚀 Banking application successfully deployed to Railway!"
