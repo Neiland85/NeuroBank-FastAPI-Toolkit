@@ -354,12 +354,12 @@ jobs:
             exit 1
           fi
 
-          # Set Vercel token as environment variable (new authentication method)
+          # Set Vercel token as environment variable
           export VERCEL_TOKEN="$VERCEL_TOKEN"
           echo "✅ Vercel token configured via environment variable"
 
-          # Verify authentication
-          if ! vercel whoami; then
+          # Verify authentication by attempting a simple command with token
+          if ! vercel whoami --token "$VERCEL_TOKEN"; then
             echo "❌ Vercel authentication failed"
             exit 1
           fi
@@ -369,12 +369,12 @@ jobs:
           # Link to project (if needed)
           echo "🔗 Linking to Vercel project..."
           if [ -n "$VERCEL_ORG_ID" ] && [ -n "$VERCEL_PROJECT_ID" ]; then
-            vercel link --project "$VERCEL_PROJECT_ID" --org "$VERCEL_ORG_ID" --yes || true
+            vercel link --project "$VERCEL_PROJECT_ID" --org "$VERCEL_ORG_ID" --yes --token "$VERCEL_TOKEN" || true
           fi
 
           # Deploy to Vercel
           echo "🚀 Deploying application to Vercel..."
-          if ! vercel --prod --yes; then
+          if ! vercel --prod --yes --token "$VERCEL_TOKEN"; then
             echo "❌ Vercel deployment failed"
             exit 1
           fi
@@ -384,7 +384,7 @@ jobs:
           # Get deployment URL
           echo "🔗 Getting deployment URL..."
           sleep 10
-          DEPLOYMENT_URL=$(vercel ls | grep "https://" | head -n 1 | awk '{print $2}')
+          DEPLOYMENT_URL=$(vercel ls --token "$VERCEL_TOKEN" | grep "https://" | head -n 1 | awk '{print $2}')
           if [ -n "$DEPLOYMENT_URL" ]; then
             echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
             echo "✅ Deployment URL: $DEPLOYMENT_URL"
@@ -398,7 +398,7 @@ jobs:
           sleep 60
 
           # Try to get the deployment URL from Vercel
-          DEPLOYMENT_URL=$(vercel ls 2>/dev/null | grep "https://" | head -n 1 | awk '{print $2}' || echo "")
+          DEPLOYMENT_URL=$(vercel ls --token "$VERCEL_TOKEN" 2>/dev/null | grep "https://" | head -n 1 | awk '{print $2}' || echo "")
 
           if [ -n "$DEPLOYMENT_URL" ]; then
             echo "🔍 Checking Vercel deployment health at: $DEPLOYMENT_URL"
