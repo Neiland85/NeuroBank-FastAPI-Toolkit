@@ -3,7 +3,8 @@
   "functions": {
     "api/index.py": {
       "maxDuration": 30,
-      "memory": 1024
+      "memory": 1024,
+      "runtime": "python3.11"
     }
   },
   "routes": [
@@ -17,5 +18,8 @@
   },
   "regions": [
     "iad1"
-  ]
+  ],
+  "buildCommand": null,
+  "devCommand": null,
+  "installCommand": "pip install -r api/requirements.txt"
 }
