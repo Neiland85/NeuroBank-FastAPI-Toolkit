@@ -368,8 +368,8 @@ jobs:
 
           # Link to project (if needed)
           echo "🔗 Linking to Vercel project..."
-          if [ -n "$VERCEL_ORG_ID" ] && [ -n "$VERCEL_PROJECT_ID" ]; then
-            vercel link --project "$VERCEL_PROJECT_ID" --org "$VERCEL_ORG_ID" --yes --token "$VERCEL_TOKEN" || true
+          if [ -n "$VERCEL_PROJECT_ID" ]; then
+            vercel link --project "$VERCEL_PROJECT_ID" --yes --token "$VERCEL_TOKEN" || true
           fi
 
           # Deploy to Vercel
