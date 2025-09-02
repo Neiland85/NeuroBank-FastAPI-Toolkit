@@ -7,5 +7,5 @@ loguru==0.7.2
 jinja2==3.1.6
 python-multipart==0.0.18
 requests==2.32.4
-starlette==0.41.3
+starlette==0.47.2
 python-json-logger==2.0.7
