@@ -285,25 +285,19 @@ jobs:
 
       - name: 🔍 Configuration Validation
         run: |
-          echo "Validating Railway configuration..."
-          if [ ! -f "railway.json" ]; then
-            echo "❌ railway.json not found!"
+          echo "Validating Vercel configuration..."
+          if [ ! -f "vercel.json" ]; then
+            echo "❌ vercel.json not found!"
             exit 1
           fi
           
-          echo "Validating Docker configuration..."
-          if [ ! -f "Dockerfile" ]; then
-            echo "❌ Dockerfile not found!"
+          echo "Validating Vercel API directory..."
+          if [ ! -d "api" ]; then
+            echo "❌ api/ directory not found!"
             exit 1
           fi
           
-          echo "Validating startup script..."
-          if [ ! -f "start.sh" ]; then
-            echo "❌ start.sh not found!"
-            exit 1
-          fi
-          
-          echo "✅ All configuration files validated successfully!"
+          echo "✅ All Vercel configuration files validated successfully!"
 
       - name: 🏥 Health Check Endpoint Test
         run: |
@@ -316,7 +310,7 @@ jobs:
           "
 
   # ============================================================================
-  # 6. RAILWAY DEPLOYMENT (Production Only)
+  # 6. VERCEL DEPLOYMENT (Production Only)
   # ============================================================================
   vercel-deployment:
     name: 🚀 Vercel Production Deployment
@@ -490,5 +484,5 @@ jobs:
           echo "  ✅ Vercel Production Deployment"
           echo "  ✅ Post-Deployment Monitoring"
           echo ""
-          echo "🚀 Banking application successfully deployed to Railway!"
+          echo "🚀 Banking application successfully deployed to Vercel!"
           echo "🌟 All admin panel functionalities validated and operational"
