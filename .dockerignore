@@ -1,0 +1,72 @@
+# Git
+.git
+.gitignore
+.github
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+ENV/
+env/
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.db
+test.db
+test_auth.db
+neurobank.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Documentation
+*.md
+docs/
+*.txt
+!requirements.txt
+!requirements-dev.txt
+
+# CI/CD
+.travis.yml
+.circleci/
+azure-pipelines.yml
+
+# Docker
+docker-compose.yml
+
+# Misc
+node_modules/
+*.log
+*.pid
+*.seed
+*.pid.lock
+tmp/
+temp/
