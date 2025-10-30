@@ -7,7 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .backoffice import router as backoffice_router
-from .routers import operator
+from .database import init_db
+from .routers import operator, roles
 from .utils.logging import setup_logging
 
 # Configuración constantes
@@ -89,6 +90,13 @@ from .config import get_settings
 
 settings = get_settings()
 
+# Initialize database tables on startup
+@app.on_event("startup")
+async def startup_event():
+    """Initialize database on startup"""
+    init_db()
+    logger.info("Database initialized successfully")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
@@ -99,6 +107,7 @@ app.add_middleware(
 
 # Incluir routers
 app.include_router(operator.router, prefix="/api", tags=["api"])
+app.include_router(roles.router, prefix="/api", tags=["roles"])
 app.include_router(backoffice_router.router, tags=["backoffice"])
 
 
