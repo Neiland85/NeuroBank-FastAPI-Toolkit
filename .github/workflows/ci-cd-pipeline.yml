@@ -3,9 +3,9 @@ name: "🚀 CI/CD Pipeline"
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, feature/**]
   pull_request:
-    branches: [main, develop]
+    branches: [main, develop, feature/**]
   workflow_dispatch:
 
 env:
@@ -59,6 +59,13 @@ jobs:
         run: ruff check app/ --output-format=github
       - name: Run Ruff (formatting check)
         run: ruff format --check app/
+      - name: Run Codespell (spellcheck)
+        run: |
+          codespell -q 2 -I .codespell-ignore-words.txt app README.md docs/
+      - name: Generate Ruff JSON report (always)
+        if: always()
+        run: |
+          ruff check app/ --output-format json > ruff.json || echo "[]" > ruff.json
       - name: Run Radon (complexity)
         run: |
           radon cc app/ -a -s -j > radon-cc.json || true
@@ -67,12 +74,32 @@ jobs:
         run: vulture app/ --min-confidence 60 || true
       - name: Run Interrogate (docstring coverage)
         run: interrogate app/ --fail-under 80 || true
-      - name: Upload complexity reports
+      - name: Upload complexity reports and ruff report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: complexity-reports
-          path: radon-*.json
+          name: static-analysis-reports
+          path: |
+            radon-*.json
+            ruff.json
+      - name: Ensure labels (lint/ruff)
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create lint --color 0E8A16 --repo "${{ github.repository }}" 2>/dev/null || gh label edit lint --color 0E8A16 --repo "${{ github.repository }}"
+          gh label create ruff --color 1F883D --repo "${{ github.repository }}" 2>/dev/null || gh label edit ruff --color 1F883D --repo "${{ github.repository }}"
+      - name: Create Issues from Ruff JSON on failure
+        if: failure() && github.actor != 'dependabot[bot]' && github.actor != 'github-actions[bot]'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/create_issues_from_logs.py \
+            --repo "${{ github.repository }}" \
+            --log ruff.json \
+            --ruff-json \
+            --only-codes "LOG015,PLC0415,I001,UP045,S105" \
+            --group-by-file || true
 
   type-checking:
     name: "🔍 Type Checking"
@@ -90,7 +117,9 @@ jobs:
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
       - name: Run MyPy
-        run: mypy app/ --junit-xml mypy-report.xml || true
+        run: |
+          echo "Running MyPy type checking on app/ directory with pyproject.toml configuration..."
+          mypy app/ --junit-xml mypy-report.xml
       - name: Upload MyPy report
         uses: actions/upload-artifact@v4
         if: always()
@@ -172,6 +201,11 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
+      - name: Run Alembic migrations
+        env:
+          DATABASE_URL: sqlite+aiosqlite:///./test.db
+        run: |
+          alembic upgrade head
       - name: Run pytest with coverage
         run: |
           pytest --cov=app --cov-report=xml --cov-report=html --cov-report=term-missing --junitxml=test-results.xml
