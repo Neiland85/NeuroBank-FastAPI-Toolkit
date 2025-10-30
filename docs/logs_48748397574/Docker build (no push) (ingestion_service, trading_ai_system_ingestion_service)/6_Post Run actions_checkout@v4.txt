@@ -1,0 +1,10 @@
+﻿2025-10-30T06:48:14.4380583Z Post job cleanup.
+2025-10-30T06:48:14.5248277Z [command]/usr/bin/git version
+2025-10-30T06:48:14.5285879Z git version 2.51.0
+2025-10-30T06:48:14.5326966Z Temporarily overriding HOME='/home/runner/work/_temp/ecad0a0c-3b17-4125-a7c4-e2a245e3708c' before making global git config changes
+2025-10-30T06:48:14.5331239Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-30T06:48:14.5335589Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:14.5361960Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-30T06:48:14.5391003Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-30T06:48:14.5552162Z fatal: No url found for submodule path 'NeuroBank-FastAPI-Toolkit' in .gitmodules
+2025-10-30T06:48:14.5592491Z ##[warning]The process '/usr/bin/git' failed with exit code 128

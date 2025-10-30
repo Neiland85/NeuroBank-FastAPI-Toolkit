@@ -1,0 +1,6 @@
+﻿2025-10-30T06:48:14.0178006Z ##[group]Run docker build -t neurobank/ingestion_service:ci trading_ai_system/ingestion_service
+2025-10-30T06:48:14.0180480Z [36;1mdocker build -t neurobank/ingestion_service:ci trading_ai_system/ingestion_service[0m
+2025-10-30T06:48:14.0207214Z shell: /usr/bin/bash -e {0}
+2025-10-30T06:48:14.0208109Z ##[endgroup]
+2025-10-30T06:48:14.4132145Z ERROR: failed to build: unable to prepare context: path "trading_ai_system/ingestion_service" not found
+2025-10-30T06:48:14.4167097Z ##[error]Process completed with exit code 1.

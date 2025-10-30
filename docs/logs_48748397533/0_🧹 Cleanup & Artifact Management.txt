@@ -1,0 +1,59 @@
+﻿2025-10-30T06:50:11.8588641Z Current runner version: '2.328.0'
+2025-10-30T06:50:11.8622059Z ##[group]Runner Image Provisioner
+2025-10-30T06:50:11.8623280Z Hosted Compute Agent
+2025-10-30T06:50:11.8624436Z Version: 20250912.392
+2025-10-30T06:50:11.8625600Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-30T06:50:11.8626789Z Build Date: 2025-09-12T15:23:14Z
+2025-10-30T06:50:11.8627812Z ##[endgroup]
+2025-10-30T06:50:11.8628903Z ##[group]Operating System
+2025-10-30T06:50:11.8629919Z Ubuntu
+2025-10-30T06:50:11.8630669Z 24.04.3
+2025-10-30T06:50:11.8631709Z LTS
+2025-10-30T06:50:11.8632505Z ##[endgroup]
+2025-10-30T06:50:11.8633377Z ##[group]Runner Image
+2025-10-30T06:50:11.8634892Z Image: ubuntu-24.04
+2025-10-30T06:50:11.8635784Z Version: 20250929.60.1
+2025-10-30T06:50:11.8637753Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250929.60/images/ubuntu/Ubuntu2404-Readme.md
+2025-10-30T06:50:11.8640579Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250929.60
+2025-10-30T06:50:11.8642482Z ##[endgroup]
+2025-10-30T06:50:11.8644734Z ##[group]GITHUB_TOKEN Permissions
+2025-10-30T06:50:11.8647578Z Actions: read
+2025-10-30T06:50:11.8648476Z Contents: read
+2025-10-30T06:50:11.8649329Z Metadata: read
+2025-10-30T06:50:11.8650265Z SecurityEvents: write
+2025-10-30T06:50:11.8651343Z ##[endgroup]
+2025-10-30T06:50:11.8654948Z Secret source: Actions
+2025-10-30T06:50:11.8656112Z Prepare workflow directory
+2025-10-30T06:50:11.9216044Z Prepare all required actions
+2025-10-30T06:50:11.9292423Z Complete job name: 🧹 Cleanup & Artifact Management
+2025-10-30T06:50:12.0258516Z ##[group]Run echo "🎉 NeuroBank FastAPI Banking System Pipeline Completed!"
+2025-10-30T06:50:12.0259636Z [36;1mecho "🎉 NeuroBank FastAPI Banking System Pipeline Completed!"[0m
+2025-10-30T06:50:12.0260463Z [36;1mecho "📋 Summary of completed stages:"[0m
+2025-10-30T06:50:12.0261193Z [36;1mecho "  ✅ Code Quality & Security Analysis"[0m
+2025-10-30T06:50:12.0261926Z [36;1mecho "  ✅ Comprehensive Testing Suite"[0m
+2025-10-30T06:50:12.0262817Z [36;1mecho "  ✅ Docker Security & Build Validation"[0m
+2025-10-30T06:50:12.0263544Z [36;1mecho "  ✅ Frontend Asset Optimization"[0m
+2025-10-30T06:50:12.0264461Z [36;1mecho "  ✅ Pre-Deployment Validation"[0m
+2025-10-30T06:50:12.0265216Z [36;1mecho "  ✅ Vercel Production Deployment"[0m
+2025-10-30T06:50:12.0265961Z [36;1mecho "  ✅ Post-Deployment Monitoring"[0m
+2025-10-30T06:50:12.0266612Z [36;1mecho ""[0m
+2025-10-30T06:50:12.0267270Z [36;1mecho "🚀 Banking application successfully deployed to Vercel!"[0m
+2025-10-30T06:50:12.0268345Z [36;1mecho "🌟 All admin panel functionalities validated and operational"[0m
+2025-10-30T06:50:12.1532963Z shell: /usr/bin/bash -e {0}
+2025-10-30T06:50:12.1533960Z env:
+2025-10-30T06:50:12.1534847Z   PYTHON_VERSION: 3.11
+2025-10-30T06:50:12.1535363Z   NODE_VERSION: 18
+2025-10-30T06:50:12.1535917Z ##[endgroup]
+2025-10-30T06:50:12.1878123Z 🎉 NeuroBank FastAPI Banking System Pipeline Completed!
+2025-10-30T06:50:12.1878844Z 📋 Summary of completed stages:
+2025-10-30T06:50:12.1879396Z   ✅ Code Quality & Security Analysis
+2025-10-30T06:50:12.1879941Z   ✅ Comprehensive Testing Suite
+2025-10-30T06:50:12.1880458Z   ✅ Docker Security & Build Validation
+2025-10-30T06:50:12.1880986Z   ✅ Frontend Asset Optimization
+2025-10-30T06:50:12.1881485Z   ✅ Pre-Deployment Validation
+2025-10-30T06:50:12.1881984Z   ✅ Vercel Production Deployment
+2025-10-30T06:50:12.1882476Z   ✅ Post-Deployment Monitoring
+2025-10-30T06:50:12.1882768Z 
+2025-10-30T06:50:12.1883068Z 🚀 Banking application successfully deployed to Vercel!
+2025-10-30T06:50:12.1883808Z 🌟 All admin panel functionalities validated and operational
+2025-10-30T06:50:12.1979583Z Cleaning up orphan processes

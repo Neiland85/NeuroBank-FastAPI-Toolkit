@@ -1,0 +1,6 @@
+﻿2025-10-30T06:48:14.2617917Z ##[group]Run docker build -t neurobank/inference_service:ci trading_ai_system/inference_service
+2025-10-30T06:48:14.2621165Z [36;1mdocker build -t neurobank/inference_service:ci trading_ai_system/inference_service[0m
+2025-10-30T06:48:14.2659001Z shell: /usr/bin/bash -e {0}
+2025-10-30T06:48:14.2660255Z ##[endgroup]
+2025-10-30T06:48:16.3461558Z ERROR: failed to build: unable to prepare context: path "trading_ai_system/inference_service" not found
+2025-10-30T06:48:16.3514015Z ##[error]Process completed with exit code 1.

@@ -1,0 +1,874 @@
+﻿2025-10-30T06:48:14.3621754Z Current runner version: '2.328.0'
+2025-10-30T06:48:14.3646363Z ##[group]Runner Image Provisioner
+2025-10-30T06:48:14.3647136Z Hosted Compute Agent
+2025-10-30T06:48:14.3647639Z Version: 20250912.392
+2025-10-30T06:48:14.3648145Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-30T06:48:14.3648800Z Build Date: 2025-09-12T15:23:14Z
+2025-10-30T06:48:14.3649336Z ##[endgroup]
+2025-10-30T06:48:14.3649803Z ##[group]Operating System
+2025-10-30T06:48:14.3650629Z Ubuntu
+2025-10-30T06:48:14.3651042Z 24.04.3
+2025-10-30T06:48:14.3651438Z LTS
+2025-10-30T06:48:14.3651890Z ##[endgroup]
+2025-10-30T06:48:14.3652327Z ##[group]Runner Image
+2025-10-30T06:48:14.3652810Z Image: ubuntu-24.04
+2025-10-30T06:48:14.3653274Z Version: 20250929.60.1
+2025-10-30T06:48:14.3654212Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250929.60/images/ubuntu/Ubuntu2404-Readme.md
+2025-10-30T06:48:14.3655614Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250929.60
+2025-10-30T06:48:14.3656449Z ##[endgroup]
+2025-10-30T06:48:14.3657525Z ##[group]GITHUB_TOKEN Permissions
+2025-10-30T06:48:14.3659458Z Actions: read
+2025-10-30T06:48:14.3660064Z Contents: read
+2025-10-30T06:48:14.3660581Z Metadata: read
+2025-10-30T06:48:14.3661035Z SecurityEvents: write
+2025-10-30T06:48:14.3661496Z ##[endgroup]
+2025-10-30T06:48:14.3663511Z Secret source: Actions
+2025-10-30T06:48:14.3664082Z Prepare workflow directory
+2025-10-30T06:48:14.4025431Z Prepare all required actions
+2025-10-30T06:48:14.4064776Z Getting action download info
+2025-10-30T06:48:14.7287145Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-30T06:48:15.2447165Z Download action repository 'actions/setup-python@v4' (SHA:7f4fc3e22c37d6ff65e88745f38bd3157c663f7c)
+2025-10-30T06:48:15.3604331Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2025-10-30T06:48:15.5858458Z Complete job name: 🔍 Code Quality & Security Analysis
+2025-10-30T06:48:15.6685867Z ##[group]Run actions/checkout@v4
+2025-10-30T06:48:15.6686746Z with:
+2025-10-30T06:48:15.6687155Z   fetch-depth: 0
+2025-10-30T06:48:15.6687687Z   repository: Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:15.6688570Z   token: ***
+2025-10-30T06:48:15.6688976Z   ssh-strict: true
+2025-10-30T06:48:15.6689410Z   ssh-user: git
+2025-10-30T06:48:15.6689856Z   persist-credentials: true
+2025-10-30T06:48:15.6690533Z   clean: true
+2025-10-30T06:48:15.6690981Z   sparse-checkout-cone-mode: true
+2025-10-30T06:48:15.6691531Z   fetch-tags: false
+2025-10-30T06:48:15.6691976Z   show-progress: true
+2025-10-30T06:48:15.6692450Z   lfs: false
+2025-10-30T06:48:15.6692867Z   submodules: false
+2025-10-30T06:48:15.6693326Z   set-safe-directory: true
+2025-10-30T06:48:15.6694038Z env:
+2025-10-30T06:48:15.6694453Z   PYTHON_VERSION: 3.11
+2025-10-30T06:48:15.6694915Z   NODE_VERSION: 18
+2025-10-30T06:48:15.6695368Z ##[endgroup]
+2025-10-30T06:48:15.7705425Z Syncing repository: Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:15.7707419Z ##[group]Getting Git version info
+2025-10-30T06:48:15.7708385Z Working directory is '/home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit'
+2025-10-30T06:48:15.7709649Z [command]/usr/bin/git version
+2025-10-30T06:48:15.8760722Z git version 2.51.0
+2025-10-30T06:48:15.8787585Z ##[endgroup]
+2025-10-30T06:48:15.8801239Z Temporarily overriding HOME='/home/runner/work/_temp/3a52db6f-d50e-4ddd-84ee-2ea8e12c55c7' before making global git config changes
+2025-10-30T06:48:15.8802770Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-30T06:48:15.8806954Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:15.8887102Z Deleting the contents of '/home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit'
+2025-10-30T06:48:15.8890798Z ##[group]Initializing the repository
+2025-10-30T06:48:15.8897272Z [command]/usr/bin/git init /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:16.0244176Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-10-30T06:48:16.0245629Z hint: is subject to change. To configure the initial branch name to use in all
+2025-10-30T06:48:16.0246848Z hint: of your new repositories, which will suppress this warning, call:
+2025-10-30T06:48:16.0247744Z hint:
+2025-10-30T06:48:16.0248388Z hint: 	git config --global init.defaultBranch <name>
+2025-10-30T06:48:16.0249130Z hint:
+2025-10-30T06:48:16.0249852Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-10-30T06:48:16.0251285Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-10-30T06:48:16.0252224Z hint:
+2025-10-30T06:48:16.0252713Z hint: 	git branch -m <name>
+2025-10-30T06:48:16.0253308Z hint:
+2025-10-30T06:48:16.0254089Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-10-30T06:48:16.0296852Z Initialized empty Git repository in /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/.git/
+2025-10-30T06:48:16.0309631Z [command]/usr/bin/git remote add origin https://github.com/Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:16.0452719Z ##[endgroup]
+2025-10-30T06:48:16.0453698Z ##[group]Disabling automatic garbage collection
+2025-10-30T06:48:16.0457709Z [command]/usr/bin/git config --local gc.auto 0
+2025-10-30T06:48:16.0484577Z ##[endgroup]
+2025-10-30T06:48:16.0491255Z ##[group]Setting up auth
+2025-10-30T06:48:16.0492024Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-30T06:48:16.0516507Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-30T06:48:16.2465193Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-30T06:48:16.2495094Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-10-30T06:48:16.2675548Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-10-30T06:48:16.2705861Z ##[endgroup]
+2025-10-30T06:48:16.2707001Z ##[group]Fetching the repository
+2025-10-30T06:48:16.2715740Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +13fccd95db49fad2103f09d41202c2bde4a23443:refs/remotes/pull/36/merge
+2025-10-30T06:48:16.8553582Z From https://github.com/Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:16.8557275Z  * [new branch]      dependabot/pip/pip-d915839adb            -> origin/dependabot/pip/pip-d915839adb
+2025-10-30T06:48:16.8560520Z  * [new branch]      hotfix-2025.10.30-01                     -> origin/hotfix-2025.10.30-01
+2025-10-30T06:48:16.8562790Z  * [new branch]      main                                     -> origin/main
+2025-10-30T06:48:16.8565445Z  * [new tag]         prod-2025.10.30-01                       -> prod-2025.10.30-01
+2025-10-30T06:48:16.8568908Z  * [new ref]         13fccd95db49fad2103f09d41202c2bde4a23443 -> pull/36/merge
+2025-10-30T06:48:16.8656053Z ##[endgroup]
+2025-10-30T06:48:16.8659904Z ##[group]Determining the checkout info
+2025-10-30T06:48:16.8662683Z ##[endgroup]
+2025-10-30T06:48:16.8664159Z [command]/usr/bin/git sparse-checkout disable
+2025-10-30T06:48:16.8752041Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-10-30T06:48:16.8776575Z ##[group]Checking out the ref
+2025-10-30T06:48:16.8779561Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/36/merge
+2025-10-30T06:48:16.9269054Z Note: switching to 'refs/remotes/pull/36/merge'.
+2025-10-30T06:48:16.9270691Z 
+2025-10-30T06:48:16.9272124Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-10-30T06:48:16.9275880Z changes and commit them, and you can discard any commits you make in this
+2025-10-30T06:48:16.9279585Z state without impacting any branches by switching back to a branch.
+2025-10-30T06:48:16.9281936Z 
+2025-10-30T06:48:16.9283324Z If you want to create a new branch to retain commits you create, you may
+2025-10-30T06:48:16.9286515Z do so (now or later) by using -c with the switch command. Example:
+2025-10-30T06:48:16.9288352Z 
+2025-10-30T06:48:16.9288946Z   git switch -c <new-branch-name>
+2025-10-30T06:48:16.9290197Z 
+2025-10-30T06:48:16.9290607Z Or undo this operation with:
+2025-10-30T06:48:16.9291268Z 
+2025-10-30T06:48:16.9291741Z   git switch -
+2025-10-30T06:48:16.9292254Z 
+2025-10-30T06:48:16.9293149Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-10-30T06:48:16.9294601Z 
+2025-10-30T06:48:16.9296715Z HEAD is now at 13fccd9 Merge 50c435b96ba846ba728e3ea72021f667cf169b35 into f0c60eb3ca5d19fa101884318f72015a6aa94884
+2025-10-30T06:48:16.9301310Z ##[endgroup]
+2025-10-30T06:48:16.9314263Z [command]/usr/bin/git log -1 --format=%H
+2025-10-30T06:48:16.9332884Z 13fccd95db49fad2103f09d41202c2bde4a23443
+2025-10-30T06:48:16.9604744Z ##[group]Run actions/setup-python@v4
+2025-10-30T06:48:16.9605818Z with:
+2025-10-30T06:48:16.9606548Z   python-version: 3.11
+2025-10-30T06:48:16.9607365Z   cache: pip
+2025-10-30T06:48:16.9608103Z   check-latest: false
+2025-10-30T06:48:16.9609172Z   token: ***
+2025-10-30T06:48:16.9610235Z   update-environment: true
+2025-10-30T06:48:16.9611193Z   allow-prereleases: false
+2025-10-30T06:48:16.9612046Z env:
+2025-10-30T06:48:16.9612747Z   PYTHON_VERSION: 3.11
+2025-10-30T06:48:16.9613576Z   NODE_VERSION: 18
+2025-10-30T06:48:16.9614327Z ##[endgroup]
+2025-10-30T06:48:17.1221323Z ##[group]Installed versions
+2025-10-30T06:48:17.2038648Z Successfully set up CPython (3.11.13)
+2025-10-30T06:48:17.2040678Z ##[endgroup]
+2025-10-30T06:48:17.4780827Z [command]/opt/hostedtoolcache/Python/3.11.13/x64/bin/pip cache dir
+2025-10-30T06:48:20.0867675Z /home/runner/.cache/pip
+2025-10-30T06:48:20.2839665Z pip cache is not found
+2025-10-30T06:48:20.2964386Z ##[group]Run python -m pip install --upgrade pip
+2025-10-30T06:48:20.2964910Z [36;1mpython -m pip install --upgrade pip[0m
+2025-10-30T06:48:20.2965272Z [36;1mpip install -r requirements.txt[0m
+2025-10-30T06:48:20.2965691Z [36;1mpip install flake8 black isort bandit safety pylint[0m
+2025-10-30T06:48:20.2992145Z shell: /usr/bin/bash -e {0}
+2025-10-30T06:48:20.2992428Z env:
+2025-10-30T06:48:20.2992648Z   PYTHON_VERSION: 3.11
+2025-10-30T06:48:20.2992874Z   NODE_VERSION: 18
+2025-10-30T06:48:20.2993163Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:48:20.2993596Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib/pkgconfig
+2025-10-30T06:48:20.2993994Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:48:20.2994361Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:48:20.2994726Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:48:20.2995190Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib
+2025-10-30T06:48:20.2995506Z ##[endgroup]
+2025-10-30T06:48:22.4676184Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (25.2)
+2025-10-30T06:48:22.5469431Z Collecting pip
+2025-10-30T06:48:22.6020121Z   Downloading pip-25.3-py3-none-any.whl.metadata (4.7 kB)
+2025-10-30T06:48:22.6099796Z Downloading pip-25.3-py3-none-any.whl (1.8 MB)
+2025-10-30T06:48:22.6352887Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 138.0 MB/s  0:00:00
+2025-10-30T06:48:22.6926303Z Installing collected packages: pip
+2025-10-30T06:48:22.6927618Z   Attempting uninstall: pip
+2025-10-30T06:48:22.6939593Z     Found existing installation: pip 25.2
+2025-10-30T06:48:22.9147575Z     Uninstalling pip-25.2:
+2025-10-30T06:48:22.9241433Z       Successfully uninstalled pip-25.2
+2025-10-30T06:48:23.6212761Z Successfully installed pip-25.3
+2025-10-30T06:48:24.5750463Z Collecting fastapi==0.116.1 (from -r requirements.txt (line 1))
+2025-10-30T06:48:24.6358035Z   Downloading fastapi-0.116.1-py3-none-any.whl.metadata (28 kB)
+2025-10-30T06:48:24.6720354Z Collecting uvicorn==0.29.0 (from uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:24.6759072Z   Downloading uvicorn-0.29.0-py3-none-any.whl.metadata (6.3 kB)
+2025-10-30T06:48:24.7339354Z Collecting uvloop==0.21.0 (from -r requirements.txt (line 3))
+2025-10-30T06:48:24.7379057Z   Downloading uvloop-0.21.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+2025-10-30T06:48:24.8334240Z Collecting pydantic==2.7.0 (from -r requirements.txt (line 4))
+2025-10-30T06:48:24.8375598Z   Downloading pydantic-2.7.0-py3-none-any.whl.metadata (103 kB)
+2025-10-30T06:48:24.8636207Z Collecting pydantic-settings==2.2.1 (from -r requirements.txt (line 5))
+2025-10-30T06:48:24.8675926Z   Downloading pydantic_settings-2.2.1-py3-none-any.whl.metadata (3.1 kB)
+2025-10-30T06:48:24.8839236Z Collecting python-dotenv==1.0.1 (from -r requirements.txt (line 6))
+2025-10-30T06:48:24.8875828Z   Downloading python_dotenv-1.0.1-py3-none-any.whl.metadata (23 kB)
+2025-10-30T06:48:24.9025854Z Collecting loguru==0.7.2 (from -r requirements.txt (line 7))
+2025-10-30T06:48:24.9079063Z   Downloading loguru-0.7.2-py3-none-any.whl.metadata (23 kB)
+2025-10-30T06:48:24.9435338Z Collecting pytest==8.2.0 (from -r requirements.txt (line 8))
+2025-10-30T06:48:24.9475993Z   Downloading pytest-8.2.0-py3-none-any.whl.metadata (7.5 kB)
+2025-10-30T06:48:24.9670756Z Collecting pytest-asyncio==0.23.6 (from -r requirements.txt (line 9))
+2025-10-30T06:48:24.9706957Z   Downloading pytest_asyncio-0.23.6-py3-none-any.whl.metadata (3.9 kB)
+2025-10-30T06:48:24.9860433Z Collecting pytest-cov==5.0.0 (from -r requirements.txt (line 10))
+2025-10-30T06:48:24.9895994Z   Downloading pytest_cov-5.0.0-py3-none-any.whl.metadata (27 kB)
+2025-10-30T06:48:25.0085616Z Collecting httpx==0.27.0 (from -r requirements.txt (line 11))
+2025-10-30T06:48:25.0119517Z   Downloading httpx-0.27.0-py3-none-any.whl.metadata (7.2 kB)
+2025-10-30T06:48:25.0295225Z Collecting watchtower==3.0.0 (from -r requirements.txt (line 12))
+2025-10-30T06:48:25.0342224Z   Downloading watchtower-3.0.0-py3-none-any.whl.metadata (14 kB)
+2025-10-30T06:48:25.0515924Z Collecting aws-xray-sdk==2.13.0 (from -r requirements.txt (line 13))
+2025-10-30T06:48:25.0556777Z   Downloading aws_xray_sdk-2.13.0-py2.py3-none-any.whl.metadata (22 kB)
+2025-10-30T06:48:25.0724294Z Collecting mangum==0.17.0 (from -r requirements.txt (line 14))
+2025-10-30T06:48:25.0764833Z   Downloading mangum-0.17.0-py3-none-any.whl.metadata (3.3 kB)
+2025-10-30T06:48:25.1006122Z Collecting starlette==0.47.2 (from -r requirements.txt (line 15))
+2025-10-30T06:48:25.1049514Z   Downloading starlette-0.47.2-py3-none-any.whl.metadata (6.2 kB)
+2025-10-30T06:48:25.1191986Z Collecting python-json-logger==2.0.7 (from -r requirements.txt (line 16))
+2025-10-30T06:48:25.1226110Z   Downloading python_json_logger-2.0.7-py3-none-any.whl.metadata (6.5 kB)
+2025-10-30T06:48:25.1363527Z Collecting jinja2==3.1.6 (from -r requirements.txt (line 17))
+2025-10-30T06:48:25.1397031Z   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+2025-10-30T06:48:25.1512179Z Collecting python-multipart==0.0.18 (from -r requirements.txt (line 18))
+2025-10-30T06:48:25.1558496Z   Downloading python_multipart-0.0.18-py3-none-any.whl.metadata (1.8 kB)
+2025-10-30T06:48:25.1791434Z Collecting requests==2.32.4 (from -r requirements.txt (line 19))
+2025-10-30T06:48:25.1827664Z   Downloading requests-2.32.4-py3-none-any.whl.metadata (4.9 kB)
+2025-10-30T06:48:25.2231188Z Collecting torch (from -r requirements.txt (line 22))
+2025-10-30T06:48:25.2266541Z   Downloading torch-2.9.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (30 kB)
+2025-10-30T06:48:25.3939748Z Collecting numpy (from -r requirements.txt (line 23))
+2025-10-30T06:48:25.3978981Z   Downloading numpy-2.3.4-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+2025-10-30T06:48:25.4198451Z Collecting pycoingecko (from -r requirements.txt (line 24))
+2025-10-30T06:48:25.4248151Z   Downloading pycoingecko-3.2.0-py3-none-any.whl.metadata (16 kB)
+2025-10-30T06:48:25.4573646Z Collecting hyperliquid (from -r requirements.txt (line 25))
+2025-10-30T06:48:25.4614293Z   Downloading hyperliquid-0.4.66-py3-none-any.whl.metadata (9.0 kB)
+2025-10-30T06:48:25.5057468Z Collecting typing-extensions>=4.8.0 (from fastapi==0.116.1->-r requirements.txt (line 1))
+2025-10-30T06:48:25.5092751Z   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+2025-10-30T06:48:25.5221992Z Collecting annotated-types>=0.4.0 (from pydantic==2.7.0->-r requirements.txt (line 4))
+2025-10-30T06:48:25.5257078Z   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+2025-10-30T06:48:26.0785344Z Collecting pydantic-core==2.18.1 (from pydantic==2.7.0->-r requirements.txt (line 4))
+2025-10-30T06:48:26.0824993Z   Downloading pydantic_core-2.18.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.5 kB)
+2025-10-30T06:48:26.1081903Z Collecting anyio<5,>=3.6.2 (from starlette==0.47.2->-r requirements.txt (line 15))
+2025-10-30T06:48:26.1119228Z   Downloading anyio-4.11.0-py3-none-any.whl.metadata (4.1 kB)
+2025-10-30T06:48:26.1340106Z Collecting click>=7.0 (from uvicorn==0.29.0->uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:26.1376440Z   Downloading click-8.3.0-py3-none-any.whl.metadata (2.6 kB)
+2025-10-30T06:48:26.1487681Z Collecting h11>=0.8 (from uvicorn==0.29.0->uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:26.1524388Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2025-10-30T06:48:26.1893235Z Collecting iniconfig (from pytest==8.2.0->-r requirements.txt (line 8))
+2025-10-30T06:48:26.1930472Z   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+2025-10-30T06:48:26.2092265Z Collecting packaging (from pytest==8.2.0->-r requirements.txt (line 8))
+2025-10-30T06:48:26.2128515Z   Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+2025-10-30T06:48:26.2261892Z Collecting pluggy<2.0,>=1.5 (from pytest==8.2.0->-r requirements.txt (line 8))
+2025-10-30T06:48:26.2298572Z   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+2025-10-30T06:48:26.5472089Z Collecting coverage>=5.2.1 (from coverage[toml]>=5.2.1->pytest-cov==5.0.0->-r requirements.txt (line 10))
+2025-10-30T06:48:26.5510191Z   Downloading coverage-7.11.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (9.0 kB)
+2025-10-30T06:48:26.5709629Z Collecting certifi (from httpx==0.27.0->-r requirements.txt (line 11))
+2025-10-30T06:48:26.5748754Z   Downloading certifi-2025.10.5-py3-none-any.whl.metadata (2.5 kB)
+2025-10-30T06:48:26.5939767Z Collecting httpcore==1.* (from httpx==0.27.0->-r requirements.txt (line 11))
+2025-10-30T06:48:26.5975677Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2025-10-30T06:48:26.6141582Z Collecting idna (from httpx==0.27.0->-r requirements.txt (line 11))
+2025-10-30T06:48:26.6176772Z   Downloading idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+2025-10-30T06:48:26.6285563Z Collecting sniffio (from httpx==0.27.0->-r requirements.txt (line 11))
+2025-10-30T06:48:26.6319766Z   Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+2025-10-30T06:48:27.0101318Z Collecting boto3<2,>=1.9.253 (from watchtower==3.0.0->-r requirements.txt (line 12))
+2025-10-30T06:48:27.0153966Z   Downloading boto3-1.40.62-py3-none-any.whl.metadata (6.6 kB)
+2025-10-30T06:48:27.1210627Z Collecting wrapt (from aws-xray-sdk==2.13.0->-r requirements.txt (line 13))
+2025-10-30T06:48:27.1249376Z   Downloading wrapt-2.0.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.8 kB)
+2025-10-30T06:48:27.5239368Z Collecting botocore>=1.11.3 (from aws-xray-sdk==2.13.0->-r requirements.txt (line 13))
+2025-10-30T06:48:27.5287905Z   Downloading botocore-1.40.62-py3-none-any.whl.metadata (5.7 kB)
+2025-10-30T06:48:27.5793632Z Collecting MarkupSafe>=2.0 (from jinja2==3.1.6->-r requirements.txt (line 17))
+2025-10-30T06:48:27.5828682Z   Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+2025-10-30T06:48:27.6557943Z Collecting charset_normalizer<4,>=2 (from requests==2.32.4->-r requirements.txt (line 19))
+2025-10-30T06:48:27.6600848Z   Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (37 kB)
+2025-10-30T06:48:27.6910085Z Collecting urllib3<3,>=1.21.1 (from requests==2.32.4->-r requirements.txt (line 19))
+2025-10-30T06:48:27.6945988Z   Downloading urllib3-2.5.0-py3-none-any.whl.metadata (6.5 kB)
+2025-10-30T06:48:27.7357665Z Collecting httptools>=0.5.0 (from uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:27.7396826Z   Downloading httptools-0.7.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+2025-10-30T06:48:27.7767691Z Collecting pyyaml>=5.1 (from uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:27.7805702Z   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2025-10-30T06:48:27.8496039Z Collecting watchfiles>=0.13 (from uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:27.8533293Z   Downloading watchfiles-1.1.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+2025-10-30T06:48:27.9263901Z Collecting websockets>=10.4 (from uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:27.9306577Z   Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+2025-10-30T06:48:28.0406218Z Collecting jmespath<2.0.0,>=0.7.1 (from boto3<2,>=1.9.253->watchtower==3.0.0->-r requirements.txt (line 12))
+2025-10-30T06:48:28.0441511Z   Downloading jmespath-1.0.1-py3-none-any.whl.metadata (7.6 kB)
+2025-10-30T06:48:28.0614585Z Collecting s3transfer<0.15.0,>=0.14.0 (from boto3<2,>=1.9.253->watchtower==3.0.0->-r requirements.txt (line 12))
+2025-10-30T06:48:28.0651369Z   Downloading s3transfer-0.14.0-py3-none-any.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.0810300Z Collecting python-dateutil<3.0.0,>=2.1 (from botocore>=1.11.3->aws-xray-sdk==2.13.0->-r requirements.txt (line 13))
+2025-10-30T06:48:28.0847394Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2025-10-30T06:48:28.1198703Z Collecting six>=1.5 (from python-dateutil<3.0.0,>=2.1->botocore>=1.11.3->aws-xray-sdk==2.13.0->-r requirements.txt (line 13))
+2025-10-30T06:48:28.1238493Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.2924675Z Collecting filelock (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.2961841Z   Downloading filelock-3.20.0-py3-none-any.whl.metadata (2.1 kB)
+2025-10-30T06:48:28.3123620Z Collecting sympy>=1.13.3 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.3160537Z   Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+2025-10-30T06:48:28.3367945Z Collecting networkx>=2.5.1 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.3403401Z   Downloading networkx-3.5-py3-none-any.whl.metadata (6.3 kB)
+2025-10-30T06:48:28.3673437Z Collecting fsspec>=0.8.5 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.3708990Z   Downloading fsspec-2025.9.0-py3-none-any.whl.metadata (10 kB)
+2025-10-30T06:48:28.4035957Z Collecting nvidia-cuda-nvrtc-cu12==12.8.93 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.4073530Z   Downloading nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.4210960Z Collecting nvidia-cuda-runtime-cu12==12.8.90 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.4248046Z   Downloading nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.4371155Z Collecting nvidia-cuda-cupti-cu12==12.8.90 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.4409464Z   Downloading nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.4558355Z Collecting nvidia-cudnn-cu12==9.10.2.21 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.4592156Z   Downloading nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl.metadata (1.8 kB)
+2025-10-30T06:48:28.4712188Z Collecting nvidia-cublas-cu12==12.8.4.1 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.4746482Z   Downloading nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.4872964Z Collecting nvidia-cufft-cu12==11.3.3.83 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.4908133Z   Downloading nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.5034502Z Collecting nvidia-curand-cu12==10.3.9.90 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.5067891Z   Downloading nvidia_curand_cu12-10.3.9.90-py3-none-manylinux_2_27_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.5191763Z Collecting nvidia-cusolver-cu12==11.7.3.90 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.5226315Z   Downloading nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl.metadata (1.8 kB)
+2025-10-30T06:48:28.5357883Z Collecting nvidia-cusparse-cu12==12.5.8.93 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.5394570Z   Downloading nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.8 kB)
+2025-10-30T06:48:28.5504473Z Collecting nvidia-cusparselt-cu12==0.7.1 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.5539716Z   Downloading nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl.metadata (7.0 kB)
+2025-10-30T06:48:28.5668207Z Collecting nvidia-nccl-cu12==2.27.5 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.5705287Z   Downloading nvidia_nccl_cu12-2.27.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.0 kB)
+2025-10-30T06:48:28.5809805Z Collecting nvidia-nvshmem-cu12==3.3.20 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.5846628Z   Downloading nvidia_nvshmem_cu12-3.3.20-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.1 kB)
+2025-10-30T06:48:28.5974695Z Collecting nvidia-nvtx-cu12==12.8.90 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.6009594Z   Downloading nvidia_nvtx_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.8 kB)
+2025-10-30T06:48:28.6147314Z Collecting nvidia-nvjitlink-cu12==12.8.93 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.6184267Z   Downloading nvidia_nvjitlink_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.6286077Z Collecting nvidia-cufile-cu12==1.13.1.3 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.6321773Z   Downloading nvidia_cufile_cu12-1.13.1.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.7241943Z Collecting triton==3.5.0 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.7278718Z   Downloading triton-3.5.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.7529482Z Requirement already satisfied: setuptools>=60.9.0 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from hyperliquid->-r requirements.txt (line 25)) (65.5.0)
+2025-10-30T06:48:28.9233117Z Collecting cryptography>=2.6.1 (from hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:28.9276938Z   Downloading cryptography-46.0.3-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (5.7 kB)
+2025-10-30T06:48:29.3363677Z Collecting aiohttp<=3.10.11 (from hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.3413778Z   Downloading aiohttp-3.10.11-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.7 kB)
+2025-10-30T06:48:29.3565873Z Collecting aiodns>=1.1.1 (from hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.3600139Z   Downloading aiodns-3.5.0-py3-none-any.whl.metadata (5.8 kB)
+2025-10-30T06:48:29.6716534Z Collecting yarl>=1.7.2 (from hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.6756569Z   Downloading yarl-1.22.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (75 kB)
+2025-10-30T06:48:29.6982746Z Collecting aiohappyeyeballs>=2.3.0 (from aiohttp<=3.10.11->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.7018338Z   Downloading aiohappyeyeballs-2.6.1-py3-none-any.whl.metadata (5.9 kB)
+2025-10-30T06:48:29.7123749Z Collecting aiosignal>=1.1.2 (from aiohttp<=3.10.11->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.7157640Z   Downloading aiosignal-1.4.0-py3-none-any.whl.metadata (3.7 kB)
+2025-10-30T06:48:29.7324545Z Collecting attrs>=17.3.0 (from aiohttp<=3.10.11->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.7358486Z   Downloading attrs-25.4.0-py3-none-any.whl.metadata (10 kB)
+2025-10-30T06:48:29.7942408Z Collecting frozenlist>=1.1.1 (from aiohttp<=3.10.11->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.7981050Z   Downloading frozenlist-1.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (20 kB)
+2025-10-30T06:48:29.9924053Z Collecting multidict<7.0,>=4.5 (from aiohttp<=3.10.11->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.9963477Z   Downloading multidict-6.7.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+2025-10-30T06:48:30.0695001Z Collecting propcache>=0.2.1 (from yarl>=1.7.2->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:30.0732829Z   Downloading propcache-0.4.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (13 kB)
+2025-10-30T06:48:30.1357936Z Collecting pycares>=4.9.0 (from aiodns>=1.1.1->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:30.1398209Z   Downloading pycares-4.11.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (4.5 kB)
+2025-10-30T06:48:30.2490635Z Collecting cffi>=2.0.0 (from cryptography>=2.6.1->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:30.2530464Z   Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+2025-10-30T06:48:30.2680603Z Collecting pycparser (from cffi>=2.0.0->cryptography>=2.6.1->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:30.2717036Z   Downloading pycparser-2.23-py3-none-any.whl.metadata (993 bytes)
+2025-10-30T06:48:30.3123264Z Collecting mpmath<1.4,>=1.1.0 (from sympy>=1.13.3->torch->-r requirements.txt (line 22))
+2025-10-30T06:48:30.3162847Z   Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+2025-10-30T06:48:30.3445847Z Downloading fastapi-0.116.1-py3-none-any.whl (95 kB)
+2025-10-30T06:48:30.3517566Z Downloading pydantic-2.7.0-py3-none-any.whl (407 kB)
+2025-10-30T06:48:30.3598937Z Downloading starlette-0.47.2-py3-none-any.whl (72 kB)
+2025-10-30T06:48:30.3657498Z Downloading uvicorn-0.29.0-py3-none-any.whl (60 kB)
+2025-10-30T06:48:30.3717209Z Downloading uvloop-0.21.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (4.0 MB)
+2025-10-30T06:48:30.3850786Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.0/4.0 MB 340.7 MB/s  0:00:00
+2025-10-30T06:48:30.3889841Z Downloading pydantic_settings-2.2.1-py3-none-any.whl (13 kB)
+2025-10-30T06:48:30.3944566Z Downloading python_dotenv-1.0.1-py3-none-any.whl (19 kB)
+2025-10-30T06:48:30.3998000Z Downloading loguru-0.7.2-py3-none-any.whl (62 kB)
+2025-10-30T06:48:30.4055263Z Downloading pytest-8.2.0-py3-none-any.whl (339 kB)
+2025-10-30T06:48:30.4130255Z Downloading pytest_asyncio-0.23.6-py3-none-any.whl (17 kB)
+2025-10-30T06:48:30.4188011Z Downloading pytest_cov-5.0.0-py3-none-any.whl (21 kB)
+2025-10-30T06:48:30.4243234Z Downloading httpx-0.27.0-py3-none-any.whl (75 kB)
+2025-10-30T06:48:30.4302329Z Downloading watchtower-3.0.0-py3-none-any.whl (16 kB)
+2025-10-30T06:48:30.4371348Z Downloading aws_xray_sdk-2.13.0-py2.py3-none-any.whl (101 kB)
+2025-10-30T06:48:30.4445284Z Downloading mangum-0.17.0-py3-none-any.whl (17 kB)
+2025-10-30T06:48:30.4504489Z Downloading python_json_logger-2.0.7-py3-none-any.whl (8.1 kB)
+2025-10-30T06:48:30.4555577Z Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+2025-10-30T06:48:30.4614267Z Downloading python_multipart-0.0.18-py3-none-any.whl (24 kB)
+2025-10-30T06:48:30.4676930Z Downloading requests-2.32.4-py3-none-any.whl (64 kB)
+2025-10-30T06:48:30.4737932Z Downloading pydantic_core-2.18.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+2025-10-30T06:48:30.4829759Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 251.6 MB/s  0:00:00
+2025-10-30T06:48:30.4864173Z Downloading anyio-4.11.0-py3-none-any.whl (109 kB)
+2025-10-30T06:48:30.4929733Z Downloading boto3-1.40.62-py3-none-any.whl (139 kB)
+2025-10-30T06:48:30.4985912Z Downloading botocore-1.40.62-py3-none-any.whl (14.1 MB)
+2025-10-30T06:48:30.5350109Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.1/14.1 MB 403.1 MB/s  0:00:00
+2025-10-30T06:48:30.5391291Z Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (151 kB)
+2025-10-30T06:48:30.5454958Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2025-10-30T06:48:30.5519583Z Downloading idna-3.11-py3-none-any.whl (71 kB)
+2025-10-30T06:48:30.5577775Z Downloading jmespath-1.0.1-py3-none-any.whl (20 kB)
+2025-10-30T06:48:30.5634328Z Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+2025-10-30T06:48:30.5690965Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2025-10-30T06:48:30.5751779Z Downloading s3transfer-0.14.0-py3-none-any.whl (85 kB)
+2025-10-30T06:48:30.5810363Z Downloading urllib3-2.5.0-py3-none-any.whl (129 kB)
+2025-10-30T06:48:30.5874169Z Downloading torch-2.9.0-cp311-cp311-manylinux_2_28_x86_64.whl (899.8 MB)
+2025-10-30T06:48:37.4446207Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 899.8/899.8 MB 55.5 MB/s  0:00:06
+2025-10-30T06:48:37.4491101Z Downloading nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl (594.3 MB)
+2025-10-30T06:48:40.8679383Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 594.3/594.3 MB 91.3 MB/s  0:00:03
+2025-10-30T06:48:40.8717798Z Downloading nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (10.2 MB)
+2025-10-30T06:48:40.9006079Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.2/10.2 MB 385.4 MB/s  0:00:00
+2025-10-30T06:48:40.9043767Z Downloading nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (88.0 MB)
+2025-10-30T06:48:41.1072665Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 88.0/88.0 MB 437.6 MB/s  0:00:00
+2025-10-30T06:48:41.1111206Z Downloading nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (954 kB)
+2025-10-30T06:48:41.1180271Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 954.8/954.8 kB 144.8 MB/s  0:00:00
+2025-10-30T06:48:41.1215998Z Downloading nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl (706.8 MB)
+2025-10-30T06:48:46.3345581Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 706.8/706.8 MB 57.1 MB/s  0:00:05
+2025-10-30T06:48:46.3390659Z Downloading nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (193.1 MB)
+2025-10-30T06:48:46.9698176Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 193.1/193.1 MB 307.7 MB/s  0:00:00
+2025-10-30T06:48:46.9737385Z Downloading nvidia_cufile_cu12-1.13.1.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.2 MB)
+2025-10-30T06:48:46.9815462Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 166.5 MB/s  0:00:00
+2025-10-30T06:48:46.9855144Z Downloading nvidia_curand_cu12-10.3.9.90-py3-none-manylinux_2_27_x86_64.whl (63.6 MB)
+2025-10-30T06:48:47.1568979Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 63.6/63.6 MB 375.0 MB/s  0:00:00
+2025-10-30T06:48:47.1608790Z Downloading nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl (267.5 MB)
+2025-10-30T06:48:48.6672938Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 267.5/267.5 MB 175.1 MB/s  0:00:01
+2025-10-30T06:48:48.6711247Z Downloading nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (288.2 MB)
+2025-10-30T06:48:50.6822744Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 288.2/288.2 MB 133.3 MB/s  0:00:02
+2025-10-30T06:48:50.6859846Z Downloading nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl (287.2 MB)
+2025-10-30T06:48:51.6339294Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 287.2/287.2 MB 287.6 MB/s  0:00:00
+2025-10-30T06:48:51.6380338Z Downloading nvidia_nccl_cu12-2.27.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (322.3 MB)
+2025-10-30T06:48:54.1767102Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 322.3/322.3 MB 106.9 MB/s  0:00:02
+2025-10-30T06:48:54.1805174Z Downloading nvidia_nvjitlink_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (39.3 MB)
+2025-10-30T06:48:54.2758726Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 39.3/39.3 MB 418.1 MB/s  0:00:00
+2025-10-30T06:48:54.2802752Z Downloading nvidia_nvshmem_cu12-3.3.20-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (124.7 MB)
+2025-10-30T06:48:54.5606405Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 124.7/124.7 MB 447.6 MB/s  0:00:00
+2025-10-30T06:48:54.5644705Z Downloading nvidia_nvtx_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (89 kB)
+2025-10-30T06:48:54.5738089Z Downloading triton-3.5.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (170.4 MB)
+2025-10-30T06:48:55.4118723Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 170.4/170.4 MB 203.6 MB/s  0:00:00
+2025-10-30T06:48:55.4158994Z Downloading numpy-2.3.4-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+2025-10-30T06:48:55.4696157Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 326.0 MB/s  0:00:00
+2025-10-30T06:48:55.4738280Z Downloading pycoingecko-3.2.0-py3-none-any.whl (10 kB)
+2025-10-30T06:48:55.4797649Z Downloading hyperliquid-0.4.66-py3-none-any.whl (623 kB)
+2025-10-30T06:48:55.4863443Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 623.0/623.0 kB 82.8 MB/s  0:00:00
+2025-10-30T06:48:55.4939074Z Downloading aiohttp-3.10.11-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.3 MB)
+2025-10-30T06:48:55.5007634Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 212.9 MB/s  0:00:00
+2025-10-30T06:48:55.5044140Z Downloading multidict-6.7.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (246 kB)
+2025-10-30T06:48:55.5106922Z Downloading yarl-1.22.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (365 kB)
+2025-10-30T06:48:55.5178711Z Downloading aiodns-3.5.0-py3-none-any.whl (8.1 kB)
+2025-10-30T06:48:55.5235124Z Downloading aiohappyeyeballs-2.6.1-py3-none-any.whl (15 kB)
+2025-10-30T06:48:55.5290613Z Downloading aiosignal-1.4.0-py3-none-any.whl (7.5 kB)
+2025-10-30T06:48:55.5343524Z Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+2025-10-30T06:48:55.5399179Z Downloading attrs-25.4.0-py3-none-any.whl (67 kB)
+2025-10-30T06:48:55.5453714Z Downloading certifi-2025.10.5-py3-none-any.whl (163 kB)
+2025-10-30T06:48:55.5514354Z Downloading click-8.3.0-py3-none-any.whl (107 kB)
+2025-10-30T06:48:55.5570412Z Downloading coverage-7.11.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (248 kB)
+2025-10-30T06:48:55.5636294Z Downloading cryptography-46.0.3-cp311-abi3-manylinux_2_34_x86_64.whl (4.5 MB)
+2025-10-30T06:48:55.5796497Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 303.3 MB/s  0:00:00
+2025-10-30T06:48:55.5833460Z Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (215 kB)
+2025-10-30T06:48:55.5894407Z Downloading frozenlist-1.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (231 kB)
+2025-10-30T06:48:55.5954161Z Downloading fsspec-2025.9.0-py3-none-any.whl (199 kB)
+2025-10-30T06:48:55.6015139Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2025-10-30T06:48:55.6077110Z Downloading httptools-0.7.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (456 kB)
+2025-10-30T06:48:55.6153860Z Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+2025-10-30T06:48:55.6208473Z Downloading networkx-3.5-py3-none-any.whl (2.0 MB)
+2025-10-30T06:48:55.6315918Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 250.3 MB/s  0:00:00
+2025-10-30T06:48:55.6352364Z Downloading propcache-0.4.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (210 kB)
+2025-10-30T06:48:55.6435900Z Downloading pycares-4.11.0-cp311-cp311-manylinux_2_28_x86_64.whl (643 kB)
+2025-10-30T06:48:55.6487526Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 644.0/644.0 kB 120.6 MB/s  0:00:00
+2025-10-30T06:48:55.6526203Z Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+2025-10-30T06:48:55.6582708Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 138.8 MB/s  0:00:00
+2025-10-30T06:48:55.6617594Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2025-10-30T06:48:55.6680399Z Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+2025-10-30T06:48:55.6731974Z Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
+2025-10-30T06:48:55.6928399Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 341.5 MB/s  0:00:00
+2025-10-30T06:48:55.6965270Z Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+2025-10-30T06:48:55.7014250Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 87.1 MB/s  0:00:00
+2025-10-30T06:48:55.7049531Z Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+2025-10-30T06:48:55.7122153Z Downloading watchfiles-1.1.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (456 kB)
+2025-10-30T06:48:55.7187103Z Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+2025-10-30T06:48:55.7245700Z Downloading filelock-3.20.0-py3-none-any.whl (16 kB)
+2025-10-30T06:48:55.7302083Z Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+2025-10-30T06:48:55.7357304Z Downloading packaging-25.0-py3-none-any.whl (66 kB)
+2025-10-30T06:48:55.7415435Z Downloading pycparser-2.23-py3-none-any.whl (118 kB)
+2025-10-30T06:48:55.7477633Z Downloading wrapt-2.0.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (114 kB)
+2025-10-30T06:48:59.7931410Z Installing collected packages: nvidia-cusparselt-cu12, mpmath, wrapt, websockets, uvloop, urllib3, typing-extensions, triton, sympy, sniffio, six, pyyaml, python-multipart, python-json-logger, python-dotenv, pycparser, propcache, pluggy, packaging, nvidia-nvtx-cu12, nvidia-nvshmem-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufile-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, numpy, networkx, multidict, MarkupSafe, loguru, jmespath, iniconfig, idna, httptools, h11, fsspec, frozenlist, filelock, coverage, click, charset_normalizer, certifi, attrs, annotated-types, aiohappyeyeballs, yarl, uvicorn, requests, python-dateutil, pytest, pydantic-core, nvidia-cusparse-cu12, nvidia-cufft-cu12, nvidia-cudnn-cu12, mangum, jinja2, httpcore, cffi, anyio, aiosignal, watchfiles, starlette, pytest-cov, pytest-asyncio, pydantic, pycoingecko, pycares, nvidia-cusolver-cu12, httpx, cryptography, botocore, aiohttp, torch, s3transfer, pydantic-settings, fastapi, aws-xray-sdk, aiodns, hyperliquid, boto3, watchtower
+2025-10-30T06:49:53.3792649Z 
+2025-10-30T06:49:53.3831090Z Successfully installed MarkupSafe-3.0.3 aiodns-3.5.0 aiohappyeyeballs-2.6.1 aiohttp-3.10.11 aiosignal-1.4.0 annotated-types-0.7.0 anyio-4.11.0 attrs-25.4.0 aws-xray-sdk-2.13.0 boto3-1.40.62 botocore-1.40.62 certifi-2025.10.5 cffi-2.0.0 charset_normalizer-3.4.4 click-8.3.0 coverage-7.11.0 cryptography-46.0.3 fastapi-0.116.1 filelock-3.20.0 frozenlist-1.8.0 fsspec-2025.9.0 h11-0.16.0 httpcore-1.0.9 httptools-0.7.1 httpx-0.27.0 hyperliquid-0.4.66 idna-3.11 iniconfig-2.3.0 jinja2-3.1.6 jmespath-1.0.1 loguru-0.7.2 mangum-0.17.0 mpmath-1.3.0 multidict-6.7.0 networkx-3.5 numpy-2.3.4 nvidia-cublas-cu12-12.8.4.1 nvidia-cuda-cupti-cu12-12.8.90 nvidia-cuda-nvrtc-cu12-12.8.93 nvidia-cuda-runtime-cu12-12.8.90 nvidia-cudnn-cu12-9.10.2.21 nvidia-cufft-cu12-11.3.3.83 nvidia-cufile-cu12-1.13.1.3 nvidia-curand-cu12-10.3.9.90 nvidia-cusolver-cu12-11.7.3.90 nvidia-cusparse-cu12-12.5.8.93 nvidia-cusparselt-cu12-0.7.1 nvidia-nccl-cu12-2.27.5 nvidia-nvjitlink-cu12-12.8.93 nvidia-nvshmem-cu12-3.3.20 nvidia-nvtx-cu12-12.8.90 packaging-25.0 pluggy-1.6.0 propcache-0.4.1 pycares-4.11.0 pycoingecko-3.2.0 pycparser-2.23 pydantic-2.7.0 pydantic-core-2.18.1 pydantic-settings-2.2.1 pytest-8.2.0 pytest-asyncio-0.23.6 pytest-cov-5.0.0 python-dateutil-2.9.0.post0 python-dotenv-1.0.1 python-json-logger-2.0.7 python-multipart-0.0.18 pyyaml-6.0.3 requests-2.32.4 s3transfer-0.14.0 six-1.17.0 sniffio-1.3.1 starlette-0.47.2 sympy-1.14.0 torch-2.9.0 triton-3.5.0 typing-extensions-4.15.0 urllib3-2.5.0 uvicorn-0.29.0 uvloop-0.21.0 watchfiles-1.1.1 watchtower-3.0.0 websockets-15.0.1 wrapt-2.0.0 yarl-1.22.0
+2025-10-30T06:49:55.3819036Z Collecting flake8
+2025-10-30T06:49:55.4993702Z   Downloading flake8-7.3.0-py2.py3-none-any.whl.metadata (3.8 kB)
+2025-10-30T06:49:55.5474846Z Collecting black
+2025-10-30T06:49:55.5679069Z   Downloading black-25.9.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl.metadata (83 kB)
+2025-10-30T06:49:55.6429134Z Collecting isort
+2025-10-30T06:49:55.6634713Z   Downloading isort-7.0.0-py3-none-any.whl.metadata (11 kB)
+2025-10-30T06:49:55.6814112Z Collecting bandit
+2025-10-30T06:49:55.7015077Z   Downloading bandit-1.8.6-py3-none-any.whl.metadata (6.9 kB)
+2025-10-30T06:49:55.7279278Z Collecting safety
+2025-10-30T06:49:55.7482716Z   Downloading safety-3.6.2-py3-none-any.whl.metadata (11 kB)
+2025-10-30T06:49:55.7843481Z Collecting pylint
+2025-10-30T06:49:55.8048911Z   Downloading pylint-4.0.2-py3-none-any.whl.metadata (12 kB)
+2025-10-30T06:49:55.8184677Z Collecting mccabe<0.8.0,>=0.7.0 (from flake8)
+2025-10-30T06:49:55.8385261Z   Downloading mccabe-0.7.0-py2.py3-none-any.whl.metadata (5.0 kB)
+2025-10-30T06:49:55.8518449Z Collecting pycodestyle<2.15.0,>=2.14.0 (from flake8)
+2025-10-30T06:49:55.8719902Z   Downloading pycodestyle-2.14.0-py2.py3-none-any.whl.metadata (4.5 kB)
+2025-10-30T06:49:55.8858885Z Collecting pyflakes<3.5.0,>=3.4.0 (from flake8)
+2025-10-30T06:49:55.9058079Z   Downloading pyflakes-3.4.0-py2.py3-none-any.whl.metadata (3.5 kB)
+2025-10-30T06:49:55.9103126Z Requirement already satisfied: click>=8.0.0 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from black) (8.3.0)
+2025-10-30T06:49:55.9169814Z Collecting mypy-extensions>=0.4.3 (from black)
+2025-10-30T06:49:55.9369099Z   Downloading mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+2025-10-30T06:49:55.9400954Z Requirement already satisfied: packaging>=22.0 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from black) (25.0)
+2025-10-30T06:49:55.9493188Z Collecting pathspec>=0.9.0 (from black)
+2025-10-30T06:49:55.9693482Z   Downloading pathspec-0.12.1-py3-none-any.whl.metadata (21 kB)
+2025-10-30T06:49:55.9907209Z Collecting platformdirs>=2 (from black)
+2025-10-30T06:49:56.0108707Z   Downloading platformdirs-4.5.0-py3-none-any.whl.metadata (12 kB)
+2025-10-30T06:49:56.0262319Z Collecting pytokens>=0.1.10 (from black)
+2025-10-30T06:49:56.0462049Z   Downloading pytokens-0.2.0-py3-none-any.whl.metadata (2.0 kB)
+2025-10-30T06:49:56.0509542Z Requirement already satisfied: PyYAML>=5.3.1 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from bandit) (6.0.3)
+2025-10-30T06:49:56.0681148Z Collecting stevedore>=1.20.0 (from bandit)
+2025-10-30T06:49:56.0884914Z   Downloading stevedore-5.5.0-py3-none-any.whl.metadata (2.2 kB)
+2025-10-30T06:49:56.1248157Z Collecting rich (from bandit)
+2025-10-30T06:49:56.1453968Z   Downloading rich-14.2.0-py3-none-any.whl.metadata (18 kB)
+2025-10-30T06:49:56.1647989Z Collecting authlib>=1.2.0 (from safety)
+2025-10-30T06:49:56.1850707Z   Downloading authlib-1.6.5-py2.py3-none-any.whl.metadata (9.8 kB)
+2025-10-30T06:49:56.1973788Z Collecting dparse>=0.6.4 (from safety)
+2025-10-30T06:49:56.2172554Z   Downloading dparse-0.6.4-py3-none-any.whl.metadata (5.5 kB)
+2025-10-30T06:49:56.2212688Z Requirement already satisfied: filelock<4.0,>=3.16.1 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from safety) (3.20.0)
+2025-10-30T06:49:56.2215742Z Requirement already satisfied: httpx in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from safety) (0.27.0)
+2025-10-30T06:49:56.2219288Z Requirement already satisfied: jinja2>=3.1.0 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from safety) (3.1.6)
+2025-10-30T06:49:56.2525383Z Collecting marshmallow>=3.15.0 (from safety)
+2025-10-30T06:49:56.2730621Z   Downloading marshmallow-4.0.1-py3-none-any.whl.metadata (7.4 kB)
+2025-10-30T06:49:56.2922117Z Collecting nltk>=3.9 (from safety)
+2025-10-30T06:49:56.3123333Z   Downloading nltk-3.9.2-py3-none-any.whl.metadata (3.2 kB)
+2025-10-30T06:49:56.3703016Z Collecting psutil<8.0,>=6.1.0 (from safety)
+2025-10-30T06:49:56.3906412Z   Downloading psutil-7.1.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl.metadata (23 kB)
+2025-10-30T06:49:56.4019062Z Requirement already satisfied: pydantic>=2.6.0 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from safety) (2.7.0)
+2025-10-30T06:49:56.4022089Z Requirement already satisfied: requests in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from safety) (2.32.4)
+2025-10-30T06:49:56.5103292Z Collecting ruamel-yaml>=0.17.21 (from safety)
+2025-10-30T06:49:56.5306607Z   Downloading ruamel.yaml-0.18.16-py3-none-any.whl.metadata (25 kB)
+2025-10-30T06:49:56.5494290Z Collecting safety-schemas==0.0.16 (from safety)
+2025-10-30T06:49:56.5696329Z   Downloading safety_schemas-0.0.16-py3-none-any.whl.metadata (1.1 kB)
+2025-10-30T06:49:56.6808972Z Collecting setuptools>=65.5.1 (from safety)
+2025-10-30T06:49:56.7011103Z   Downloading setuptools-80.9.0-py3-none-any.whl.metadata (6.6 kB)
+2025-10-30T06:49:56.7223187Z Collecting tenacity (from safety)
+2025-10-30T06:49:56.7431258Z   Downloading tenacity-9.1.2-py3-none-any.whl.metadata (1.2 kB)
+2025-10-30T06:49:56.7606922Z Collecting tomlkit (from safety)
+2025-10-30T06:49:56.7810334Z   Downloading tomlkit-0.13.3-py3-none-any.whl.metadata (2.8 kB)
+2025-10-30T06:49:56.7984997Z Collecting typer>=0.16.0 (from safety)
+2025-10-30T06:49:56.8187532Z   Downloading typer-0.20.0-py3-none-any.whl.metadata (16 kB)
+2025-10-30T06:49:56.8245074Z Requirement already satisfied: typing-extensions>=4.7.1 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from safety) (4.15.0)
+2025-10-30T06:49:56.8606700Z Collecting astroid<=4.1.dev0,>=4.0.1 (from pylint)
+2025-10-30T06:49:56.8809513Z   Downloading astroid-4.0.1-py3-none-any.whl.metadata (4.4 kB)
+2025-10-30T06:49:56.8938467Z Collecting dill>=0.3.6 (from pylint)
+2025-10-30T06:49:56.9142971Z   Downloading dill-0.4.0-py3-none-any.whl.metadata (10 kB)
+2025-10-30T06:49:56.9457490Z Requirement already satisfied: cryptography in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from authlib>=1.2.0->safety) (46.0.3)
+2025-10-30T06:49:56.9489684Z Requirement already satisfied: MarkupSafe>=2.0 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from jinja2>=3.1.0->safety) (3.0.3)
+2025-10-30T06:49:56.9687117Z Collecting joblib (from nltk>=3.9->safety)
+2025-10-30T06:49:56.9887570Z   Downloading joblib-1.5.2-py3-none-any.whl.metadata (5.6 kB)
+2025-10-30T06:49:57.2893100Z Collecting regex>=2021.8.3 (from nltk>=3.9->safety)
+2025-10-30T06:49:57.3102672Z   Downloading regex-2025.10.23-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+2025-10-30T06:49:57.3513984Z Collecting tqdm (from nltk>=3.9->safety)
+2025-10-30T06:49:57.3716695Z   Downloading tqdm-4.67.1-py3-none-any.whl.metadata (57 kB)
+2025-10-30T06:49:57.3925675Z Requirement already satisfied: annotated-types>=0.4.0 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from pydantic>=2.6.0->safety) (0.7.0)
+2025-10-30T06:49:57.3931084Z Requirement already satisfied: pydantic-core==2.18.1 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from pydantic>=2.6.0->safety) (2.18.1)
+2025-10-30T06:49:57.4251812Z Collecting ruamel.yaml.clib>=0.2.7 (from ruamel-yaml>=0.17.21->safety)
+2025-10-30T06:49:57.4458438Z   Downloading ruamel.yaml.clib-0.2.14-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.0 kB)
+2025-10-30T06:49:57.4633451Z Collecting shellingham>=1.3.0 (from typer>=0.16.0->safety)
+2025-10-30T06:49:57.4835104Z   Downloading shellingham-1.5.4-py2.py3-none-any.whl.metadata (3.5 kB)
+2025-10-30T06:49:57.5092291Z Collecting markdown-it-py>=2.2.0 (from rich->bandit)
+2025-10-30T06:49:57.5293844Z   Downloading markdown_it_py-4.0.0-py3-none-any.whl.metadata (7.3 kB)
+2025-10-30T06:49:57.5501223Z Collecting pygments<3.0.0,>=2.13.0 (from rich->bandit)
+2025-10-30T06:49:57.5703664Z   Downloading pygments-2.19.2-py3-none-any.whl.metadata (2.5 kB)
+2025-10-30T06:49:57.5824437Z Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich->bandit)
+2025-10-30T06:49:57.6024978Z   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+2025-10-30T06:49:57.6103965Z Requirement already satisfied: cffi>=2.0.0 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from cryptography->authlib>=1.2.0->safety) (2.0.0)
+2025-10-30T06:49:57.6133927Z Requirement already satisfied: pycparser in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from cffi>=2.0.0->cryptography->authlib>=1.2.0->safety) (2.23)
+2025-10-30T06:49:57.6145776Z Requirement already satisfied: anyio in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from httpx->safety) (4.11.0)
+2025-10-30T06:49:57.6149535Z Requirement already satisfied: certifi in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from httpx->safety) (2025.10.5)
+2025-10-30T06:49:57.6155482Z Requirement already satisfied: httpcore==1.* in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from httpx->safety) (1.0.9)
+2025-10-30T06:49:57.6159310Z Requirement already satisfied: idna in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from httpx->safety) (3.11)
+2025-10-30T06:49:57.6163169Z Requirement already satisfied: sniffio in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from httpx->safety) (1.3.1)
+2025-10-30T06:49:57.6184817Z Requirement already satisfied: h11>=0.16 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from httpcore==1.*->httpx->safety) (0.16.0)
+2025-10-30T06:49:57.6268979Z Requirement already satisfied: charset_normalizer<4,>=2 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from requests->safety) (3.4.4)
+2025-10-30T06:49:57.6276037Z Requirement already satisfied: urllib3<3,>=1.21.1 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from requests->safety) (2.5.0)
+2025-10-30T06:49:57.6547934Z Downloading flake8-7.3.0-py2.py3-none-any.whl (57 kB)
+2025-10-30T06:49:57.6859173Z Downloading mccabe-0.7.0-py2.py3-none-any.whl (7.3 kB)
+2025-10-30T06:49:57.8312619Z Downloading pycodestyle-2.14.0-py2.py3-none-any.whl (31 kB)
+2025-10-30T06:49:57.8584678Z Downloading pyflakes-3.4.0-py2.py3-none-any.whl (63 kB)
+2025-10-30T06:49:57.8911112Z Downloading black-25.9.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl (1.6 MB)
+2025-10-30T06:49:58.1571565Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.6/1.6 MB 6.6 MB/s  0:00:00
+2025-10-30T06:49:58.1774969Z Downloading isort-7.0.0-py3-none-any.whl (94 kB)
+2025-10-30T06:49:58.2078083Z Downloading bandit-1.8.6-py3-none-any.whl (133 kB)
+2025-10-30T06:49:58.2407785Z Downloading safety-3.6.2-py3-none-any.whl (285 kB)
+2025-10-30T06:49:58.2919457Z Downloading safety_schemas-0.0.16-py3-none-any.whl (39 kB)
+2025-10-30T06:49:58.3166509Z Downloading psutil-7.1.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl (258 kB)
+2025-10-30T06:49:58.3641501Z Downloading pylint-4.0.2-py3-none-any.whl (536 kB)
+2025-10-30T06:49:58.4153741Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.0/536.0 kB 10.6 MB/s  0:00:00
+2025-10-30T06:49:58.4356700Z Downloading astroid-4.0.1-py3-none-any.whl (276 kB)
+2025-10-30T06:49:58.4803690Z Downloading authlib-1.6.5-py2.py3-none-any.whl (243 kB)
+2025-10-30T06:49:58.5213197Z Downloading dill-0.4.0-py3-none-any.whl (119 kB)
+2025-10-30T06:49:58.5497733Z Downloading dparse-0.6.4-py3-none-any.whl (11 kB)
+2025-10-30T06:49:58.5718525Z Downloading marshmallow-4.0.1-py3-none-any.whl (48 kB)
+2025-10-30T06:49:58.5964834Z Downloading mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+2025-10-30T06:49:58.6184968Z Downloading nltk-3.9.2-py3-none-any.whl (1.5 MB)
+2025-10-30T06:49:58.7524934Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.5/1.5 MB 14.8 MB/s  0:00:00
+2025-10-30T06:49:58.7726556Z Downloading pathspec-0.12.1-py3-none-any.whl (31 kB)
+2025-10-30T06:49:58.7950791Z Downloading platformdirs-4.5.0-py3-none-any.whl (18 kB)
+2025-10-30T06:49:58.8171455Z Downloading pytokens-0.2.0-py3-none-any.whl (12 kB)
+2025-10-30T06:49:58.8389483Z Downloading regex-2025.10.23-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (800 kB)
+2025-10-30T06:49:58.8869586Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 800.3/800.3 kB 16.1 MB/s  0:00:00
+2025-10-30T06:49:58.9068884Z Downloading ruamel.yaml-0.18.16-py3-none-any.whl (119 kB)
+2025-10-30T06:49:58.9329559Z Downloading ruamel.yaml.clib-0.2.14-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (738 kB)
+2025-10-30T06:49:58.9730763Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 738.1/738.1 kB 16.7 MB/s  0:00:00
+2025-10-30T06:49:58.9930827Z Downloading setuptools-80.9.0-py3-none-any.whl (1.2 MB)
+2025-10-30T06:49:59.0512503Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 19.7 MB/s  0:00:00
+2025-10-30T06:49:59.0716374Z Downloading stevedore-5.5.0-py3-none-any.whl (49 kB)
+2025-10-30T06:49:59.0942845Z Downloading tomlkit-0.13.3-py3-none-any.whl (38 kB)
+2025-10-30T06:49:59.1168646Z Downloading typer-0.20.0-py3-none-any.whl (47 kB)
+2025-10-30T06:49:59.1394451Z Downloading rich-14.2.0-py3-none-any.whl (243 kB)
+2025-10-30T06:49:59.1687029Z Downloading pygments-2.19.2-py3-none-any.whl (1.2 MB)
+2025-10-30T06:49:59.2187058Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 23.1 MB/s  0:00:00
+2025-10-30T06:49:59.2390553Z Downloading markdown_it_py-4.0.0-py3-none-any.whl (87 kB)
+2025-10-30T06:49:59.2630427Z Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+2025-10-30T06:49:59.2856119Z Downloading shellingham-1.5.4-py2.py3-none-any.whl (9.8 kB)
+2025-10-30T06:49:59.3074849Z Downloading joblib-1.5.2-py3-none-any.whl (308 kB)
+2025-10-30T06:49:59.3373912Z Downloading tenacity-9.1.2-py3-none-any.whl (28 kB)
+2025-10-30T06:49:59.3592031Z Downloading tqdm-4.67.1-py3-none-any.whl (78 kB)
+2025-10-30T06:49:59.5124850Z Installing collected packages: tqdm, tomlkit, tenacity, stevedore, shellingham, setuptools, ruamel.yaml.clib, regex, pytokens, pygments, pyflakes, pycodestyle, psutil, platformdirs, pathspec, mypy-extensions, mdurl, mccabe, marshmallow, joblib, isort, dparse, dill, astroid, ruamel-yaml, pylint, nltk, markdown-it-py, flake8, black, safety-schemas, rich, authlib, typer, bandit, safety
+2025-10-30T06:49:59.6192123Z   Attempting uninstall: setuptools
+2025-10-30T06:49:59.6217085Z     Found existing installation: setuptools 65.5.0
+2025-10-30T06:49:59.9528914Z     Uninstalling setuptools-65.5.0:
+2025-10-30T06:50:00.0432994Z       Successfully uninstalled setuptools-65.5.0
+2025-10-30T06:50:03.6138600Z 
+2025-10-30T06:50:03.6184211Z Successfully installed astroid-4.0.1 authlib-1.6.5 bandit-1.8.6 black-25.9.0 dill-0.4.0 dparse-0.6.4 flake8-7.3.0 isort-7.0.0 joblib-1.5.2 markdown-it-py-4.0.0 marshmallow-4.0.1 mccabe-0.7.0 mdurl-0.1.2 mypy-extensions-1.1.0 nltk-3.9.2 pathspec-0.12.1 platformdirs-4.5.0 psutil-7.1.2 pycodestyle-2.14.0 pyflakes-3.4.0 pygments-2.19.2 pylint-4.0.2 pytokens-0.2.0 regex-2025.10.23 rich-14.2.0 ruamel-yaml-0.18.16 ruamel.yaml.clib-0.2.14 safety-3.6.2 safety-schemas-0.0.16 setuptools-80.9.0 shellingham-1.5.4 stevedore-5.5.0 tenacity-9.1.2 tomlkit-0.13.3 tqdm-4.67.1 typer-0.20.0
+2025-10-30T06:50:03.7995888Z ##[group]Run black --check --diff .
+2025-10-30T06:50:03.7996176Z [36;1mblack --check --diff .[0m
+2025-10-30T06:50:03.8939801Z shell: /usr/bin/bash -e {0}
+2025-10-30T06:50:03.8940182Z env:
+2025-10-30T06:50:03.8940369Z   PYTHON_VERSION: 3.11
+2025-10-30T06:50:03.8940562Z   NODE_VERSION: 18
+2025-10-30T06:50:03.8940804Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:50:03.8941189Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib/pkgconfig
+2025-10-30T06:50:03.8941555Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:50:03.8941879Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:50:03.8942202Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:50:03.8942523Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib
+2025-10-30T06:50:03.8942795Z ##[endgroup]
+2025-10-30T06:50:05.3331115Z --- /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/config.py	2025-10-30 06:48:16.888244+00:00
+2025-10-30T06:50:05.3334961Z +++ /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/config.py	2025-10-30 06:50:05.330803+00:00
+2025-10-30T06:50:05.3337664Z @@ -17,11 +17,11 @@
+2025-10-30T06:50:05.3338888Z  
+2025-10-30T06:50:05.3340162Z      # Server Configuration
+2025-10-30T06:50:05.3341491Z      host: str = "0.0.0.0"
+2025-10-30T06:50:05.3342790Z      port: int = int(os.getenv("PORT", 8000))
+2025-10-30T06:50:05.3344157Z      workers: int = int(os.getenv("WORKERS", 1))
+2025-10-30T06:50:05.3349074Z would reformat /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/config.py
+2025-10-30T06:50:05.3349861Z -    
+2025-10-30T06:50:05.3350556Z +
+2025-10-30T06:50:05.3350966Z      # Security / Secrets
+2025-10-30T06:50:05.3351534Z      secret_key: Optional[str] = os.getenv("SECRET_KEY")
+2025-10-30T06:50:05.3356569Z  
+2025-10-30T06:50:05.3357213Z      # Environment Configuration
+2025-10-30T06:50:05.3357620Z      environment: str = os.getenv(
+2025-10-30T06:50:05.3846775Z --- /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/routers/trading.py	2025-10-30 06:48:16.888244+00:00
+2025-10-30T06:50:05.3848087Z +++ /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/routers/trading.py	2025-10-30 06:50:05.382273+00:00
+2025-10-30T06:50:05.3849184Z @@ -8,10 +8,11 @@
+2025-10-30T06:50:05.3849502Z  from datetime import datetime
+2025-10-30T06:50:05.3850059Z  from pycoingecko import CoinGeckoAPI
+2025-10-30T06:50:05.3850454Z  
+2025-10-30T06:50:05.3850728Z  router = APIRouter()
+2025-10-30T06:50:05.3851073Z  cg = CoinGeckoAPI()
+2025-10-30T06:50:05.3851386Z +
+2025-10-30T06:50:05.3851641Z  
+2025-10-30T06:50:05.3851989Z  # === AGENTE RL SIMPLE (PPO-like) ===
+2025-10-30T06:50:05.3852446Z  class SimplePPOAgent(nn.Module):
+2025-10-30T06:50:05.3852923Z      def __init__(self, input_size=5, hidden_size=64):
+2025-10-30T06:50:05.3853449Z          super().__init__()
+2025-10-30T06:50:05.3853805Z @@ -25,51 +26,63 @@
+2025-10-30T06:50:05.3854153Z          x = torch.relu(self.fc2(x))
+2025-10-30T06:50:05.3854662Z          policy = torch.softmax(self.policy_head(x), dim=-1)
+2025-10-30T06:50:05.3855171Z          value = self.value_head(x)
+2025-10-30T06:50:05.3855584Z          return policy, value
+2025-10-30T06:50:05.3855934Z  
+2025-10-30T06:50:05.3856185Z +
+2025-10-30T06:50:05.3856467Z  agent = SimplePPOAgent()
+2025-10-30T06:50:05.3856822Z  agent.eval()
+2025-10-30T06:50:05.3857099Z +
+2025-10-30T06:50:05.3857360Z  
+2025-10-30T06:50:05.3857710Z  # === DATOS REALES BTC (Coingecko) + ORDERBOOK MOCK ===
+2025-10-30T06:50:05.3858178Z  def get_btc_data():
+2025-10-30T06:50:05.3858495Z      try:
+2025-10-30T06:50:05.3858955Z -        data = cg.get_price(ids='bitcoin', vs_currencies='usd', include_24hr_vol='true')
+2025-10-30T06:50:05.3859584Z -        price = data['bitcoin']['usd']
+2025-10-30T06:50:05.3860164Z -        volume_24h = data['bitcoin']['usd_24h_vol']
+2025-10-30T06:50:05.3861282Z +        data = cg.get_price(ids="bitcoin", vs_currencies="usd", include_24hr_vol="true")
+2025-10-30T06:50:05.4039126Z +        price = data["bitcoin"]["usd"]
+2025-10-30T06:50:05.4039784Z +        volume_24h = data["bitcoin"]["usd_24h_vol"]
+2025-10-30T06:50:05.4040443Z      except Exception as e:
+2025-10-30T06:50:05.4040867Z          print(f"Coingecko fallback: {e}")
+2025-10-30T06:50:05.4041346Z          price = 67000.0 + np.random.normal(0, 1000)
+2025-10-30T06:50:05.4041855Z          volume_24h = random.uniform(1000, 5000) * 1000
+2025-10-30T06:50:05.4042288Z  
+2025-10-30T06:50:05.4042580Z      # Orderbook simulado (5 niveles)
+2025-10-30T06:50:05.4043112Z -    bids = [(price * (1 - 0.0001 * (j+1)), random.uniform(0.1, 2.0)) for j in range(5)]
+2025-10-30T06:50:05.4043822Z -    asks = [(price * (1 + 0.0001 * (j+1)), random.uniform(0.1, 2.0)) for j in range(5)]
+2025-10-30T06:50:05.4044272Z +    bids = [
+2025-10-30T06:50:05.4044686Z +        (price * (1 - 0.0001 * (j + 1)), random.uniform(0.1, 2.0)) for j in range(5)
+2025-10-30T06:50:05.4045257Z +    ]
+2025-10-30T06:50:05.4045536Z +    asks = [
+2025-10-30T06:50:05.4045982Z +        (price * (1 + 0.0001 * (j + 1)), random.uniform(0.1, 2.0)) for j in range(5)
+2025-10-30T06:50:05.4046507Z +    ]
+2025-10-30T06:50:05.4046961Z      imbalance = sum(qty for _, qty in bids) - sum(qty for _, qty in asks)
+2025-10-30T06:50:05.4047651Z  
+2025-10-30T06:50:05.4047915Z      return {
+2025-10-30T06:50:05.4048261Z          "timestamp": datetime.now().isoformat(),
+2025-10-30T06:50:05.4048713Z          "price": round(price, 2),
+2025-10-30T06:50:05.4049150Z          "volume_24h": round(volume_24h, 2),
+2025-10-30T06:50:05.4049603Z          "imbalance": round(imbalance, 4),
+2025-10-30T06:50:05.4050177Z          "bids": bids,
+2025-10-30T06:50:05.4050520Z -        "asks": asks
+2025-10-30T06:50:05.4050848Z +        "asks": asks,
+2025-10-30T06:50:05.4051165Z      }
+2025-10-30T06:50:05.4051427Z +
+2025-10-30T06:50:05.4051688Z  
+2025-10-30T06:50:05.4052617Z  # === ENDPOINT: SEÑAL DE TRADING ===
+2025-10-30T06:50:05.4053058Z  @router.get("/imbalance")
+2025-10-30T06:50:05.4053463Z  async def get_imbalance_and_signal():
+2025-10-30T06:50:05.4053922Z      tick = get_btc_data()
+2025-10-30T06:50:05.4054265Z -    
+2025-10-30T06:50:05.4054544Z +
+2025-10-30T06:50:05.4055005Z      # Estado para RL: [imbalance, price_change, volume_norm, spread, momentum]
+2025-10-30T06:50:05.4055641Z -    state = torch.tensor([[
+2025-10-30T06:50:05.4056040Z -        tick["imbalance"] / 10.0,
+2025-10-30T06:50:05.4056444Z -        0.001,  # mock delta
+2025-10-30T06:50:05.4056846Z -        min(tick["volume_24h"] / 1e9, 1.0),
+2025-10-30T06:50:05.4057393Z -        (tick["asks"][0][0] - tick["bids"][0][0]) / tick["price"],
+2025-10-30T06:50:05.4057922Z -        random.uniform(-0.01, 0.01)
+2025-10-30T06:50:05.4058347Z -    ]], dtype=torch.float32)
+2025-10-30T06:50:05.4058748Z +    state = torch.tensor(
+2025-10-30T06:50:05.4059092Z +        [
+2025-10-30T06:50:05.4059380Z +            [
+2025-10-30T06:50:05.4059727Z +                tick["imbalance"] / 10.0,
+2025-10-30T06:50:05.4110223Z +                0.001,  # mock delta
+2025-10-30T06:50:05.4110737Z +                min(tick["volume_24h"] / 1e9, 1.0),
+2025-10-30T06:50:05.4111303Z +                (tick["asks"][0][0] - tick["bids"][0][0]) / tick["price"],
+2025-10-30T06:50:05.4111838Z +                random.uniform(-0.01, 0.01),
+2025-10-30T06:50:05.4112248Z +            ]
+2025-10-30T06:50:05.4112548Z +        ],
+2025-10-30T06:50:05.4112854Z +        dtype=torch.float32,
+2025-10-30T06:50:05.4113225Z +    )
+2025-10-30T06:50:05.4113494Z  
+2025-10-30T06:50:05.4113788Z      with torch.no_grad():
+2025-10-30T06:50:05.4114175Z          policy, value = agent(state)
+2025-10-30T06:50:05.4114627Z          action_idx = policy.argmax().item()
+2025-10-30T06:50:05.4115140Z          action_map = {0: "LONG", 1: "SHORT", 2: "HOLD"}
+2025-10-30T06:50:05.4115596Z @@ -82,21 +95,19 @@
+2025-10-30T06:50:05.4115946Z          "volume_24h": tick["volume_24h"],
+2025-10-30T06:50:05.4116395Z          "imbalance": tick["imbalance"],
+2025-10-30T06:50:05.4116834Z          "signal": signal,
+2025-10-30T06:50:05.4117461Z          "confidence": round(confidence, 4),
+2025-10-30T06:50:05.4117947Z          "value_estimate": round(value.item(), 4),
+2025-10-30T06:50:05.4118434Z -        "orderbook_snapshot": {
+2025-10-30T06:50:05.4118843Z -            "bids": tick["bids"][:3],
+2025-10-30T06:50:05.4119281Z -            "asks": tick["asks"][:3]
+2025-10-30T06:50:05.4119671Z -        }
+2025-10-30T06:50:05.4120292Z +        "orderbook_snapshot": {"bids": tick["bids"][:3], "asks": tick["asks"][:3]},
+2025-10-30T06:50:05.4120882Z      }
+2025-10-30T06:50:05.4121160Z +
+2025-10-30T06:50:05.4121407Z  
+2025-10-30T06:50:05.4121707Z  # === ENDPOINT: ESTADO DEL AGENTE ===
+2025-10-30T06:50:05.4122148Z  @router.get("/agent/status")
+2025-10-30T06:50:05.4122547Z  async def agent_status():
+2025-10-30T06:50:05.4122888Z      return {
+2025-10-30T06:50:05.4123199Z          "agent": "SimplePPOAgent",
+2025-10-30T06:50:05.4123629Z          "status": "loaded",
+2025-10-30T06:50:05.4123998Z          "input_size": 5,
+2025-10-30T06:50:05.4124395Z          "actions": ["LONG", "SHORT", "HOLD"],
+2025-10-30T06:50:05.4124853Z -        "torch_version": torch.__version__
+2025-10-30T06:50:05.4125332Z +        "torch_version": torch.__version__,
+2025-10-30T06:50:05.4125747Z      }
+2025-10-30T06:50:05.4126538Z would reformat /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/routers/trading.py
+2025-10-30T06:50:05.4238016Z --- /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/docs/trading_ai_system_updated/trading_ai_system/control_service/main.py	2025-10-30 06:48:16.889244+00:00
+2025-10-30T06:50:05.4239191Z +++ /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/docs/trading_ai_system_updated/trading_ai_system/control_service/main.py	2025-10-30 06:50:05.421931+00:00
+2025-10-30T06:50:05.4239826Z @@ -20,15 +20,17 @@
+2025-10-30T06:50:05.4240186Z  
+2025-10-30T06:50:05.4240333Z  
+2025-10-30T06:50:05.4240710Z  def get_exchange() -> ccxt.Exchange:
+2025-10-30T06:50:05.4240975Z      api_key = os.getenv("EXCHANGE_API_KEY")
+2025-10-30T06:50:05.4241385Z      secret = os.getenv("EXCHANGE_SECRET")
+2025-10-30T06:50:05.4241762Z -    exchange = ccxt.binance({
+2025-10-30T06:50:05.4242075Z -        "apiKey": api_key,
+2025-10-30T06:50:05.4242289Z -        "secret": secret,
+2025-10-30T06:50:05.4242607Z -        "enableRateLimit": True,
+2025-10-30T06:50:05.4242921Z -    })
+2025-10-30T06:50:05.4243159Z +    exchange = ccxt.binance(
+2025-10-30T06:50:05.4243414Z +        {
+2025-10-30T06:50:05.4243607Z +            "apiKey": api_key,
+2025-10-30T06:50:05.4243933Z +            "secret": secret,
+2025-10-30T06:50:05.4244265Z +            "enableRateLimit": True,
+2025-10-30T06:50:05.4244597Z +        }
+2025-10-30T06:50:05.4244790Z +    )
+2025-10-30T06:50:05.4245027Z      return exchange
+2025-10-30T06:50:05.4245290Z  
+2025-10-30T06:50:05.4245488Z  
+2025-10-30T06:50:05.4245750Z  @retry(wait=wait_fixed(5), stop=stop_after_attempt(5))
+2025-10-30T06:50:05.4246233Z  def create_consumer(topic: str) -> KafkaConsumer:
+2025-10-30T06:50:05.4246641Z @@ -46,11 +48,13 @@
+2025-10-30T06:50:05.4247064Z  def calculate_position_size(balance: float, risk_fraction: float) -> float:
+2025-10-30T06:50:05.4247764Z      """Calculate position size based on available balance and risk fraction."""
+2025-10-30T06:50:05.4248283Z      return balance * risk_fraction
+2025-10-30T06:50:05.4248615Z  
+2025-10-30T06:50:05.4248821Z  
+2025-10-30T06:50:05.4249301Z -def place_order(exchange: ccxt.Exchange, symbol: str, signal: int, amount: float) -> None:
+2025-10-30T06:50:05.4249900Z +def place_order(
+2025-10-30T06:50:05.4250438Z +    exchange: ccxt.Exchange, symbol: str, signal: int, amount: float
+2025-10-30T06:50:05.4250720Z +) -> None:
+2025-10-30T06:50:05.4250996Z      """Place a market order on the exchange.  For a real system you should
+2025-10-30T06:50:05.4251622Z      implement advanced order types, slippage checks and error handling."""
+2025-10-30T06:50:05.4253947Z      side = "buy" if signal == 1 else "sell"
+2025-10-30T06:50:05.4254330Z      try:
+2025-10-30T06:50:05.4254703Z          # Use market order for simplicity
+2025-10-30T06:50:05.4254931Z @@ -63,11 +67,13 @@
+2025-10-30T06:50:05.4255115Z  def main() -> None:
+2025-10-30T06:50:05.4255359Z      topic = os.getenv("TOPIC_TRADE_SIGNALS", "trade_signals")
+2025-10-30T06:50:05.4255649Z      consumer = create_consumer(topic)
+2025-10-30T06:50:05.4255880Z      exchange = get_exchange()
+2025-10-30T06:50:05.4256129Z      symbol_quote = os.getenv("DEFAULT_SYMBOL", "BTC/USDT")
+2025-10-30T06:50:05.4256523Z -    risk_fraction = float(os.getenv("RISK_FRACTION", "0.01"))  # risk 1% of balance per trade
+2025-10-30T06:50:05.4256869Z +    risk_fraction = float(
+2025-10-30T06:50:05.4259672Z +        os.getenv("RISK_FRACTION", "0.01")
+2025-10-30T06:50:05.4260270Z +    )  # risk 1% of balance per trade
+2025-10-30T06:50:05.4260711Z      print(f"[CONTROL] Listening on topic {topic}")
+2025-10-30T06:50:05.4261154Z      for msg in consumer:
+2025-10-30T06:50:05.4261497Z          data: Dict = msg.value
+2025-10-30T06:50:05.4261873Z          signal = int(data.get("signal", 0))
+2025-10-30T06:50:05.4262202Z          if signal == 0:
+2025-10-30T06:50:05.4262392Z @@ -89,6 +95,6 @@
+2025-10-30T06:50:05.4262556Z          # Place order
+2025-10-30T06:50:05.4262775Z          place_order(exchange, symbol, signal, amount)
+2025-10-30T06:50:05.4263008Z  
+2025-10-30T06:50:05.4263205Z  
+2025-10-30T06:50:05.4263358Z  if __name__ == "__main__":
+2025-10-30T06:50:05.4263549Z -    main()
+2025-10-30T06:50:05.4263714Z \ No newline at end of file
+2025-10-30T06:50:05.4263903Z +    main()
+2025-10-30T06:50:05.4264476Z would reformat /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/docs/trading_ai_system_updated/trading_ai_system/control_service/main.py
+2025-10-30T06:50:05.4265451Z would reformat /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py
+2025-10-30T06:50:05.4266701Z would reformat /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/docs/trading_ai_system_updated/trading_ai_system/ingestion_service/main.py
+2025-10-30T06:50:05.4267723Z --- /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py	2025-10-30 06:48:16.889244+00:00
+2025-10-30T06:50:05.4268800Z +++ /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py	2025-10-30 06:50:05.422870+00:00
+2025-10-30T06:50:05.4269446Z @@ -95,6 +95,6 @@
+2025-10-30T06:50:05.4269626Z          producer.flush()
+2025-10-30T06:50:05.4269909Z          print(f"[INFERENCE] {symbol} price={price:.2f} signal={signal}")
+2025-10-30T06:50:05.4270429Z  
+2025-10-30T06:50:05.4270625Z  
+2025-10-30T06:50:05.4270846Z  if __name__ == "__main__":
+2025-10-30T06:50:05.4271135Z -    main()
+2025-10-30T06:50:05.4271365Z \ No newline at end of file
+2025-10-30T06:50:05.4271648Z +    main()
+2025-10-30T06:50:05.4272312Z --- /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/docs/trading_ai_system_updated/trading_ai_system/ingestion_service/main.py	2025-10-30 06:48:16.889244+00:00
+2025-10-30T06:50:05.4273582Z +++ /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/docs/trading_ai_system_updated/trading_ai_system/ingestion_service/main.py	2025-10-30 06:50:05.423298+00:00
+2025-10-30T06:50:05.4274401Z @@ -25,15 +25,17 @@
+2025-10-30T06:50:05.4274692Z  def get_exchange() -> ccxt.Exchange:
+2025-10-30T06:50:05.4275132Z      """Initialise a CCXT exchange instance using environment variables."""
+2025-10-30T06:50:05.4275569Z      api_key = os.getenv("EXCHANGE_API_KEY")
+2025-10-30T06:50:05.4275857Z      secret = os.getenv("EXCHANGE_SECRET")
+2025-10-30T06:50:05.4276294Z      # You can customise the exchange here (e.g. binance, kucoin, hyperliquid via SDK)
+2025-10-30T06:50:05.4276727Z -    exchange = ccxt.binance({
+2025-10-30T06:50:05.4276974Z -        "apiKey": api_key,
+2025-10-30T06:50:05.4277163Z -        "secret": secret,
+2025-10-30T06:50:05.4277472Z -        "enableRateLimit": True,
+2025-10-30T06:50:05.4277677Z -    })
+2025-10-30T06:50:05.4277849Z +    exchange = ccxt.binance(
+2025-10-30T06:50:05.4278035Z +        {
+2025-10-30T06:50:05.4278200Z +            "apiKey": api_key,
+2025-10-30T06:50:05.4278408Z +            "secret": secret,
+2025-10-30T06:50:05.4278613Z +            "enableRateLimit": True,
+2025-10-30T06:50:05.4278825Z +        }
+2025-10-30T06:50:05.4278970Z +    )
+2025-10-30T06:50:05.4279125Z      return exchange
+2025-10-30T06:50:05.4279289Z  
+2025-10-30T06:50:05.4279427Z  
+2025-10-30T06:50:05.4279624Z  def normalise_ticker(symbol: str, ticker: Dict) -> Dict:
+2025-10-30T06:50:05.4280129Z      """Normalise the raw ticker data into a flat dict suitable for JSON serialisation."""
+2025-10-30T06:50:05.4280494Z @@ -87,6 +89,6 @@
+2025-10-30T06:50:05.4280939Z          # Sleep for a second – adjust for your latency requirements
+2025-10-30T06:50:05.4281229Z          time.sleep(1)
+2025-10-30T06:50:05.4281395Z  
+2025-10-30T06:50:05.4281533Z  
+2025-10-30T06:50:05.4281682Z  if __name__ == "__main__":
+2025-10-30T06:50:05.4281874Z -    main()
+2025-10-30T06:50:05.4282034Z \ No newline at end of file
+2025-10-30T06:50:05.4282224Z +    main()
+2025-10-30T06:50:05.4337705Z 
+2025-10-30T06:50:05.4338150Z Oh no! 💥 💔 💥
+2025-10-30T06:50:05.4338609Z 5 files would be reformatted, 23 files would be left unchanged.
+2025-10-30T06:50:05.4621132Z ##[error]Process completed with exit code 1.
+2025-10-30T06:50:05.4729378Z Post job cleanup.
+2025-10-30T06:50:05.5631982Z [command]/usr/bin/git version
+2025-10-30T06:50:05.5664151Z git version 2.51.0
+2025-10-30T06:50:05.5703426Z Temporarily overriding HOME='/home/runner/work/_temp/6dfbae93-2090-4a56-ac35-52f0516d41c4' before making global git config changes
+2025-10-30T06:50:05.5704563Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-30T06:50:05.5709208Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:50:05.5739616Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-30T06:50:05.5766622Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-30T06:50:05.6018450Z fatal: No url found for submodule path 'NeuroBank-FastAPI-Toolkit' in .gitmodules
+2025-10-30T06:50:05.6057525Z ##[warning]The process '/usr/bin/git' failed with exit code 128
+2025-10-30T06:50:05.6121441Z Cleaning up orphan processes

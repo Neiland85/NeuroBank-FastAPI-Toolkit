@@ -1,4 +1,0 @@
-kafka-python>=2.0.0
-ccxt>=4.0.0
-tenacity>=8.2.3
-python-dotenv>=1.0.0

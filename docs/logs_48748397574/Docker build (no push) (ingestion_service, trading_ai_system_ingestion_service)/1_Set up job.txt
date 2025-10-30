@@ -1,0 +1,29 @@
+﻿2025-10-30T06:48:12.4842640Z Current runner version: '2.328.0'
+2025-10-30T06:48:12.4864744Z ##[group]Runner Image Provisioner
+2025-10-30T06:48:12.4865546Z Hosted Compute Agent
+2025-10-30T06:48:12.4866024Z Version: 20250912.392
+2025-10-30T06:48:12.4866570Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-30T06:48:12.4867230Z Build Date: 2025-09-12T15:23:14Z
+2025-10-30T06:48:12.4867739Z ##[endgroup]
+2025-10-30T06:48:12.4868239Z ##[group]Operating System
+2025-10-30T06:48:12.4868726Z Ubuntu
+2025-10-30T06:48:12.4869172Z 24.04.3
+2025-10-30T06:48:12.4869556Z LTS
+2025-10-30T06:48:12.4869961Z ##[endgroup]
+2025-10-30T06:48:12.4870378Z ##[group]Runner Image
+2025-10-30T06:48:12.4870891Z Image: ubuntu-24.04
+2025-10-30T06:48:12.4871339Z Version: 20250929.60.1
+2025-10-30T06:48:12.4872215Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250929.60/images/ubuntu/Ubuntu2404-Readme.md
+2025-10-30T06:48:12.4873447Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250929.60
+2025-10-30T06:48:12.4874453Z ##[endgroup]
+2025-10-30T06:48:12.4875683Z ##[group]GITHUB_TOKEN Permissions
+2025-10-30T06:48:12.4877509Z Contents: read
+2025-10-30T06:48:12.4877945Z Metadata: read
+2025-10-30T06:48:12.4878379Z Packages: read
+2025-10-30T06:48:12.4878864Z ##[endgroup]
+2025-10-30T06:48:12.4880910Z Secret source: Actions
+2025-10-30T06:48:12.4881725Z Prepare workflow directory
+2025-10-30T06:48:12.5254838Z Prepare all required actions
+2025-10-30T06:48:12.5309277Z Getting action download info
+2025-10-30T06:48:12.7877725Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-30T06:48:13.0125353Z Complete job name: Docker build (no push) (ingestion_service, trading_ai_system/ingestion_service)

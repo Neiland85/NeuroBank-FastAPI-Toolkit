@@ -1,0 +1,6 @@
+﻿2025-10-30T06:48:14.1805374Z ##[group]Run docker build -t neurobank/control_service:ci trading_ai_system/control_service
+2025-10-30T06:48:14.1808274Z [36;1mdocker build -t neurobank/control_service:ci trading_ai_system/control_service[0m
+2025-10-30T06:48:14.1847039Z shell: /usr/bin/bash -e {0}
+2025-10-30T06:48:14.1848206Z ##[endgroup]
+2025-10-30T06:48:16.9913325Z ERROR: failed to build: unable to prepare context: path "trading_ai_system/control_service" not found
+2025-10-30T06:48:16.9968496Z ##[error]Process completed with exit code 1.

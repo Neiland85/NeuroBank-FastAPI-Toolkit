@@ -1,0 +1,116 @@
+﻿2025-10-30T06:50:02.2496705Z ##[group]Run flake8 .
+2025-10-30T06:50:02.2497106Z [36;1mflake8 .[0m
+2025-10-30T06:50:02.2581458Z shell: /usr/bin/bash -e {0}
+2025-10-30T06:50:02.2581705Z env:
+2025-10-30T06:50:02.2581954Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:50:02.2582373Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib/pkgconfig
+2025-10-30T06:50:02.2582758Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:50:02.2583120Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:50:02.2583462Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:50:02.2583806Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib
+2025-10-30T06:50:02.2584096Z ##[endgroup]
+2025-10-30T06:50:02.9228923Z ./api/index.py:12:80: E501 line too long (85 > 79 characters)
+2025-10-30T06:50:02.9229917Z ./api/index.py:16:1: E402 module level import not at top of file
+2025-10-30T06:50:02.9230620Z ./api/index.py:34:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9231413Z ./app/auth/dependencies.py:1:1: F401 'os' imported but unused
+2025-10-30T06:50:02.9232180Z ./app/auth/dependencies.py:57:80: E501 line too long (95 > 79 characters)
+2025-10-30T06:50:02.9232991Z ./app/backoffice/router.py:11:1: F401 'typing.Any' imported but unused
+2025-10-30T06:50:02.9233788Z ./app/backoffice/router.py:11:1: F401 'typing.Dict' imported but unused
+2025-10-30T06:50:02.9234518Z ./app/backoffice/router.py:11:1: F401 'typing.List' imported but unused
+2025-10-30T06:50:02.9235310Z ./app/backoffice/router.py:13:1: F401 'fastapi.HTTPException' imported but unused
+2025-10-30T06:50:02.9236213Z ./app/backoffice/router.py:14:1: F401 'fastapi.responses.JSONResponse' imported but unused
+2025-10-30T06:50:02.9237359Z ./app/backoffice/router.py:15:1: F401 'fastapi.staticfiles.StaticFiles' imported but unused
+2025-10-30T06:50:02.9238191Z ./app/backoffice/router.py:45:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9238893Z ./app/backoffice/router.py:48:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9239601Z ./app/backoffice/router.py:60:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9240303Z ./app/backoffice/router.py:79:80: E501 line too long (85 > 79 characters)
+2025-10-30T06:50:02.9241009Z ./app/backoffice/router.py:125:80: E501 line too long (88 > 79 characters)
+2025-10-30T06:50:02.9241744Z ./app/backoffice/router.py:179:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9242851Z ./app/backoffice/router_clean.py:11:1: F401 'typing.Any' imported but unused
+2025-10-30T06:50:02.9243671Z ./app/backoffice/router_clean.py:11:1: F401 'typing.Dict' imported but unused
+2025-10-30T06:50:02.9244465Z ./app/backoffice/router_clean.py:11:1: F401 'typing.List' imported but unused
+2025-10-30T06:50:02.9245295Z ./app/backoffice/router_clean.py:13:1: F401 'fastapi.HTTPException' imported but unused
+2025-10-30T06:50:02.9246211Z ./app/backoffice/router_clean.py:14:1: F401 'fastapi.responses.JSONResponse' imported but unused
+2025-10-30T06:50:02.9247444Z ./app/backoffice/router_clean.py:15:1: F401 'fastapi.staticfiles.StaticFiles' imported but unused
+2025-10-30T06:50:02.9248319Z ./app/backoffice/router_clean.py:45:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9249094Z ./app/backoffice/router_clean.py:48:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9249849Z ./app/backoffice/router_clean.py:60:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9250616Z ./app/backoffice/router_clean.py:79:80: E501 line too long (85 > 79 characters)
+2025-10-30T06:50:02.9251380Z ./app/backoffice/router_clean.py:125:80: E501 line too long (88 > 79 characters)
+2025-10-30T06:50:02.9252153Z ./app/backoffice/router_clean.py:179:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9252832Z ./app/config.py:22:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9253392Z ./app/config.py:32:80: E501 line too long (80 > 79 characters)
+2025-10-30T06:50:02.9253954Z ./app/config.py:40:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9254811Z ./app/config.py:54:80: E501 line too long (80 > 79 characters)
+2025-10-30T06:50:02.9255366Z ./app/config.py:65:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9255907Z ./app/config.py:92:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9256629Z ./app/config.py:101:80: E501 line too long (169 > 79 characters)
+2025-10-30T06:50:02.9257210Z ./app/config.py:104:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9257781Z ./app/config.py:105:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9258338Z ./app/config.py:106:80: E501 line too long (86 > 79 characters)
+2025-10-30T06:50:02.9258866Z ./app/main.py:1:1: F401 'datetime' imported but unused
+2025-10-30T06:50:02.9259394Z ./app/main.py:19:80: E501 line too long (106 > 79 characters)
+2025-10-30T06:50:02.9259930Z ./app/main.py:23:80: E501 line too long (87 > 79 characters)
+2025-10-30T06:50:02.9260454Z ./app/main.py:81:80: E501 line too long (81 > 79 characters)
+2025-10-30T06:50:02.9260979Z ./app/main.py:82:80: E501 line too long (86 > 79 characters)
+2025-10-30T06:50:02.9261537Z ./app/main.py:88:1: E402 module level import not at top of file
+2025-10-30T06:50:02.9262082Z ./app/main.py:109:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9262652Z ./app/main.py:147:5: F811 redefinition of unused 'datetime' from line 1
+2025-10-30T06:50:02.9263228Z ./app/main.py:156:80: E501 line too long (87 > 79 characters)
+2025-10-30T06:50:02.9263766Z ./app/main.py:162:80: E501 line too long (85 > 79 characters)
+2025-10-30T06:50:02.9264280Z ./app/main.py:163:80: E501 line too long (81 > 79 characters)
+2025-10-30T06:50:02.9264775Z ./app/main.py:165:80: E501 line too long (83 > 79 characters)
+2025-10-30T06:50:02.9265279Z ./app/main.py:186:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9265783Z ./app/main.py:225:80: E501 line too long (85 > 79 characters)
+2025-10-30T06:50:02.9266500Z ./app/routers/operator.py:1:1: F401 'typing.List' imported but unused
+2025-10-30T06:50:02.9267209Z ./app/routers/operator.py:3:1: F401 'fastapi.HTTPException' imported but unused
+2025-10-30T06:50:02.9267897Z ./app/routers/operator.py:3:1: F401 'fastapi.status' imported but unused
+2025-10-30T06:50:02.9268558Z ./app/routers/operator.py:32:80: E501 line too long (88 > 79 characters)
+2025-10-30T06:50:02.9269264Z ./app/routers/operator.py:34:5: F811 redefinition of unused 'status' from line 3
+2025-10-30T06:50:02.9270144Z ./app/routers/operator.py:75:80: E501 line too long (86 > 79 characters)
+2025-10-30T06:50:02.9270805Z ./app/routers/operator.py:91:80: E501 line too long (80 > 79 characters)
+2025-10-30T06:50:02.9271438Z ./app/routers/operator.py:97:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9272079Z ./app/routers/operator.py:127:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9272674Z ./app/routers/operator.py:128:76: W291 trailing whitespace
+2025-10-30T06:50:02.9273254Z ./app/routers/operator.py:130:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9273879Z ./app/routers/operator.py:136:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9274588Z ./app/routers/operator.py:143:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9275237Z ./app/routers/operator.py:209:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9275813Z ./app/routers/operator.py:210:75: W291 trailing whitespace
+2025-10-30T06:50:02.9276786Z ./app/routers/operator.py:212:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9277447Z ./app/routers/operator.py:218:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9278065Z ./app/routers/operator.py:224:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9278688Z ./app/routers/operator.py:229:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9279338Z ./app/routers/operator.py:269:80: E501 line too long (97 > 79 characters)
+2025-10-30T06:50:02.9279982Z ./app/routers/operator.py:278:80: E501 line too long (83 > 79 characters)
+2025-10-30T06:50:02.9280649Z ./app/routers/trading.py:1:1: F401 'fastapi.HTTPException' imported but unused
+2025-10-30T06:50:02.9281530Z ./app/routers/trading.py:2:1: F401 'pydantic.BaseModel' imported but unused
+2025-10-30T06:50:02.9282180Z ./app/routers/trading.py:3:1: F401 'typing.Dict' imported but unused
+2025-10-30T06:50:02.9282807Z ./app/routers/trading.py:15:1: E302 expected 2 blank lines, found 1
+2025-10-30T06:50:02.9283659Z ./app/routers/trading.py:30:1: E305 expected 2 blank lines after class or function definition, found 1
+2025-10-30T06:50:02.9284515Z ./app/routers/trading.py:34:1: E302 expected 2 blank lines, found 1
+2025-10-30T06:50:02.9285227Z ./app/routers/trading.py:36:80: E501 line too long (88 > 79 characters)
+2025-10-30T06:50:02.9285934Z ./app/routers/trading.py:45:80: E501 line too long (87 > 79 characters)
+2025-10-30T06:50:02.9286799Z ./app/routers/trading.py:46:80: E501 line too long (87 > 79 characters)
+2025-10-30T06:50:02.9287496Z ./app/routers/trading.py:59:1: E302 expected 2 blank lines, found 1
+2025-10-30T06:50:02.9288196Z ./app/routers/trading.py:62:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9288888Z ./app/routers/trading.py:94:1: E302 expected 2 blank lines, found 1
+2025-10-30T06:50:02.9289554Z ./app/security.py:59:80: E501 line too long (83 > 79 characters)
+2025-10-30T06:50:02.9290194Z ./app/tests/test_operator.py:1:1: F401 'os' imported but unused
+2025-10-30T06:50:02.9290890Z ./app/tests/test_operator.py:89:80: E501 line too long (80 > 79 characters)
+2025-10-30T06:50:02.9291922Z ./docs/trading_ai_system_updated/trading_ai_system/control_service/main.py:51:80: E501 line too long (90 > 79 characters)
+2025-10-30T06:50:02.9293181Z ./docs/trading_ai_system_updated/trading_ai_system/control_service/main.py:68:80: E501 line too long (93 > 79 characters)
+2025-10-30T06:50:02.9294410Z ./docs/trading_ai_system_updated/trading_ai_system/control_service/main.py:94:11: W292 no newline at end of file
+2025-10-30T06:50:02.9295534Z ./docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py:12:1: F401 'sys' imported but unused
+2025-10-30T06:50:02.9296901Z ./docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py:14:1: F401 'typing.List' imported but unused
+2025-10-30T06:50:02.9298165Z ./docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py:18:1: F401 'numpy as np' imported but unused
+2025-10-30T06:50:02.9299421Z ./docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py:49:80: E501 line too long (80 > 79 characters)
+2025-10-30T06:50:02.9300741Z ./docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py:93:80: E501 line too long (89 > 79 characters)
+2025-10-30T06:50:02.9301769Z ./docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py:100:11: W292 no newline at end of file
+2025-10-30T06:50:02.9302984Z ./docs/trading_ai_system_updated/trading_ai_system/ingestion_service/main.py:29:80: E501 line too long (85 > 79 characters)
+2025-10-30T06:50:02.9304215Z ./docs/trading_ai_system_updated/trading_ai_system/ingestion_service/main.py:39:80: E501 line too long (89 > 79 characters)
+2025-10-30T06:50:02.9305489Z ./docs/trading_ai_system_updated/trading_ai_system/ingestion_service/main.py:61:80: E501 line too long (86 > 79 characters)
+2025-10-30T06:50:02.9306899Z ./docs/trading_ai_system_updated/trading_ai_system/ingestion_service/main.py:69:80: E501 line too long (80 > 79 characters)
+2025-10-30T06:50:02.9308167Z ./docs/trading_ai_system_updated/trading_ai_system/ingestion_service/main.py:92:11: W292 no newline at end of file
+2025-10-30T06:50:02.9309173Z ./start_clean_server.py:23:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9457507Z ##[error]Process completed with exit code 1.

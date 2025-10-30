@@ -1,0 +1,80 @@
+name: Deploy Prod (ECS)
+
+on:
+  push:
+    tags:
+      - 'prod-*'
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+  ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    strategy:
+      matrix:
+        include:
+          - name: api-gateway
+            context: .
+            dockerfile: docker/Dockerfile.api
+          - name: control-service
+            context: trading_ai_system/control_service
+            dockerfile: Dockerfile
+          - name: inference-service
+            context: trading_ai_system/inference_service
+            dockerfile: Dockerfile
+          - name: ingestion-service
+            context: trading_ai_system/ingestion_service
+            dockerfile: Dockerfile
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+          persist-credentials: false
+
+      - name: 🔎 Guard — skip build if context missing
+        id: guard
+        run: |
+          if [ ! -d "${{ matrix.context }}" ]; then
+            echo "skip_build=true" >> $GITHUB_OUTPUT
+            echo "::warning::Context ${{ matrix.context }} not found. Skipping build."
+          fi
+
+      - name: ⚙️ Configure AWS credentials
+        if: steps.guard.outputs.skip_build != 'true'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: 🐳 Login to ECR
+        if: steps.guard.outputs.skip_build != 'true'
+        run: |
+          aws ecr get-login-password --region $AWS_REGION | \
+          docker login --username AWS --password-stdin $ECR_REGISTRY
+
+      - name: 🏗️ Build and push image
+        if: steps.guard.outputs.skip_build != 'true'
+        run: |
+          IMAGE_URI=$ECR_REGISTRY/${{ matrix.name }}:${{ github.ref_name }}
+          docker build -t "$IMAGE_URI" "${{ matrix.context }}"
+          docker push "$IMAGE_URI"
+          echo "✅ $IMAGE_URI pushed"
+
+      - name: 🧭 Update ECS Service
+        if: steps.guard.outputs.skip_build != 'true'
+        run: |
+          aws ecs update-service \
+            --cluster neurobank-prod-cluster \
+            --service ${{ matrix.name }} \
+            --force-new-deployment \
+            --region $AWS_REGION
+

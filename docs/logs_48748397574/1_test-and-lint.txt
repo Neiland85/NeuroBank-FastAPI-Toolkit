@@ -1,0 +1,610 @@
+﻿2025-10-30T06:48:14.2669583Z Current runner version: '2.328.0'
+2025-10-30T06:48:14.2692585Z ##[group]Runner Image Provisioner
+2025-10-30T06:48:14.2693379Z Hosted Compute Agent
+2025-10-30T06:48:14.2694001Z Version: 20250912.392
+2025-10-30T06:48:14.2694557Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-30T06:48:14.2695270Z Build Date: 2025-09-12T15:23:14Z
+2025-10-30T06:48:14.2695851Z ##[endgroup]
+2025-10-30T06:48:14.2696595Z ##[group]Operating System
+2025-10-30T06:48:14.2697238Z Ubuntu
+2025-10-30T06:48:14.2697754Z 24.04.3
+2025-10-30T06:48:14.2698189Z LTS
+2025-10-30T06:48:14.2698669Z ##[endgroup]
+2025-10-30T06:48:14.2699183Z ##[group]Runner Image
+2025-10-30T06:48:14.2699706Z Image: ubuntu-24.04
+2025-10-30T06:48:14.2700210Z Version: 20250929.60.1
+2025-10-30T06:48:14.2701148Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250929.60/images/ubuntu/Ubuntu2404-Readme.md
+2025-10-30T06:48:14.2702754Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250929.60
+2025-10-30T06:48:14.2703732Z ##[endgroup]
+2025-10-30T06:48:14.2704765Z ##[group]GITHUB_TOKEN Permissions
+2025-10-30T06:48:14.2706936Z Contents: read
+2025-10-30T06:48:14.2707545Z Metadata: read
+2025-10-30T06:48:14.2708068Z Packages: read
+2025-10-30T06:48:14.2708511Z ##[endgroup]
+2025-10-30T06:48:14.2710685Z Secret source: Actions
+2025-10-30T06:48:14.2711361Z Prepare workflow directory
+2025-10-30T06:48:14.3118535Z Prepare all required actions
+2025-10-30T06:48:14.3157549Z Getting action download info
+2025-10-30T06:48:14.6581666Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-30T06:48:14.8291109Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2025-10-30T06:48:14.9591815Z Download action repository 'actions/cache@v4' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+2025-10-30T06:48:15.2048278Z Complete job name: test-and-lint
+2025-10-30T06:48:15.2924994Z ##[group]Run actions/checkout@v4
+2025-10-30T06:48:15.2926326Z with:
+2025-10-30T06:48:15.2927656Z   repository: Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:15.2929120Z   token: ***
+2025-10-30T06:48:15.2929870Z   ssh-strict: true
+2025-10-30T06:48:15.2930647Z   ssh-user: git
+2025-10-30T06:48:15.2931443Z   persist-credentials: true
+2025-10-30T06:48:15.2932341Z   clean: true
+2025-10-30T06:48:15.2933152Z   sparse-checkout-cone-mode: true
+2025-10-30T06:48:15.2934120Z   fetch-depth: 1
+2025-10-30T06:48:15.2934932Z   fetch-tags: false
+2025-10-30T06:48:15.2935757Z   show-progress: true
+2025-10-30T06:48:15.2936688Z   lfs: false
+2025-10-30T06:48:15.2937410Z   submodules: false
+2025-10-30T06:48:15.2938192Z   set-safe-directory: true
+2025-10-30T06:48:15.2939383Z ##[endgroup]
+2025-10-30T06:48:15.4110523Z Syncing repository: Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:15.4113251Z ##[group]Getting Git version info
+2025-10-30T06:48:15.4115069Z Working directory is '/home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit'
+2025-10-30T06:48:15.4117553Z [command]/usr/bin/git version
+2025-10-30T06:48:15.4204092Z git version 2.51.0
+2025-10-30T06:48:15.4232009Z ##[endgroup]
+2025-10-30T06:48:15.4247697Z Temporarily overriding HOME='/home/runner/work/_temp/b8a130d5-97e1-454b-94b3-f51e4020c5b3' before making global git config changes
+2025-10-30T06:48:15.4250369Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-30T06:48:15.4253728Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:15.4304231Z Deleting the contents of '/home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit'
+2025-10-30T06:48:15.4307283Z ##[group]Initializing the repository
+2025-10-30T06:48:15.4312635Z [command]/usr/bin/git init /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:15.4462022Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-10-30T06:48:15.4464369Z hint: is subject to change. To configure the initial branch name to use in all
+2025-10-30T06:48:15.4467606Z hint: of your new repositories, which will suppress this warning, call:
+2025-10-30T06:48:15.4469942Z hint:
+2025-10-30T06:48:15.4471523Z hint: 	git config --global init.defaultBranch <name>
+2025-10-30T06:48:15.4473786Z hint:
+2025-10-30T06:48:15.4475549Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-10-30T06:48:15.4478826Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-10-30T06:48:15.4481290Z hint:
+2025-10-30T06:48:15.4482459Z hint: 	git branch -m <name>
+2025-10-30T06:48:15.4483804Z hint:
+2025-10-30T06:48:15.4485680Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-10-30T06:48:15.4488728Z Initialized empty Git repository in /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/.git/
+2025-10-30T06:48:15.4493221Z [command]/usr/bin/git remote add origin https://github.com/Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:15.4522559Z ##[endgroup]
+2025-10-30T06:48:15.4524983Z ##[group]Disabling automatic garbage collection
+2025-10-30T06:48:15.4527361Z [command]/usr/bin/git config --local gc.auto 0
+2025-10-30T06:48:15.4557842Z ##[endgroup]
+2025-10-30T06:48:15.4560059Z ##[group]Setting up auth
+2025-10-30T06:48:15.4565683Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-30T06:48:15.4599395Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-30T06:48:15.4950218Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-30T06:48:15.4983588Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-10-30T06:48:15.5214026Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-10-30T06:48:15.5248946Z ##[endgroup]
+2025-10-30T06:48:15.5251014Z ##[group]Fetching the repository
+2025-10-30T06:48:15.5258200Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +13fccd95db49fad2103f09d41202c2bde4a23443:refs/remotes/pull/36/merge
+2025-10-30T06:48:15.8444625Z From https://github.com/Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:15.8447058Z  * [new ref]         13fccd95db49fad2103f09d41202c2bde4a23443 -> pull/36/merge
+2025-10-30T06:48:15.8479230Z ##[endgroup]
+2025-10-30T06:48:15.8481160Z ##[group]Determining the checkout info
+2025-10-30T06:48:15.8482685Z ##[endgroup]
+2025-10-30T06:48:15.8485948Z [command]/usr/bin/git sparse-checkout disable
+2025-10-30T06:48:15.8527279Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-10-30T06:48:15.8555921Z ##[group]Checking out the ref
+2025-10-30T06:48:15.8559507Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/36/merge
+2025-10-30T06:48:15.9190593Z Note: switching to 'refs/remotes/pull/36/merge'.
+2025-10-30T06:48:15.9192870Z 
+2025-10-30T06:48:15.9194320Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-10-30T06:48:15.9197544Z changes and commit them, and you can discard any commits you make in this
+2025-10-30T06:48:15.9200598Z state without impacting any branches by switching back to a branch.
+2025-10-30T06:48:15.9202259Z 
+2025-10-30T06:48:15.9203296Z If you want to create a new branch to retain commits you create, you may
+2025-10-30T06:48:15.9205824Z do so (now or later) by using -c with the switch command. Example:
+2025-10-30T06:48:15.9207572Z 
+2025-10-30T06:48:15.9208182Z   git switch -c <new-branch-name>
+2025-10-30T06:48:15.9209191Z 
+2025-10-30T06:48:15.9209826Z Or undo this operation with:
+2025-10-30T06:48:15.9210770Z 
+2025-10-30T06:48:15.9211310Z   git switch -
+2025-10-30T06:48:15.9211935Z 
+2025-10-30T06:48:15.9212730Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-10-30T06:48:15.9214103Z 
+2025-10-30T06:48:15.9215274Z HEAD is now at 13fccd9 Merge 50c435b96ba846ba728e3ea72021f667cf169b35 into f0c60eb3ca5d19fa101884318f72015a6aa94884
+2025-10-30T06:48:15.9220553Z ##[endgroup]
+2025-10-30T06:48:15.9252482Z [command]/usr/bin/git log -1 --format=%H
+2025-10-30T06:48:15.9280387Z 13fccd95db49fad2103f09d41202c2bde4a23443
+2025-10-30T06:48:15.9580008Z ##[group]Run actions/setup-python@v5
+2025-10-30T06:48:15.9580994Z with:
+2025-10-30T06:48:15.9581675Z   python-version: 3.11
+2025-10-30T06:48:15.9582467Z   check-latest: false
+2025-10-30T06:48:15.9583465Z   token: ***
+2025-10-30T06:48:15.9584195Z   update-environment: true
+2025-10-30T06:48:15.9585070Z   allow-prereleases: false
+2025-10-30T06:48:15.9585903Z   freethreaded: false
+2025-10-30T06:48:15.9586814Z ##[endgroup]
+2025-10-30T06:48:16.1272748Z ##[group]Installed versions
+2025-10-30T06:48:16.1386887Z Successfully set up CPython (3.11.13)
+2025-10-30T06:48:16.1389429Z ##[endgroup]
+2025-10-30T06:48:16.3427251Z ##[group]Run actions/cache@v4
+2025-10-30T06:48:16.3428743Z with:
+2025-10-30T06:48:16.3429839Z   path: ~/.cache/pip
+2025-10-30T06:48:16.3432059Z   key: Linux-pip-81f756d5b3665f48337033a18cc6941b77936ab1be44566d644b7eee99451cf3
+2025-10-30T06:48:16.3433820Z   restore-keys: Linux-pip-
+2025-10-30T06:48:16.3434671Z   enableCrossOsArchive: false
+2025-10-30T06:48:16.3435531Z   fail-on-cache-miss: false
+2025-10-30T06:48:16.3436342Z   lookup-only: false
+2025-10-30T06:48:16.3437307Z   save-always: false
+2025-10-30T06:48:16.3438014Z env:
+2025-10-30T06:48:16.3438854Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:48:16.3440297Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib/pkgconfig
+2025-10-30T06:48:16.3441731Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:48:16.3443008Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:48:16.3444314Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:48:16.3445678Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib
+2025-10-30T06:48:16.3446977Z ##[endgroup]
+2025-10-30T06:48:16.6391082Z Cache not found for input keys: Linux-pip-81f756d5b3665f48337033a18cc6941b77936ab1be44566d644b7eee99451cf3, Linux-pip-
+2025-10-30T06:48:16.6528846Z ##[group]Run pip install -U pip wheel
+2025-10-30T06:48:16.6529998Z [36;1mpip install -U pip wheel[0m
+2025-10-30T06:48:16.6531301Z [36;1mif [ -f requirements.txt ]; then pip install -r requirements.txt; fi[0m
+2025-10-30T06:48:16.6533566Z [36;1mfor svc in trading_ai_system/ingestion_service trading_ai_system/inference_service trading_ai_system/control_service; do[0m
+2025-10-30T06:48:16.6535912Z [36;1m  if [ -f "$svc/requirements.txt" ]; then pip install -r "$svc/requirements.txt"; fi[0m
+2025-10-30T06:48:16.6537552Z [36;1mdone[0m
+2025-10-30T06:48:16.6538311Z [36;1mpip install pytest flake8[0m
+2025-10-30T06:48:16.6628531Z shell: /usr/bin/bash -e {0}
+2025-10-30T06:48:16.6629413Z env:
+2025-10-30T06:48:16.6630333Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:48:16.6631828Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib/pkgconfig
+2025-10-30T06:48:16.6633278Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:48:16.6634652Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:48:16.6635979Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:48:16.6637466Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib
+2025-10-30T06:48:16.6638584Z ##[endgroup]
+2025-10-30T06:48:20.7905406Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (25.2)
+2025-10-30T06:48:20.8877590Z Collecting pip
+2025-10-30T06:48:20.9488082Z   Downloading pip-25.3-py3-none-any.whl.metadata (4.7 kB)
+2025-10-30T06:48:20.9754438Z Collecting wheel
+2025-10-30T06:48:20.9830154Z   Downloading wheel-0.45.1-py3-none-any.whl.metadata (2.3 kB)
+2025-10-30T06:48:20.9945683Z Downloading pip-25.3-py3-none-any.whl (1.8 MB)
+2025-10-30T06:48:21.1022890Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 19.2 MB/s  0:00:00
+2025-10-30T06:48:21.1095463Z Downloading wheel-0.45.1-py3-none-any.whl (72 kB)
+2025-10-30T06:48:21.1571804Z Installing collected packages: wheel, pip
+2025-10-30T06:48:21.2043919Z   Attempting uninstall: pip
+2025-10-30T06:48:21.2061135Z     Found existing installation: pip 25.2
+2025-10-30T06:48:21.4205283Z     Uninstalling pip-25.2:
+2025-10-30T06:48:21.4262933Z       Successfully uninstalled pip-25.2
+2025-10-30T06:48:22.2141695Z 
+2025-10-30T06:48:22.2152385Z Successfully installed pip-25.3 wheel-0.45.1
+2025-10-30T06:48:22.7925034Z Collecting fastapi==0.116.1 (from -r requirements.txt (line 1))
+2025-10-30T06:48:22.8589314Z   Downloading fastapi-0.116.1-py3-none-any.whl.metadata (28 kB)
+2025-10-30T06:48:22.9037801Z Collecting uvicorn==0.29.0 (from uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:22.9111831Z   Downloading uvicorn-0.29.0-py3-none-any.whl.metadata (6.3 kB)
+2025-10-30T06:48:22.9700210Z Collecting uvloop==0.21.0 (from -r requirements.txt (line 3))
+2025-10-30T06:48:22.9778030Z   Downloading uvloop-0.21.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+2025-10-30T06:48:23.1000042Z Collecting pydantic==2.7.0 (from -r requirements.txt (line 4))
+2025-10-30T06:48:23.1079687Z   Downloading pydantic-2.7.0-py3-none-any.whl.metadata (103 kB)
+2025-10-30T06:48:23.1483979Z Collecting pydantic-settings==2.2.1 (from -r requirements.txt (line 5))
+2025-10-30T06:48:23.1557044Z   Downloading pydantic_settings-2.2.1-py3-none-any.whl.metadata (3.1 kB)
+2025-10-30T06:48:23.1769971Z Collecting python-dotenv==1.0.1 (from -r requirements.txt (line 6))
+2025-10-30T06:48:23.1886299Z   Downloading python_dotenv-1.0.1-py3-none-any.whl.metadata (23 kB)
+2025-10-30T06:48:23.2072016Z Collecting loguru==0.7.2 (from -r requirements.txt (line 7))
+2025-10-30T06:48:23.2155207Z   Downloading loguru-0.7.2-py3-none-any.whl.metadata (23 kB)
+2025-10-30T06:48:23.2596859Z Collecting pytest==8.2.0 (from -r requirements.txt (line 8))
+2025-10-30T06:48:23.2673569Z   Downloading pytest-8.2.0-py3-none-any.whl.metadata (7.5 kB)
+2025-10-30T06:48:23.2926814Z Collecting pytest-asyncio==0.23.6 (from -r requirements.txt (line 9))
+2025-10-30T06:48:23.3011618Z   Downloading pytest_asyncio-0.23.6-py3-none-any.whl.metadata (3.9 kB)
+2025-10-30T06:48:23.3216699Z Collecting pytest-cov==5.0.0 (from -r requirements.txt (line 10))
+2025-10-30T06:48:23.3287480Z   Downloading pytest_cov-5.0.0-py3-none-any.whl.metadata (27 kB)
+2025-10-30T06:48:23.3539231Z Collecting httpx==0.27.0 (from -r requirements.txt (line 11))
+2025-10-30T06:48:23.3614619Z   Downloading httpx-0.27.0-py3-none-any.whl.metadata (7.2 kB)
+2025-10-30T06:48:23.3904634Z Collecting watchtower==3.0.0 (from -r requirements.txt (line 12))
+2025-10-30T06:48:23.3988362Z   Downloading watchtower-3.0.0-py3-none-any.whl.metadata (14 kB)
+2025-10-30T06:48:23.4198768Z Collecting aws-xray-sdk==2.13.0 (from -r requirements.txt (line 13))
+2025-10-30T06:48:23.4281446Z   Downloading aws_xray_sdk-2.13.0-py2.py3-none-any.whl.metadata (22 kB)
+2025-10-30T06:48:23.4492797Z Collecting mangum==0.17.0 (from -r requirements.txt (line 14))
+2025-10-30T06:48:23.4564966Z   Downloading mangum-0.17.0-py3-none-any.whl.metadata (3.3 kB)
+2025-10-30T06:48:23.4877325Z Collecting starlette==0.47.2 (from -r requirements.txt (line 15))
+2025-10-30T06:48:23.4952657Z   Downloading starlette-0.47.2-py3-none-any.whl.metadata (6.2 kB)
+2025-10-30T06:48:23.5143677Z Collecting python-json-logger==2.0.7 (from -r requirements.txt (line 16))
+2025-10-30T06:48:23.5221723Z   Downloading python_json_logger-2.0.7-py3-none-any.whl.metadata (6.5 kB)
+2025-10-30T06:48:23.5413120Z Collecting jinja2==3.1.6 (from -r requirements.txt (line 17))
+2025-10-30T06:48:23.5484332Z   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+2025-10-30T06:48:23.5643304Z Collecting python-multipart==0.0.18 (from -r requirements.txt (line 18))
+2025-10-30T06:48:23.5713127Z   Downloading python_multipart-0.0.18-py3-none-any.whl.metadata (1.8 kB)
+2025-10-30T06:48:23.5996271Z Collecting requests==2.32.4 (from -r requirements.txt (line 19))
+2025-10-30T06:48:23.6069134Z   Downloading requests-2.32.4-py3-none-any.whl.metadata (4.9 kB)
+2025-10-30T06:48:23.6613453Z Collecting torch (from -r requirements.txt (line 22))
+2025-10-30T06:48:23.6689513Z   Downloading torch-2.9.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (30 kB)
+2025-10-30T06:48:23.8811849Z Collecting numpy (from -r requirements.txt (line 23))
+2025-10-30T06:48:23.8889771Z   Downloading numpy-2.3.4-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+2025-10-30T06:48:23.9221623Z Collecting pycoingecko (from -r requirements.txt (line 24))
+2025-10-30T06:48:23.9303015Z   Downloading pycoingecko-3.2.0-py3-none-any.whl.metadata (16 kB)
+2025-10-30T06:48:23.9488753Z Collecting hyperliquid (from -r requirements.txt (line 25))
+2025-10-30T06:48:23.9565920Z   Downloading hyperliquid-0.4.66-py3-none-any.whl.metadata (9.0 kB)
+2025-10-30T06:48:24.0155526Z Collecting typing-extensions>=4.8.0 (from fastapi==0.116.1->-r requirements.txt (line 1))
+2025-10-30T06:48:24.0229347Z   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+2025-10-30T06:48:24.0390955Z Collecting annotated-types>=0.4.0 (from pydantic==2.7.0->-r requirements.txt (line 4))
+2025-10-30T06:48:24.0463195Z   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+2025-10-30T06:48:24.7277285Z Collecting pydantic-core==2.18.1 (from pydantic==2.7.0->-r requirements.txt (line 4))
+2025-10-30T06:48:24.7371629Z   Downloading pydantic_core-2.18.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.5 kB)
+2025-10-30T06:48:24.7665578Z Collecting anyio<5,>=3.6.2 (from starlette==0.47.2->-r requirements.txt (line 15))
+2025-10-30T06:48:24.7742796Z   Downloading anyio-4.11.0-py3-none-any.whl.metadata (4.1 kB)
+2025-10-30T06:48:24.8013667Z Collecting click>=7.0 (from uvicorn==0.29.0->uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:24.8089819Z   Downloading click-8.3.0-py3-none-any.whl.metadata (2.6 kB)
+2025-10-30T06:48:24.8245840Z Collecting h11>=0.8 (from uvicorn==0.29.0->uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:24.8322161Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2025-10-30T06:48:24.8733679Z Collecting iniconfig (from pytest==8.2.0->-r requirements.txt (line 8))
+2025-10-30T06:48:24.8804951Z   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+2025-10-30T06:48:24.9007421Z Collecting packaging (from pytest==8.2.0->-r requirements.txt (line 8))
+2025-10-30T06:48:24.9080882Z   Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+2025-10-30T06:48:24.9245803Z Collecting pluggy<2.0,>=1.5 (from pytest==8.2.0->-r requirements.txt (line 8))
+2025-10-30T06:48:24.9316894Z   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+2025-10-30T06:48:25.3071703Z Collecting coverage>=5.2.1 (from coverage[toml]>=5.2.1->pytest-cov==5.0.0->-r requirements.txt (line 10))
+2025-10-30T06:48:25.3148168Z   Downloading coverage-7.11.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (9.0 kB)
+2025-10-30T06:48:25.3399802Z Collecting certifi (from httpx==0.27.0->-r requirements.txt (line 11))
+2025-10-30T06:48:25.3477018Z   Downloading certifi-2025.10.5-py3-none-any.whl.metadata (2.5 kB)
+2025-10-30T06:48:25.3705694Z Collecting httpcore==1.* (from httpx==0.27.0->-r requirements.txt (line 11))
+2025-10-30T06:48:25.3781283Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2025-10-30T06:48:25.3991259Z Collecting idna (from httpx==0.27.0->-r requirements.txt (line 11))
+2025-10-30T06:48:25.4063285Z   Downloading idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+2025-10-30T06:48:25.4210264Z Collecting sniffio (from httpx==0.27.0->-r requirements.txt (line 11))
+2025-10-30T06:48:25.4281252Z   Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+2025-10-30T06:48:25.8467844Z Collecting boto3<2,>=1.9.253 (from watchtower==3.0.0->-r requirements.txt (line 12))
+2025-10-30T06:48:25.8545464Z   Downloading boto3-1.40.62-py3-none-any.whl.metadata (6.6 kB)
+2025-10-30T06:48:25.9807625Z Collecting wrapt (from aws-xray-sdk==2.13.0->-r requirements.txt (line 13))
+2025-10-30T06:48:25.9883879Z   Downloading wrapt-2.0.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.8 kB)
+2025-10-30T06:48:26.4337887Z Collecting botocore>=1.11.3 (from aws-xray-sdk==2.13.0->-r requirements.txt (line 13))
+2025-10-30T06:48:26.4414674Z   Downloading botocore-1.40.62-py3-none-any.whl.metadata (5.7 kB)
+2025-10-30T06:48:26.5009988Z Collecting MarkupSafe>=2.0 (from jinja2==3.1.6->-r requirements.txt (line 17))
+2025-10-30T06:48:26.5086640Z   Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+2025-10-30T06:48:26.5984507Z Collecting charset_normalizer<4,>=2 (from requests==2.32.4->-r requirements.txt (line 19))
+2025-10-30T06:48:26.6060133Z   Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (37 kB)
+2025-10-30T06:48:26.6424912Z Collecting urllib3<3,>=1.21.1 (from requests==2.32.4->-r requirements.txt (line 19))
+2025-10-30T06:48:26.6496827Z   Downloading urllib3-2.5.0-py3-none-any.whl.metadata (6.5 kB)
+2025-10-30T06:48:26.6978304Z Collecting httptools>=0.5.0 (from uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:26.7052642Z   Downloading httptools-0.7.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+2025-10-30T06:48:26.7500909Z Collecting pyyaml>=5.1 (from uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:26.7577305Z   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2025-10-30T06:48:26.8392978Z Collecting watchfiles>=0.13 (from uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:26.8487812Z   Downloading watchfiles-1.1.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+2025-10-30T06:48:26.9381245Z Collecting websockets>=10.4 (from uvicorn[standard]==0.29.0->-r requirements.txt (line 2))
+2025-10-30T06:48:26.9461031Z   Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+2025-10-30T06:48:27.0698059Z Collecting jmespath<2.0.0,>=0.7.1 (from boto3<2,>=1.9.253->watchtower==3.0.0->-r requirements.txt (line 12))
+2025-10-30T06:48:27.0773452Z   Downloading jmespath-1.0.1-py3-none-any.whl.metadata (7.6 kB)
+2025-10-30T06:48:27.0998904Z Collecting s3transfer<0.15.0,>=0.14.0 (from boto3<2,>=1.9.253->watchtower==3.0.0->-r requirements.txt (line 12))
+2025-10-30T06:48:27.1071734Z   Downloading s3transfer-0.14.0-py3-none-any.whl.metadata (1.7 kB)
+2025-10-30T06:48:27.1277147Z Collecting python-dateutil<3.0.0,>=2.1 (from botocore>=1.11.3->aws-xray-sdk==2.13.0->-r requirements.txt (line 13))
+2025-10-30T06:48:27.1350542Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2025-10-30T06:48:27.1727068Z Collecting six>=1.5 (from python-dateutil<3.0.0,>=2.1->botocore>=1.11.3->aws-xray-sdk==2.13.0->-r requirements.txt (line 13))
+2025-10-30T06:48:27.1798498Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2025-10-30T06:48:27.4613057Z Collecting filelock (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.4689916Z   Downloading filelock-3.20.0-py3-none-any.whl.metadata (2.1 kB)
+2025-10-30T06:48:27.4904662Z Collecting sympy>=1.13.3 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.4977381Z   Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+2025-10-30T06:48:27.5267359Z Collecting networkx>=2.5.1 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.5342652Z   Downloading networkx-3.5-py3-none-any.whl.metadata (6.3 kB)
+2025-10-30T06:48:27.5667189Z Collecting fsspec>=0.8.5 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.5743514Z   Downloading fsspec-2025.9.0-py3-none-any.whl.metadata (10 kB)
+2025-10-30T06:48:27.6138414Z Collecting nvidia-cuda-nvrtc-cu12==12.8.93 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.6215703Z   Downloading nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:27.6392481Z Collecting nvidia-cuda-runtime-cu12==12.8.90 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.6467086Z   Downloading nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:27.6646120Z Collecting nvidia-cuda-cupti-cu12==12.8.90 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.6720304Z   Downloading nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:27.6910174Z Collecting nvidia-cudnn-cu12==9.10.2.21 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.6986778Z   Downloading nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl.metadata (1.8 kB)
+2025-10-30T06:48:27.7164158Z Collecting nvidia-cublas-cu12==12.8.4.1 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.7238451Z   Downloading nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:27.7424442Z Collecting nvidia-cufft-cu12==11.3.3.83 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.7495920Z   Downloading nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:27.7662161Z Collecting nvidia-curand-cu12==10.3.9.90 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.7734746Z   Downloading nvidia_curand_cu12-10.3.9.90-py3-none-manylinux_2_27_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:27.7900531Z Collecting nvidia-cusolver-cu12==11.7.3.90 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.7972338Z   Downloading nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl.metadata (1.8 kB)
+2025-10-30T06:48:27.8137392Z Collecting nvidia-cusparse-cu12==12.5.8.93 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.8211603Z   Downloading nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.8 kB)
+2025-10-30T06:48:27.8356854Z Collecting nvidia-cusparselt-cu12==0.7.1 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.8432670Z   Downloading nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl.metadata (7.0 kB)
+2025-10-30T06:48:27.8600205Z Collecting nvidia-nccl-cu12==2.27.5 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.8671935Z   Downloading nvidia_nccl_cu12-2.27.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.0 kB)
+2025-10-30T06:48:27.9554949Z Collecting nvidia-nvshmem-cu12==3.3.20 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.9630353Z   Downloading nvidia_nvshmem_cu12-3.3.20-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.1 kB)
+2025-10-30T06:48:27.9812844Z Collecting nvidia-nvtx-cu12==12.8.90 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:27.9883480Z   Downloading nvidia_nvtx_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.8 kB)
+2025-10-30T06:48:28.0052102Z Collecting nvidia-nvjitlink-cu12==12.8.93 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.0123944Z   Downloading nvidia_nvjitlink_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.0272456Z Collecting nvidia-cufile-cu12==1.13.1.3 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.0344547Z   Downloading nvidia_cufile_cu12-1.13.1.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.0537085Z Collecting triton==3.5.0 (from torch->-r requirements.txt (line 22))
+2025-10-30T06:48:28.0609543Z   Downloading triton-3.5.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (1.7 kB)
+2025-10-30T06:48:28.0895241Z Requirement already satisfied: setuptools>=60.9.0 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from hyperliquid->-r requirements.txt (line 25)) (65.5.0)
+2025-10-30T06:48:28.2878720Z Collecting cryptography>=2.6.1 (from hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:28.2955184Z   Downloading cryptography-46.0.3-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (5.7 kB)
+2025-10-30T06:48:28.7832244Z Collecting aiohttp<=3.10.11 (from hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:28.7916873Z   Downloading aiohttp-3.10.11-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.7 kB)
+2025-10-30T06:48:28.8099262Z Collecting aiodns>=1.1.1 (from hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:28.8174795Z   Downloading aiodns-3.5.0-py3-none-any.whl.metadata (5.8 kB)
+2025-10-30T06:48:29.1566677Z Collecting yarl>=1.7.2 (from hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.1643966Z   Downloading yarl-1.22.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (75 kB)
+2025-10-30T06:48:29.1979162Z Collecting aiohappyeyeballs>=2.3.0 (from aiohttp<=3.10.11->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.2051339Z   Downloading aiohappyeyeballs-2.6.1-py3-none-any.whl.metadata (5.9 kB)
+2025-10-30T06:48:29.2200934Z Collecting aiosignal>=1.1.2 (from aiohttp<=3.10.11->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.2278669Z   Downloading aiosignal-1.4.0-py3-none-any.whl.metadata (3.7 kB)
+2025-10-30T06:48:29.2476670Z Collecting attrs>=17.3.0 (from aiohttp<=3.10.11->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.2548564Z   Downloading attrs-25.4.0-py3-none-any.whl.metadata (10 kB)
+2025-10-30T06:48:29.3319609Z Collecting frozenlist>=1.1.1 (from aiohttp<=3.10.11->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.3395997Z   Downloading frozenlist-1.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (20 kB)
+2025-10-30T06:48:29.5721892Z Collecting multidict<7.0,>=4.5 (from aiohttp<=3.10.11->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.5801081Z   Downloading multidict-6.7.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+2025-10-30T06:48:29.6657414Z Collecting propcache>=0.2.1 (from yarl>=1.7.2->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.6734519Z   Downloading propcache-0.4.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (13 kB)
+2025-10-30T06:48:29.7455295Z Collecting pycares>=4.9.0 (from aiodns>=1.1.1->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.7529807Z   Downloading pycares-4.11.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (4.5 kB)
+2025-10-30T06:48:29.8819600Z Collecting cffi>=2.0.0 (from cryptography>=2.6.1->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.8893094Z   Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+2025-10-30T06:48:29.9065967Z Collecting pycparser (from cffi>=2.0.0->cryptography>=2.6.1->hyperliquid->-r requirements.txt (line 25))
+2025-10-30T06:48:29.9135486Z   Downloading pycparser-2.23-py3-none-any.whl.metadata (993 bytes)
+2025-10-30T06:48:29.9606724Z Collecting mpmath<1.4,>=1.1.0 (from sympy>=1.13.3->torch->-r requirements.txt (line 22))
+2025-10-30T06:48:29.9677148Z   Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+2025-10-30T06:48:30.0048212Z Downloading fastapi-0.116.1-py3-none-any.whl (95 kB)
+2025-10-30T06:48:30.0229440Z Downloading pydantic-2.7.0-py3-none-any.whl (407 kB)
+2025-10-30T06:48:30.0642433Z Downloading starlette-0.47.2-py3-none-any.whl (72 kB)
+2025-10-30T06:48:30.0762354Z Downloading uvicorn-0.29.0-py3-none-any.whl (60 kB)
+2025-10-30T06:48:30.0879247Z Downloading uvloop-0.21.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (4.0 MB)
+2025-10-30T06:48:30.2391837Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.0/4.0 MB 28.0 MB/s  0:00:00
+2025-10-30T06:48:30.2465853Z Downloading pydantic_settings-2.2.1-py3-none-any.whl (13 kB)
+2025-10-30T06:48:30.2560946Z Downloading python_dotenv-1.0.1-py3-none-any.whl (19 kB)
+2025-10-30T06:48:30.2654042Z Downloading loguru-0.7.2-py3-none-any.whl (62 kB)
+2025-10-30T06:48:30.2790504Z Downloading pytest-8.2.0-py3-none-any.whl (339 kB)
+2025-10-30T06:48:30.2950210Z Downloading pytest_asyncio-0.23.6-py3-none-any.whl (17 kB)
+2025-10-30T06:48:30.3049314Z Downloading pytest_cov-5.0.0-py3-none-any.whl (21 kB)
+2025-10-30T06:48:30.3134669Z Downloading httpx-0.27.0-py3-none-any.whl (75 kB)
+2025-10-30T06:48:30.3231600Z Downloading watchtower-3.0.0-py3-none-any.whl (16 kB)
+2025-10-30T06:48:30.3333311Z Downloading aws_xray_sdk-2.13.0-py2.py3-none-any.whl (101 kB)
+2025-10-30T06:48:30.3435917Z Downloading mangum-0.17.0-py3-none-any.whl (17 kB)
+2025-10-30T06:48:30.3531536Z Downloading python_json_logger-2.0.7-py3-none-any.whl (8.1 kB)
+2025-10-30T06:48:30.3625371Z Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+2025-10-30T06:48:30.3726301Z Downloading python_multipart-0.0.18-py3-none-any.whl (24 kB)
+2025-10-30T06:48:30.3822678Z Downloading requests-2.32.4-py3-none-any.whl (64 kB)
+2025-10-30T06:48:30.3920395Z Downloading pydantic_core-2.18.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+2025-10-30T06:48:30.4321400Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 51.9 MB/s  0:00:00
+2025-10-30T06:48:30.4395546Z Downloading anyio-4.11.0-py3-none-any.whl (109 kB)
+2025-10-30T06:48:30.4488995Z Downloading boto3-1.40.62-py3-none-any.whl (139 kB)
+2025-10-30T06:48:30.4593529Z Downloading botocore-1.40.62-py3-none-any.whl (14.1 MB)
+2025-10-30T06:48:30.5974486Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.1/14.1 MB 102.9 MB/s  0:00:00
+2025-10-30T06:48:30.6050307Z Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (151 kB)
+2025-10-30T06:48:30.6146614Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2025-10-30T06:48:30.6238059Z Downloading idna-3.11-py3-none-any.whl (71 kB)
+2025-10-30T06:48:30.6331385Z Downloading jmespath-1.0.1-py3-none-any.whl (20 kB)
+2025-10-30T06:48:30.6422916Z Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+2025-10-30T06:48:30.6513981Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2025-10-30T06:48:30.6611742Z Downloading s3transfer-0.14.0-py3-none-any.whl (85 kB)
+2025-10-30T06:48:30.6705752Z Downloading urllib3-2.5.0-py3-none-any.whl (129 kB)
+2025-10-30T06:48:30.6798539Z Downloading torch-2.9.0-cp311-cp311-manylinux_2_28_x86_64.whl (899.8 MB)
+2025-10-30T06:48:37.4301617Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 899.8/899.8 MB 57.8 MB/s  0:00:06
+2025-10-30T06:48:37.4384909Z Downloading nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl (594.3 MB)
+2025-10-30T06:48:41.3585470Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 594.3/594.3 MB 82.0 MB/s  0:00:03
+2025-10-30T06:48:41.3661642Z Downloading nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (10.2 MB)
+2025-10-30T06:48:41.4118308Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.2/10.2 MB 250.3 MB/s  0:00:00
+2025-10-30T06:48:41.4193819Z Downloading nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (88.0 MB)
+2025-10-30T06:48:41.7382480Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 88.0/88.0 MB 278.1 MB/s  0:00:00
+2025-10-30T06:48:41.7458747Z Downloading nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (954 kB)
+2025-10-30T06:48:41.7529545Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 954.8/954.8 kB 146.8 MB/s  0:00:00
+2025-10-30T06:48:41.7602293Z Downloading nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl (706.8 MB)
+2025-10-30T06:48:47.9298119Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 706.8/706.8 MB 51.5 MB/s  0:00:06
+2025-10-30T06:48:47.9380931Z Downloading nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (193.1 MB)
+2025-10-30T06:48:48.8772405Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 193.1/193.1 MB 206.1 MB/s  0:00:00
+2025-10-30T06:48:48.8849077Z Downloading nvidia_cufile_cu12-1.13.1.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.2 MB)
+2025-10-30T06:48:48.8955565Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 136.4 MB/s  0:00:00
+2025-10-30T06:48:48.9026146Z Downloading nvidia_curand_cu12-10.3.9.90-py3-none-manylinux_2_27_x86_64.whl (63.6 MB)
+2025-10-30T06:48:49.1784140Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 63.6/63.6 MB 232.9 MB/s  0:00:00
+2025-10-30T06:48:49.1859916Z Downloading nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl (267.5 MB)
+2025-10-30T06:48:50.6400911Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 267.5/267.5 MB 183.6 MB/s  0:00:01
+2025-10-30T06:48:50.6487198Z Downloading nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (288.2 MB)
+2025-10-30T06:48:52.8942624Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 288.2/288.2 MB 121.4 MB/s  0:00:02
+2025-10-30T06:48:52.9020441Z Downloading nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl (287.2 MB)
+2025-10-30T06:48:55.1991956Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 287.2/287.2 MB 118.5 MB/s  0:00:02
+2025-10-30T06:48:55.2065287Z Downloading nvidia_nccl_cu12-2.27.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (322.3 MB)
+2025-10-30T06:48:57.6041470Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 322.3/322.3 MB 115.7 MB/s  0:00:02
+2025-10-30T06:48:57.6126261Z Downloading nvidia_nvjitlink_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (39.3 MB)
+2025-10-30T06:48:57.7827125Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 39.3/39.3 MB 233.4 MB/s  0:00:00
+2025-10-30T06:48:57.7911217Z Downloading nvidia_nvshmem_cu12-3.3.20-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (124.7 MB)
+2025-10-30T06:48:58.3294347Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 124.7/124.7 MB 232.8 MB/s  0:00:00
+2025-10-30T06:48:58.3371222Z Downloading nvidia_nvtx_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (89 kB)
+2025-10-30T06:48:58.3469478Z Downloading triton-3.5.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (170.4 MB)
+2025-10-30T06:48:59.2689553Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 170.4/170.4 MB 185.2 MB/s  0:00:00
+2025-10-30T06:48:59.2784193Z Downloading numpy-2.3.4-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+2025-10-30T06:48:59.3552496Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 228.8 MB/s  0:00:00
+2025-10-30T06:48:59.3639143Z Downloading pycoingecko-3.2.0-py3-none-any.whl (10 kB)
+2025-10-30T06:48:59.3738848Z Downloading hyperliquid-0.4.66-py3-none-any.whl (623 kB)
+2025-10-30T06:48:59.3811423Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 623.0/623.0 kB 83.3 MB/s  0:00:00
+2025-10-30T06:48:59.3907985Z Downloading aiohttp-3.10.11-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.3 MB)
+2025-10-30T06:48:59.4002880Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 153.3 MB/s  0:00:00
+2025-10-30T06:48:59.4078477Z Downloading multidict-6.7.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (246 kB)
+2025-10-30T06:48:59.4181261Z Downloading yarl-1.22.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (365 kB)
+2025-10-30T06:48:59.4284176Z Downloading aiodns-3.5.0-py3-none-any.whl (8.1 kB)
+2025-10-30T06:48:59.4373729Z Downloading aiohappyeyeballs-2.6.1-py3-none-any.whl (15 kB)
+2025-10-30T06:48:59.4463901Z Downloading aiosignal-1.4.0-py3-none-any.whl (7.5 kB)
+2025-10-30T06:48:59.4553918Z Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+2025-10-30T06:48:59.4644527Z Downloading attrs-25.4.0-py3-none-any.whl (67 kB)
+2025-10-30T06:48:59.4740767Z Downloading certifi-2025.10.5-py3-none-any.whl (163 kB)
+2025-10-30T06:48:59.4837624Z Downloading click-8.3.0-py3-none-any.whl (107 kB)
+2025-10-30T06:48:59.4934003Z Downloading coverage-7.11.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (248 kB)
+2025-10-30T06:48:59.5038068Z Downloading cryptography-46.0.3-cp311-abi3-manylinux_2_34_x86_64.whl (4.5 MB)
+2025-10-30T06:48:59.5269865Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 225.9 MB/s  0:00:00
+2025-10-30T06:48:59.5352464Z Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (215 kB)
+2025-10-30T06:48:59.5457734Z Downloading frozenlist-1.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (231 kB)
+2025-10-30T06:48:59.5557316Z Downloading fsspec-2025.9.0-py3-none-any.whl (199 kB)
+2025-10-30T06:48:59.5656897Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2025-10-30T06:48:59.5766881Z Downloading httptools-0.7.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (456 kB)
+2025-10-30T06:48:59.5875571Z Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+2025-10-30T06:48:59.5973926Z Downloading networkx-3.5-py3-none-any.whl (2.0 MB)
+2025-10-30T06:48:59.6096155Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 203.4 MB/s  0:00:00
+2025-10-30T06:48:59.6170919Z Downloading propcache-0.4.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (210 kB)
+2025-10-30T06:48:59.6268570Z Downloading pycares-4.11.0-cp311-cp311-manylinux_2_28_x86_64.whl (643 kB)
+2025-10-30T06:48:59.6366131Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 644.0/644.0 kB 75.8 MB/s  0:00:00
+2025-10-30T06:48:59.6442413Z Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+2025-10-30T06:48:59.6511725Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 125.1 MB/s  0:00:00
+2025-10-30T06:48:59.6583455Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2025-10-30T06:48:59.6673920Z Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+2025-10-30T06:48:59.6771280Z Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
+2025-10-30T06:48:59.7073192Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 235.5 MB/s  0:00:00
+2025-10-30T06:48:59.7149788Z Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+2025-10-30T06:48:59.7206662Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 79.1 MB/s  0:00:00
+2025-10-30T06:48:59.7280319Z Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+2025-10-30T06:48:59.7377045Z Downloading watchfiles-1.1.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (456 kB)
+2025-10-30T06:48:59.7492061Z Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+2025-10-30T06:48:59.7589523Z Downloading filelock-3.20.0-py3-none-any.whl (16 kB)
+2025-10-30T06:48:59.7679357Z Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+2025-10-30T06:48:59.7770950Z Downloading packaging-25.0-py3-none-any.whl (66 kB)
+2025-10-30T06:48:59.7863002Z Downloading pycparser-2.23-py3-none-any.whl (118 kB)
+2025-10-30T06:48:59.7980504Z Downloading wrapt-2.0.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (114 kB)
+2025-10-30T06:49:03.1317526Z Installing collected packages: nvidia-cusparselt-cu12, mpmath, wrapt, websockets, uvloop, urllib3, typing-extensions, triton, sympy, sniffio, six, pyyaml, python-multipart, python-json-logger, python-dotenv, pycparser, propcache, pluggy, packaging, nvidia-nvtx-cu12, nvidia-nvshmem-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufile-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, numpy, networkx, multidict, MarkupSafe, loguru, jmespath, iniconfig, idna, httptools, h11, fsspec, frozenlist, filelock, coverage, click, charset_normalizer, certifi, attrs, annotated-types, aiohappyeyeballs, yarl, uvicorn, requests, python-dateutil, pytest, pydantic-core, nvidia-cusparse-cu12, nvidia-cufft-cu12, nvidia-cudnn-cu12, mangum, jinja2, httpcore, cffi, anyio, aiosignal, watchfiles, starlette, pytest-cov, pytest-asyncio, pydantic, pycoingecko, pycares, nvidia-cusolver-cu12, httpx, cryptography, botocore, aiohttp, torch, s3transfer, pydantic-settings, fastapi, aws-xray-sdk, aiodns, hyperliquid, boto3, watchtower
+2025-10-30T06:49:59.1095852Z 
+2025-10-30T06:49:59.1138652Z Successfully installed MarkupSafe-3.0.3 aiodns-3.5.0 aiohappyeyeballs-2.6.1 aiohttp-3.10.11 aiosignal-1.4.0 annotated-types-0.7.0 anyio-4.11.0 attrs-25.4.0 aws-xray-sdk-2.13.0 boto3-1.40.62 botocore-1.40.62 certifi-2025.10.5 cffi-2.0.0 charset_normalizer-3.4.4 click-8.3.0 coverage-7.11.0 cryptography-46.0.3 fastapi-0.116.1 filelock-3.20.0 frozenlist-1.8.0 fsspec-2025.9.0 h11-0.16.0 httpcore-1.0.9 httptools-0.7.1 httpx-0.27.0 hyperliquid-0.4.66 idna-3.11 iniconfig-2.3.0 jinja2-3.1.6 jmespath-1.0.1 loguru-0.7.2 mangum-0.17.0 mpmath-1.3.0 multidict-6.7.0 networkx-3.5 numpy-2.3.4 nvidia-cublas-cu12-12.8.4.1 nvidia-cuda-cupti-cu12-12.8.90 nvidia-cuda-nvrtc-cu12-12.8.93 nvidia-cuda-runtime-cu12-12.8.90 nvidia-cudnn-cu12-9.10.2.21 nvidia-cufft-cu12-11.3.3.83 nvidia-cufile-cu12-1.13.1.3 nvidia-curand-cu12-10.3.9.90 nvidia-cusolver-cu12-11.7.3.90 nvidia-cusparse-cu12-12.5.8.93 nvidia-cusparselt-cu12-0.7.1 nvidia-nccl-cu12-2.27.5 nvidia-nvjitlink-cu12-12.8.93 nvidia-nvshmem-cu12-3.3.20 nvidia-nvtx-cu12-12.8.90 packaging-25.0 pluggy-1.6.0 propcache-0.4.1 pycares-4.11.0 pycoingecko-3.2.0 pycparser-2.23 pydantic-2.7.0 pydantic-core-2.18.1 pydantic-settings-2.2.1 pytest-8.2.0 pytest-asyncio-0.23.6 pytest-cov-5.0.0 python-dateutil-2.9.0.post0 python-dotenv-1.0.1 python-json-logger-2.0.7 python-multipart-0.0.18 pyyaml-6.0.3 requests-2.32.4 s3transfer-0.14.0 six-1.17.0 sniffio-1.3.1 starlette-0.47.2 sympy-1.14.0 torch-2.9.0 triton-3.5.0 typing-extensions-4.15.0 urllib3-2.5.0 uvicorn-0.29.0 uvloop-0.21.0 watchfiles-1.1.1 watchtower-3.0.0 websockets-15.0.1 wrapt-2.0.0 yarl-1.22.0
+2025-10-30T06:50:01.6502713Z Requirement already satisfied: pytest in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (8.2.0)
+2025-10-30T06:50:01.7619561Z Collecting flake8
+2025-10-30T06:50:01.8339888Z   Downloading flake8-7.3.0-py2.py3-none-any.whl.metadata (3.8 kB)
+2025-10-30T06:50:01.8385170Z Requirement already satisfied: iniconfig in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from pytest) (2.3.0)
+2025-10-30T06:50:01.8390209Z Requirement already satisfied: packaging in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from pytest) (25.0)
+2025-10-30T06:50:01.8397581Z Requirement already satisfied: pluggy<2.0,>=1.5 in /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages (from pytest) (1.6.0)
+2025-10-30T06:50:01.8549794Z Collecting mccabe<0.8.0,>=0.7.0 (from flake8)
+2025-10-30T06:50:01.8622387Z   Downloading mccabe-0.7.0-py2.py3-none-any.whl.metadata (5.0 kB)
+2025-10-30T06:50:01.8793453Z Collecting pycodestyle<2.15.0,>=2.14.0 (from flake8)
+2025-10-30T06:50:01.8867073Z   Downloading pycodestyle-2.14.0-py2.py3-none-any.whl.metadata (4.5 kB)
+2025-10-30T06:50:01.9050728Z Collecting pyflakes<3.5.0,>=3.4.0 (from flake8)
+2025-10-30T06:50:01.9125344Z   Downloading pyflakes-3.4.0-py2.py3-none-any.whl.metadata (3.5 kB)
+2025-10-30T06:50:01.9251083Z Downloading flake8-7.3.0-py2.py3-none-any.whl (57 kB)
+2025-10-30T06:50:01.9445787Z Downloading mccabe-0.7.0-py2.py3-none-any.whl (7.3 kB)
+2025-10-30T06:50:01.9533894Z Downloading pycodestyle-2.14.0-py2.py3-none-any.whl (31 kB)
+2025-10-30T06:50:01.9677573Z Downloading pyflakes-3.4.0-py2.py3-none-any.whl (63 kB)
+2025-10-30T06:50:02.0724817Z Installing collected packages: pyflakes, pycodestyle, mccabe, flake8
+2025-10-30T06:50:02.1845058Z 
+2025-10-30T06:50:02.1885591Z Successfully installed flake8-7.3.0 mccabe-0.7.0 pycodestyle-2.14.0 pyflakes-3.4.0
+2025-10-30T06:50:02.2496726Z ##[group]Run flake8 .
+2025-10-30T06:50:02.2497108Z [36;1mflake8 .[0m
+2025-10-30T06:50:02.2581469Z shell: /usr/bin/bash -e {0}
+2025-10-30T06:50:02.2581707Z env:
+2025-10-30T06:50:02.2581956Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:50:02.2582375Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib/pkgconfig
+2025-10-30T06:50:02.2582761Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:50:02.2583123Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:50:02.2583469Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-10-30T06:50:02.2583808Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib
+2025-10-30T06:50:02.2584099Z ##[endgroup]
+2025-10-30T06:50:02.9228962Z ./api/index.py:12:80: E501 line too long (85 > 79 characters)
+2025-10-30T06:50:02.9229925Z ./api/index.py:16:1: E402 module level import not at top of file
+2025-10-30T06:50:02.9230723Z ./api/index.py:34:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9231418Z ./app/auth/dependencies.py:1:1: F401 'os' imported but unused
+2025-10-30T06:50:02.9232187Z ./app/auth/dependencies.py:57:80: E501 line too long (95 > 79 characters)
+2025-10-30T06:50:02.9232997Z ./app/backoffice/router.py:11:1: F401 'typing.Any' imported but unused
+2025-10-30T06:50:02.9233794Z ./app/backoffice/router.py:11:1: F401 'typing.Dict' imported but unused
+2025-10-30T06:50:02.9234522Z ./app/backoffice/router.py:11:1: F401 'typing.List' imported but unused
+2025-10-30T06:50:02.9235317Z ./app/backoffice/router.py:13:1: F401 'fastapi.HTTPException' imported but unused
+2025-10-30T06:50:02.9236220Z ./app/backoffice/router.py:14:1: F401 'fastapi.responses.JSONResponse' imported but unused
+2025-10-30T06:50:02.9237365Z ./app/backoffice/router.py:15:1: F401 'fastapi.staticfiles.StaticFiles' imported but unused
+2025-10-30T06:50:02.9238195Z ./app/backoffice/router.py:45:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9238905Z ./app/backoffice/router.py:48:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9239604Z ./app/backoffice/router.py:60:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9240306Z ./app/backoffice/router.py:79:80: E501 line too long (85 > 79 characters)
+2025-10-30T06:50:02.9241013Z ./app/backoffice/router.py:125:80: E501 line too long (88 > 79 characters)
+2025-10-30T06:50:02.9241749Z ./app/backoffice/router.py:179:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9242855Z ./app/backoffice/router_clean.py:11:1: F401 'typing.Any' imported but unused
+2025-10-30T06:50:02.9243677Z ./app/backoffice/router_clean.py:11:1: F401 'typing.Dict' imported but unused
+2025-10-30T06:50:02.9244469Z ./app/backoffice/router_clean.py:11:1: F401 'typing.List' imported but unused
+2025-10-30T06:50:02.9245300Z ./app/backoffice/router_clean.py:13:1: F401 'fastapi.HTTPException' imported but unused
+2025-10-30T06:50:02.9246232Z ./app/backoffice/router_clean.py:14:1: F401 'fastapi.responses.JSONResponse' imported but unused
+2025-10-30T06:50:02.9247450Z ./app/backoffice/router_clean.py:15:1: F401 'fastapi.staticfiles.StaticFiles' imported but unused
+2025-10-30T06:50:02.9248323Z ./app/backoffice/router_clean.py:45:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9249098Z ./app/backoffice/router_clean.py:48:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9249853Z ./app/backoffice/router_clean.py:60:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9250619Z ./app/backoffice/router_clean.py:79:80: E501 line too long (85 > 79 characters)
+2025-10-30T06:50:02.9251383Z ./app/backoffice/router_clean.py:125:80: E501 line too long (88 > 79 characters)
+2025-10-30T06:50:02.9252156Z ./app/backoffice/router_clean.py:179:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9252841Z ./app/config.py:22:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9253395Z ./app/config.py:32:80: E501 line too long (80 > 79 characters)
+2025-10-30T06:50:02.9254252Z ./app/config.py:40:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9254817Z ./app/config.py:54:80: E501 line too long (80 > 79 characters)
+2025-10-30T06:50:02.9255369Z ./app/config.py:65:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9255910Z ./app/config.py:92:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9256634Z ./app/config.py:101:80: E501 line too long (169 > 79 characters)
+2025-10-30T06:50:02.9257220Z ./app/config.py:104:80: E501 line too long (82 > 79 characters)
+2025-10-30T06:50:02.9257784Z ./app/config.py:105:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9258342Z ./app/config.py:106:80: E501 line too long (86 > 79 characters)
+2025-10-30T06:50:02.9258868Z ./app/main.py:1:1: F401 'datetime' imported but unused
+2025-10-30T06:50:02.9259397Z ./app/main.py:19:80: E501 line too long (106 > 79 characters)
+2025-10-30T06:50:02.9259934Z ./app/main.py:23:80: E501 line too long (87 > 79 characters)
+2025-10-30T06:50:02.9260463Z ./app/main.py:81:80: E501 line too long (81 > 79 characters)
+2025-10-30T06:50:02.9260987Z ./app/main.py:82:80: E501 line too long (86 > 79 characters)
+2025-10-30T06:50:02.9261541Z ./app/main.py:88:1: E402 module level import not at top of file
+2025-10-30T06:50:02.9262086Z ./app/main.py:109:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9262656Z ./app/main.py:147:5: F811 redefinition of unused 'datetime' from line 1
+2025-10-30T06:50:02.9263232Z ./app/main.py:156:80: E501 line too long (87 > 79 characters)
+2025-10-30T06:50:02.9263770Z ./app/main.py:162:80: E501 line too long (85 > 79 characters)
+2025-10-30T06:50:02.9264284Z ./app/main.py:163:80: E501 line too long (81 > 79 characters)
+2025-10-30T06:50:02.9264784Z ./app/main.py:165:80: E501 line too long (83 > 79 characters)
+2025-10-30T06:50:02.9265283Z ./app/main.py:186:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9265787Z ./app/main.py:225:80: E501 line too long (85 > 79 characters)
+2025-10-30T06:50:02.9266513Z ./app/routers/operator.py:1:1: F401 'typing.List' imported but unused
+2025-10-30T06:50:02.9267213Z ./app/routers/operator.py:3:1: F401 'fastapi.HTTPException' imported but unused
+2025-10-30T06:50:02.9267901Z ./app/routers/operator.py:3:1: F401 'fastapi.status' imported but unused
+2025-10-30T06:50:02.9268562Z ./app/routers/operator.py:32:80: E501 line too long (88 > 79 characters)
+2025-10-30T06:50:02.9269269Z ./app/routers/operator.py:34:5: F811 redefinition of unused 'status' from line 3
+2025-10-30T06:50:02.9270149Z ./app/routers/operator.py:75:80: E501 line too long (86 > 79 characters)
+2025-10-30T06:50:02.9270809Z ./app/routers/operator.py:91:80: E501 line too long (80 > 79 characters)
+2025-10-30T06:50:02.9271442Z ./app/routers/operator.py:97:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9272083Z ./app/routers/operator.py:127:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9272678Z ./app/routers/operator.py:128:76: W291 trailing whitespace
+2025-10-30T06:50:02.9273264Z ./app/routers/operator.py:130:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9273883Z ./app/routers/operator.py:136:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9274592Z ./app/routers/operator.py:143:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9275241Z ./app/routers/operator.py:209:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9275817Z ./app/routers/operator.py:210:75: W291 trailing whitespace
+2025-10-30T06:50:02.9276792Z ./app/routers/operator.py:212:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9277451Z ./app/routers/operator.py:218:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9278075Z ./app/routers/operator.py:224:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9278692Z ./app/routers/operator.py:229:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9279342Z ./app/routers/operator.py:269:80: E501 line too long (97 > 79 characters)
+2025-10-30T06:50:02.9279985Z ./app/routers/operator.py:278:80: E501 line too long (83 > 79 characters)
+2025-10-30T06:50:02.9280844Z ./app/routers/trading.py:1:1: F401 'fastapi.HTTPException' imported but unused
+2025-10-30T06:50:02.9281534Z ./app/routers/trading.py:2:1: F401 'pydantic.BaseModel' imported but unused
+2025-10-30T06:50:02.9282184Z ./app/routers/trading.py:3:1: F401 'typing.Dict' imported but unused
+2025-10-30T06:50:02.9282811Z ./app/routers/trading.py:15:1: E302 expected 2 blank lines, found 1
+2025-10-30T06:50:02.9283665Z ./app/routers/trading.py:30:1: E305 expected 2 blank lines after class or function definition, found 1
+2025-10-30T06:50:02.9284520Z ./app/routers/trading.py:34:1: E302 expected 2 blank lines, found 1
+2025-10-30T06:50:02.9285231Z ./app/routers/trading.py:36:80: E501 line too long (88 > 79 characters)
+2025-10-30T06:50:02.9285939Z ./app/routers/trading.py:45:80: E501 line too long (87 > 79 characters)
+2025-10-30T06:50:02.9286809Z ./app/routers/trading.py:46:80: E501 line too long (87 > 79 characters)
+2025-10-30T06:50:02.9287501Z ./app/routers/trading.py:59:1: E302 expected 2 blank lines, found 1
+2025-10-30T06:50:02.9288208Z ./app/routers/trading.py:62:1: W293 blank line contains whitespace
+2025-10-30T06:50:02.9288893Z ./app/routers/trading.py:94:1: E302 expected 2 blank lines, found 1
+2025-10-30T06:50:02.9289559Z ./app/security.py:59:80: E501 line too long (83 > 79 characters)
+2025-10-30T06:50:02.9290200Z ./app/tests/test_operator.py:1:1: F401 'os' imported but unused
+2025-10-30T06:50:02.9290896Z ./app/tests/test_operator.py:89:80: E501 line too long (80 > 79 characters)
+2025-10-30T06:50:02.9291934Z ./docs/trading_ai_system_updated/trading_ai_system/control_service/main.py:51:80: E501 line too long (90 > 79 characters)
+2025-10-30T06:50:02.9293186Z ./docs/trading_ai_system_updated/trading_ai_system/control_service/main.py:68:80: E501 line too long (93 > 79 characters)
+2025-10-30T06:50:02.9294415Z ./docs/trading_ai_system_updated/trading_ai_system/control_service/main.py:94:11: W292 no newline at end of file
+2025-10-30T06:50:02.9295545Z ./docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py:12:1: F401 'sys' imported but unused
+2025-10-30T06:50:02.9296907Z ./docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py:14:1: F401 'typing.List' imported but unused
+2025-10-30T06:50:02.9298171Z ./docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py:18:1: F401 'numpy as np' imported but unused
+2025-10-30T06:50:02.9299426Z ./docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py:49:80: E501 line too long (80 > 79 characters)
+2025-10-30T06:50:02.9300746Z ./docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py:93:80: E501 line too long (89 > 79 characters)
+2025-10-30T06:50:02.9301774Z ./docs/trading_ai_system_updated/trading_ai_system/inference_service/main.py:100:11: W292 no newline at end of file
+2025-10-30T06:50:02.9302989Z ./docs/trading_ai_system_updated/trading_ai_system/ingestion_service/main.py:29:80: E501 line too long (85 > 79 characters)
+2025-10-30T06:50:02.9304226Z ./docs/trading_ai_system_updated/trading_ai_system/ingestion_service/main.py:39:80: E501 line too long (89 > 79 characters)
+2025-10-30T06:50:02.9305495Z ./docs/trading_ai_system_updated/trading_ai_system/ingestion_service/main.py:61:80: E501 line too long (86 > 79 characters)
+2025-10-30T06:50:02.9306905Z ./docs/trading_ai_system_updated/trading_ai_system/ingestion_service/main.py:69:80: E501 line too long (80 > 79 characters)
+2025-10-30T06:50:02.9308179Z ./docs/trading_ai_system_updated/trading_ai_system/ingestion_service/main.py:92:11: W292 no newline at end of file
+2025-10-30T06:50:02.9309178Z ./start_clean_server.py:23:80: E501 line too long (84 > 79 characters)
+2025-10-30T06:50:02.9457525Z ##[error]Process completed with exit code 1.
+2025-10-30T06:50:02.9592324Z Post job cleanup.
+2025-10-30T06:50:03.0611176Z [command]/usr/bin/git version
+2025-10-30T06:50:03.0648432Z git version 2.51.0
+2025-10-30T06:50:03.0693859Z Temporarily overriding HOME='/home/runner/work/_temp/c693cb99-4d4f-47cf-8ca0-e32be4b2bfbf' before making global git config changes
+2025-10-30T06:50:03.0695193Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-30T06:50:03.0700659Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:50:03.0735675Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-30T06:50:03.0768808Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-30T06:50:03.1026576Z fatal: No url found for submodule path 'NeuroBank-FastAPI-Toolkit' in .gitmodules
+2025-10-30T06:50:03.1069582Z ##[warning]The process '/usr/bin/git' failed with exit code 128
+2025-10-30T06:50:03.1155666Z Cleaning up orphan processes

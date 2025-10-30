@@ -1,0 +1,28 @@
+﻿2025-10-30T06:50:11.8587353Z Current runner version: '2.328.0'
+2025-10-30T06:50:11.8622029Z ##[group]Runner Image Provisioner
+2025-10-30T06:50:11.8623259Z Hosted Compute Agent
+2025-10-30T06:50:11.8624422Z Version: 20250912.392
+2025-10-30T06:50:11.8625513Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-30T06:50:11.8626773Z Build Date: 2025-09-12T15:23:14Z
+2025-10-30T06:50:11.8627794Z ##[endgroup]
+2025-10-30T06:50:11.8628888Z ##[group]Operating System
+2025-10-30T06:50:11.8629905Z Ubuntu
+2025-10-30T06:50:11.8630659Z 24.04.3
+2025-10-30T06:50:11.8631692Z LTS
+2025-10-30T06:50:11.8632488Z ##[endgroup]
+2025-10-30T06:50:11.8633361Z ##[group]Runner Image
+2025-10-30T06:50:11.8634871Z Image: ubuntu-24.04
+2025-10-30T06:50:11.8635770Z Version: 20250929.60.1
+2025-10-30T06:50:11.8637729Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250929.60/images/ubuntu/Ubuntu2404-Readme.md
+2025-10-30T06:50:11.8640299Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250929.60
+2025-10-30T06:50:11.8642463Z ##[endgroup]
+2025-10-30T06:50:11.8644715Z ##[group]GITHUB_TOKEN Permissions
+2025-10-30T06:50:11.8647555Z Actions: read
+2025-10-30T06:50:11.8648462Z Contents: read
+2025-10-30T06:50:11.8649311Z Metadata: read
+2025-10-30T06:50:11.8650249Z SecurityEvents: write
+2025-10-30T06:50:11.8651323Z ##[endgroup]
+2025-10-30T06:50:11.8654920Z Secret source: Actions
+2025-10-30T06:50:11.8656092Z Prepare workflow directory
+2025-10-30T06:50:11.9216006Z Prepare all required actions
+2025-10-30T06:50:11.9292394Z Complete job name: 🧹 Cleanup & Artifact Management

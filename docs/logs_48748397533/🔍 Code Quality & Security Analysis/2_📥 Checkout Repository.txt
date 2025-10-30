@@ -1,0 +1,92 @@
+﻿2025-10-30T06:48:15.6685825Z ##[group]Run actions/checkout@v4
+2025-10-30T06:48:15.6686735Z with:
+2025-10-30T06:48:15.6687150Z   fetch-depth: 0
+2025-10-30T06:48:15.6687681Z   repository: Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:15.6688564Z   token: ***
+2025-10-30T06:48:15.6688970Z   ssh-strict: true
+2025-10-30T06:48:15.6689398Z   ssh-user: git
+2025-10-30T06:48:15.6689851Z   persist-credentials: true
+2025-10-30T06:48:15.6690527Z   clean: true
+2025-10-30T06:48:15.6690975Z   sparse-checkout-cone-mode: true
+2025-10-30T06:48:15.6691519Z   fetch-tags: false
+2025-10-30T06:48:15.6691965Z   show-progress: true
+2025-10-30T06:48:15.6692445Z   lfs: false
+2025-10-30T06:48:15.6692862Z   submodules: false
+2025-10-30T06:48:15.6693321Z   set-safe-directory: true
+2025-10-30T06:48:15.6694029Z env:
+2025-10-30T06:48:15.6694448Z   PYTHON_VERSION: 3.11
+2025-10-30T06:48:15.6694910Z   NODE_VERSION: 18
+2025-10-30T06:48:15.6695363Z ##[endgroup]
+2025-10-30T06:48:15.7705252Z Syncing repository: Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:15.7707402Z ##[group]Getting Git version info
+2025-10-30T06:48:15.7708377Z Working directory is '/home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit'
+2025-10-30T06:48:15.7709642Z [command]/usr/bin/git version
+2025-10-30T06:48:15.8760658Z git version 2.51.0
+2025-10-30T06:48:15.8787562Z ##[endgroup]
+2025-10-30T06:48:15.8801205Z Temporarily overriding HOME='/home/runner/work/_temp/3a52db6f-d50e-4ddd-84ee-2ea8e12c55c7' before making global git config changes
+2025-10-30T06:48:15.8802763Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-30T06:48:15.8806939Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:15.8887035Z Deleting the contents of '/home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit'
+2025-10-30T06:48:15.8890751Z ##[group]Initializing the repository
+2025-10-30T06:48:15.8897152Z [command]/usr/bin/git init /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:16.0244068Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-10-30T06:48:16.0245619Z hint: is subject to change. To configure the initial branch name to use in all
+2025-10-30T06:48:16.0246840Z hint: of your new repositories, which will suppress this warning, call:
+2025-10-30T06:48:16.0247738Z hint:
+2025-10-30T06:48:16.0248371Z hint: 	git config --global init.defaultBranch <name>
+2025-10-30T06:48:16.0249125Z hint:
+2025-10-30T06:48:16.0249845Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-10-30T06:48:16.0251276Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-10-30T06:48:16.0252218Z hint:
+2025-10-30T06:48:16.0252706Z hint: 	git branch -m <name>
+2025-10-30T06:48:16.0253302Z hint:
+2025-10-30T06:48:16.0254083Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-10-30T06:48:16.0296716Z Initialized empty Git repository in /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/.git/
+2025-10-30T06:48:16.0309593Z [command]/usr/bin/git remote add origin https://github.com/Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:16.0452678Z ##[endgroup]
+2025-10-30T06:48:16.0453690Z ##[group]Disabling automatic garbage collection
+2025-10-30T06:48:16.0457684Z [command]/usr/bin/git config --local gc.auto 0
+2025-10-30T06:48:16.0484541Z ##[endgroup]
+2025-10-30T06:48:16.0491238Z ##[group]Setting up auth
+2025-10-30T06:48:16.0492016Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-30T06:48:16.0516471Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-30T06:48:16.2465117Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-30T06:48:16.2494582Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-10-30T06:48:16.2675477Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-10-30T06:48:16.2705812Z ##[endgroup]
+2025-10-30T06:48:16.2706996Z ##[group]Fetching the repository
+2025-10-30T06:48:16.2715726Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +13fccd95db49fad2103f09d41202c2bde4a23443:refs/remotes/pull/36/merge
+2025-10-30T06:48:16.8553499Z From https://github.com/Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:16.8557265Z  * [new branch]      dependabot/pip/pip-d915839adb            -> origin/dependabot/pip/pip-d915839adb
+2025-10-30T06:48:16.8560507Z  * [new branch]      hotfix-2025.10.30-01                     -> origin/hotfix-2025.10.30-01
+2025-10-30T06:48:16.8562769Z  * [new branch]      main                                     -> origin/main
+2025-10-30T06:48:16.8565435Z  * [new tag]         prod-2025.10.30-01                       -> prod-2025.10.30-01
+2025-10-30T06:48:16.8568890Z  * [new ref]         13fccd95db49fad2103f09d41202c2bde4a23443 -> pull/36/merge
+2025-10-30T06:48:16.8655870Z ##[endgroup]
+2025-10-30T06:48:16.8659871Z ##[group]Determining the checkout info
+2025-10-30T06:48:16.8662661Z ##[endgroup]
+2025-10-30T06:48:16.8664142Z [command]/usr/bin/git sparse-checkout disable
+2025-10-30T06:48:16.8751988Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-10-30T06:48:16.8776539Z ##[group]Checking out the ref
+2025-10-30T06:48:16.8779527Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/36/merge
+2025-10-30T06:48:16.9268984Z Note: switching to 'refs/remotes/pull/36/merge'.
+2025-10-30T06:48:16.9270672Z 
+2025-10-30T06:48:16.9272050Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-10-30T06:48:16.9275840Z changes and commit them, and you can discard any commits you make in this
+2025-10-30T06:48:16.9279575Z state without impacting any branches by switching back to a branch.
+2025-10-30T06:48:16.9281912Z 
+2025-10-30T06:48:16.9283313Z If you want to create a new branch to retain commits you create, you may
+2025-10-30T06:48:16.9286501Z do so (now or later) by using -c with the switch command. Example:
+2025-10-30T06:48:16.9288344Z 
+2025-10-30T06:48:16.9288940Z   git switch -c <new-branch-name>
+2025-10-30T06:48:16.9290188Z 
+2025-10-30T06:48:16.9290603Z Or undo this operation with:
+2025-10-30T06:48:16.9291265Z 
+2025-10-30T06:48:16.9291737Z   git switch -
+2025-10-30T06:48:16.9292250Z 
+2025-10-30T06:48:16.9293145Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-10-30T06:48:16.9294594Z 
+2025-10-30T06:48:16.9296701Z HEAD is now at 13fccd9 Merge 50c435b96ba846ba728e3ea72021f667cf169b35 into f0c60eb3ca5d19fa101884318f72015a6aa94884
+2025-10-30T06:48:16.9301262Z ##[endgroup]
+2025-10-30T06:48:16.9314211Z [command]/usr/bin/git log -1 --format=%H
+2025-10-30T06:48:16.9332849Z 13fccd95db49fad2103f09d41202c2bde4a23443

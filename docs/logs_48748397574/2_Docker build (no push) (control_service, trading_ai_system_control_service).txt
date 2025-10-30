@@ -1,0 +1,131 @@
+﻿2025-10-30T06:48:12.5618150Z Current runner version: '2.328.0'
+2025-10-30T06:48:12.5641272Z ##[group]Runner Image Provisioner
+2025-10-30T06:48:12.5642084Z Hosted Compute Agent
+2025-10-30T06:48:12.5642654Z Version: 20250912.392
+2025-10-30T06:48:12.5643241Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-30T06:48:12.5643959Z Build Date: 2025-09-12T15:23:14Z
+2025-10-30T06:48:12.5644683Z ##[endgroup]
+2025-10-30T06:48:12.5645162Z ##[group]Operating System
+2025-10-30T06:48:12.5645743Z Ubuntu
+2025-10-30T06:48:12.5646194Z 24.04.3
+2025-10-30T06:48:12.5646994Z LTS
+2025-10-30T06:48:12.5647436Z ##[endgroup]
+2025-10-30T06:48:12.5648032Z ##[group]Runner Image
+2025-10-30T06:48:12.5648564Z Image: ubuntu-24.04
+2025-10-30T06:48:12.5649008Z Version: 20250929.60.1
+2025-10-30T06:48:12.5650099Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250929.60/images/ubuntu/Ubuntu2404-Readme.md
+2025-10-30T06:48:12.5651594Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250929.60
+2025-10-30T06:48:12.5652620Z ##[endgroup]
+2025-10-30T06:48:12.5653636Z ##[group]GITHUB_TOKEN Permissions
+2025-10-30T06:48:12.5655461Z Contents: read
+2025-10-30T06:48:12.5656003Z Metadata: read
+2025-10-30T06:48:12.5656786Z Packages: read
+2025-10-30T06:48:12.5657383Z ##[endgroup]
+2025-10-30T06:48:12.5659335Z Secret source: Actions
+2025-10-30T06:48:12.5660015Z Prepare workflow directory
+2025-10-30T06:48:12.6070412Z Prepare all required actions
+2025-10-30T06:48:12.6124280Z Getting action download info
+2025-10-30T06:48:12.9045495Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-30T06:48:13.1709269Z Complete job name: Docker build (no push) (control_service, trading_ai_system/control_service)
+2025-10-30T06:48:13.2382005Z ##[group]Run actions/checkout@v4
+2025-10-30T06:48:13.2383086Z with:
+2025-10-30T06:48:13.2383621Z   repository: Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:13.2384456Z   token: ***
+2025-10-30T06:48:13.2384889Z   ssh-strict: true
+2025-10-30T06:48:13.2385287Z   ssh-user: git
+2025-10-30T06:48:13.2385672Z   persist-credentials: true
+2025-10-30T06:48:13.2386109Z   clean: true
+2025-10-30T06:48:13.2386888Z   sparse-checkout-cone-mode: true
+2025-10-30T06:48:13.2387366Z   fetch-depth: 1
+2025-10-30T06:48:13.2387794Z   fetch-tags: false
+2025-10-30T06:48:13.2388178Z   show-progress: true
+2025-10-30T06:48:13.2388566Z   lfs: false
+2025-10-30T06:48:13.2388918Z   submodules: false
+2025-10-30T06:48:13.2389410Z   set-safe-directory: true
+2025-10-30T06:48:13.2390369Z ##[endgroup]
+2025-10-30T06:48:13.3553640Z Syncing repository: Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:13.3555362Z ##[group]Getting Git version info
+2025-10-30T06:48:13.3556534Z Working directory is '/home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit'
+2025-10-30T06:48:13.3557693Z [command]/usr/bin/git version
+2025-10-30T06:48:13.5382490Z git version 2.51.0
+2025-10-30T06:48:13.5409440Z ##[endgroup]
+2025-10-30T06:48:13.5424002Z Temporarily overriding HOME='/home/runner/work/_temp/0b4d75f3-1a78-457c-9dc1-b3c7c51b2e39' before making global git config changes
+2025-10-30T06:48:13.5426174Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-30T06:48:13.5429914Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:13.5467004Z Deleting the contents of '/home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit'
+2025-10-30T06:48:13.5470203Z ##[group]Initializing the repository
+2025-10-30T06:48:13.5474282Z [command]/usr/bin/git init /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:13.5571216Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-10-30T06:48:13.5572483Z hint: is subject to change. To configure the initial branch name to use in all
+2025-10-30T06:48:13.5573341Z hint: of your new repositories, which will suppress this warning, call:
+2025-10-30T06:48:13.5573973Z hint:
+2025-10-30T06:48:13.5574688Z hint: 	git config --global init.defaultBranch <name>
+2025-10-30T06:48:13.5575235Z hint:
+2025-10-30T06:48:13.5575754Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-10-30T06:48:13.5577082Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-10-30T06:48:13.5577750Z hint:
+2025-10-30T06:48:13.5578110Z hint: 	git branch -m <name>
+2025-10-30T06:48:13.5578530Z hint:
+2025-10-30T06:48:13.5579077Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-10-30T06:48:13.5774802Z Initialized empty Git repository in /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/.git/
+2025-10-30T06:48:13.5787813Z [command]/usr/bin/git remote add origin https://github.com/Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:13.5827430Z ##[endgroup]
+2025-10-30T06:48:13.5830219Z ##[group]Disabling automatic garbage collection
+2025-10-30T06:48:13.5831373Z [command]/usr/bin/git config --local gc.auto 0
+2025-10-30T06:48:13.5862124Z ##[endgroup]
+2025-10-30T06:48:13.5863328Z ##[group]Setting up auth
+2025-10-30T06:48:13.5869959Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-30T06:48:13.5902937Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-30T06:48:13.6235896Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-30T06:48:13.6275898Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-10-30T06:48:13.6504861Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-10-30T06:48:13.6540214Z ##[endgroup]
+2025-10-30T06:48:13.6541305Z ##[group]Fetching the repository
+2025-10-30T06:48:13.6549072Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +13fccd95db49fad2103f09d41202c2bde4a23443:refs/remotes/pull/36/merge
+2025-10-30T06:48:14.0781098Z From https://github.com/Neiland85/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:14.0782843Z  * [new ref]         13fccd95db49fad2103f09d41202c2bde4a23443 -> pull/36/merge
+2025-10-30T06:48:14.0815265Z ##[endgroup]
+2025-10-30T06:48:14.0816750Z ##[group]Determining the checkout info
+2025-10-30T06:48:14.0818192Z ##[endgroup]
+2025-10-30T06:48:14.0822702Z [command]/usr/bin/git sparse-checkout disable
+2025-10-30T06:48:14.0863602Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-10-30T06:48:14.0892470Z ##[group]Checking out the ref
+2025-10-30T06:48:14.0895908Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/36/merge
+2025-10-30T06:48:14.1517006Z Note: switching to 'refs/remotes/pull/36/merge'.
+2025-10-30T06:48:14.1517977Z 
+2025-10-30T06:48:14.1518685Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-10-30T06:48:14.1520067Z changes and commit them, and you can discard any commits you make in this
+2025-10-30T06:48:14.1521202Z state without impacting any branches by switching back to a branch.
+2025-10-30T06:48:14.1521867Z 
+2025-10-30T06:48:14.1522374Z If you want to create a new branch to retain commits you create, you may
+2025-10-30T06:48:14.1523789Z do so (now or later) by using -c with the switch command. Example:
+2025-10-30T06:48:14.1524403Z 
+2025-10-30T06:48:14.1524712Z   git switch -c <new-branch-name>
+2025-10-30T06:48:14.1525166Z 
+2025-10-30T06:48:14.1525464Z Or undo this operation with:
+2025-10-30T06:48:14.1525909Z 
+2025-10-30T06:48:14.1526206Z   git switch -
+2025-10-30T06:48:14.1526953Z 
+2025-10-30T06:48:14.1527620Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-10-30T06:48:14.1528668Z 
+2025-10-30T06:48:14.1529580Z HEAD is now at 13fccd9 Merge 50c435b96ba846ba728e3ea72021f667cf169b35 into f0c60eb3ca5d19fa101884318f72015a6aa94884
+2025-10-30T06:48:14.1532887Z ##[endgroup]
+2025-10-30T06:48:14.1564325Z [command]/usr/bin/git log -1 --format=%H
+2025-10-30T06:48:14.1586212Z 13fccd95db49fad2103f09d41202c2bde4a23443
+2025-10-30T06:48:14.1805404Z ##[group]Run docker build -t neurobank/control_service:ci trading_ai_system/control_service
+2025-10-30T06:48:14.1808283Z [36;1mdocker build -t neurobank/control_service:ci trading_ai_system/control_service[0m
+2025-10-30T06:48:14.1847066Z shell: /usr/bin/bash -e {0}
+2025-10-30T06:48:14.1848211Z ##[endgroup]
+2025-10-30T06:48:16.9913380Z ERROR: failed to build: unable to prepare context: path "trading_ai_system/control_service" not found
+2025-10-30T06:48:16.9968521Z ##[error]Process completed with exit code 1.
+2025-10-30T06:48:17.0081354Z Post job cleanup.
+2025-10-30T06:48:17.1022905Z [command]/usr/bin/git version
+2025-10-30T06:48:17.1064860Z git version 2.51.0
+2025-10-30T06:48:17.1110022Z Temporarily overriding HOME='/home/runner/work/_temp/2dc6bc4a-2b3c-489d-964c-cec54e817d11' before making global git config changes
+2025-10-30T06:48:17.1111433Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-30T06:48:17.1116752Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit
+2025-10-30T06:48:17.1150528Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-30T06:48:17.1182988Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-30T06:48:17.1396747Z fatal: No url found for submodule path 'NeuroBank-FastAPI-Toolkit' in .gitmodules
+2025-10-30T06:48:17.1434375Z ##[warning]The process '/usr/bin/git' failed with exit code 128
+2025-10-30T06:48:17.1511580Z Cleaning up orphan processes
