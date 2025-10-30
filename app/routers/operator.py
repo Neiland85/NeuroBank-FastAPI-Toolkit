@@ -1,6 +1,4 @@
-from typing import List
-
-from fastapi import APIRouter, Depends, HTTPException, Path, status
+from fastapi import APIRouter, Depends, Path
 from pydantic import BaseModel, Field
 
 from ..auth.dependencies import verify_api_key

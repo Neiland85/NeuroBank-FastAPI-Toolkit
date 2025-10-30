@@ -1,6 +1,6 @@
-import datetime
 import logging
 import os
+from datetime import datetime, timezone
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -144,16 +144,13 @@ async def health_check():
     - Verificación de deployments
     - Debugging y troubleshooting
     """
-    import datetime
-    import os
-
     return JSONResponse(
         status_code=200,
         content={
             "status": "healthy",
             "service": APP_NAME,
             "version": APP_VERSION,
-            "timestamp": f"{datetime.datetime.now(datetime.timezone.utc).isoformat()}",
+            "timestamp": f"{datetime.now(timezone.utc).isoformat()}",
             "environment": os.getenv("ENVIRONMENT", "production"),
             "railway": {
                 "project_name": os.getenv("RAILWAY_PROJECT_NAME", "unknown"),

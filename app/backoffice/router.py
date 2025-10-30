@@ -8,11 +8,9 @@ import uuid
 from datetime import datetime, timedelta
 from decimal import Decimal
 from enum import Enum
-from typing import Any, Dict, List
 
-from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi import APIRouter, Request
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
@@ -107,29 +105,31 @@ async def search_transactions(
 
     Endpoint para filtrar transacciones con múltiples criterios.
     """
-    # Generar transacciones mock
-    transactions = []
+    # Generar transacciones mock de forma eficiente
     total = random.randint(100, 200)
-
-    for i in range(min(page_size, total)):
-        tx_id = str(uuid.uuid4())[:8]
-        transactions.append(
-            {
-                "id": tx_id,
-                "reference": f"TXN-{tx_id.upper()}",
-                "amount": round(random.uniform(100, 5000), 2),
-                "currency": "USD",
-                "status": random.choice(
-                    ["completed", "pending", "failed", "cancelled"]
-                ),
-                "type": random.choice(["transfer", "deposit", "withdrawal", "payment"]),
-                "user_id": random.randint(1000, 9999),
-                "description": f"Transaction {tx_id}",
-                "created_at": (
-                    datetime.now() - timedelta(hours=random.randint(1, 72))
-                ).isoformat(),
-            }
-        )
+    num_transactions = min(page_size, total)
+    
+    # Pre-generate random values for better performance
+    statuses = ["completed", "pending", "failed", "cancelled"]
+    types = ["transfer", "deposit", "withdrawal", "payment"]
+    
+    # Use list comprehension for efficient batch generation
+    transactions = [
+        {
+            "id": (tx_id := str(uuid.uuid4())[:8]),
+            "reference": f"TXN-{tx_id.upper()}",
+            "amount": round(random.uniform(100, 5000), 2),
+            "currency": "USD",
+            "status": random.choice(statuses),
+            "type": random.choice(types),
+            "user_id": random.randint(1000, 9999),
+            "description": f"Transaction {tx_id}",
+            "created_at": (
+                datetime.now() - timedelta(hours=random.randint(1, 72))
+            ).isoformat(),
+        }
+        for _ in range(num_transactions)
+    ]
 
     return {
         "transactions": transactions,

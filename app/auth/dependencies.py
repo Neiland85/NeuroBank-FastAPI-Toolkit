@@ -1,4 +1,5 @@
 import os
+from functools import lru_cache
 from typing import Optional
 
 from fastapi import Depends, HTTPException, Request
@@ -10,8 +11,9 @@ from ..config import get_settings
 security = HTTPBearer(auto_error=False)
 
 
+@lru_cache()
 def get_api_key() -> str:
-    """Obtiene la API key desde la configuración centralizada"""
+    """Obtiene la API key desde la configuración centralizada (cached)"""
     settings = get_settings()
     if not settings.api_key:
         raise ValueError("API_KEY environment variable is required")
