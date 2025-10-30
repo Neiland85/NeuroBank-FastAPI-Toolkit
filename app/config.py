@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 from functools import lru_cache
@@ -14,8 +15,8 @@ class Settings(BaseSettings):
     app_version: str = "1.0.0"
 
     # Server Configuration
-    host: str = "0.0.0.0"
-    port: int = int(os.getenv("PORT", 8000))
+    host: str = "0.0.0.0"  # nosec B104 acceptable in containerized environments  # noqa: S104
+    port: int = int(os.getenv("PORT", "8000"))
 
     # Environment Configuration
     environment: str = os.getenv(
@@ -38,8 +39,10 @@ class Settings(BaseSettings):
     database_url: str = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./app.db")
     jwt_secret_key: str | None = os.getenv("JWT_SECRET_KEY")
     jwt_algorithm: str = os.getenv("JWT_ALGORITHM", "HS256")
-    access_token_expire_minutes: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
-    refresh_token_expire_days: int = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS", 7))
+    access_token_expire_minutes: int = int(
+        os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30")
+    )
+    refresh_token_expire_days: int = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS", "7"))
 
     # Railway Specific Variables (todas disponibles)
     railway_project_id: str = os.getenv("RAILWAY_PROJECT_ID", "")
@@ -69,7 +72,7 @@ class Settings(BaseSettings):
         env_file = ".env"
         case_sensitive = False
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: object) -> None:
         super().__init__(**kwargs)
         # Configurar CORS origins después de la inicialización
         self.cors_origins = self._get_cors_origins()
@@ -89,13 +92,17 @@ class Settings(BaseSettings):
         # En modo test o CI, asegurar que tenemos una API key
         if is_testing and not self.api_key:
             self.api_key = "test_secure_key_for_testing_only_not_production"
-            print(
-                f"🔧 Auto-configured API_KEY for testing environment (CI={os.getenv('CI')}, GITHUB_ACTIONS={os.getenv('GITHUB_ACTIONS')}, ENVIRONMENT={self.environment})"
+            logging.info(
+                "🔧 Auto-configured API_KEY for testing environment (CI=%s, GITHUB_ACTIONS=%s, ENVIRONMENT=%s)",
+                os.getenv("CI"),
+                os.getenv("GITHUB_ACTIONS"),
+                self.environment,
             )
 
         # Validación de configuración crítica solo en producción real (no testing)
         if self.environment == "production" and not is_testing and not self.api_key:
-            raise ValueError("API_KEY environment variable is required in production")
+            msg = "API_KEY environment variable is required in production"
+            raise ValueError(msg)
 
         # Validación básica de JWT en producción
         if (
@@ -103,7 +110,8 @@ class Settings(BaseSettings):
             and not is_testing
             and not (self.jwt_secret_key or self.secret_key)
         ):
-            raise ValueError("JWT secret key is required in production")
+            msg = "JWT secret key is required in production"
+            raise ValueError(msg)
 
 
 @lru_cache
