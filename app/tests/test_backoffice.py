@@ -20,7 +20,7 @@ async def test_backoffice_api_metrics():
 
     assert response.status_code == 200
     data = response.json()
-    
+
     # Verify required metrics fields
     assert "total_transactions" in data
     assert "total_volume" in data
@@ -28,13 +28,13 @@ async def test_backoffice_api_metrics():
     assert "success_rate" in data
     assert "avg_response_time" in data
     assert "api_calls_today" in data
-    
+
     # Verify data types
     assert isinstance(data["total_transactions"], int)
-    assert isinstance(data["total_volume"], (int, float, str))
+    assert isinstance(data["total_volume"], int | float | str)
     assert isinstance(data["active_accounts"], int)
-    assert isinstance(data["success_rate"], (int, float))
-    assert isinstance(data["avg_response_time"], (int, float))
+    assert isinstance(data["success_rate"], int | float)
+    assert isinstance(data["avg_response_time"], int | float)
     assert isinstance(data["api_calls_today"], int)
 
 
@@ -48,21 +48,21 @@ async def test_backoffice_api_transactions_search_default():
 
     assert response.status_code == 200
     data = response.json()
-    
+
     # Verify response structure
     assert "transactions" in data
     assert "total" in data
     assert "page" in data
     assert "page_size" in data
     assert "total_pages" in data
-    
+
     # Verify pagination
     assert isinstance(data["page"], int)
     assert isinstance(data["page_size"], int)
     assert isinstance(data["total"], int)
     assert isinstance(data["total_pages"], int)
     assert isinstance(data["transactions"], list)
-    
+
     # Verify transaction structure if any exist
     if data["transactions"]:
         tx = data["transactions"][0]
@@ -82,8 +82,7 @@ async def test_backoffice_api_transactions_search_with_pagination():
         transport=ASGITransport(app=app), base_url="http://test"
     ) as ac:
         response = await ac.get(
-            "/backoffice/api/transactions/search",
-            params={"page": 2, "page_size": 10}
+            "/backoffice/api/transactions/search", params={"page": 2, "page_size": 10}
         )
 
     assert response.status_code == 200
@@ -103,8 +102,8 @@ async def test_backoffice_api_transactions_search_with_filters():
             params={
                 "query": "test",
                 "status": "completed",
-                "transaction_type": "transfer"
-            }
+                "transaction_type": "transfer",
+            },
         )
 
     assert response.status_code == 200
@@ -123,7 +122,7 @@ async def test_backoffice_api_system_health():
 
     assert response.status_code == 200
     data = response.json()
-    
+
     # Verify required health fields
     assert "status" in data
     assert "database" in data
@@ -132,7 +131,7 @@ async def test_backoffice_api_system_health():
     assert "uptime" in data
     assert "last_check" in data
     assert "response_time" in data
-    
+
     # Verify status is healthy
     assert data["status"] == "healthy"
     assert data["database"] == "online"
@@ -150,7 +149,7 @@ async def test_backoffice_info_endpoint():
 
     assert response.status_code == 200
     data = response.json()
-    
+
     # Verify info structure
     assert "name" in data
     assert "version" in data
@@ -158,7 +157,7 @@ async def test_backoffice_info_endpoint():
     assert "features" in data
     assert "endpoints" in data
     assert "tech_stack" in data
-    
+
     # Verify endpoints structure
     assert "dashboard" in data["endpoints"]
     assert "metrics_api" in data["endpoints"]
@@ -177,4 +176,3 @@ async def test_backoffice_dashboard_home_accessible():
 
     # Should return HTML response (200 or redirect)
     assert response.status_code in [200, 302, 307]
-
