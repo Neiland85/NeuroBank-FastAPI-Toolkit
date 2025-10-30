@@ -209,6 +209,10 @@ jobs:
       - name: Run pytest with coverage
         run: |
           pytest --cov=app --cov-report=xml --cov-report=html --cov-report=term-missing --junitxml=test-results.xml
+      - name: Fail if required tests missing (backoffice and health)
+        run: |
+          test -f app/tests/test_backoffice.py
+          test -f app/tests/test_main_health.py
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         if: env.CODECOV_TOKEN != ''

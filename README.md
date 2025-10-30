@@ -344,6 +344,9 @@ Extras importantes:
 - `METRICS_ENABLED`: `true/false` para exponer `/metrics` (recomendado deshabilitar o proteger en producción).
 - `RAILWAY_PRIVATE_DOMAIN`: si está presente, se añade a `allow_origins` y se usa `allow_origin_regex: ^https://.*\.railway\.app$`.
 
+Política de SQLite local:
+- No versionar archivos `app.db` ni `test.db` en Git. El CI crea la base con `alembic upgrade head` y los tests siembran datos mínimos en `app/tests/conftest.py`.
+
 Notas:
 - CORS ahora usa `allow_methods=['*']` (incluye `OPTIONS`) para preflight correcto.
 - API Key debe enviarse en el header `X-API-Key`. El uso de `Authorization: Bearer <key>` no está soportado y resultará en 401.
