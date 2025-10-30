@@ -7,10 +7,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .backoffice import router as backoffice_router
-from .routers import operator
 from .routers import auth as auth_router
-from .routers import users as users_router
+from .routers import operator
 from .routers import roles as roles_router
+from .routers import users as users_router
 from .utils.logging import setup_logging
 
 # Configuración constantes
@@ -67,6 +67,7 @@ logger = logging.getLogger(__name__)
 
 # Crear la aplicación FastAPI con documentación mejorada
 from contextlib import asynccontextmanager
+
 from .database import init_db
 from .services.role_service import initialize_default_roles
 
@@ -168,7 +169,6 @@ async def health_check():
     - Verificación de deployments
     - Debugging y troubleshooting
     """
-    import datetime
     import os
 
     return JSONResponse(
@@ -177,7 +177,7 @@ async def health_check():
             "status": "healthy",
             "service": APP_NAME,
             "version": APP_VERSION,
-            "timestamp": f"{datetime.datetime.now(datetime.timezone.utc).isoformat()}",
+            "timestamp": f"{datetime.datetime.now(datetime.UTC).isoformat()}",
             "environment": os.getenv("ENVIRONMENT", "production"),
             "railway": {
                 "project_name": os.getenv("RAILWAY_PROJECT_NAME", "unknown"),

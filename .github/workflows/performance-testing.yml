@@ -1,0 +1,66 @@
+name: "⚡ Performance Testing"
+
+on:
+  schedule:
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+jobs:
+  load-testing:
+    name: "🔥 Load Testing with Locust"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+      - name: Start FastAPI server
+        run: |
+          uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+          sleep 10
+      - name: Run Locust load test
+        run: |
+          locust -f tests/locustfile.py --headless --users 100 --spawn-rate 10 --run-time 5m --host http://localhost:8000 --html locust-report.html --csv locust-stats
+      - name: Upload Locust report
+        uses: actions/upload-artifact@v4
+        with:
+          name: locust-report
+          path: |
+            locust-report.html
+            locust-stats*.csv
+
+  profiling:
+    name: "🔬 CPU/Memory Profiling"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+      - name: Profile with py-spy
+        run: |
+          py-spy record -o profile.svg --duration 60 -- python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+          sleep 65
+      - name: Profile with Scalene
+        run: |
+          scalene --html --outfile scalene-report.html app/main.py || true
+      - name: Upload profiling reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: profiling-reports
+          path: |
+            profile.svg
+            scalene-report.html
+

@@ -37,5 +37,3 @@ async def test_roles_management_forbidden_to_non_admin(client, operator_headers)
         headers=operator_headers,
     )
     assert c.status_code in (401, 403)
-
-

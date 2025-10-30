@@ -1,7 +1,7 @@
 """init rbac
 
 Revision ID: 8fe0bc0038f8
-Revises: 
+Revises:
 Create Date: 2025-10-30 10:58:02.168458
 
 """

@@ -38,6 +38,7 @@ select = [
     "C4", # comprehensions
     "DTZ",# timezone-aware datetimes
     "T10",# debugger statements
+    "DJ", # django (se desactiva por per-file-ignores si no aplica)
     "EM", # mensajes de error
     "EXE",# permisos ejecutables
     "ISC",# implicit string concat
@@ -62,12 +63,13 @@ select = [
     "TD", # TODOs
     "FIX",# FIXMEs
     "ERA",# código comentado
-    
+    "PD", # pandas
     "PGH",# pygrep hooks
     "PL", # pylint-like
     "TRY",# try/except best practices
     "FLY",# flynt (f-strings)
-    
+    "NPY",# numpy
+    "AIR",# airflow
     "PERF",# performance
     "FURB",# refurb modernization
     "LOG",# logging best practices
@@ -91,7 +93,7 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [lint.isort]
-known-first-party = ["app", "api"]
+known-first-party = ["app"]
 section-order = [
     "future",
     "standard-library",

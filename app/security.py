@@ -2,7 +2,7 @@
 import logging
 import os
 import secrets
-from typing import Any, Dict
+from typing import Any
 
 
 # Configure logging for production
@@ -30,7 +30,7 @@ def generate_secure_keys():
     }
 
 
-def validate_production_config() -> Dict[str, Any]:
+def validate_production_config() -> dict[str, Any]:
     """Validate critical production configuration"""
     errors = []
     warnings = []
@@ -62,7 +62,7 @@ def validate_production_config() -> Dict[str, Any]:
 
 
 # Health check with security validation
-def security_health_check() -> Dict[str, Any]:
+def security_health_check() -> dict[str, Any]:
     """Perform security-focused health check"""
     config_check = validate_production_config()
 

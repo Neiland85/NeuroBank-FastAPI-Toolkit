@@ -2,9 +2,9 @@ import asyncio
 import getpass
 
 from app.database import get_db, init_db
+from app.schemas import UserCreate
 from app.services.role_service import initialize_default_roles
 from app.services.user_service import create_user
-from app.schemas import UserCreate
 
 
 async def create_admin_user():
@@ -38,5 +38,3 @@ async def create_admin_user():
 
 if __name__ == "__main__":
     asyncio.run(create_admin_user())
-
-

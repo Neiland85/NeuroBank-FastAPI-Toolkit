@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 import re
-from typing import Tuple
 
 from passlib.context import CryptContext
 
 from app.config import get_settings
-
 
 settings = get_settings()
 
@@ -24,7 +22,7 @@ def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
 
-def validate_password_strength(password: str) -> Tuple[bool, str]:
+def validate_password_strength(password: str) -> tuple[bool, str]:
     if len(password) < 8:
         return False, "La contraseña debe tener al menos 8 caracteres"
     if not re.search(r"[A-Z]", password):
@@ -35,8 +33,8 @@ def validate_password_strength(password: str) -> Tuple[bool, str]:
         return False, "La contraseña debe contener al menos un dígito"
     return True, ""
 
-from passlib.context import CryptContext
 
+from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 
@@ -47,5 +45,3 @@ def hash_password(password: str) -> str:
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
-
-

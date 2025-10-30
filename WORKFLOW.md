@@ -248,7 +248,7 @@ production:
     API_KEY: ${{ secrets.API_KEY_PROD }}
 
 staging:
-  branch: develop  
+  branch: develop
   domain: neurobank-staging.railway.app
   variables:
     ENVIRONMENT: staging
@@ -264,18 +264,18 @@ name: Deploy to Railway
 on:
   push:
     branches: [main, develop]
-    
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Run Tests
         run: |
           pytest --cov=app tests/
           bandit -r app/
-          
+
       - name: Deploy to Railway
         uses: railway/railway@v1
         with:
@@ -321,7 +321,7 @@ GET /backoffice/api/system-health  # Detailed monitoring
 
 # Metrics collection
 - Response times
-- Memory usage  
+- Memory usage
 - Active connections
 - Error rates
 - Transaction volumes
@@ -334,11 +334,11 @@ alerts:
   - name: "High Response Time"
     condition: avg_response_time > 5s
     notification: email, slack
-    
+
   - name: "Memory Usage High"
     condition: memory_usage > 80%
     notification: email
-    
+
   - name: "Health Check Failed"
     condition: health_check_fails >= 3
     notification: email, slack, sms

@@ -1,19 +1,22 @@
 from __future__ import annotations
 
 import uuid as uuid_pkg
-from typing import List, Optional
 
-from sqlalchemy import and_, or_, select
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.auth.password import get_password_hash, validate_password_strength, verify_password
+from app.auth.password import (
+    get_password_hash,
+    validate_password_strength,
+    verify_password,
+)
 from app.models import Role, User
 from app.schemas import UserCreate, UserUpdate
 
 
 async def create_user(
-    db: AsyncSession, user_data: UserCreate, roles: List[str] | None = None
+    db: AsyncSession, user_data: UserCreate, roles: list[str] | None = None
 ) -> User:
     is_valid, msg = validate_password_strength(user_data.password)
     if not is_valid:
@@ -38,7 +41,7 @@ async def create_user(
     return user
 
 
-async def get_user_by_id(db: AsyncSession, user_id: uuid_pkg.UUID) -> Optional[User]:
+async def get_user_by_id(db: AsyncSession, user_id: uuid_pkg.UUID) -> User | None:
     stmt = (
         select(User)
         .options(selectinload(User.roles).selectinload(Role.permissions))
@@ -48,7 +51,7 @@ async def get_user_by_id(db: AsyncSession, user_id: uuid_pkg.UUID) -> Optional[U
     return result.scalar_one_or_none()
 
 
-async def get_user_by_username(db: AsyncSession, username: str) -> Optional[User]:
+async def get_user_by_username(db: AsyncSession, username: str) -> User | None:
     stmt = (
         select(User)
         .options(selectinload(User.roles).selectinload(Role.permissions))
@@ -58,15 +61,15 @@ async def get_user_by_username(db: AsyncSession, username: str) -> Optional[User
     return result.scalar_one_or_none()
 
 
-async def get_user_by_email(db: AsyncSession, email: str) -> Optional[User]:
+async def get_user_by_email(db: AsyncSession, email: str) -> User | None:
     stmt = select(User).where(User.email == email)
     result = await db.execute(stmt)
     return result.scalar_one_or_none()
 
 
 async def list_users(
-    db: AsyncSession, skip: int = 0, limit: int = 100, is_active: Optional[bool] = None
-) -> List[User]:
+    db: AsyncSession, skip: int = 0, limit: int = 100, is_active: bool | None = None
+) -> list[User]:
     stmt = select(User).options(selectinload(User.roles)).offset(skip).limit(limit)
     if is_active is not None:
         stmt = stmt.where(User.is_active == is_active)
@@ -108,7 +111,7 @@ async def delete_user(db: AsyncSession, user_id: uuid_pkg.UUID) -> bool:
 
 
 async def assign_roles(
-    db: AsyncSession, user_id: uuid_pkg.UUID, role_names: List[str]
+    db: AsyncSession, user_id: uuid_pkg.UUID, role_names: list[str]
 ) -> User:
     user = await get_user_by_id(db, user_id)
     if not user:
@@ -123,10 +126,8 @@ async def assign_roles(
 
 async def authenticate_user(
     db: AsyncSession, username: str, password: str
-) -> Optional[User]:
+) -> User | None:
     user = await get_user_by_username(db, username)
     if not user or not verify_password(password, user.hashed_password):
         return None
     return user
-
-

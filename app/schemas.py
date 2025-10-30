@@ -2,11 +2,9 @@ from __future__ import annotations
 
 import re
 import uuid
-from datetime import datetime, timedelta
-from typing import List, Optional
+from datetime import datetime
 
 from pydantic import BaseModel, EmailStr, Field, ValidationInfo, field_validator
-
 
 # ---------- Permission Schemas ----------
 
@@ -15,7 +13,7 @@ class PermissionBase(BaseModel):
     name: str
     resource: str
     action: str
-    description: Optional[str] = None
+    description: str | None = None
 
 
 class PermissionCreate(PermissionBase):
@@ -34,7 +32,7 @@ class PermissionResponse(PermissionBase):
 
 class RoleBase(BaseModel):
     name: str
-    description: Optional[str] = None
+    description: str | None = None
 
 
 class RoleCreate(RoleBase):
@@ -42,21 +40,21 @@ class RoleCreate(RoleBase):
 
 
 class RoleUpdate(BaseModel):
-    name: Optional[str] = None
-    description: Optional[str] = None
+    name: str | None = None
+    description: str | None = None
 
 
 class RoleResponse(RoleBase):
     id: uuid.UUID
     created_at: datetime
-    permissions: List[PermissionResponse] = []
+    permissions: list[PermissionResponse] = []
 
     class Config:
         from_attributes = True
 
 
 class RoleWithUsers(RoleResponse):
-    users: List["UserResponse"] = []
+    users: list[UserResponse] = []
 
 
 # ---------- User Schemas ----------
@@ -65,7 +63,7 @@ class RoleWithUsers(RoleResponse):
 class UserBase(BaseModel):
     username: str = Field(..., examples=["john"])
     email: EmailStr
-    full_name: Optional[str] = None
+    full_name: str | None = None
 
 
 class UserCreate(UserBase):
@@ -74,16 +72,22 @@ class UserCreate(UserBase):
     @field_validator("password")
     @classmethod
     def validate_password_strength(cls, v: str, info: ValidationInfo) -> str:
-        if not re.search(r"[A-Z]", v) or not re.search(r"[a-z]", v) or not re.search(r"\d", v):
-            raise ValueError("La contraseña debe incluir mayúsculas, minúsculas y dígitos")
+        if (
+            not re.search(r"[A-Z]", v)
+            or not re.search(r"[a-z]", v)
+            or not re.search(r"\d", v)
+        ):
+            raise ValueError(
+                "La contraseña debe incluir mayúsculas, minúsculas y dígitos"
+            )
         return v
 
 
 class UserUpdate(BaseModel):
-    username: Optional[str] = None
-    email: Optional[EmailStr] = None
-    full_name: Optional[str] = None
-    password: Optional[str] = Field(default=None, min_length=8)
+    username: str | None = None
+    email: EmailStr | None = None
+    full_name: str | None = None
+    password: str | None = Field(default=None, min_length=8)
 
 
 class UserInDB(UserBase):
@@ -91,7 +95,7 @@ class UserInDB(UserBase):
     is_active: bool
     is_superuser: bool
     created_at: datetime
-    roles: List[RoleResponse] = []
+    roles: list[RoleResponse] = []
 
     class Config:
         from_attributes = True
@@ -112,12 +116,12 @@ class UserResponse(UserBase):
 class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
-    refresh_token: Optional[str] = None
+    refresh_token: str | None = None
 
 
 class TokenData(BaseModel):
     username: str
-    scopes: List[str] = []
+    scopes: list[str] = []
 
 
 class LoginRequest(BaseModel):
@@ -127,5 +131,3 @@ class LoginRequest(BaseModel):
 
 class RefreshTokenRequest(BaseModel):
     refresh_token: str
-
-

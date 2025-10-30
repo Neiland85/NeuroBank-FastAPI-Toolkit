@@ -17,7 +17,7 @@ PydanticImportError: `BaseSettings` has been moved to the `pydantic-settings` pa
 # ❌ Antes
 from pydantic import BaseSettings
 
-# ✅ Después  
+# ✅ Después
 from pydantic_settings import BaseSettings
 ```
 
@@ -47,7 +47,7 @@ def __init__(self, **kwargs):
 ============= 7 passed in 1.80s ==============
 
 ✅ test_health_check PASSED
-✅ test_root_endpoint PASSED  
+✅ test_root_endpoint PASSED
 ✅ test_order_status PASSED
 ✅ test_generate_invoice PASSED
 ✅ test_order_status_with_bearer_token PASSED
@@ -84,7 +84,7 @@ feat/railway-deployment-optimization:
 ## 🔄 **Próximos Pasos**
 
 1. **✅ GitHub Actions** - El workflow debería pasar ahora
-2. **✅ Railway Deploy** - Compatible con la nueva configuración  
+2. **✅ Railway Deploy** - Compatible con la nueva configuración
 3. **✅ Pull Request** - Listo para merge a main
 
 ## 🎯 **Resultado**

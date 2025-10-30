@@ -15,11 +15,11 @@
                     <div class="card-body">
                         <h4>✅ Dashboard Cargado Correctamente</h4>
                         <p>Si puedes ver este mensaje, el servidor está funcionando.</p>
-                        
+
                         <div class="alert alert-success">
                             <strong>Estado del Sistema:</strong> ✅ Operativo
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="card bg-light">
@@ -46,9 +46,9 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <hr>
-                        
+
                         <div>
                             <h5>Enlaces Rápidos:</h5>
                             <a href="/backoffice/" class="btn btn-primary me-2">Dashboard Principal</a>
@@ -56,7 +56,7 @@
                             <a href="/backoffice/admin/users" class="btn btn-info me-2">Usuarios</a>
                             <a href="/docs" class="btn btn-secondary">API Docs</a>
                         </div>
-                        
+
                         <div class="mt-4">
                             <button class="btn btn-warning" onclick="testAPI()">🧪 Probar API</button>
                             <div id="apiResult" class="mt-2"></div>
@@ -66,19 +66,19 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         async function testAPI() {
             const resultDiv = document.getElementById('apiResult');
             resultDiv.innerHTML = '<div class="spinner-border spinner-border-sm"></div> Probando API...';
-            
+
             try {
                 const response = await fetch('/backoffice/api/transactions/search?page=1&page_size=3');
                 const data = await response.json();
-                
+
                 resultDiv.innerHTML = `
                     <div class="alert alert-success">
-                        <strong>✅ API Funciona:</strong> 
+                        <strong>✅ API Funciona:</strong>
                         Encontradas ${data.total || 0} transacciones
                         <pre>${JSON.stringify(data, null, 2)}</pre>
                     </div>
@@ -91,7 +91,7 @@
                 `;
             }
         }
-        
+
         // Auto-test en 2 segundos
         setTimeout(testAPI, 2000);
     </script>

@@ -37,7 +37,14 @@ disallow_untyped_defs = false
 module = ["alembic.*"]
 ignore_errors = true
 
- 
+[tool.pytest.ini_options]
+testpaths = ["app/tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = ["-ra", "--strict-markers", "--cov=app", "--cov-report=term-missing", "--cov-report=html"]
+asyncio_mode = "auto"
+# markers: definir aquí si existen personalizados en el futuro
 
 [tool.coverage.run]
 source = ["app"]

@@ -47,7 +47,7 @@ repos:
       - id: bandit
         args:
           - -c
-          - .bandit
+          - .bandit.yaml
           - --recursive
           - --quiet
         files: ^app/

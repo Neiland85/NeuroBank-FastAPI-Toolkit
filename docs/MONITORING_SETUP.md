@@ -47,7 +47,7 @@
       }
     },
     {
-      "type": "metric", 
+      "type": "metric",
       "properties": {
         "metrics": [
           ["AWS/ApiGateway", "4XXError", "ApiName", "neurobank-api"],
@@ -99,7 +99,7 @@ aws cloudwatch put-metric-alarm \
   --dimensions Name=FunctionName,Value=NeuroBank-Function \
   --region eu-west-1
 
-# Alarm para High Latency  
+# Alarm para High Latency
 aws cloudwatch put-metric-alarm \
   --alarm-name "NeuroBank-HighLatency" \
   --alarm-description "API Gateway latency > 5 seconds" \
@@ -202,7 +202,7 @@ fields @timestamp, @message, @duration
 | sort @timestamp desc
 | limit 100
 
--- Error pattern analysis  
+-- Error pattern analysis
 fields @timestamp, @message
 | filter @message like /ERROR/
 | stats count() by bin(1h)
@@ -219,7 +219,7 @@ fields @timestamp, @message
 | sort @timestamp desc
 
 -- Rate limit monitoring
-fields @timestamp, @message  
+fields @timestamp, @message
 | filter @message like /rate.limit/
 | stats count() as rate_limits by bin(1h)
 | sort @timestamp desc
@@ -255,7 +255,7 @@ aws cloudwatch put-dashboard \
 # Setup alarms
 ./monitoring/create-alarms.sh
 
-# Setup SNS notifications  
+# Setup SNS notifications
 ./monitoring/setup-notifications.sh
 
 echo "✅ Monitoring setup complete!"
@@ -274,7 +274,7 @@ echo "🎯 Access dashboard: https://console.aws.amazon.com/cloudwatch/home?regi
 
 ### **💡 Performance Insights**
 - **Response Time Trends**: Weekly/monthly analysis
-- **Error Rate Patterns**: Seasonal variations  
+- **Error Rate Patterns**: Seasonal variations
 - **Cost Per Transaction**: Business efficiency
 - **SLA Compliance**: 99.9% uptime target
 
@@ -289,7 +289,7 @@ echo "🎯 Access dashboard: https://console.aws.amazon.com/cloudwatch/home?regi
 - Security breach detected
 - Data integrity issues
 
-#### **🟡 P1 - High (< 1 hour response)**  
+#### **🟡 P1 - High (< 1 hour response)**
 - Performance degradation > 50%
 - Error rate > 5%
 - Authentication failures spike
@@ -301,7 +301,7 @@ echo "🎯 Access dashboard: https://console.aws.amazon.com/cloudwatch/home?regi
 
 ### **Response Actions**
 1. **Immediate**: Check dashboards and logs
-2. **Investigate**: Root cause analysis  
+2. **Investigate**: Root cause analysis
 3. **Communicate**: Status page updates
 4. **Resolve**: Fix and validate
 5. **Post-mortem**: Lessons learned

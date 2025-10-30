@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-import asyncio
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
@@ -12,7 +11,6 @@ from sqlalchemy.ext.asyncio import (
 from sqlalchemy.orm import declarative_base
 
 from .config import get_settings
-
 
 Base = declarative_base()
 
@@ -25,7 +23,11 @@ def get_database_url() -> str:
 engine = create_async_engine(get_database_url(), echo=False, pool_pre_ping=True)
 
 AsyncSessionLocal = async_sessionmaker(
-    bind=engine, class_=AsyncSession, expire_on_commit=False, autoflush=False, autocommit=False
+    bind=engine,
+    class_=AsyncSession,
+    expire_on_commit=False,
+    autoflush=False,
+    autocommit=False,
 )
 
 
@@ -54,9 +56,8 @@ async def lifespan_state():
         # Lugar para limpiezas futuras (conexiones, pools, etc.)
         await engine.dispose()
 
+
 import os
-import uuid
-from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, declared_attr
@@ -99,5 +100,3 @@ async def init_db() -> None:
 
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-
-

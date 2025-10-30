@@ -1,20 +1,17 @@
-import os
-from typing import Optional, List
-
-from fastapi import Depends, HTTPException, Request, Security
+from fastapi import Depends, HTTPException, Request
 from fastapi.security import (
     HTTPAuthorizationCredentials,
     HTTPBearer,
     OAuth2PasswordBearer,
     SecurityScopes,
 )
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from ..auth.jwt import decode_token
 from ..config import get_settings
 from ..database import get_db
 from ..models import User
-from ..auth.jwt import decode_token
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
 # Esquemas de seguridad
 security = HTTPBearer(auto_error=False)
@@ -39,7 +36,7 @@ def get_api_key() -> str:
 
 def verify_api_key(
     request: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> str:
     expected_api_key = get_api_key()
     provided_api_key = None
@@ -80,7 +77,9 @@ async def get_current_user(
     return user
 
 
-async def get_current_active_user(current_user: User = Depends(get_current_user)) -> User:
+async def get_current_active_user(
+    current_user: User = Depends(get_current_user),
+) -> User:
     if not current_user.is_active:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
@@ -97,7 +96,8 @@ def require_role(role_name: str):
 
 def require_permissions():
     async def _checker(
-        security_scopes: SecurityScopes, current_user: User = Depends(get_current_active_user)
+        security_scopes: SecurityScopes,
+        current_user: User = Depends(get_current_active_user),
     ) -> User:
         requested = set(security_scopes.scopes or [])
         owned: set[str] = set()
@@ -114,9 +114,9 @@ def require_permissions():
 
 async def get_current_user_flexible(
     request: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
     db: AsyncSession = Depends(get_db),
-) -> Optional[User]:
+) -> User | None:
     # 1) Intentar JWT Bearer si hay credenciales
     if credentials and credentials.scheme and credentials.credentials:
         token_value = credentials.credentials
@@ -137,4 +137,3 @@ async def get_current_user_flexible(
         return None
     except HTTPException:
         return None
-

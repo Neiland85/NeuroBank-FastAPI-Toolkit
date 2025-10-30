@@ -44,7 +44,7 @@ class NeuroBankAdmin {
             this.createTransactionChart(transactionChartCtx);
         }
 
-        // User Activity Chart  
+        // User Activity Chart
         const userActivityChartCtx = document.getElementById('userActivityChart');
         if (userActivityChartCtx) {
             this.createUserActivityChart(userActivityChartCtx);
@@ -106,7 +106,7 @@ class NeuroBankAdmin {
         const searchTerm = event.target.value.toLowerCase();
         const targetTable = event.target.dataset.search;
         const table = document.querySelector(`#${targetTable}`);
-        
+
         if (table) {
             const rows = table.querySelectorAll('tbody tr');
             rows.forEach(row => {
@@ -120,7 +120,7 @@ class NeuroBankAdmin {
         const filterValue = event.target.value;
         const targetTable = event.target.dataset.filter;
         const table = document.querySelector(`#${targetTable}`);
-        
+
         if (table) {
             const rows = table.querySelectorAll('tbody tr');
             rows.forEach(row => {
@@ -136,7 +136,7 @@ class NeuroBankAdmin {
     handleExport(event) {
         const format = event.target.dataset.export;
         const tableId = event.target.dataset.table;
-        
+
         if (format === 'csv') {
             this.exportToCSV(tableId);
         } else if (format === 'excel') {
@@ -146,10 +146,10 @@ class NeuroBankAdmin {
 
     handleRefresh(event) {
         const target = event.target.dataset.refresh;
-        
+
         // Show loading spinner
         event.target.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        
+
         // Simulate refresh
         setTimeout(() => {
             event.target.innerHTML = '<i class="fas fa-sync-alt"></i>';
@@ -163,7 +163,7 @@ class NeuroBankAdmin {
 
         let csv = [];
         const rows = table.querySelectorAll('tr');
-        
+
         rows.forEach(row => {
             const cols = row.querySelectorAll('td, th');
             const rowData = Array.from(cols).map(col => col.textContent);

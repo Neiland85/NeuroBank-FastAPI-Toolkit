@@ -8,14 +8,14 @@ import uuid
 from datetime import datetime, timedelta
 from decimal import Decimal
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
-from fastapi import APIRouter, HTTPException, Request, Depends
-from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
-from ..auth.dependencies import require_role, get_current_active_user
+
+from ..auth.dependencies import get_current_active_user, require_role
 from ..models import User
 
 # Router configuration
@@ -60,7 +60,7 @@ class DashboardMetrics(BaseModel):
 
 
 @router.get("/", response_class=HTMLResponse, summary="Admin Dashboard Principal")
-async def dashboard_home(request: Request):
+async def dashboard_home(request: Request) -> HTMLResponse:
     """
     🏦 **NeuroBank Admin Dashboard**
 
@@ -80,7 +80,7 @@ async def dashboard_home(request: Request):
 @router.get(
     "/api/metrics", response_model=DashboardMetrics, summary="Métricas del Dashboard"
 )
-async def get_dashboard_metrics():
+async def get_dashboard_metrics() -> DashboardMetrics:
     """
     📊 **Métricas en Tiempo Real**
 
@@ -103,7 +103,7 @@ async def search_transactions(
     transaction_type: str = "",
     page: int = 1,
     page_size: int = 20,
-):
+) -> dict:
     """
     🔍 **API de Búsqueda de Transacciones**
 
@@ -143,7 +143,7 @@ async def search_transactions(
 
 
 @router.get("/api/system-health", summary="Estado del Sistema")
-async def get_system_health():
+async def get_system_health() -> dict:
     """
     🏥 **Monitoreo de Salud del Sistema**
 
@@ -170,7 +170,9 @@ async def get_system_health():
     response_class=HTMLResponse,
     summary="Panel de Administración de Transacciones",
 )
-async def admin_transactions(request: Request, current_user: User = Depends(require_role("admin"))):
+async def admin_transactions(
+    request: Request, current_user: User = Depends(require_role("admin"))
+) -> HTMLResponse:
     """
     🔐 **Panel Administrativo de Transacciones**
 
@@ -178,7 +180,11 @@ async def admin_transactions(request: Request, current_user: User = Depends(requ
     """
     return templates.TemplateResponse(
         "admin_transactions.html",
-        {"request": request, "title": "Transaction Management - NeuroBank Admin", "user": current_user},
+        {
+            "request": request,
+            "title": "Transaction Management - NeuroBank Admin",
+            "user": current_user,
+        },
     )
 
 
@@ -187,7 +193,9 @@ async def admin_transactions(request: Request, current_user: User = Depends(requ
     response_class=HTMLResponse,
     summary="Panel de Administración de Usuarios",
 )
-async def admin_users(request: Request, current_user: User = Depends(require_role("admin"))):
+async def admin_users(
+    request: Request, current_user: User = Depends(require_role("admin"))
+) -> HTMLResponse:
     """
     👥 **Panel Administrativo de Usuarios**
 
@@ -195,7 +203,11 @@ async def admin_users(request: Request, current_user: User = Depends(require_rol
     """
     return templates.TemplateResponse(
         "admin_users.html",
-        {"request": request, "title": "User Management - NeuroBank Admin", "user": current_user},
+        {
+            "request": request,
+            "title": "User Management - NeuroBank Admin",
+            "user": current_user,
+        },
     )
 
 
@@ -204,7 +216,7 @@ async def admin_users(request: Request, current_user: User = Depends(require_rol
     response_class=HTMLResponse,
     summary="Panel de Reportes Administrativos",
 )
-def require_admin_or_auditor():
+def require_admin_or_auditor() -> Any:
     async def _checker(current_user: User = Depends(get_current_active_user)) -> User:
         if not any(r.name in ("admin", "auditor") for r in current_user.roles):
             raise HTTPException(status_code=403, detail="Insufficient role")
@@ -216,7 +228,7 @@ def require_admin_or_auditor():
 async def admin_reports(
     request: Request,
     current_user: User = Depends(require_admin_or_auditor()),
-):
+) -> HTMLResponse:
     """
     📈 **Panel de Reportes Administrativos**
 
@@ -224,7 +236,11 @@ async def admin_reports(
     """
     return templates.TemplateResponse(
         "admin_reports.html",
-        {"request": request, "title": "Financial Reports - NeuroBank Admin", "user": current_user},
+        {
+            "request": request,
+            "title": "Financial Reports - NeuroBank Admin",
+            "user": current_user,
+        },
     )
 
 
@@ -234,7 +250,7 @@ async def admin_reports(
 
 
 @router.get("/info", summary="Información del Sistema de Backoffice")
-async def backoffice_info():
+async def backoffice_info() -> dict:
     """
     ℹ️ **Información del Sistema de Backoffice**
 

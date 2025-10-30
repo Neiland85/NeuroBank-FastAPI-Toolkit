@@ -122,7 +122,7 @@ railway logs
 ## 📈 **MONITOREO POST-DEPLOY**
 
 ### **Métricas Clave a Monitorear:**
-- **Uptime**: Debe ser 99.9%+ 
+- **Uptime**: Debe ser 99.9%+
 - **Memory Usage**: Estable < 512MB
 - **Response Time**: < 2 segundos promedio
 - **Error Rate**: < 0.1%

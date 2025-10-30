@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
-    
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <style>
         :root {
             --neuro-primary: #1e3a8a;
@@ -25,20 +25,20 @@
             --neuro-dark: #1f2937;
             --neuro-light: #f8fafc;
         }
-        
+
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         .dashboard-header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 2px solid var(--neuro-primary);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
-        
+
         .metric-card {
             background: rgba(255, 255, 255, 0.95);
             border: none;
@@ -48,17 +48,17 @@
             transition: all 0.3s ease;
             border-left: 4px solid;
         }
-        
+
         .metric-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         }
-        
+
         .metric-card.primary { border-left-color: var(--neuro-primary); }
         .metric-card.success { border-left-color: var(--neuro-success); }
         .metric-card.warning { border-left-color: var(--neuro-warning); }
         .metric-card.info { border-left-color: var(--neuro-accent); }
-        
+
         .metric-icon {
             width: 60px;
             height: 60px;
@@ -69,12 +69,12 @@
             font-size: 24px;
             color: white;
         }
-        
+
         .metric-icon.primary { background: linear-gradient(45deg, var(--neuro-primary), var(--neuro-secondary)); }
         .metric-icon.success { background: linear-gradient(45deg, #10b981, #059669); }
         .metric-icon.warning { background: linear-gradient(45deg, #f59e0b, #d97706); }
         .metric-icon.info { background: linear-gradient(45deg, var(--neuro-accent), #2563eb); }
-        
+
         .chart-container {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
@@ -83,14 +83,14 @@
             padding: 20px;
             margin-bottom: 20px;
         }
-        
+
         .transaction-table {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
         }
-        
+
         .status-badge {
             padding: 6px 12px;
             border-radius: 20px;
@@ -98,12 +98,12 @@
             font-weight: 600;
             text-transform: uppercase;
         }
-        
+
         .status-completed { background-color: #d1fae5; color: #065f46; }
         .status-pending { background-color: #fef3c7; color: #92400e; }
         .status-failed { background-color: #fee2e2; color: #991b1b; }
         .status-cancelled { background-color: #f3f4f6; color: #374151; }
-        
+
         .system-health {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
@@ -111,18 +111,18 @@
             backdrop-filter: blur(10px);
             padding: 20px;
         }
-        
+
         .progress {
             height: 8px;
             border-radius: 10px;
         }
-        
+
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
             color: var(--neuro-primary) !important;
         }
-        
+
         .btn-neuro {
             background: linear-gradient(45deg, var(--neuro-primary), var(--neuro-accent));
             border: none;
@@ -132,23 +132,23 @@
             font-weight: 600;
             transition: all 0.3s ease;
         }
-        
+
         .btn-neuro:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
             color: white;
         }
-        
+
         .loading-spinner {
             display: none;
         }
-        
+
         @keyframes pulse {
             0% { opacity: 1; }
             50% { opacity: 0.5; }
             100% { opacity: 1; }
         }
-        
+
         .loading .loading-spinner {
             display: inline-block;
             animation: pulse 2s infinite;
@@ -307,7 +307,7 @@
                         </h5>
                         <span class="badge bg-success" id="system-status">Loading...</span>
                     </div>
-                    
+
                     <div class="mb-3">
                         <div class="d-flex justify-content-between mb-1">
                             <span>CPU Usage</span>
@@ -407,13 +407,13 @@
             loadSystemHealth();
             loadTransactions();
             loadCharts();
-            
+
             // Auto refresh every 30 seconds
             setInterval(() => {
                 loadDashboardData();
                 loadSystemHealth();
             }, 30000);
-            
+
             // Refresh transactions every 60 seconds
             setInterval(() => {
                 loadTransactions();
@@ -425,7 +425,7 @@
             try {
                 const response = await fetch('/backoffice/api/metrics');
                 const data = await response.json();
-                
+
                 document.getElementById('total-transactions').innerHTML = data.total_transactions.toLocaleString();
                 document.getElementById('total-volume').innerHTML = `$${parseFloat(data.total_volume).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
                 document.getElementById('active-accounts').innerHTML = data.active_accounts.toLocaleString();
@@ -440,16 +440,16 @@
             try {
                 const response = await fetch('/backoffice/api/system-health');
                 const data = await response.json();
-                
+
                 document.getElementById('system-status').textContent = data.status;
                 document.getElementById('system-status').className = `badge bg-${data.status === 'healthy' ? 'success' : 'danger'}`;
-                
+
                 document.getElementById('cpu-usage').textContent = `${data.cpu_usage}%`;
                 document.getElementById('cpu-bar').style.width = `${data.cpu_usage}%`;
-                
+
                 document.getElementById('memory-usage').textContent = `${data.memory_usage}%`;
                 document.getElementById('memory-bar').style.width = `${data.memory_usage}%`;
-                
+
                 document.getElementById('uptime').textContent = data.uptime;
             } catch (error) {
                 console.error('Error loading system health:', error);
@@ -461,15 +461,15 @@
             try {
                 const response = await fetch('/backoffice/api/transactions?limit=10');
                 const transactions = await response.json();
-                
+
                 const tbody = document.getElementById('transactions-table');
                 tbody.innerHTML = '';
-                
+
                 transactions.forEach(tx => {
                     const row = document.createElement('tr');
                     const statusClass = `status-${tx.status}`;
                     const typeIcon = getTransactionIcon(tx.type);
-                    
+
                     row.innerHTML = `
                         <td><code>${tx.id}</code></td>
                         <td>
@@ -504,13 +504,13 @@
             try {
                 const response = await fetch('/backoffice/api/charts/transactions-by-hour');
                 const data = await response.json();
-                
+
                 const ctx = document.getElementById('hourlyChart').getContext('2d');
-                
+
                 if (hourlyChart) {
                     hourlyChart.destroy();
                 }
-                
+
                 hourlyChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
@@ -557,13 +557,13 @@
             try {
                 const response = await fetch('/backoffice/api/charts/transaction-status');
                 const data = await response.json();
-                
+
                 const ctx = document.getElementById('statusChart').getContext('2d');
-                
+
                 if (statusChart) {
                     statusChart.destroy();
                 }
-                
+
                 statusChart = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
@@ -624,7 +624,7 @@
             stepTime = Math.max(stepTime, minTimer);
             const startTime = new Date().getTime();
             const endTime = startTime + duration;
-            
+
             function run() {
                 const now = new Date().getTime();
                 const remaining = Math.max((endTime - now) / duration, 0);

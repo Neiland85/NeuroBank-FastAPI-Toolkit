@@ -8,16 +8,16 @@
 
 ### **1.1 Crear Workspace Base**
 ```
-Crea un nuevo workspace FastAPI para un sistema bancario llamado "NeuroBank FastAPI Banking Toolkit". 
-Incluye: estructura modular con app/, routers/, services/, tests/, configuración Docker, 
-Railway deployment, GitHub Actions CI/CD, pytest con coverage, black+isort, bandit security, 
+Crea un nuevo workspace FastAPI para un sistema bancario llamado "NeuroBank FastAPI Banking Toolkit".
+Incluye: estructura modular con app/, routers/, services/, tests/, configuración Docker,
+Railway deployment, GitHub Actions CI/CD, pytest con coverage, black+isort, bandit security,
 y documentación completa. Usa Python 3.11, FastAPI moderna, y JWT authentication.
 ```
 
 ### **1.2 Configuración de Desarrollo Profesional**
 ```
-Configura VS Code workspace profesional con: extensiones recomendadas (Python, Docker, GitHub), 
-settings.json optimizado, tasks.json para comandos frecuentes, launch.json para debugging, 
+Configura VS Code workspace profesional con: extensiones recomendadas (Python, Docker, GitHub),
+settings.json optimizado, tasks.json para comandos frecuentes, launch.json para debugging,
 .gitignore completo, requirements.txt con todas las dependencias, y .env template.
 ```
 

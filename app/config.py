@@ -1,7 +1,6 @@
 import os
 import sys
 from functools import lru_cache
-from typing import List, Optional
 
 from pydantic_settings import BaseSettings
 
@@ -10,7 +9,7 @@ class Settings(BaseSettings):
     """Configuración de la aplicación optimizada para Railway"""
 
     # API Configuration
-    api_key: Optional[str] = os.getenv("API_KEY")
+    api_key: str | None = os.getenv("API_KEY")
     app_name: str = "NeuroBank FastAPI Toolkit"
     app_version: str = "1.0.0"
 
@@ -25,7 +24,7 @@ class Settings(BaseSettings):
     debug: bool = os.getenv("DEBUG", "false").lower() == "true"
 
     # CORS Configuration - usando el dominio privado de Railway
-    cors_origins: List[str] = []
+    cors_origins: list[str] = []
 
     # AWS Configuration
     aws_region: str = os.getenv("AWS_REGION", "eu-west-1")
@@ -37,7 +36,7 @@ class Settings(BaseSettings):
 
     # Database & JWT Configuration
     database_url: str = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./app.db")
-    jwt_secret_key: Optional[str] = os.getenv("JWT_SECRET_KEY")
+    jwt_secret_key: str | None = os.getenv("JWT_SECRET_KEY")
     jwt_algorithm: str = os.getenv("JWT_ALGORITHM", "HS256")
     access_token_expire_minutes: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
     refresh_token_expire_days: int = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS", 7))
@@ -51,7 +50,7 @@ class Settings(BaseSettings):
     railway_service_name: str = os.getenv("RAILWAY_SERVICE_NAME", "")
     railway_private_domain: str = os.getenv("RAILWAY_PRIVATE_DOMAIN", "")
 
-    def _get_cors_origins(self) -> List[str]:
+    def _get_cors_origins(self) -> list[str]:
         """Configura CORS origins usando variables de Railway"""
         # Si hay CORS_ORIGINS configurado manualmente, usarlo
         if os.getenv("CORS_ORIGINS"):
@@ -99,11 +98,15 @@ class Settings(BaseSettings):
             raise ValueError("API_KEY environment variable is required in production")
 
         # Validación básica de JWT en producción
-        if self.environment == "production" and not is_testing and not (self.jwt_secret_key or self.secret_key):
+        if (
+            self.environment == "production"
+            and not is_testing
+            and not (self.jwt_secret_key or self.secret_key)
+        ):
             raise ValueError("JWT secret key is required in production")
 
 
-@lru_cache()
+@lru_cache
 def get_settings() -> Settings:
     """Obtiene la configuración de la aplicación (cached)"""
     return Settings()
