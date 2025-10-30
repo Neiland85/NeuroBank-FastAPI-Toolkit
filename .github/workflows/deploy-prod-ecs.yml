@@ -1,9 +1,18 @@
 name: Deploy Prod (ECS)
 
 on:
-  push:
-    tags:
-      - "prod-*"
+  # Solo ejecutable manualmente
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag de release (prod-YYYY.MM.DD-XX)"
+        required: true
+      confirm:
+        description: "Confirmar deploy a PRODUCCIÓN (ECS)"
+        required: true
+        default: "no"
+        type: choice
+        options: ["no", "yes"]
 
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
@@ -13,6 +22,7 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && inputs.confirm == 'yes' && secrets.AWS_ACCOUNT_ID != '' && secrets.AWS_OIDC_ROLE_ARN != ''
     permissions:
       id-token: write
       contents: read
@@ -39,13 +49,14 @@ jobs:
 
       - name: Build & Push ${{ matrix.service.name }}
         run: |
-          IMAGE=${{ env.ECR_REGISTRY }}/neurobank/${{ matrix.service.name }}:${{ github.ref_name }}
+          IMAGE=${{ env.ECR_REGISTRY }}/neurobank/${{ matrix.service.name }}:${{ inputs.tag }}
           docker build -t "$IMAGE" ${{ matrix.service.path }}
           docker push "$IMAGE"
 
   deploy-ecs:
     needs: build-and-push
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && inputs.confirm == 'yes'
     permissions:
       id-token: write
       contents: read
@@ -72,7 +83,7 @@ jobs:
         with:
           task-definition: ${{ matrix.svc.taskdef }}
           container-name: ${{ matrix.svc.container }}
-          image: ${{ env.ECR_REGISTRY }}/${{ matrix.svc.image_repo }}:${{ github.ref_name }}
+          image: ${{ env.ECR_REGISTRY }}/${{ matrix.svc.image_repo }}:${{ inputs.tag }}
 
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2

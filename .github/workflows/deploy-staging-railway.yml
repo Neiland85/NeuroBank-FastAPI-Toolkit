@@ -1,8 +1,15 @@
 name: Deploy Staging (Railway)
 
 on:
-  push:
-    branches: [ "main" ]
+  # Solo ejecutable manualmente
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Confirmar deploy a Railway STAGING"
+        required: true
+        default: "no"
+        type: choice
+        options: ["no", "yes"]
 
 concurrency:
   group: staging-railway
@@ -11,6 +18,8 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Ejecutar solo si se invoca manualmente y hay token
+    if: github.event_name == 'workflow_dispatch' && inputs.confirm == 'yes' && secrets.RAILWAY_TOKEN != ''
     env:
       RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
     steps:

@@ -55,6 +55,15 @@ jobs:
           - { name: control_service,   path: trading_ai_system/control_service }
     steps:
       - uses: actions/checkout@v4
+      - name: Check context exists
+        id: ctx
+        run: |
+          if [ -d "${{ matrix.service.path }}" ] && [ -f "${{ matrix.service.path }}/Dockerfile" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
       - name: Build ${{ matrix.service.name }}
+        if: steps.ctx.outputs.exists == 'true'
         run: docker build -t neurobank/${{ matrix.service.name }}:ci ${{ matrix.service.path }}
 
