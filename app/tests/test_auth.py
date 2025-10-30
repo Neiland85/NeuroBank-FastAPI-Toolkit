@@ -11,7 +11,8 @@ async def test_duplicate_registration_rejected(client):
     r1 = await client.post("/api/auth/register", json=payload)
     assert r1.status_code in (200, 201)
     r2 = await client.post("/api/auth/register", json=payload)
-    assert r2.status_code == 400
+    # Conflicto por unicidad debe ser 409
+    assert r2.status_code == 409
 
 
 @pytest.mark.anyio

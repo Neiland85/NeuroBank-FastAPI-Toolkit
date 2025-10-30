@@ -14,7 +14,6 @@ from app.schemas import Token, UserCreate, UserResponse
 from app.services.user_service import (
     authenticate_user,
     create_user,
-    get_user_by_username,
 )
 
 if TYPE_CHECKING:
@@ -59,9 +58,7 @@ async def login(
 
 @router.post("/register", response_model=UserResponse, summary="Registro de usuario")
 async def register(payload: UserCreate, db: AsyncSession = db_dep) -> User:
-    # Unicidad de username/email
-    if await get_user_by_username(db, payload.username):
-        raise HTTPException(status_code=400, detail="El nombre de usuario ya existe")
+    # Delegar en el servicio y manejadores globales para mapear excepciones de dominio
     return await create_user(db, payload, roles=["customer"])
 
 
