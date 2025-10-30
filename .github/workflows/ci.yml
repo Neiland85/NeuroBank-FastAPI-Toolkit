@@ -59,6 +59,33 @@ jobs:
         run: |
           pytest --maxfail=1 --disable-warnings -q
 
+      - name: 📝 Generate Ruff JSON report (always)
+        if: always()
+        run: |
+          ruff check app/ --output-format json > ruff.json || echo "[]" > ruff.json
+
+      - name: 📦 Upload Ruff report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ruff-json-report
+          path: ruff.json
+
+      - name: 🏷️ Ensure labels (lint/ruff)
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create lint --color 0E8A16 --repo "${{ github.repository }}" 2>/dev/null || gh label edit lint --color 0E8A16 --repo "${{ github.repository }}"
+          gh label create ruff --color 1F883D --repo "${{ github.repository }}" 2>/dev/null || gh label edit ruff --color 1F883D --repo "${{ github.repository }}"
+
+      - name: 🧰 Create Issues from Ruff JSON on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/create_issues_from_logs.py --repo "${{ github.repository }}" --log ruff.json --ruff-json || true
+
       - name: 📊 Upload coverage
         if: success()
         uses: codecov/codecov-action@v4
