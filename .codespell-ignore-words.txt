@@ -12,6 +12,8 @@ Fase
 oficial
 cliente
 implementes
+ser
+pase
 
 # Términos técnicos aceptados
 selectin
