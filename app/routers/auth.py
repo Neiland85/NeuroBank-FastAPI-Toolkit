@@ -3,9 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import (
-    OAuth2PasswordRequestForm,  # - used at runtime via factory
-)
+from fastapi.security import OAuth2PasswordRequestForm  # - used at runtime via factory
 
 from app.auth.dependencies import get_current_user
 from app.auth.jwt import create_access_token, create_refresh_token, decode_token

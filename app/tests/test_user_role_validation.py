@@ -1,8 +1,8 @@
 import pytest
 
+from app.database import AsyncSessionLocal
 from app.schemas import UserCreate
 from app.services.errors import ValidationError
-from app.database import AsyncSessionLocal
 from app.services.user_service import create_user
 
 
