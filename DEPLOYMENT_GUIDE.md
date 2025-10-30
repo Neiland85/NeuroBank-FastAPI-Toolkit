@@ -2,7 +2,8 @@
 
 ## Objetivo
 
-Consolidar múltiples migraciones de normalización/conversión de timestamps y merges en un único head estable, reduciendo complejidad y riesgos en despliegues.
+Consolidar múltiples migraciones de normalización/conversión de timestamps y merges en un único head estable,
+reduciendo complejidad y riesgos en despliegues.
 
 ## Requisitos previos
 
@@ -24,7 +25,8 @@ alembic heads
 alembic history --verbose
 ```
 
-Si aparecen múltiples heads (p.ej., migraciones repetidas de normalización de timestamps y archivos de "merge_heads"), proceder con el plan controlado.
+Si aparecen múltiples heads (p.ej., migraciones repetidas de normalización de timestamps y archivos de "merge_heads"),
+proceder con el plan controlado.
 
 ## Plan recomendado (rama de mantenimiento)
 
@@ -51,7 +53,8 @@ alembic revision --autogenerate -m "squash: normalize timestamps and merge heads
 - Establecer `down_revision = None` en el archivo recién creado.
 - Confirmar que `upgrade()` refleja completamente el esquema actual.
 
-1. Opcional (limpieza): eliminar o archivar migraciones antiguas relacionadas con normalización/merges que quedan obsoletas en esta rama. Alternativamente, mantenerlas pero no usarlas en nuevos entornos.
+1. Opcional (limpieza): eliminar o archivar migraciones antiguas relacionadas con normalización/merges que quedan
+obsoletas en esta rama. Alternativamente, mantenerlas pero no usarlas en nuevos entornos.
 
 1. En bases de datos ya migradas (staging), marcar el estado como el del nuevo squash sin volver a aplicar cambios:
 

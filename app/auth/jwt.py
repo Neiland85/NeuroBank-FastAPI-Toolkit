@@ -11,6 +11,17 @@ from app.schemas import TokenData
 settings = get_settings()
 
 
+MAX_JWT_BYTES = 8 * 1024  # 8 KB límite defensivo para tokens
+
+
+def _ensure_reasonable_size(token: str) -> None:
+    if len(token.encode("utf-8")) > MAX_JWT_BYTES:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="JWT demasiado grande",
+        )
+
+
 def _get_secret() -> str:
     """Obtiene el secreto JWT desde Settings. Falla si no está configurado (excepto tests).
 
@@ -19,9 +30,11 @@ def _get_secret() -> str:
     if settings.jwt_secret_key:
         return settings.jwt_secret_key
     # En entornos de test, Settings.__init__ configura un secreto temporal
-    # Si llega aquí, es una mala configuración en runtime
-    msg = "JWT secret key is not configured"
-    raise ValueError(msg)
+    # Si llega aquí, es una mala configuración en runtime => HTTP 500
+    raise HTTPException(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        detail="JWT secret key is not configured",
+    )
 
 
 def _now() -> datetime:
@@ -70,6 +83,7 @@ def create_refresh_token(username: str) -> str:
 
 
 def decode_token(token: str) -> TokenData:
+    _ensure_reasonable_size(token)
     try:
         decoded = jwt.decode(
             token,
@@ -99,6 +113,7 @@ def decode_token(token: str) -> TokenData:
 
 def decode_refresh_token(token: str) -> TokenData:
     """Decodifica y valida que el token sea de tipo refresh."""
+    _ensure_reasonable_size(token)
     try:
         decoded = jwt.decode(
             token,

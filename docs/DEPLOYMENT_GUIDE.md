@@ -219,3 +219,11 @@ aws cloudformation cancel-update-stack \
 - [ ] Monitoreo establecido
 
 **¡Deployment Completado! 🚀**
+
+---
+
+## ⏱️ Zona Horaria y Timestamps
+
+- La aplicación opera en UTC y expone timestamps ISO-8601 con zona horaria.
+- No es necesario configurar `TZ`, pero si tu plataforma lo requiere puedes usar `TZ=UTC`.
+- Verifica en el health check que el `timestamp` incluye `Z` o un offset (`+00:00`).

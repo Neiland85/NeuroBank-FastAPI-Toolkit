@@ -13,7 +13,7 @@
 1. Configuración de spellcheck
 
    - Archivo agregado: `.codespell-ignore-words.txt`
-   - Cobertura: términos en español comunes (e.g., "Administrativo", "componentes",
+   - Cobertura: términos en español comunes (e.g., "Administration", "componentes",
      "inicial", "cliente"), y términos técnicos ("selectin").
    - Incluye palabras usadas en tests para evitar falsos positivos ("ser", "pase").
 

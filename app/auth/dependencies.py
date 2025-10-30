@@ -7,13 +7,13 @@ from fastapi.security import (
     OAuth2PasswordBearer,
     SecurityScopes,
 )
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.jwt import decode_token
 from app.config import get_settings
 from app.database import get_db
 from app.models import User
+from app.services.user_service import get_user_by_username
 
 # Esquemas de seguridad
 security = HTTPBearer(auto_error=False)
@@ -43,17 +43,12 @@ def verify_api_key(
 ) -> str:
     expected_api_key = get_api_key()
     provided_api_key = None
-    logger = logging.getLogger(__name__)
 
-    # Aceptar SOLO X-API-Key. Rechazar si viene vía Authorization: Bearer.
+    # Aceptar API Key por X-API-Key o como Bearer en Authorization (compatibilidad)
     if "x-api-key" in request.headers:
         provided_api_key = request.headers["x-api-key"]
     elif credentials and credentials.credentials:
-        raise HTTPException(
-            status_code=401,
-            detail="API key no permitida en Authorization. Envíe 'X-API-Key: <key>'",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+        provided_api_key = credentials.credentials
 
     if not provided_api_key:
         raise HTTPException(
@@ -76,9 +71,7 @@ async def get_current_user(
     token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)
 ) -> User:
     token_data = decode_token(token)
-    stmt = select(User).where(User.username == token_data.username)
-    result = await db.execute(stmt)
-    user: User | None = result.scalar_one_or_none()
+    user = await get_user_by_username(db, token_data.username)
     if not user:
         raise HTTPException(status_code=401, detail="User not found")
     if not user.is_active:
@@ -94,7 +87,10 @@ async def get_current_active_user(
     return current_user
 
 
-def require_role(role_name: str):
+from collections.abc import Awaitable, Callable
+
+
+def require_role(role_name: str) -> Callable[..., Awaitable[User]]:
     async def _checker(current_user: User = Depends(get_current_active_user)) -> User:
         if not any(r.name == role_name for r in current_user.roles):
             raise HTTPException(status_code=403, detail="Insufficient role")
@@ -157,9 +153,7 @@ async def get_current_user_flexible(
         token_value = credentials.credentials
         try:
             token_data = decode_token(token_value)
-            stmt = select(User).where(User.username == token_data.username)
-            result = await db.execute(stmt)
-            user = result.scalar_one_or_none()
+            user = await get_user_by_username(db, token_data.username)
             if user:
                 return user
             # Usuario no encontrado en BD pero token válido

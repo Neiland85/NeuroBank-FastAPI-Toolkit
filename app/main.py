@@ -302,7 +302,7 @@ async def root() -> dict:
     - 📋 Información básica del servicio
     - 🔗 Enlaces de navegación rápida
     - 📚 Acceso a documentación
-    - ⚡ Estado operacional
+    - ⚡ Estado operational
     - 🎯 Características principales
 
     **Útil para:**

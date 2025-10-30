@@ -68,7 +68,7 @@ class Settings(BaseSettings):
         """Configura CORS origins usando variables de Railway"""
         # Si hay CORS_ORIGINS configurado manualmente, usarlo
         if os.getenv("CORS_ORIGINS"):
-            return os.getenv("CORS_ORIGINS").split(",")
+            return (os.getenv("CORS_ORIGINS") or "").split(",")
 
         # Si no, construir automáticamente desde Railway
         origins = ["https://*.railway.app"]
@@ -79,8 +79,8 @@ class Settings(BaseSettings):
 
         return origins
 
-    def __init__(self, **kwargs: object) -> None:
-        super().__init__(**kwargs)
+    def __init__(self) -> None:
+        super().__init__()
         # Configurar CORS origins después de la inicialización
         self.cors_origins = self._get_cors_origins()
 

@@ -60,9 +60,9 @@ def validate_password_strength(password: str) -> tuple[bool, str]:
             f"La contraseña debe tener al menos {MIN_PASSWORD_LENGTH} caracteres",
         )
     if not re.search(r"[A-Z]", password):
-        return False, "La contraseña debe contener al menos una letra mayúscula"  # type: ignore[unreachable]
+        return False, "La contraseña debe contener al menos una letra mayúscula"
     if not re.search(r"[a-z]", password):
-        return False, "La contraseña debe contener al menos una letra minúscula"  # type: ignore[unreachable]
+        return False, "La contraseña debe contener al menos una letra minúscula"
     if not re.search(r"\d", password):
-        return False, "La contraseña debe contener al menos un dígito"  # type: ignore[unreachable]
+        return False, "La contraseña debe contener al menos un dígito"
     return True, ""

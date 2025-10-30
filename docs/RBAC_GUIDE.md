@@ -124,6 +124,11 @@ curl -X POST http://localhost:8000/api/roles/<ROLE_ID>/permissions \
 - Restringir `CORS_ORIGINS` a dominios de confianza
 - Auditar accesos a endpoints críticos y cambios de rol
 
+### Timestamps en UTC
+- Las respuestas incluyen `created_at`/`updated_at` en ISO-8601 con zona horaria (UTC).
+- Ejemplos válidos: `2025-07-20T15:30:45.123456Z` o `+00:00`.
+- Los modelos ORM usan `DateTime(timezone=True)` y el backend fija tiempos con `datetime.now(UTC)`.
+
 ---
 
 ## 7) Esquema de Base de Datos

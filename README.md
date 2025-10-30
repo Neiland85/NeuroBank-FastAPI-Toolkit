@@ -34,6 +34,13 @@ python scripts/create_admin.py
 - API Key: `X-API-Key: your-api-key`
 - JWT Bearer: `Authorization: Bearer <token>`
 
+### ⏱️ Timestamps y Zona Horaria (UTC)
+
+- Todas las marcas de tiempo de la API (`created_at`, `updated_at`, etc.) se exponen en formato ISO-8601 con zona horaria.
+- La normalización se realiza a UTC. Ejemplos válidos: `2025-07-20T15:30:45.123456Z`, `2025-07-20T15:30:45+00:00`.
+- La base de datos usa `DateTime(timezone=True)` y el backend establece tiempos con `datetime.now(UTC)` para consistencia.
+- Los tests verifican que los timestamps devueltos por la API son timezone-aware.
+
 # 🏦 NeuroBank FastAPI Toolkit
 
 ![NeuroBank Logo](https://img.shields.io/badge/🏦-NeuroBank-1e3a8a?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMjIgOFYxNkgxOFYxMEg2VjE2SDJWOE4xMiAyWiIgZmlsbD0iIzFFM0E4QSIvPgo8L3N2Zz4K)

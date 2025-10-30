@@ -31,7 +31,7 @@ if TYPE_CHECKING:
 
 router = APIRouter(prefix="/roles", tags=["🎭 Role Management"])
 
-# Singletons de dependencias para evitar B008
+# Singletons de dependencies para evitar B008
 db_dep = Depends(get_db)
 perm_read = Security(require_permissions(), scopes=["roles:read"])
 perm_write = Security(require_permissions(), scopes=["roles:write"])
@@ -90,7 +90,6 @@ async def delete_role_endpoint(
     ok = await delete_role(db, uuid.UUID(role_id))
     if not ok:
         raise HTTPException(status_code=404, detail="Rol no encontrado")
-    return Response(status_code=204)
 
 
 @router.post("/{role_id}/permissions", response_model=RoleResponse)

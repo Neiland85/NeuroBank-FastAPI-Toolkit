@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 
 router = APIRouter(prefix="/users", tags=["👥 User Management"])
 
-# Evitar B008: crear dependencias como singletons de módulo
+# Evitar B008: crear dependencies como singletons de módulo
 db_dep = Depends(get_db)
 perm_read = Security(require_permissions(), scopes=["users:read"])
 perm_write = Security(require_permissions(), scopes=["users:write"])
@@ -130,7 +130,6 @@ async def delete_user_endpoint(
     ok = await delete_user(db, uuid_from_str(user_id))
     if not ok:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
-    return Response(status_code=204)
 
 
 @router.post(

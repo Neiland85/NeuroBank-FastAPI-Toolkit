@@ -1,7 +1,7 @@
 # I have the following comments after thorough review of file. Implement the comments by following the instructions verbatim.
 #
 # ---
-# ## Comment 1: `get_current_user` no carga relaciones; `require_permissions` provoca N+1 queries y potenciales problemas de sesión.
+# ## Comment 1: `get_current_user` no carga relaciones; `require_permissions` provoca N+1 queries y potenciales problems de sesión.
 #
 # En `app/auth/dependencies.py` modifique la consulta de `get_current_user` para incluir `selectinload(User.roles).selectinload(Role.permissions)`. Importe `Role` para el eager load. Alternativamente, reutilice `get_user_by_username()` del `user_service` y pase la sesión. Verifique con tests de autorización que no se realizan consultas adicionales.
 #
@@ -25,7 +25,7 @@
 # ---
 # ## Comment 1: `Settings` referencia `self.secret_key` sin definirlo, causando fallo en producción y debilitando la validación de JWT.
 #
-# En `app/config.py` la clase `Settings` usa `self.secret_key` en la validación pero no define el atributo. Defina `secret_key: str | None = os.getenv('SECRET_KEY')` si pretende soportarlo o elimine su uso del condicional. Ajuste la validación para exigir `jwt_secret_key` en producción. Actualice `.env.example` y el README con `JWT_SECRET_KEY`. Verifique que `get_settings()` y pruebas integradas contemplen el nuevo atributo o el cambio de validación.
+# En `app/config.py` la clase `Settings` usa `self.secret_key` en la validación pero no define el atributo. Defina `secret_key: str | None = os.getenv('SECRET_KEY')` si pretende soportarlo o elimine su uso del conditional. Ajuste la validación para exigir `jwt_secret_key` en producción. Actualice `.env.example` y el README con `JWT_SECRET_KEY`. Verifique que `get_settings()` y pruebas integradas contemplen el nuevo atributo o el cambio de validación.
 #
 # ### Relevant Files
 # - /Users/estudio/Projects/GitHub/PYTHON3/NeuroBank-FastAPI-Toolkit-1/app/config.py
@@ -43,7 +43,7 @@ async def test_create_user_with_nonexistent_role_raises_validation_error():
         payload = UserCreate(
             username="nouserrole",
             email="nouserrole@example.com",
-            password="StrongPass123!",
+            password="StrongPass123!",  # noqa: S106 (valor de prueba)
             full_name=None,
         )
         with pytest.raises(ValidationError) as excinfo:

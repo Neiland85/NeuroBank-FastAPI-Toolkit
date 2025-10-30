@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, Path
 from pydantic import BaseModel, Field
 
@@ -207,7 +209,7 @@ async def order_status(
     Procesa la consulta de estado y retorna información detallada
     sobre el procesamiento actual de la transacción.
     """
-    return get_order_status(order_id)
+    return OrderStatusResponse(**get_order_status(order_id))
 
 
 @router.post(
@@ -291,10 +293,11 @@ async def order_status(
     },
 )
 async def invoice(
-    invoice_id: str = Path(
-        ..., description="ID de la factura a generar", examples=["INV-2025-789012"]
-    ),
-    data: InvoiceRequest | None = None,
+    invoice_id: Annotated[
+        str,
+        Path(description="ID de la factura a generar", examples=["INV-2025-789012"]),
+    ],
+    data: InvoiceRequest,
     _current_user: User | None = current_user_flexible_dep,
 ) -> InvoiceResponse:
     """
@@ -303,7 +306,4 @@ async def invoice(
     Procesa la solicitud de facturación y genera un documento oficial
     con todos los detalles fiscales requeridos.
     """
-    if data is None:
-        # Coherencia de tipos; en práctica FastAPI validará body requerido si así se define
-        return generate_invoice("")
-    return generate_invoice(data.order_id)
+    return InvoiceResponse(**generate_invoice(data.order_id))

@@ -1,17 +1,13 @@
 # Palabras en español usadas intencionalmente
-administrativo
-Administrativo
 componentes
 Comandos
 inicial
-requiere
+require
 caracteres
-contener
-profesional
+container
 Fase
-oficial
 cliente
-implementes
+implements
 ser
 pase
 

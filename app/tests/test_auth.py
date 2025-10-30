@@ -52,7 +52,18 @@ async def test_me_returns_current_user_when_authenticated(client):
     token = login.json()["access_token"]
     me = await client.get("/api/auth/me", headers={"Authorization": f"Bearer {token}"})
     assert me.status_code == 200
-    assert me.json()["username"] == "meuser"
+    data = me.json()
+    assert data["username"] == "meuser"
+    # Timestamps deben ser timezone-aware (RFC3339 con offset o 'Z')
+    for ts_field in ("created_at", "updated_at"):
+        assert ts_field in data
+        ts_value = data[ts_field]
+        assert isinstance(ts_value, str)
+        assert (
+            ts_value.endswith(("Z", "+00:00"))
+            or "+" in ts_value
+            or "-" in ts_value[-6:]
+        ), f"{ts_field} no parece timezone-aware: {ts_value}"
 
 
 @pytest.mark.anyio
@@ -103,14 +114,14 @@ async def test_access_token_cannot_be_used_as_refresh(client):
 
 @pytest.mark.anyio
 async def test_api_key_in_authorization_is_rejected(client):
-    # Enviar API key vía Authorization debe ser rechazado con 401
+    # Enviar API key inválida vía Authorization debe ser rechazado con 403
     r = await client.get(
         "/api/order/ORD-2025-001234",
         headers={"Authorization": "Bearer some_api_key_value"},
     )
-    assert r.status_code == 401
+    assert r.status_code == 403
     detail = r.json().get("detail", "")
-    assert "X-API-Key" in detail
+    assert "Invalid API key" in detail
 
 
 @pytest.mark.anyio
