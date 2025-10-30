@@ -1,0 +1,39 @@
+name: Infra (Terraform)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "infra/**.tf"
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.5
+
+      - name: AWS Credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terraform Init/Plan
+        working-directory: infra
+        run: |
+          terraform init
+          terraform plan -out=tfplan
+
+      - name: Terraform Apply (manual gate)
+        if: github.event_name == 'workflow_dispatch'
+        working-directory: infra
+        run: terraform apply -auto-approve tfplan
+

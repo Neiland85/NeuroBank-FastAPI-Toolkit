@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ "**" ]
+  push:
+    branches: [ "feature/**", "fix/**", "chore/**" ]
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - name: Install deps (root + services)
+        run: |
+          pip install -U pip wheel
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          for svc in trading_ai_system/ingestion_service trading_ai_system/inference_service trading_ai_system/control_service; do
+            if [ -f "$svc/requirements.txt" ]; then pip install -r "$svc/requirements.txt"; fi
+          done
+          pip install pytest flake8
+
+      - name: Lint
+        run: flake8 .
+
+      - name: Test
+        run: |
+          if [ -d tests ]; then pytest -q; else echo "No tests dir"; fi
+
+  build-check:
+    name: Docker build (no push)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - { name: ingestion_service, path: trading_ai_system/ingestion_service }
+          - { name: inference_service, path: trading_ai_system/inference_service }
+          - { name: control_service,   path: trading_ai_system/control_service }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build ${{ matrix.service.name }}
+        run: docker build -t neurobank/${{ matrix.service.name }}:ci ${{ matrix.service.path }}
+

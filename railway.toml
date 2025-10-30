@@ -1,0 +1,37 @@
+# railway.toml
+[project]
+name = "neurobank-trading-ai-staging"
+
+[plugins]
+# Opcional: Postgres/Redis si quieres
+# postgres = { source = "railway" }
+
+# ---------- API GATEWAY (FastAPI) ----------
+[[services]]
+name = "api-gateway"
+start = "uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers ${WORKERS:-1}"
+env = { ENVIRONMENT = "staging", LOG_LEVEL = "DEBUG" }
+healthcheckPath = "/health"
+port = 8000
+
+# ---------- INGESTION ----------
+[[services]]
+name = "ingestion-service"
+start = "python -u main.py"
+rootDir = "trading_ai_system/ingestion_service"
+env = { ENVIRONMENT = "staging" }
+
+# ---------- INFERENCE ----------
+[[services]]
+name = "inference-service"
+start = "python -u main.py"
+rootDir = "trading_ai_system/inference_service"
+env = { ENVIRONMENT = "staging", OTEL_SERVICE_NAME = "inference_service" }
+
+# ---------- CONTROL ----------
+[[services]]
+name = "control-service"
+start = "python -u main.py"
+rootDir = "trading_ai_system/control_service"
+env = { ENVIRONMENT = "staging" }
+

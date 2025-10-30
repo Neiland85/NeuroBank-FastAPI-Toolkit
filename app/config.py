@@ -1,4 +1,5 @@
 import os
+import json
 import sys
 from functools import lru_cache
 from typing import List, Optional
@@ -17,6 +18,10 @@ class Settings(BaseSettings):
     # Server Configuration
     host: str = "0.0.0.0"
     port: int = int(os.getenv("PORT", 8000))
+    workers: int = int(os.getenv("WORKERS", 1))
+    
+    # Security / Secrets
+    secret_key: Optional[str] = os.getenv("SECRET_KEY")
 
     # Environment Configuration
     environment: str = os.getenv(
@@ -24,8 +29,8 @@ class Settings(BaseSettings):
     )  # Default to development, not production
     debug: bool = os.getenv("DEBUG", "false").lower() == "true"
 
-    # CORS Configuration - usando el dominio privado de Railway
-    cors_origins: List[str] = []
+    # CORS Configuration: definir como string para evitar parseo JSON automático
+    cors_origins: Optional[str] = os.getenv("CORS_ORIGINS")
 
     # AWS Configuration
     aws_region: str = os.getenv("AWS_REGION", "eu-west-1")
@@ -46,9 +51,18 @@ class Settings(BaseSettings):
 
     def _get_cors_origins(self) -> List[str]:
         """Configura CORS origins usando variables de Railway"""
-        # Si hay CORS_ORIGINS configurado manualmente, usarlo
-        if os.getenv("CORS_ORIGINS"):
-            return os.getenv("CORS_ORIGINS").split(",")
+        # Si hay CORS_ORIGINS configurado manualmente, usarlo con parseo robusto
+        raw = self.cors_origins
+        if raw is not None:
+            raw_str = raw.strip()
+            if raw_str == "":
+                return []
+            try:
+                parsed = json.loads(raw_str)
+                if isinstance(parsed, list):
+                    return [str(x).strip() for x in parsed if str(x).strip()]
+            except Exception:
+                return [part.strip() for part in raw_str.split(",") if part.strip()]
 
         # Si no, construir automáticamente desde Railway
         origins = ["https://*.railway.app"]

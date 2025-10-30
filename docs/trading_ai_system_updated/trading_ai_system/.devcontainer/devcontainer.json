@@ -1,0 +1,19 @@
+{
+  "name": "Crypto Trading AI Dev Container",
+  "dockerFile": "../Dockerfile.dev",
+  "context": "../",
+  "settings": {
+    "python.pythonPath": "/usr/local/bin/python",
+    "python.formatting.provider": "black",
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "github.copilot.enable": true
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-azuretools.vscode-docker",
+    "github.copilot",
+    "ms-kubernetes-tools.vscode-kubernetes-tools"
+  ],
+  "postCreateCommand": "bash .devcontainer/setup.sh"
+}

@@ -17,3 +17,10 @@ python-json-logger==2.0.7
 jinja2==3.1.6
 python-multipart==0.0.18
 requests==2.32.4
+
+# Trading IA
+torch
+numpy
+pycoingecko
+hyperliquid
+

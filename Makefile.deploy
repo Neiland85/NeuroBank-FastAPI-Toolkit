@@ -1,0 +1,13 @@
+AWS_REGION ?= eu-west-1
+AWS_ACCOUNT_ID ?= 000000000000
+ECR = $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
+
+login:
+	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(ECR)
+
+build-all:
+	docker build -t $(ECR)/neurobank/api-gateway:local .
+	docker build -t $(ECR)/neurobank/ingestion:local trading_ai_system/ingestion_service
+	docker build -t $(ECR)/neurobank/inference:local trading_ai_system/inference_service
+	docker build -t $(ECR)/neurobank/control:local trading_ai_system/control_service
+

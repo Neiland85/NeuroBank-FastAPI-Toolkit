@@ -1,0 +1,84 @@
+name: Deploy Prod (ECS)
+
+on:
+  push:
+    tags:
+      - "prod-*"
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+  ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - { name: api-gateway,     path: . }  # Ajusta si API tiene Dockerfile propio en raíz/otra ruta
+          - { name: ingestion,       path: trading_ai_system/ingestion_service }
+          - { name: inference,       path: trading_ai_system/inference_service }
+          - { name: control,         path: trading_ai_system/control_service }
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }} # IAM Role con trust para GitHub
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build & Push ${{ matrix.service.name }}
+        run: |
+          IMAGE=${{ env.ECR_REGISTRY }}/neurobank/${{ matrix.service.name }}:${{ github.ref_name }}
+          docker build -t "$IMAGE" ${{ matrix.service.path }}
+          docker push "$IMAGE"
+
+  deploy-ecs:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        svc:
+          - { ecs_service: api-gateway-svc,   taskdef: trading_ai_system/ecs/api-gateway-task.json,   container: api-gateway,  image_repo: neurobank/api-gateway }
+          - { ecs_service: ingestion-svc,     taskdef: trading_ai_system/ecs/ingestion-service-task.json, container: ingestion, image_repo: neurobank/ingestion }
+          - { ecs_service: inference-svc,     taskdef: trading_ai_system/ecs/inference-service-task.json, container: inference, image_repo: neurobank/inference }
+          - { ecs_service: control-svc,       taskdef: trading_ai_system/ecs/control-service-task.json,   container: control,   image_repo: neurobank/control }
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Render Task Definition
+        id: taskdef
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ matrix.svc.taskdef }}
+          container-name: ${{ matrix.svc.container }}
+          image: ${{ env.ECR_REGISTRY }}/${{ matrix.svc.image_repo }}:${{ github.ref_name }}
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.taskdef.outputs.task-definition }}
+          service: ${{ matrix.svc.ecs_service }}
+          cluster: neurobank-prod
+          wait-for-service-stability: true
+

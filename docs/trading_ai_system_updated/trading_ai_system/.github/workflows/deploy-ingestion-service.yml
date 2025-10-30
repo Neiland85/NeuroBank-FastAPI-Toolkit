@@ -1,0 +1,53 @@
+name: Deploy Ingestion Service to ECS
+
+on:
+  push:
+    tags:
+      - 'ingestion-prod-*'
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Docker image
+        run: |
+          IMAGE_TAG=${GITHUB_REF_NAME#ingestion-prod-}
+          echo "Building image neurobank/ingestion-service:$IMAGE_TAG"
+          docker build -t neurobank/ingestion-service:$IMAGE_TAG -f ingestion_service/Dockerfile ingestion_service
+          docker tag neurobank/ingestion-service:$IMAGE_TAG ${{ steps.ecr.outputs.registry }}/neurobank/ingestion-service:$IMAGE_TAG
+          docker push ${{ steps.ecr.outputs.registry }}/neurobank/ingestion-service:$IMAGE_TAG
+
+      - name: Render task definition
+        id: render
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ecs/ingestion-service-task.json
+          container-name: ingestion-service
+          image: ${{ steps.ecr.outputs.registry }}/neurobank/ingestion-service:${{ github.ref_name#ingestion-prod- }}
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          cluster: neurobank-prod
+          service: ingestion-service-svc
+          task-definition: ${{ steps.render.outputs.task-definition }}
+          wait-for-service-stability: true
