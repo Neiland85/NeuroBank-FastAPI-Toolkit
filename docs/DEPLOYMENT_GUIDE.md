@@ -2,6 +2,45 @@
 
 ## 🎯 **Proceso Completo de Deployment**
 
+### **Fase 0: Configuración de GitHub Secrets**
+
+Antes de ejecutar el CI/CD pipeline, debes configurar los siguientes secrets en tu repositorio de GitHub:
+
+#### **Configurar Secrets en GitHub**
+
+1. **🌐 Ir a Settings → Secrets and variables → Actions**
+   ```
+   URL: https://github.com/USERNAME/NeuroBank-FastAPI-Toolkit/settings/secrets/actions
+   ```
+
+2. **🔑 Agregar los siguientes secrets:**
+   - `DOCKER_USERNAME`: Tu usuario de Docker Hub
+   - `DOCKER_PASSWORD`: Tu contraseña o token de Docker Hub
+   - `RAILWAY_TOKEN`: Token de Railway (si usas Railway para deployment)
+   - `SONAR_TOKEN`: Token de SonarCloud (opcional, para análisis de código)
+   - `CODECOV_TOKEN`: Token de Codecov (opcional, para coverage)
+
+#### **Obtención de Tokens**
+
+**Docker Hub:**
+- ⚠️ **IMPORTANTE**: Usa un **Access Token**, NO tu contraseña
+- Login en: https://hub.docker.com
+- Ir a: Account Settings → Security → New Access Token
+- Crear token con permisos "Read, Write & Delete"
+- Copiar el token generado (solo se muestra una vez)
+
+**Railway:**
+- Login en: https://railway.app
+- Ir a Settings → Tokens → Create New Token
+
+**SonarCloud:**
+- Login en: https://sonarcloud.io
+- Ir a My Account → Security → Generate Token
+
+**Codecov:**
+- Login en: https://codecov.io
+- Ir a Settings → Integrations → GitHub → Token
+
 ### **Fase 1: Pre-Deployment Checklist**
 
 ```bash

@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import re
-import uuid
-from datetime import datetime
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, EmailStr, Field, ValidationInfo, field_validator
+
+if TYPE_CHECKING:
+    import uuid
+    from datetime import datetime
 
 # ---------- Permission Schemas ----------
 
@@ -71,15 +74,14 @@ class UserCreate(UserBase):
 
     @field_validator("password")
     @classmethod
-    def validate_password_strength(cls, v: str, info: ValidationInfo) -> str:
+    def validate_password_strength(cls, v: str, _info: ValidationInfo) -> str:
         if (
             not re.search(r"[A-Z]", v)
             or not re.search(r"[a-z]", v)
             or not re.search(r"\d", v)
         ):
-            raise ValueError(
-                "La contraseña debe incluir mayúsculas, minúsculas y dígitos"
-            )
+            msg = "La contraseña debe incluir mayúsculas, minúsculas y dígitos"
+            raise ValueError(msg)
         return v
 
 

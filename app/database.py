@@ -1,72 +1,20 @@
 from __future__ import annotations
 
-from collections.abc import AsyncGenerator
-from contextlib import asynccontextmanager
-
-from sqlalchemy.ext.asyncio import (
-    AsyncSession,
-    async_sessionmaker,
-    create_async_engine,
-)
-from sqlalchemy.orm import declarative_base
-
-from .config import get_settings
-
-Base = declarative_base()
-
-
-def get_database_url() -> str:
-    settings = get_settings()
-    return settings.database_url
-
-
-engine = create_async_engine(get_database_url(), echo=False, pool_pre_ping=True)
-
-AsyncSessionLocal = async_sessionmaker(
-    bind=engine,
-    class_=AsyncSession,
-    expire_on_commit=False,
-    autoflush=False,
-    autocommit=False,
-)
-
-
-async def get_db() -> AsyncGenerator[AsyncSession, None]:
-    session: AsyncSession = AsyncSessionLocal()
-    try:
-        yield session
-    finally:
-        await session.close()
-
-
-async def init_db() -> None:
-    async with engine.begin() as conn:
-        # Importación diferida para evitar ciclos
-        from . import models  # noqa: F401
-
-        await conn.run_sync(Base.metadata.create_all)
-
-
-@asynccontextmanager
-async def lifespan_state():
-    await init_db()
-    try:
-        yield
-    finally:
-        # Lugar para limpiezas futuras (conexiones, pools, etc.)
-        await engine.dispose()
-
-
 import os
+from contextlib import asynccontextmanager
+from typing import TYPE_CHECKING
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, declared_attr
 
+if TYPE_CHECKING:
+    from collections.abc import AsyncGenerator
+
 
 class Base(DeclarativeBase):
     @declared_attr.directive
-    def __tablename__(cls) -> str:  # type: ignore[override]
-        return cls.__name__.lower()
+    def __tablename__(self) -> str:
+        return self.__name__.lower()
 
 
 # DATABASE_URL examples:
@@ -96,7 +44,16 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 async def init_db() -> None:
     """Crea las tablas si no existen (útil para desarrollo y tests)."""
     # Importación tardía para registrar modelos antes de create_all
-    from . import models  # noqa: F401
+    from app import models  # noqa: F401
 
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
+
+@asynccontextmanager
+async def lifespan_state():
+    await init_db()
+    try:
+        yield
+    finally:
+        await engine.dispose()

@@ -1,17 +1,32 @@
 import datetime
 import logging
 import os
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from prometheus_fastapi_instrumentator import (
+    Instrumentator,  # pyright: ignore[reportMissingImports]
+)
 
-from .backoffice import router as backoffice_router
-from .routers import auth as auth_router
-from .routers import operator
-from .routers import roles as roles_router
-from .routers import users as users_router
-from .utils.logging import setup_logging
+from app.backoffice import router as backoffice_router
+from app.config import get_settings
+from app.database import init_db
+from app.routers import auth as auth_router
+from app.routers import operator
+from app.routers import roles as roles_router
+from app.routers import users as users_router
+from app.services.errors import (
+    EmailExistsError,
+    UsernameExistsError,
+    UserNotFoundError,
+    ValidationError,
+    WeakPasswordError,
+)
+from app.services.role_service import initialize_default_roles
+from app.utils.logging import setup_logging
 
 # Configuración constantes
 APP_NAME = "NeuroBank FastAPI Toolkit"
@@ -66,17 +81,13 @@ setup_logging()
 logger = logging.getLogger(__name__)
 
 # Crear la aplicación FastAPI con documentación mejorada
-from contextlib import asynccontextmanager
-
-from .database import init_db
-from .services.role_service import initialize_default_roles
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
     # Startup
     await init_db()
-    from .database import AsyncSessionLocal
+    from app.database import AsyncSessionLocal
 
     async with AsyncSessionLocal() as db:
         await initialize_default_roles(db)
@@ -107,8 +118,6 @@ app = FastAPI(
 )
 
 # Configurar CORS - usando configuración de Railway
-from .config import get_settings
-
 settings = get_settings()
 
 app.add_middleware(
@@ -119,12 +128,37 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Exponer métricas Prometheus en /metrics
+Instrumentator().instrument(app).expose(app)
+
 # Incluir routers
 app.include_router(operator.router, prefix="/api", tags=["api"])
 app.include_router(auth_router.router, prefix="/api", tags=["authentication"])
 app.include_router(users_router.router, prefix="/api", tags=["users"])
 app.include_router(roles_router.router, prefix="/api", tags=["roles"])
 app.include_router(backoffice_router.router, tags=["backoffice"])
+
+
+# Manejadores globales de excepciones de dominio
+@app.exception_handler(UserNotFoundError)
+async def user_not_found_handler(
+    _request: Request, exc: UserNotFoundError
+) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
+    return JSONResponse(
+        status_code=404, content={"detail": str(exc) or "User not found"}
+    )
+
+
+@app.exception_handler((UsernameExistsError, EmailExistsError))
+async def conflict_handler(_request: Request, exc: Exception) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
+    return JSONResponse(
+        status_code=409, content={"detail": str(exc) or "Resource conflict"}
+    )
+
+
+@app.exception_handler((WeakPasswordError, ValidationError))
+async def bad_request_handler(_request: Request, exc: Exception) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
+    return JSONResponse(status_code=400, content={"detail": str(exc) or "Bad request"})
 
 
 # Health check endpoint
@@ -152,7 +186,7 @@ app.include_router(backoffice_router.router, tags=["backoffice"])
         }
     },
 )
-async def health_check():
+async def health_check() -> JSONResponse:
     """
     **Endpoint de verificación de salud del sistema**
 
@@ -169,8 +203,6 @@ async def health_check():
     - Verificación de deployments
     - Debugging y troubleshooting
     """
-    import os
-
     return JSONResponse(
         status_code=200,
         content={
@@ -224,7 +256,7 @@ async def health_check():
         }
     },
 )
-async def root():
+async def root() -> dict:
     """
     **Endpoint de bienvenida de la API**
 
@@ -263,12 +295,12 @@ if __name__ == "__main__":
     # Use uvloop for better performance
     uvloop.install()
 
-    port = int(os.getenv("PORT", 8000))
-    workers = int(os.getenv("WORKERS", 1))  # Single worker for Railway
+    port = int(os.getenv("PORT", "8000"))
+    workers = int(os.getenv("WORKERS", "1"))  # Single worker for Railway
 
     uvicorn.run(
         "app.main:app",
-        host="0.0.0.0",
+        host="0.0.0.0",  # nosec B104 acceptable in dev/serverless  # noqa: S104
         port=port,
         workers=workers,
         loop="uvloop",

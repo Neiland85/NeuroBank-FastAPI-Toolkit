@@ -35,7 +35,6 @@ async def test_users_crud_as_admin(client, admin_headers):
     )
     assert assign.status_code == 200
 
-    # Borrar (soft-delete)
     delete = await client.delete(f"/api/users/{user_id}", headers=admin_headers)
     assert delete.status_code in (200, 204)
 

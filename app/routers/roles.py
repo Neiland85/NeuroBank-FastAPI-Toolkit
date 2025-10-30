@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Security, Response
 import uuid
-from sqlalchemy.ext.asyncio import AsyncSession
+from typing import TYPE_CHECKING
+
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, Security
 
 from app.auth.dependencies import require_permissions
 from app.database import get_db
-from app.models import Permission, Role, User
 from app.schemas import (
     PermissionResponse,
     RoleCreate,
@@ -23,6 +23,11 @@ from app.services.role_service import (
     list_roles,
     update_role,
 )
+
+if TYPE_CHECKING:
+    from sqlalchemy.ext.asyncio import AsyncSession
+
+    from app.models import Permission, Role, User
 
 router = APIRouter(prefix="/roles", tags=["🎭 Role Management"])
 
@@ -74,7 +79,9 @@ async def update_role_endpoint(
     return await update_role(db, uuid.UUID(role_id), payload)
 
 
-@router.delete("/{role_id}", status_code=204, response_class=Response, response_model=None)
+@router.delete(
+    "/{role_id}", status_code=204, response_class=Response, response_model=None
+)
 async def delete_role_endpoint(
     role_id: str,
     db: AsyncSession = db_dep,

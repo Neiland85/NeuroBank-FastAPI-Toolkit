@@ -6,7 +6,7 @@ from typing import Any
 
 
 # Configure logging for production
-def configure_production_logging():
+def configure_production_logging() -> None:
     """Configure secure logging for production"""
     log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 
@@ -22,7 +22,7 @@ def configure_production_logging():
         logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
 
 
-def generate_secure_keys():
+def generate_secure_keys() -> dict[str, str]:
     """Generate secure keys for production use"""
     return {
         "api_key": secrets.token_urlsafe(32),
@@ -32,18 +32,21 @@ def generate_secure_keys():
 
 def validate_production_config() -> dict[str, Any]:
     """Validate critical production configuration"""
-    errors = []
+    errors: list[str] = []
     warnings = []
 
     # Check critical environment variables
     required_vars = ["API_KEY", "SECRET_KEY"]
-    for var in required_vars:
-        if not os.getenv(var):
-            errors.append(f"Missing required environment variable: {var}")
+    errors = errors + [
+        f"Missing required environment variable: {var}"
+        for var in required_vars
+        if not os.getenv(var)
+    ]
 
     # Check API key strength
     api_key = os.getenv("API_KEY", "")
-    if len(api_key) < 16:
+    min_api_key_len = 16
+    if len(api_key) < min_api_key_len:
         warnings.append("API_KEY should be at least 16 characters long")
 
     # Check CORS configuration

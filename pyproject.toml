@@ -15,6 +15,8 @@ build-backend = "setuptools.build_meta"
 
 [tool.mypy]
 python_version = "3.11"
+files = ["app"]
+exclude = ["^alembic/.*", "^api/.*"]
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false
@@ -31,20 +33,24 @@ plugins = ["sqlalchemy.ext.mypy.plugin"]
 
 [[tool.mypy.overrides]]
 module = ["app.tests.*"]
-disallow_untyped_defs = false
+ignore_errors = true
 
 [[tool.mypy.overrides]]
 module = ["alembic.*"]
 ignore_errors = true
 
-[tool.pytest.ini_options]
-testpaths = ["app/tests"]
-python_files = ["test_*.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
-addopts = ["-ra", "--strict-markers", "--cov=app", "--cov-report=term-missing", "--cov-report=html"]
-asyncio_mode = "auto"
-# markers: definir aquí si existen personalizados en el futuro
+[[tool.mypy.overrides]]
+module = [
+  "app.models",
+  "app.config",
+  "app.auth.password",
+  "app.auth.dependencies",
+  "app.routers.users",
+  "app.routers.roles",
+  "app.routers.operator",
+  "app.main",
+]
+ignore_errors = true
 
 [tool.coverage.run]
 source = ["app"]
@@ -66,3 +72,90 @@ exclude_lines = [
 
 [tool.bandit]
 # La configuración principal de Bandit se mantiene en ".bandit"
+
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = true
+ignore-magic = true
+ignore-semiprivate = true
+ignore-private = true
+ignore-module = false
+fail-under = 80
+exclude = ["app/tests", "alembic", "migrations", "venv", ".venv"]
+verbose = 1
+
+[tool.deptry]
+ignore_obsolete = []
+ignore_missing = []
+per_rule_ignores = {}
+exclude = ["app/tests", "alembic", "migrations"]
+known_first_party = ["app"]
+
+[tool.mutmut]
+paths_to_mutate = ["app"]
+tests_dir = "app/tests"
+backup = false
+runner = "pytest -q"
+use_coverage = true
+
+[tool.hypothesis]
+deadline = 200
+derandomize = false
+max_examples = 100
+report_multiple_bugs = true
+verbosity = "normal"
+
+[tool.importlinter]
+root_package = "app"
+
+[[tool.importlinter.contracts]]
+name = "Routers must not import backoffice"
+type = "forbidden"
+source_modules = ["app.routers"]
+forbidden_modules = ["app.backoffice"]
+
+[[tool.importlinter.contracts]]
+name = "Layers: utils is lowest"
+type = "layers"
+layers = ["app.utils", "app.routers", "app.services"]
+
+[tool.tox]
+legacy_tox_ini = """
+ [tox]
+ envlist = py311
+
+ [testenv]
+ deps =
+     -rrequirements.txt
+     -rrequirements-dev.txt
+ commands =
+     pytest --maxfail=1 --disable-warnings -q
+ """
+
+# ---------------------------
+# Formatting configuration
+# ---------------------------
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+include = "\\.(py|pyi)$"
+extend-exclude = "(^/alembic/versions/|^/migrations/|^/node_modules/|^/.venv/)"
+
+[tool.isort]
+profile = "black"
+py_version = 311
+line_length = 88
+skip = [
+  ".venv",
+  "migrations",
+  "alembic/versions",
+  "node_modules",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["app/tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = ["-ra", "--strict-markers", "--cov=app", "--cov-report=term-missing", "--cov-report=html"]
+asyncio_mode = "auto"

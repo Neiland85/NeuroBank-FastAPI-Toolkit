@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime, timedelta
+from typing import cast
 
 import jwt
 from fastapi import HTTPException, status
@@ -29,10 +30,13 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
             "aud": "neurobank-clients",
         }
     )
-    return jwt.encode(
-        to_encode,
-        settings.jwt_secret_key or "dev-insecure",
-        algorithm=settings.jwt_algorithm,
+    return cast(
+        str,
+        jwt.encode(
+            to_encode,
+            settings.jwt_secret_key or "dev-insecure",
+            algorithm=settings.jwt_algorithm,
+        ),
     )
 
 
@@ -47,10 +51,13 @@ def create_refresh_token(username: str) -> str:
         "iss": "neurobank",
         "aud": "neurobank-clients",
     }
-    return jwt.encode(
-        payload,
-        settings.jwt_secret_key or "dev-insecure",
-        algorithm=settings.jwt_algorithm,
+    return cast(
+        str,
+        jwt.encode(
+            payload,
+            settings.jwt_secret_key or "dev-insecure",
+            algorithm=settings.jwt_algorithm,
+        ),
     )
 
 

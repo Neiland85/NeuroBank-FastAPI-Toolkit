@@ -1,19 +1,24 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.dependencies import get_current_user
 from app.auth.jwt import create_access_token, create_refresh_token, decode_token
 from app.database import get_db
-from app.models import User
 from app.schemas import Token, UserCreate, UserResponse
 from app.services.user_service import (
     authenticate_user,
     create_user,
     get_user_by_username,
 )
+
+if TYPE_CHECKING:
+    from fastapi.security import OAuth2PasswordRequestForm
+    from sqlalchemy.ext.asyncio import AsyncSession
+
+    from app.models import User
 
 router = APIRouter(prefix="/auth", tags=["🔐 Authentication"])
 

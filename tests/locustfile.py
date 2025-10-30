@@ -1,7 +1,8 @@
 """Locust load testing configuration for NeuroBank FastAPI Toolkit."""
 
 import random
-from locust import HttpUser, task, between
+
+from locust import HttpUser, between, task
 
 
 class NeuroBankUser(HttpUser):
@@ -20,6 +21,7 @@ class NeuroBankUser(HttpUser):
             self.token = response.json().get("access_token")
             self.headers = {"Authorization": f"Bearer {self.token}"}
         else:
+            # Fallback a API Key si el login no está disponible
             self.headers = {"X-API-Key": "test_api_key"}
 
     @task(10)
@@ -66,6 +68,8 @@ class AdminUser(HttpUser):
         if response.status_code == 200:
             self.token = response.json().get("access_token")
             self.headers = {"Authorization": f"Bearer {self.token}"}
+        else:
+            self.headers = {"X-API-Key": "test_api_key"}
 
     @task(5)
     def list_all_users(self):
@@ -92,4 +96,3 @@ class AdminUser(HttpUser):
     @task(1)
     def backoffice_admin_panel(self):
         self.client.get("/backoffice/admin/users", headers=self.headers)
-

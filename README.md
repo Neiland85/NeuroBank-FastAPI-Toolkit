@@ -66,6 +66,11 @@ python scripts/create_admin.py
 |---|---|---|---|
 | **[LIVE DEMO](#-live-access-points)**<br/>Interactive Dashboard | **[API DOCS](#-api-endpoints)**<br/>Swagger Interface | **[QUICK DEPLOY](#quick-start)**<br/>One-Click Setup | **[FEATURES](#key-features)**<br/>Technical Showcase |
 
+[![Code Quality](https://img.shields.io/badge/code%20quality-A-brightgreen?style=for-the-badge)](https://sonarcloud.io/dashboard?id=neurobank-fastapi-toolkit)
+[![Coverage](https://img.shields.io/codecov/c/github/Neiland85/NeuroBank-FastAPI-Toolkit?style=for-the-badge)](https://codecov.io/gh/Neiland85/NeuroBank-FastAPI-Toolkit)
+[![Security Rating](https://img.shields.io/badge/security-A-brightgreen?style=for-the-badge)](https://sonarcloud.io/dashboard?id=neurobank-fastapi-toolkit)
+[![Maintainability](https://img.shields.io/codeclimate/maintainability/Neiland85/NeuroBank-FastAPI-Toolkit?style=for-the-badge)](https://codeclimate.com/github/Neiland85/NeuroBank-FastAPI-Toolkit)
+
 ---
 
 ### 🎨 **Professional Banking Dashboard Preview**
@@ -719,6 +724,103 @@ graph LR
 
 ---
 
+## 🔬 Análisis y Herramientas de Calidad
+
+### Herramientas Integradas
+
+NeuroBank FastAPI Toolkit incluye un stack completo de herramientas de análisis:
+
+#### 📊 Análisis de Código
+- **Ruff** - Linting y formateo (reemplaza black, isort, flake8)
+- **MyPy** - Type checking estático
+- **Radon** - Complejidad ciclomática y métricas de mantenibilidad
+- **Vulture** - Detección de código muerto
+- **Interrogate** - Cobertura de documentación
+- **SonarQube** - Análisis completo de calidad
+
+#### 🔒 Seguridad
+- **Bandit** - Security scanning de código
+- **Safety** - Auditoría de vulnerabilidades en dependencias
+- **pip-audit** - Auditoría adicional de dependencias
+- **Semgrep** - Static analysis con reglas personalizables
+
+#### 📦 Dependencias y Arquitectura
+- **pipdeptree** - Visualización de árbol de dependencias
+- **deptry** - Detección de dependencias no usadas
+- **import-linter** - Validación de reglas de arquitectura
+- **pydeps** - Visualización de dependencias entre módulos
+
+#### 🧪 Testing Avanzado
+- **pytest** - Unit & integration testing con coverage
+- **mutmut** - Mutation testing para evaluar calidad de tests
+- **hypothesis** - Property-based testing
+- **syrupy** - Snapshot testing
+
+#### ⚡ Performance
+- **Locust** - Load testing y stress testing
+- **py-spy** - CPU profiling de bajo overhead
+- **memray** - Memory profiling moderno
+- **Scalene** - CPU+Memory+GPU profiler con AI insights
+
+### Comandos Rápidos
+
+```bash
+# Setup inicial
+make dev-install
+make docker-up
+
+# Desarrollo diario
+make lint format
+make test
+make coverage
+
+# Análisis completo
+make all-checks
+make security
+make complexity
+make dead-code
+
+# Performance
+make profile
+make load-test
+
+# CI local
+make ci
+```
+
+### CI/CD Pipeline
+
+Pipeline automatizado con GitHub Actions:
+- ✅ Code quality (Ruff, Radon, Vulture, Interrogate)
+- ✅ Type checking (MyPy)
+- ✅ Security scanning (Bandit, Safety, pip-audit, Semgrep)
+- ✅ Dependency analysis (pipdeptree, deptry)
+- ✅ Testing (pytest con coverage en Python 3.11 y 3.12)
+- ✅ SonarCloud analysis
+- ✅ Docker build & push
+- ✅ Deploy automático a Railway
+
+Workflows adicionales:
+- 🧬 Mutation testing (semanal)
+- ⚡ Performance testing (semanal)
+
+### Umbrales de Calidad
+
+| Métrica | Umbral | Estado |
+|---------|--------|--------|
+| Test Coverage | > 80% | ✅ |
+| Complejidad Ciclomática | < C (< 11) | ✅ |
+| Índice Mantenibilidad | > 65 | ✅ |
+| Docstring Coverage | > 80% | ⚠️ |
+| Security Rating | A | ✅ |
+| Duplicación | < 3% | ✅ |
+
+### Documentación Completa
+
+Ver [docs/ANALYSIS_TOOLS_GUIDE.md](docs/ANALYSIS_TOOLS_GUIDE.md) para guía detallada de todas las herramientas.
+
+---
+
 ## 📊 **Monitoring & Health**
 
 ### **🏥 Health Check System**
@@ -989,3 +1091,67 @@ Showcasing Enterprise-Level Python/FastAPI Development Skills
 NeuroBank-FastAPI-Toolkit
 Senior‑grade FastAPI microservice blueprint for AI‑driven banking. Python 3.10+, Pydantic v2, Docker &amp; AWS stack (Lambda, AppRunner, CloudWatch, X‑Ray) with CI/CD via GitHub Actions.  Incluye clean code, tests completos, observabilidad y módulos listos para estado de pedidos, facturación y analítica.
 ## Trigger deployment
+
+---
+
+## 🔍 Análisis, Calidad y CI/CD
+
+### 🧪 Herramientas y Umbrales
+- **Ruff**: lint/format
+- **mypy**: type-check
+- **pytest + coverage**: cobertura mínima 80%
+- **Bandit/Semgrep/Safety/Pip-Audit**: seguridad
+- **Radon**: complejidad/MI
+- **Vulture**: código muerto
+- **Interrogate**: cobertura docstrings ≥ 80%
+- **Import Linter**: reglas de arquitectura
+- **Deptry**: dependencias
+- **Mutmut**: mutation testing (semanal)
+- **Locust**: performance (semanal)
+
+### 🚦 Comandos Rápidos
+```bash
+# Instalación
+make install           # deps runtime
+make dev-install       # deps dev/ci
+
+# Calidad y análisis
+make lint              # Ruff
+make format            # Formateo
+make type-check        # mypy
+make security          # Bandit/Semgrep/Safety/Pip-Audit
+make complexity        # Radon CC/MI
+make dead-code         # Vulture
+make docstring-coverage# Interrogate
+make dependency-check  # Deptry/Pipdeptree
+make architecture-check# Import Linter
+
+# Tests y cobertura
+pytest --cov=app --cov-report=xml:coverage.xml
+
+# Mutación y rendimiento
+make mutation-test
+make load-test
+
+# SonarCloud
+make sonar             # requiere SONAR_TOKEN
+
+# Docker y ejecución
+make docker-up
+make docker-down
+make run
+```
+
+### 🤖 Workflows de GitHub Actions
+- `ci-cd-pipeline.yml`: Lint, tipos, seguridad, tests, cobertura, SonarCloud, build/push Docker y despliegue (Railway)
+- `mutation-testing.yml`: Mutación semanal (domingo 03:00 UTC)
+- `performance-testing.yml`: Carga/Performance semanal (domingo 04:00 UTC)
+
+Configura secretos del repo: `DOCKER_USERNAME`, `DOCKER_PASSWORD`, `RAILWAY_TOKEN`, `SONAR_TOKEN`.
+
+### 🏷️ Badges de Calidad
+- Calidad y Seguridad en SonarCloud: `sonar.projectKey=neurobank-fastapi-toolkit`
+- Cobertura en Codecov.
+
+[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=neurobank-fastapi-toolkit&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=neurobank-fastapi-toolkit)
+[![Coverage](https://codecov.io/gh/Neiland85/NeuroBank-FastAPI-Toolkit/branch/develop/graph/badge.svg)](https://codecov.io/gh/Neiland85/NeuroBank-FastAPI-Toolkit)

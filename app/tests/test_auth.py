@@ -75,4 +75,5 @@ async def test_refresh_token_generates_new_access_token(client):
     r = await client.post("/api/auth/refresh", params={"refresh_token": refresh})
     assert r.status_code == 200
     new_access = r.json()["access_token"]
-    assert isinstance(new_access, str) and len(new_access) > 0
+    assert isinstance(new_access, str)
+    assert len(new_access) > 0

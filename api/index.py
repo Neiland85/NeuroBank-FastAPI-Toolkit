@@ -17,12 +17,12 @@ from app.main import app
 
 # Vercel expects the app to be named 'app'
 # If your FastAPI app is named differently, change this
-app = app
+app = app  # noqa: PLW0127
 
 
 # Optional: Add Vercel-specific middleware or configuration
 @app.middleware("http")
-async def add_vercel_headers(request, call_next):
+async def add_vercel_headers(request, call_next):  # type: ignore[no-untyped-def]
     response = await call_next(request)
     response.headers["X-Vercel-Cache"] = "MISS"
     return response
@@ -30,7 +30,7 @@ async def add_vercel_headers(request, call_next):
 
 # Health check endpoint for Vercel
 @app.get("/api/health")
-async def health_check():
+async def health_check() -> dict:
     return {"status": "healthy", "platform": "vercel", "app": "NeuroBank FastAPI"}
 
 

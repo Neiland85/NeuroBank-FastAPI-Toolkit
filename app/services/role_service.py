@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 import uuid as uuid_pkg
+from typing import TYPE_CHECKING
 
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.models import Permission, Role, User
 from app.schemas import RoleCreate, RoleUpdate
+
+if TYPE_CHECKING:
+    from sqlalchemy.ext.asyncio import AsyncSession
 
 
 async def create_role(
@@ -53,7 +56,8 @@ async def update_role(
 ) -> Role:
     role = await get_role_by_id(db, role_id)
     if not role:
-        raise ValueError("Role not found")
+        msg = "Role not found"
+        raise ValueError(msg)
     if role_data.name is not None:
         role.name = role_data.name
     if role_data.description is not None:
@@ -68,7 +72,8 @@ async def delete_role(db: AsyncSession, role_id: uuid_pkg.UUID) -> bool:
     if not role:
         return False
     if role.name in {"admin", "customer", "auditor"}:
-        raise ValueError("System roles cannot be deleted")
+        msg = "System roles cannot be deleted"
+        raise ValueError(msg)
     await db.delete(role)
     await db.commit()
     return True
@@ -79,7 +84,8 @@ async def assign_permissions(
 ) -> Role:
     role = await get_role_by_id(db, role_id)
     if not role:
-        raise ValueError("Role not found")
+        msg = "Role not found"
+        raise ValueError(msg)
     stmt = select(Permission).where(Permission.name.in_(permission_names))
     res = await db.execute(stmt)
     role.permissions = list(res.scalars().all())

@@ -43,5 +43,3 @@ jobs:
           PYTEST_ADDOPTS: "-q"
         run: |
           pytest
-
-

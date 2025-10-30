@@ -4,7 +4,7 @@ import sys
 from pythonjsonlogger import jsonlogger
 
 
-def setup_logging():
+def setup_logging() -> None:
     """Configura el sistema de logging para la aplicación"""
 
     # Crear formateador JSON
@@ -24,8 +24,6 @@ def setup_logging():
     # Configurar logger específico para uvicorn
     uvicorn_logger = logging.getLogger("uvicorn")
     uvicorn_logger.setLevel(logging.INFO)
-
-    return root_logger
 
 
 def get_logger(name: str) -> logging.Logger:

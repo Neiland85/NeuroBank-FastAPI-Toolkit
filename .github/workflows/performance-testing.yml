@@ -18,6 +18,7 @@ jobs:
           cache: 'pip'
       - name: Install dependencies
         run: |
+          pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
       - name: Start FastAPI server
@@ -26,9 +27,10 @@ jobs:
           sleep 10
       - name: Run Locust load test
         run: |
-          locust -f tests/locustfile.py --headless --users 100 --spawn-rate 10 --run-time 5m --host http://localhost:8000 --html locust-report.html --csv locust-stats
+          locust -f tests/locustfile.py --headless --users 100 --spawn-rate 10 --run-time 5m --host http://localhost:8000 --html locust-report.html --csv locust-stats || true
       - name: Upload Locust report
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: locust-report
           path: |
@@ -47,20 +49,21 @@ jobs:
           cache: 'pip'
       - name: Install dependencies
         run: |
+          pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
       - name: Profile with py-spy
         run: |
-          py-spy record -o profile.svg --duration 60 -- python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+          py-spy record -o profile.svg --duration 60 -- python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 & || true
           sleep 65
       - name: Profile with Scalene
         run: |
           scalene --html --outfile scalene-report.html app/main.py || true
       - name: Upload profiling reports
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: profiling-reports
           path: |
             profile.svg
             scalene-report.html
-

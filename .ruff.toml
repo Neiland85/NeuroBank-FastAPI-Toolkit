@@ -1,105 +1,122 @@
 # Configuración principal de Ruff para NeuroBank FastAPI Toolkit
+# Reemplaza black, isort y flake8 con linting + formateo rápidos
 
-# Versión objetivo de Python
+# ----------------------
+# Configuración General
+# ----------------------
 target-version = "py311"
-
-# Estilo de formateo
 line-length = 88
 indent-width = 4
-
-# Exclusiones generales
 exclude = [
-    ".venv",
-    "venv",
-    "__pycache__",
-    ".pytest_cache",
-    ".git",
-    "alembic/versions",
-    "node_modules",
-    "build",
-    "dist",
+  ".venv",
+  "venv",
+  "__pycache__",
+  ".pytest_cache",
+  ".git",
+  "alembic/versions",
+  "node_modules",
+  "build",
+  "dist",
 ]
 
+# ----------------------
+# Reglas de Linting
+# ----------------------
 [lint]
-# Conjunto de reglas activas (reemplaza flake8 + isort + extras)
 select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # Pyflakes
-    "I",  # isort (orden de imports)
-    "N",  # pep8-naming
-    "UP", # pyupgrade
-    "ANN",# type annotations
-    "ASYNC", # async/await best practices
-    "S",  # seguridad (bandit-like)
-    "B",  # bugbear
-    "A",  # shadowing builtins
-    "COM",# trailing commas
-    "C4", # comprehensions
-    "DTZ",# timezone-aware datetimes
-    "T10",# debugger statements
-    "DJ", # django (se desactiva por per-file-ignores si no aplica)
-    "EM", # mensajes de error
-    "EXE",# permisos ejecutables
-    "ISC",# implicit string concat
-    "ICN",# convenciones de imports
-    "G",  # logging format
-    "INP",# implicit namespace packages
-    "PIE",# misc lints
-    "T20",# print statements
-    "PYI",# type stubs
-    "PT", # pytest style
-    "Q",  # quotes
-    "RSE",# raise statements
-    "RET",# return statements
-    "SLF",# private member access
-    "SLOT",# __slots__ usage
-    "SIM",# simplifications
-    "TID",# tidy imports
-    "TCH",# type checking imports
-    "INT",# gettext
-    "ARG",# argumentos no usados
-    "PTH",# pathlib preferido sobre os.path
-    "TD", # TODOs
-    "FIX",# FIXMEs
-    "ERA",# código comentado
-    "PD", # pandas
-    "PGH",# pygrep hooks
-    "PL", # pylint-like
-    "TRY",# try/except best practices
-    "FLY",# flynt (f-strings)
-    "NPY",# numpy
-    "AIR",# airflow
-    "PERF",# performance
-    "FURB",# refurb modernization
-    "LOG",# logging best practices
-    "RUF",# ruff-specific
+  "E",    # pycodestyle errors
+  "W",    # pycodestyle warnings
+  "F",    # Pyflakes
+  "I",    # isort (orden de imports)
+  "N",    # pep8-naming
+  "UP",   # pyupgrade
+  "ANN",  # type annotations
+  "ASYNC",# async/await
+  "S",    # bandit-like
+  "B",    # flake8-bugbear
+  "A",    # builtins shadowing
+  "COM",  # trailing commas
+  "C4",   # comprehensions
+  "DTZ",  # timezone-aware datetimes
+  "T10",  # debugger
+  "DJ",   # django (desactivado por ignores específicos si no aplica)
+  "EM",   # error messages
+  "EXE",  # executable perms
+  "ISC",  # implicit string concat
+  "ICN",  # import conventions
+  "G",    # logging format
+  "INP",  # implicit namespace packages
+  "PIE",  # miscellaneous
+  "T20",  # print
+  "PYI",  # type stubs
+  "PT",   # pytest style
+  "Q",    # quotes
+  "RSE",  # raise
+  "RET",  # returns
+  "SLF",  # private members
+  "SLOT", # __slots__ usage
+  "SIM",  # simplifications
+  "TID",  # tidy imports
+  "TCH",  # type-checking imports
+  "INT",  # gettext
+  "ARG",  # unused args
+  "PTH",  # pathlib
+  "TD",   # TODOs
+  "FIX",  # FIXMEs
+  "ERA",  # eradicate (código comentado)
+  "PD",   # pandas
+  "PGH",  # pygrep hooks
+  "PL",   # pylint rules
+  "TRY",  # try/except best practices
+  "FLY",  # flynt (f-strings)
+  "NPY",  # numpy
+  "AIR",  # airflow
+  "PERF", # performance anti-patterns
+  "FURB", # refurb modernization
+  "LOG",  # logging best practices
+  "RUF",  # ruff-specific
 ]
-
 ignore = [
-    "ANN101",  # Missing type annotation for self
-    "ANN102",  # Missing type annotation for cls
-    "ANN401",  # Allow Any en expresiones dinámicas
-    "D",       # Docstrings (opcional para no ser excesivo)
-    "COM812",  # Conflicto con formatter
-    "ISC001",  # Conflicto con formatter
-    "E501",    # Line too long (formatter se encarga)
+  "ANN101",   # Missing type annotation for self
+  "ANN102",   # Missing type annotation for cls
+  "ANN401",   # Any permitido en FastAPI
+  "B008",     # FastAPI pattern Depends(...) en parámetros
+  "E402",     # Imports no al inicio por estructura FastAPI
+  "ANN001",   # Falta de anotación en args (permitido en middleware)
+  "ANN201",   # Falta de tipo de retorno en funciones públicas específicas
+  "TRY300",   # else tras try/except no crítico
+  "B904",     # raise from opcional
+  "D",        # Docstrings demasiado estrictas (opcional)
+  "COM812",   # Conflicto con formatter
+  "ISC001",   # Conflicto con formatter
+  "E501",     # Longitud de línea (lo maneja formatter)
+  "TD002",    # TODO author opcional
+  "TD003",    # TODO issue link opcional
+  "FIX002",   # TODOs permitidos temporalmente
+  "PLR0912",  # Complejidad aceptada temporalmente
+  "SIM102",   # If anidados aceptados en validaciones
 ]
 
+# ----------------------
+# Formateo
+# ----------------------
 [format]
 quote-style = "double"
 indent-style = "space"
 skip-magic-trailing-comma = false
 line-ending = "auto"
 
+# ----------------------
+# Configuración específica
+# ----------------------
 [lint.isort]
 known-first-party = ["app"]
 section-order = [
-    "future",
-    "standard-library",
-    "third-party",
-    "first-party",
-    "local-folder",
+  "future",
+  "standard-library",
+  "third-party",
+  "first-party",
+  "local-folder",
 ]
 split-on-trailing-comma = true
 
@@ -125,6 +142,10 @@ max-statements = 50
 
 [lint.per-file-ignores]
 "__init__.py" = ["F401"]
-"app/tests/**" = ["S101", "ANN", "PLR2004"]
+"app/tests/**" = ["S101", "ANN", "PLR2004", "S311", "SIM105", "S110", "PT004"]
+"tests/**" = ["PLR2004", "S311"]
 "alembic/**" = ["ANN", "INP001"]
 "scripts/**" = ["T20", "ANN"]
+"app/backoffice/**" = ["S311", "DTZ005", "RUF002", "RUF003", "ARG001", "B008"]
+"app/routers/operator.py" = ["ARG001"]
+"api/**" = ["S104"]

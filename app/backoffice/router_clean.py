@@ -83,12 +83,12 @@ async def get_dashboard_metrics() -> DashboardMetrics:
     Retorna métricas actualizadas del sistema bancario.
     """
     return DashboardMetrics(
-        total_transactions=random.randint(120, 180),
-        total_volume=Decimal(str(random.randint(40000, 60000))),
-        active_accounts=random.randint(80, 120),
-        success_rate=round(random.uniform(96.5, 99.2), 1),
-        avg_response_time=round(random.uniform(45.0, 120.0), 1),
-        api_calls_today=random.randint(500, 800),
+        total_transactions=random.randint(120, 180),  # nosec B311 demo metrics
+        total_volume=Decimal(str(random.randint(40000, 60000))),  # nosec B311
+        active_accounts=random.randint(80, 120),  # nosec B311
+        success_rate=round(random.uniform(96.5, 99.2), 1),  # nosec B311
+        avg_response_time=round(random.uniform(45.0, 120.0), 1),  # nosec B311
+        api_calls_today=random.randint(500, 800),  # nosec B311
     )
 
 
@@ -107,24 +107,24 @@ async def search_transactions(
     """
     # Generar transacciones mock
     transactions = []
-    total = random.randint(100, 200)
+    total = random.randint(100, 200)  # nosec B311
 
-    for i in range(min(page_size, total)):
+    for _i in range(min(page_size, total)):
         tx_id = str(uuid.uuid4())[:8]
         transactions.append(
             {
                 "id": tx_id,
                 "reference": f"TXN-{tx_id.upper()}",
-                "amount": round(random.uniform(100, 5000), 2),
+                "amount": round(random.uniform(100, 5000), 2),  # nosec B311
                 "currency": "USD",
-                "status": random.choice(
+                "status": random.choice(  # nosec B311
                     ["completed", "pending", "failed", "cancelled"]
                 ),
-                "type": random.choice(["transfer", "deposit", "withdrawal", "payment"]),
-                "user_id": random.randint(1000, 9999),
+                "type": random.choice(["transfer", "deposit", "withdrawal", "payment"]),  # nosec B311
+                "user_id": random.randint(1000, 9999),  # nosec B311
                 "description": f"Transaction {tx_id}",
                 "created_at": (
-                    datetime.now() - timedelta(hours=random.randint(1, 72))
+                    datetime.now() - timedelta(hours=random.randint(1, 72))  # nosec B311
                 ).isoformat(),
             }
         )
@@ -152,7 +152,7 @@ async def get_system_health() -> dict:
         "cache": "active",
         "uptime": "99.9%",
         "last_check": datetime.now().isoformat(),
-        "response_time": f"{random.randint(45, 120)}ms",
+        "response_time": f"{random.randint(45, 120)}ms",  # nosec B311
     }
 
 

@@ -1,6 +1,12 @@
+ignore_names = _*, __*, main, *__all__*, *__version__*
+make_whitelist = True
+paths = app
+exclude = app/tests, alembic, migrations, venv, .venv, .pytest_cache
+min_confidence = 80
+
 [vulture]
 paths = app/
-exclude = 
+exclude =
     **/tests/**
     **/__pycache__/**
     **/migrations/**
@@ -8,12 +14,12 @@ exclude =
     .venv/**
     venv/**
 min_confidence = 60
-ignore_names = 
+ignore_names =
     *test*
     *mock*
     *fixture*
     __*__
-ignore_decorators = 
+ignore_decorators =
     @app.get
     @app.post
     @app.put
@@ -27,4 +33,3 @@ ignore_decorators =
     @pytest.fixture
     @lru_cache
 verbose = true
-

@@ -8,10 +8,10 @@ from fastapi.security import (
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..auth.jwt import decode_token
-from ..config import get_settings
-from ..database import get_db
-from ..models import User
+from app.auth.jwt import decode_token
+from app.config import get_settings
+from app.database import get_db
+from app.models import User
 
 # Esquemas de seguridad
 security = HTTPBearer(auto_error=False)
@@ -30,7 +30,8 @@ oauth2_scheme = OAuth2PasswordBearer(
 def get_api_key() -> str:
     settings = get_settings()
     if not settings.api_key:
-        raise ValueError("API_KEY environment variable is required")
+        msg = "API_KEY environment variable is required"
+        raise ValueError(msg)
     return settings.api_key
 
 
@@ -128,8 +129,7 @@ async def get_current_user_flexible(
             if user:
                 return user
         except Exception:
-            # Ignorar errores de JWT y continuar con API Key
-            pass
+            return None
 
     # 2) Fallback API Key
     try:

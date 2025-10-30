@@ -7,7 +7,7 @@ from sqlalchemy import Boolean, Column, DateTime, ForeignKey, String, Table
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .database import Base
+from app.database import Base
 
 
 def _uuid_pk() -> Mapped[uuid.UUID]:
@@ -52,7 +52,6 @@ role_permissions: Table = Table(
 
 class User(Base):
     __tablename__ = "users"
-
     id: Mapped[uuid.UUID] = _uuid_pk()
     username: Mapped[str] = mapped_column(
         String(50), unique=True, index=True, nullable=False
@@ -87,7 +86,6 @@ class User(Base):
 
 class Role(Base):
     __tablename__ = "roles"
-
     id: Mapped[uuid.UUID] = _uuid_pk()
     name: Mapped[str] = mapped_column(
         String(50), unique=True, index=True, nullable=False
@@ -123,7 +121,6 @@ class Role(Base):
 
 class Permission(Base):
     __tablename__ = "permissions"
-
     id: Mapped[uuid.UUID] = _uuid_pk()
     name: Mapped[str] = mapped_column(
         String(100), unique=True, index=True, nullable=False
