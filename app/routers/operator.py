@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, Path
 from pydantic import BaseModel, Field
 
-from ..auth.dependencies import get_current_user_flexible, verify_api_key
-from ..models import User
-from ..services.invoice_service import generate_invoice
-from ..services.order_service import get_order_status
+from app.auth.dependencies import get_current_user_flexible, verify_api_key
+from app.models import User
+from app.services.invoice_service import generate_invoice
+from app.services.order_service import get_order_status
 
 # Router con documentación mejorada
 router = APIRouter(
@@ -16,6 +16,9 @@ router = APIRouter(
         500: {"description": "Internal server error"},
     },
 )
+
+# Singletons para evitar B008
+current_user_flexible_dep = Depends(get_current_user_flexible)
 
 # ----- Modelos Pydantic con documentación mejorada -----
 
@@ -196,8 +199,8 @@ async def order_status(
         examples=["ORD-2025-001234"],
         pattern="^[A-Z]{3}-[0-9]{4}-[0-9]{6}$",
     ),
-    current_user: User | None = Depends(get_current_user_flexible),
-):
+    _current_user: User | None = current_user_flexible_dep,
+) -> OrderStatusResponse:
     """
     **Endpoint para consultar el estado de una orden bancaria**
 
@@ -291,13 +294,16 @@ async def invoice(
     invoice_id: str = Path(
         ..., description="ID de la factura a generar", examples=["INV-2025-789012"]
     ),
-    data: InvoiceRequest = None,
-    current_user: User | None = Depends(get_current_user_flexible),
-):
+    data: InvoiceRequest | None = None,
+    _current_user: User | None = current_user_flexible_dep,
+) -> InvoiceResponse:
     """
     **Endpoint para generar facturas de órdenes bancarias**
 
     Procesa la solicitud de facturación y genera un documento oficial
     con todos los detalles fiscales requeridos.
     """
+    if data is None:
+        # Coherencia de tipos; en práctica FastAPI validará body requerido si así se define
+        return generate_invoice("")
     return generate_invoice(data.order_id)
