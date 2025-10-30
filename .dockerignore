@@ -47,9 +47,13 @@ neurobank.db
 *~
 .DS_Store
 
-# Documentation
-*.md
+# Documentation - exclude most but keep important ones
 docs/
+*.md
+!README.md
+!docker/README.md
+
+# Dependencies
 *.txt
 !requirements.txt
 !requirements-dev.txt
