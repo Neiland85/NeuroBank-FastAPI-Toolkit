@@ -82,7 +82,8 @@ async def update_user(
 ) -> User:
     user = await get_user_by_id(db, user_id)
     if not user:
-        raise ValueError("User not found")
+        msg = "User not found"
+        raise ValueError(msg)
 
     if user_data.username is not None:
         user.username = user_data.username
@@ -115,7 +116,8 @@ async def assign_roles(
 ) -> User:
     user = await get_user_by_id(db, user_id)
     if not user:
-        raise ValueError("User not found")
+        msg = "User not found"
+        raise ValueError(msg)
     stmt_roles = select(Role).where(Role.name.in_(role_names))
     res_roles = await db.execute(stmt_roles)
     user.roles = list(res_roles.scalars().all())
