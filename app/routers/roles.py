@@ -1,10 +1,12 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Security
+from fastapi import APIRouter, Depends, HTTPException, Query, Security, Response
+import uuid
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.dependencies import require_permissions
 from app.database import get_db
+from app.models import Permission, Role, User
 from app.schemas import (
     PermissionResponse,
     RoleCreate,
@@ -24,26 +26,30 @@ from app.services.role_service import (
 
 router = APIRouter(prefix="/roles", tags=["🎭 Role Management"])
 
+# Singletons de dependencias para evitar B008
+db_dep = Depends(get_db)
+perm_read = Security(require_permissions(), scopes=["roles:read"])
+perm_write = Security(require_permissions(), scopes=["roles:write"])
+perm_delete = Security(require_permissions(), scopes=["roles:delete"])
+
 
 @router.get("/", response_model=list[RoleResponse])
 async def get_roles(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=500),
-    db: AsyncSession = Depends(get_db),
-    current_user=Security(require_permissions(), scopes=["roles:read"]),
-):
+    db: AsyncSession = db_dep,
+    _current_user: User = perm_read,
+) -> list[Role]:
     return await list_roles(db, skip=skip, limit=limit)
 
 
 @router.get("/{role_id}", response_model=RoleWithUsers)
 async def get_role(
     role_id: str,
-    db: AsyncSession = Depends(get_db),
-    current_user=Security(require_permissions(), scopes=["roles:read"]),
-):
-    import uuid as _uuid
-
-    role = await get_role_by_id(db, _uuid.UUID(role_id))
+    db: AsyncSession = db_dep,
+    _current_user: User = perm_read,
+) -> Role:
+    role = await get_role_by_id(db, uuid.UUID(role_id))
     if not role:
         raise HTTPException(status_code=404, detail="Rol no encontrado")
     return role
@@ -52,9 +58,9 @@ async def get_role(
 @router.post("/", response_model=RoleResponse, status_code=201)
 async def create_role_endpoint(
     payload: RoleCreate,
-    db: AsyncSession = Depends(get_db),
-    current_user=Security(require_permissions(), scopes=["roles:write"]),
-):
+    db: AsyncSession = db_dep,
+    _current_user: User = perm_write,
+) -> Role:
     return await create_role(db, payload)
 
 
@@ -62,42 +68,37 @@ async def create_role_endpoint(
 async def update_role_endpoint(
     role_id: str,
     payload: RoleUpdate,
-    db: AsyncSession = Depends(get_db),
-    current_user=Security(require_permissions(), scopes=["roles:write"]),
-):
-    import uuid as _uuid
-
-    return await update_role(db, _uuid.UUID(role_id), payload)
+    db: AsyncSession = db_dep,
+    _current_user: User = perm_write,
+) -> Role:
+    return await update_role(db, uuid.UUID(role_id), payload)
 
 
-@router.delete("/{role_id}", status_code=204)
+@router.delete("/{role_id}", status_code=204, response_class=Response, response_model=None)
 async def delete_role_endpoint(
     role_id: str,
-    db: AsyncSession = Depends(get_db),
-    current_user=Security(require_permissions(), scopes=["roles:delete"]),
-):
-    import uuid as _uuid
-
-    ok = await delete_role(db, _uuid.UUID(role_id))
+    db: AsyncSession = db_dep,
+    _current_user: User = perm_delete,
+) -> None:
+    ok = await delete_role(db, uuid.UUID(role_id))
     if not ok:
         raise HTTPException(status_code=404, detail="Rol no encontrado")
+    return Response(status_code=204)
 
 
 @router.post("/{role_id}/permissions", response_model=RoleResponse)
 async def assign_permissions_endpoint(
     role_id: str,
     permission_names: list[str],
-    db: AsyncSession = Depends(get_db),
-    current_user=Security(require_permissions(), scopes=["roles:write"]),
-):
-    import uuid as _uuid
-
-    return await assign_permissions(db, _uuid.UUID(role_id), permission_names)
+    db: AsyncSession = db_dep,
+    _current_user: User = perm_write,
+) -> Role:
+    return await assign_permissions(db, uuid.UUID(role_id), permission_names)
 
 
-@router.get("/../permissions/", response_model=list[PermissionResponse])
+@router.get("/permissions/", response_model=list[PermissionResponse])
 async def get_permissions(
-    db: AsyncSession = Depends(get_db),
-    current_user=Security(require_permissions(), scopes=["roles:read"]),
-):
+    db: AsyncSession = db_dep,
+    _current_user: User = perm_read,
+) -> list[Permission]:
     return await list_permissions(db)
