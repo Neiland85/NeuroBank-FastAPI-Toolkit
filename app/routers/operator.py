@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Path
+from typing import Optional
 from pydantic import BaseModel, Field
 
 from app.auth.dependencies import get_current_user_flexible, verify_api_key
@@ -294,7 +295,7 @@ async def invoice(
     invoice_id: str = Path(
         ..., description="ID de la factura a generar", examples=["INV-2025-789012"]
     ),
-    data: InvoiceRequest | None = None,
+    data: Optional[InvoiceRequest] = None,
     _current_user: User | None = current_user_flexible_dep,
 ) -> InvoiceResponse:
     """

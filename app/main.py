@@ -150,14 +150,18 @@ async def user_not_found_handler(
 
 
 @app.exception_handler((UsernameExistsError, EmailExistsError))
-async def conflict_handler(_request: Request, exc: Exception) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
+async def conflict_handler(
+    _request: Request, exc: Exception
+) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
     return JSONResponse(
         status_code=409, content={"detail": str(exc) or "Resource conflict"}
     )
 
 
 @app.exception_handler((WeakPasswordError, ValidationError))
-async def bad_request_handler(_request: Request, exc: Exception) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
+async def bad_request_handler(
+    _request: Request, exc: Exception
+) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
     return JSONResponse(status_code=400, content={"detail": str(exc) or "Bad request"})
 
 

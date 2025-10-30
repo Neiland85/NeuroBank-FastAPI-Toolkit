@@ -15,7 +15,9 @@ class Settings(BaseSettings):
     app_version: str = "1.0.0"
 
     # Server Configuration
-    host: str = "0.0.0.0"  # nosec B104 acceptable in containerized environments  # noqa: S104
+    host: str = (
+        "0.0.0.0"  # nosec B104 acceptable in containerized environments  # noqa: S104
+    )
     port: int = int(os.getenv("PORT", "8000"))
 
     # Environment Configuration

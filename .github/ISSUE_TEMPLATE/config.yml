@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Q&A / Soporte
+    url: https://github.com/OWNER/REPO/discussions
+    about: Usa Discussions para preguntas generales.

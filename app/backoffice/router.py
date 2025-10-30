@@ -124,11 +124,14 @@ async def search_transactions(
                 "status": random.choice(  # nosec B311
                     ["completed", "pending", "failed", "cancelled"]
                 ),
-                "type": random.choice(["transfer", "deposit", "withdrawal", "payment"]),  # nosec B311
+                "type": random.choice(
+                    ["transfer", "deposit", "withdrawal", "payment"]
+                ),  # nosec B311
                 "user_id": random.randint(1000, 9999),  # nosec B311
                 "description": f"Transaction {tx_id}",
                 "created_at": (
-                    datetime.now() - timedelta(hours=random.randint(1, 72))  # nosec B311
+                    datetime.now()
+                    - timedelta(hours=random.randint(1, 72))  # nosec B311
                 ).isoformat(),
             }
         )

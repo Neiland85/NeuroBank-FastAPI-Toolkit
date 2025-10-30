@@ -13,6 +13,10 @@ build-backend = "setuptools.build_meta"
 [tool.ruff]
 # La configuración principal de Ruff se mantiene en ".ruff.toml" por claridad
 
+[tool.ruff.lint]
+extend-select = ["B", "I", "F", "E", "W"]
+ignore = ["E501", "B008"]
+
 [tool.mypy]
 python_version = "3.11"
 files = ["app"]

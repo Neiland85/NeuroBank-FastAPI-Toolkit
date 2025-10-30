@@ -1,4 +1,4 @@
-name: CI
+name: CI 🧪 FastAPI Quality Pipeline
 
 on:
   pull_request:
@@ -9,37 +9,61 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: 🐍 Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt || true; fi
+          pip install black isort ruff mypy pre-commit yamllint
 
-      - name: Prepare env
+      - name: ⚙️ Prepare environment
         run: |
           cp .env.example .env || true
         env:
-          # Defaults for CI
           ENVIRONMENT: testing
 
-      - name: Run Alembic migrations
+      - name: 🧼 Code Quality Checks
+        run: |
+          echo "Running Black, Ruff, and Mypy checks..."
+          black --check .
+          isort --check-only .
+          ruff check .
+          mypy --install-types --non-interactive .
+          echo "✅ Code Quality stage completed."
+
+      - name: 🧩 Pre-commit hooks
+        run: |
+          pre-commit run --all-files || true
+        continue-on-error: true
+
+      - name: 🧱 Run Alembic migrations
         env:
           DATABASE_URL: sqlite+aiosqlite:///./test.db
         run: |
           alembic upgrade head
 
-      - name: Run tests
+      - name: 🧪 Run tests (pytest)
         env:
           DATABASE_URL: sqlite+aiosqlite:///./test.db
           PYTEST_ADDOPTS: "-q"
         run: |
-          pytest
+          pytest --maxfail=1 --disable-warnings -q
+
+      - name: 📊 Upload coverage
+        if: success()
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          fail_ci_if_error: false
+          verbose: true
