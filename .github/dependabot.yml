@@ -1,0 +1,34 @@
+version: 2
+updates:
+  # Dependencias Python (pip) en la raíz
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"  # Frecuencia recomendada para seguridad
+    # Limitar PRs abiertas para no saturar
+    open-pull-requests-limit: 5
+    # Solo dependencias directas (ajústalo si quieres transitivas)
+    allow:
+      - dependency-type: "direct"
+    # Mensaje de commit más claro
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    # Agrupar actualizaciones de seguridad en una única PR
+    groups:
+      python-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  # Acciones de GitHub (workflow) también con foco en seguridad
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    groups:
+      gha-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
