@@ -19,7 +19,7 @@ bandit==1.7.8
 safety==3.2.3
 semgrep==1.75.0  # Additional security scanner
 pip-audit==2.7.3  # Auditoría de vulnerabilidades en dependencias
-safety-db==2024.5.1  # Base de datos para safety
+safety-db==2021.7.17  # Base de datos para safety
 
 # Code Quality
 ruff==0.6.0  # Linter y formatter todo-en-uno (reemplaza black, isort, flake8)

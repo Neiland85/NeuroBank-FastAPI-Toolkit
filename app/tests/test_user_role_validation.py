@@ -20,5 +20,3 @@ async def test_create_user_with_nonexistent_role_raises_validation_error():
         # Mensaje debe coincidir con el formato de assign_roles
         assert "Roles inexistentes:" in str(excinfo.value)
         assert "rol_que_no_existe" in str(excinfo.value)
-
-
