@@ -8,6 +8,9 @@ from fastapi.responses import JSONResponse
 
 from .backoffice import router as backoffice_router
 from .routers import operator
+from .routers import auth as auth_router
+from .routers import users as users_router
+from .routers import roles as roles_router
 from .utils.logging import setup_logging
 
 # Configuración constantes
@@ -63,6 +66,23 @@ setup_logging()
 logger = logging.getLogger(__name__)
 
 # Crear la aplicación FastAPI con documentación mejorada
+from contextlib import asynccontextmanager
+from .database import init_db
+from .services.role_service import initialize_default_roles
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    await init_db()
+    from .database import AsyncSessionLocal
+
+    async with AsyncSessionLocal() as db:
+        await initialize_default_roles(db)
+    yield
+    # Shutdown
+
+
 app = FastAPI(
     title=APP_NAME,
     description=APP_DESCRIPTION,
@@ -82,6 +102,7 @@ app = FastAPI(
         {"url": "https://staging-api.neurobank.com", "description": "Staging server"},
         {"url": "http://localhost:8000", "description": "Development server"},
     ],
+    lifespan=lifespan,
 )
 
 # Configurar CORS - usando configuración de Railway
@@ -99,6 +120,9 @@ app.add_middleware(
 
 # Incluir routers
 app.include_router(operator.router, prefix="/api", tags=["api"])
+app.include_router(auth_router.router, prefix="/api", tags=["authentication"])
+app.include_router(users_router.router, prefix="/api", tags=["users"])
+app.include_router(roles_router.router, prefix="/api", tags=["roles"])
 app.include_router(backoffice_router.router, tags=["backoffice"])
 
 

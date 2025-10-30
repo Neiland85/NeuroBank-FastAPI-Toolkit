@@ -1,0 +1,128 @@
+# Configuración principal de Ruff para NeuroBank FastAPI Toolkit
+
+# Versión objetivo de Python
+target-version = "py311"
+
+# Estilo de formateo
+line-length = 88
+indent-width = 4
+
+# Exclusiones generales
+exclude = [
+    ".venv",
+    "venv",
+    "__pycache__",
+    ".pytest_cache",
+    ".git",
+    "alembic/versions",
+    "node_modules",
+    "build",
+    "dist",
+]
+
+[lint]
+# Conjunto de reglas activas (reemplaza flake8 + isort + extras)
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # Pyflakes
+    "I",  # isort (orden de imports)
+    "N",  # pep8-naming
+    "UP", # pyupgrade
+    "ANN",# type annotations
+    "ASYNC", # async/await best practices
+    "S",  # seguridad (bandit-like)
+    "B",  # bugbear
+    "A",  # shadowing builtins
+    "COM",# trailing commas
+    "C4", # comprehensions
+    "DTZ",# timezone-aware datetimes
+    "T10",# debugger statements
+    "EM", # mensajes de error
+    "EXE",# permisos ejecutables
+    "ISC",# implicit string concat
+    "ICN",# convenciones de imports
+    "G",  # logging format
+    "INP",# implicit namespace packages
+    "PIE",# misc lints
+    "T20",# print statements
+    "PYI",# type stubs
+    "PT", # pytest style
+    "Q",  # quotes
+    "RSE",# raise statements
+    "RET",# return statements
+    "SLF",# private member access
+    "SLOT",# __slots__ usage
+    "SIM",# simplifications
+    "TID",# tidy imports
+    "TCH",# type checking imports
+    "INT",# gettext
+    "ARG",# argumentos no usados
+    "PTH",# pathlib preferido sobre os.path
+    "TD", # TODOs
+    "FIX",# FIXMEs
+    "ERA",# código comentado
+    
+    "PGH",# pygrep hooks
+    "PL", # pylint-like
+    "TRY",# try/except best practices
+    "FLY",# flynt (f-strings)
+    
+    "PERF",# performance
+    "FURB",# refurb modernization
+    "LOG",# logging best practices
+    "RUF",# ruff-specific
+]
+
+ignore = [
+    "ANN101",  # Missing type annotation for self
+    "ANN102",  # Missing type annotation for cls
+    "ANN401",  # Allow Any en expresiones dinámicas
+    "D",       # Docstrings (opcional para no ser excesivo)
+    "COM812",  # Conflicto con formatter
+    "ISC001",  # Conflicto con formatter
+    "E501",    # Line too long (formatter se encarga)
+]
+
+[format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[lint.isort]
+known-first-party = ["app", "api"]
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
+split-on-trailing-comma = true
+
+[lint.flake8-annotations]
+allow-star-arg-any = true
+suppress-none-returning = true
+
+[lint.flake8-quotes]
+inline-quotes = "double"
+multiline-quotes = "double"
+
+[lint.mccabe]
+max-complexity = 10
+
+[lint.pydocstyle]
+convention = "google"
+
+[lint.pylint]
+max-args = 8
+max-branches = 12
+max-returns = 6
+max-statements = 50
+
+[lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"app/tests/**" = ["S101", "ANN", "PLR2004"]
+"alembic/**" = ["ANN", "INP001"]
+"scripts/**" = ["T20", "ANN"]

@@ -10,11 +10,13 @@ from decimal import Decimal
 from enum import Enum
 from typing import Any, Dict, List
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
+from ..auth.dependencies import require_role, get_current_active_user
+from ..models import User
 
 # Router configuration
 router = APIRouter(prefix="/backoffice", tags=["Backoffice Dashboard"])
@@ -168,7 +170,7 @@ async def get_system_health():
     response_class=HTMLResponse,
     summary="Panel de Administración de Transacciones",
 )
-async def admin_transactions(request: Request):
+async def admin_transactions(request: Request, current_user: User = Depends(require_role("admin"))):
     """
     🔐 **Panel Administrativo de Transacciones**
 
@@ -176,7 +178,7 @@ async def admin_transactions(request: Request):
     """
     return templates.TemplateResponse(
         "admin_transactions.html",
-        {"request": request, "title": "Transaction Management - NeuroBank Admin"},
+        {"request": request, "title": "Transaction Management - NeuroBank Admin", "user": current_user},
     )
 
 
@@ -185,7 +187,7 @@ async def admin_transactions(request: Request):
     response_class=HTMLResponse,
     summary="Panel de Administración de Usuarios",
 )
-async def admin_users(request: Request):
+async def admin_users(request: Request, current_user: User = Depends(require_role("admin"))):
     """
     👥 **Panel Administrativo de Usuarios**
 
@@ -193,7 +195,7 @@ async def admin_users(request: Request):
     """
     return templates.TemplateResponse(
         "admin_users.html",
-        {"request": request, "title": "User Management - NeuroBank Admin"},
+        {"request": request, "title": "User Management - NeuroBank Admin", "user": current_user},
     )
 
 
@@ -202,7 +204,19 @@ async def admin_users(request: Request):
     response_class=HTMLResponse,
     summary="Panel de Reportes Administrativos",
 )
-async def admin_reports(request: Request):
+def require_admin_or_auditor():
+    async def _checker(current_user: User = Depends(get_current_active_user)) -> User:
+        if not any(r.name in ("admin", "auditor") for r in current_user.roles):
+            raise HTTPException(status_code=403, detail="Insufficient role")
+        return current_user
+
+    return _checker
+
+
+async def admin_reports(
+    request: Request,
+    current_user: User = Depends(require_admin_or_auditor()),
+):
     """
     📈 **Panel de Reportes Administrativos**
 
@@ -210,7 +224,7 @@ async def admin_reports(request: Request):
     """
     return templates.TemplateResponse(
         "admin_reports.html",
-        {"request": request, "title": "Financial Reports - NeuroBank Admin"},
+        {"request": request, "title": "Financial Reports - NeuroBank Admin", "user": current_user},
     )
 
 

@@ -35,6 +35,13 @@ class Settings(BaseSettings):
         "LOG_LEVEL", "INFO" if os.getenv("ENVIRONMENT") == "production" else "DEBUG"
     )
 
+    # Database & JWT Configuration
+    database_url: str = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./app.db")
+    jwt_secret_key: Optional[str] = os.getenv("JWT_SECRET_KEY")
+    jwt_algorithm: str = os.getenv("JWT_ALGORITHM", "HS256")
+    access_token_expire_minutes: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
+    refresh_token_expire_days: int = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS", 7))
+
     # Railway Specific Variables (todas disponibles)
     railway_project_id: str = os.getenv("RAILWAY_PROJECT_ID", "")
     railway_environment_id: str = os.getenv("RAILWAY_ENVIRONMENT_ID", "")
@@ -90,6 +97,10 @@ class Settings(BaseSettings):
         # Validación de configuración crítica solo en producción real (no testing)
         if self.environment == "production" and not is_testing and not self.api_key:
             raise ValueError("API_KEY environment variable is required in production")
+
+        # Validación básica de JWT en producción
+        if self.environment == "production" and not is_testing and not (self.jwt_secret_key or self.secret_key):
+            raise ValueError("JWT secret key is required in production")
 
 
 @lru_cache()

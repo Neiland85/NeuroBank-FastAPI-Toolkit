@@ -1,18 +1,50 @@
-<div align="center">
+# 🏦 NeuroBank FastAPI Toolkit
+
+ 
+
+## 👥 User Role Management
+
+- **Role-Based Access Control (RBAC)**: Sistema de permisos granular con roles predefinidos
+- **JWT Authentication**: Autenticación por tokens con refresh tokens
+- **User Management**: CRUD completo de usuarios con asignación de roles
+- **Flexible Authorization**: Control por permisos con scopes
+- **Backward Compatible**: Sigue soportando API Key
+
+### 🔧 API Endpoints (RBAC)
+
+| 🎪 API | 🔗 URL | 📝 Descripción | 🎯 File |
+|---|---|---|---|
+| 🔐 Login | POST /api/auth/login | Autenticación JWT | `app/routers/auth.py` |
+| 📝 Register | POST /api/auth/register | Registro de usuario | `app/routers/auth.py` |
+| 👤 Current User | GET /api/auth/me | Usuario actual | `app/routers/auth.py` |
+| 👥 List Users | GET /api/users/ | Listado de usuarios (admin) | `app/routers/users.py` |
+| 🎭 List Roles | GET /api/roles/ | Listado de roles | `app/routers/roles.py` |
+| 🔑 Permissions | GET /api/permissions/ | Listado de permisos | `app/routers/roles.py` |
+
+### ⚙️ Quick Start (DB)
+
+```bash
+# Inicializar base de datos y migraciones
+alembic upgrade head
+
+# Crear admin por CLI
+python scripts/create_admin.py
+```text
+
+### 🔐 Authentication Methods
+
+- API Key (legacy): `X-API-Key: your-api-key`
+- JWT Bearer: `Authorization: Bearer <token>`
 
 # 🏦 NeuroBank FastAPI Toolkit
 
-<p align="center">
-  <img src="https://img.shields.io/badge/🏦-NeuroBank-1e3a8a?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMjIgOFYxNkgxOFYxMEg2VjE2SDJWOE4xMiAyWiIgZmlsbD0iIzFFM0E4QSIvPgo8L3N2Zz4K" alt="NeuroBank Logo" width="200">
-</p>
+![NeuroBank Logo](https://img.shields.io/badge/🏦-NeuroBank-1e3a8a?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMjIgOFYxNkgxOFYxMEg2VjE2SDJWOE4xMiAyWiIgZmlsbD0iIzFFM0E4QSIvPgo8L3N2Zz4K)
 
 ### 🚀 **Enterprise-Grade Banking Administration Platform**
 ### ⭐ *Production-Ready FastAPI Application with Modern Admin Dashboard*
 
-<p align="center">
-  <strong>🎯 Designed specifically to impress Banking Industry Recruiters</strong><br>
-  <em>Showcasing Enterprise-Level Python/FastAPI Development Skills</em>
-</p>
+**🎯 Designed specifically to impress Banking Industry Recruiters**  
+*Showcasing Enterprise-Level Python/FastAPI Development Skills*
 
 ---
 
@@ -32,40 +64,15 @@
 
 ### 🎪 **Quick Access - Start in 30 Seconds!**
 
-<table>
-<tr>
-<td width="25%">
-
-🎮 **[LIVE DEMO](#-live-access-points)**<br>
-*Interactive Dashboard*
-
-</td>
-<td width="25%">
-
-📊 **[API DOCS](#-api-endpoints)**<br>
-*Swagger Interface*
-
-</td>
-<td width="25%">
-
-🚀 **[QUICK DEPLOY](#quick-start)**<br>
-*One-Click Setup*
-
-</td>
-<td width="25%">
-
-📱 **[FEATURES](#key-features)**<br>
-*Technical Showcase*
-
-</td>
-</tr>
-</table>
+| 🎮 LIVE DEMO | 📊 API DOCS | 🚀 QUICK DEPLOY | 📱 FEATURES |
+|---|---|---|---|
+| **[LIVE DEMO](#-live-access-points)**<br/>Interactive Dashboard | **[API DOCS](#-api-endpoints)**<br/>Swagger Interface | **[QUICK DEPLOY](#quick-start)**<br/>One-Click Setup | **[FEATURES](#key-features)**<br/>Technical Showcase |
 
 ---
 
 ### 🎨 **Professional Banking Dashboard Preview**
 
-<div align="center">
+ 
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────┐
@@ -85,16 +92,14 @@
 │  │ ██▀▀            │    │ Type: All    ▼  │       │ 🔄 Sync System  │          │
 │  └─────────────────┘    └─────────────────┘       └─────────────────┘          │
 └─────────────────────────────────────────────────────────────────────────────────┘
-```
+```text
 
 **� Interactive Features:** Real-time Updates • Advanced Filtering • Mobile Responsive • Chart.js Integration
 
-</div>
+ 
 
-<p align="center">
-  <strong>🏆 Enterprise-Level Features:</strong>
-  Real-time Analytics • Transaction Management • User Administration • Security Layer • Production Deploy
-</p>
+**🏆 Enterprise-Level Features:**
+Real-time Analytics • Transaction Management • User Administration • Security Layer • Production Deploy
 
 ---
 
@@ -109,15 +114,11 @@ chmod +x deploy_production.sh && ./deploy_production.sh
 # 🎉 Open browser: http://localhost:8000/backoffice/
 ```
 
-<div align="center">
-<strong>🎯 Perfect for live coding interviews & technical presentations!</strong>
-</div>
+**🎯 Perfect for live coding interviews & technical presentations!**
 
 ---
 
 ### 📊 **Project Statistics**
-
-<div align="center">
 
 | 📈 **Metric** | 🎯 **Value** | 💡 **Impact** |
 |---|---|---|
@@ -130,15 +131,14 @@ chmod +x deploy_production.sh && ./deploy_production.sh
 | **Mobile Responsive** | ✅ | Professional UI/UX |
 | **Documentation** | 100% | Enterprise standard |
 
-</div>
-
-</div>
+ 
+ 
 
 ---
 
 ## 📋 **Navigation Menu**
 
-<div align="center">
+ 
 
 ### 🎯 **Core Sections**
 [🎯 Project Overview](#project-overview) • [✨ Key Features](#key-features) • [🏗️ Architecture](#architecture) • [🚀 Quick Start](#quick-start)
@@ -155,17 +155,13 @@ chmod +x deploy_production.sh && ./deploy_production.sh
 ### 📚 **Resources**
 [📖 Documentation](#-documentation) • [🤝 Contributing](#-contributing)
 
-</div>
+ 
 
 ---
 
 ## 🎯 **Project Overview**
 
-<div align="center">
-
 ### 🏆 **The Ultimate Banking Tech Showcase**
-
-</div>
 
 **NeuroBank FastAPI Toolkit** es una aplicación bancaria de **nivel empresarial** diseñada específicamente para **impresionar a reclutadores técnicos de la industria bancaria**. 
 
@@ -179,8 +175,6 @@ chmod +x deploy_production.sh && ./deploy_production.sh
 
 ### � **¿Por qué elegir este proyecto para impresionar?**
 
-<div align="center">
-
 | 🏦 **Banking Focus** | 🚀 **Tech Excellence** | 💼 **Professional Level** |
 |---|---|---|
 | Real banking workflows | Modern FastAPI stack | Enterprise architecture |
@@ -188,7 +182,7 @@ chmod +x deploy_production.sh && ./deploy_production.sh
 | Security best practices | API documentation | Monitoring & logging |
 | Transaction management | Docker containerization | CI/CD ready |
 
-</div>
+ 
 
 ### 🎪 **Technical Journey Map**
 
@@ -214,10 +208,6 @@ graph TD
 
 ## ✨ **Key Features**
 
-<table>
-<tr>
-<td width="50%">
-
 ### 🏦 **Banking Dashboard**
 - ✅ Professional banking UI/UX
 - ✅ Real-time metrics & analytics  
@@ -231,9 +221,6 @@ graph TD
 - ✅ CSV/Excel export functionality
 - ✅ Real-time status updates
 - ✅ Bulk operations support
-
-</td>
-<td width="50%">
 
 ### 🔧 **Technical Excellence**
 - ✅ FastAPI async/await patterns
@@ -249,9 +236,7 @@ graph TD
 - ✅ Systemd service integration  
 - ✅ CI/CD pipeline ready
 
-</td>
-</tr>
-</table>
+ 
 
 ---
 
@@ -335,11 +320,32 @@ docker-compose -f docker-compose.prod.yml up -d
 # 1. Install dependencies
 pip install -r requirements.txt
 
-# 2. Start development server
+# 2. Configure environment
+cp .env.example .env
+
+# 3. Initialize database via Alembic
+alembic upgrade head
+
+# 4. (Optional) Create admin user
+python scripts/create_admin.py
+
+# 5. Start development server
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
-# 3. Open browser: http://localhost:8000/backoffice/
+# 6. Open browser: http://localhost:8000/backoffice/
 ```
+
+---
+
+### 🔑 Environment Variables
+
+Usa el archivo `.env.example` como base:
+- `DATABASE_URL`: `sqlite+aiosqlite:///./app.db` (dev) o PostgreSQL en prod.
+- `JWT_SECRET_KEY`, `JWT_ALGORITHM`, `ACCESS_TOKEN_EXPIRE_MINUTES`, `REFRESH_TOKEN_EXPIRE_DAYS`.
+- `API_KEY`: requerido en producción.
+- `ENVIRONMENT`, `DEBUG`, `LOG_LEVEL`, `PORT`, `CORS_ORIGINS`.
+
+En producción, configura secretos reales y restringe `CORS_ORIGINS` a dominios válidos.
 
 ---
 
@@ -429,7 +435,7 @@ graph LR
 [![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)](https://nginx.org)
 [![Gunicorn](https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white)](https://gunicorn.org)
 
-</div>
+ 
 
 ### 📊 **Technical Specifications**
 
@@ -524,8 +530,7 @@ graph TD
 
 ### **🎯 Endpoint Details**
 
-<details>
-<summary><b>🏠 Dashboard Endpoints</b></summary>
+#### 🏠 Dashboard Endpoints
 
 #### **Main Dashboard**
 ```http
@@ -542,10 +547,7 @@ GET /backoffice/admin/transactions
 - **File**: [`app/backoffice/router.py:155`](./app/backoffice/router.py#L155)
 - **Features**: Advanced filtering, pagination, export functionality
 
-</details>
-
-<details>
-<summary><b>🔧 API Endpoints</b></summary>
+#### 🔧 API Endpoints
 
 #### **Real-time Metrics**
 ```http
@@ -570,7 +572,7 @@ GET /backoffice/api/transactions/search?page=1&page_size=20&status=completed
 - **Parameters**: `query`, `status`, `transaction_type`, `page`, `page_size`
 - **Response**: Paginated transaction list with metadata
 
-</details>
+ 
 
 ---
 
@@ -632,8 +634,7 @@ graph TD
 
 ### **🔧 Production Configuration**
 
-<details>
-<summary><b>🐳 Docker Production Setup</b></summary>
+#### 🐳 Docker Production Setup
 
 ```yaml
 # docker-compose.prod.yml
@@ -659,10 +660,7 @@ services:
       - neurobank-api
 ```
 
-</details>
-
-<details>
-<summary><b>⚙️ Environment Variables</b></summary>
+#### ⚙️ Environment Variables
 
 ```bash
 # .env.prod - Production Environment
@@ -675,8 +673,6 @@ HOST=0.0.0.0
 PORT=8000
 WORKERS=4
 ```
-
-</details>
 
 ---
 
@@ -865,11 +861,8 @@ graph LR
 
 ### **🎪 Design System**
 
-<div align="center">
-
 #### **🎨 Color Palette**
 
-<div align="center">
 
 | **Primary** | **Secondary** | **Success** | **Warning** | **Danger** |
 |-------------|---------------|-------------|-------------|------------|
@@ -878,9 +871,8 @@ graph LR
 
 **Banking Theme** • **Professional Trust** • **Accessibility Compliant**
 
-</div>
-
-</div>
+ 
+ 
 
 | **🎨 Component** | **🎯 Purpose** | **📱 Responsive** | **✨ Features** |
 |---|---|---|---|
@@ -1009,6 +1001,6 @@ cd NeuroBank-FastAPI-Toolkit
 
 ⭐ **Star this repository if it helped you!**
 
-</div>NeuroBank-FastAPI-Toolkit
+NeuroBank-FastAPI-Toolkit
 Senior‑grade FastAPI microservice blueprint for AI‑driven banking. Python 3.10+, Pydantic v2, Docker &amp; AWS stack (Lambda, AppRunner, CloudWatch, X‑Ray) with CI/CD via GitHub Actions.  Incluye clean code, tests completos, observabilidad y módulos listos para estado de pedidos, facturación y analítica.
 # Trigger deployment

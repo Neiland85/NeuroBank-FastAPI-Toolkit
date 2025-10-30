@@ -3,7 +3,9 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Path, status
 from pydantic import BaseModel, Field
 
-from ..auth.dependencies import verify_api_key
+from ..auth.dependencies import verify_api_key, get_current_user_flexible
+from typing import Optional
+from ..models import User
 from ..services.invoice_service import generate_invoice
 from ..services.order_service import get_order_status
 
@@ -142,7 +144,14 @@ class InvoiceResponse(BaseModel):
     - `cancelled`: Orden cancelada por el usuario
     
     ### 🔐 Autenticación:
-    Requiere API Key válida en el header `X-API-Key`.
+    Puedes autenticarte de dos formas:
+    - API Key en el header `X-API-Key: <key>`
+    - JWT en el header `Authorization: Bearer <token>`
+    
+    Ejemplos de headers:
+    
+    - `X-API-Key: sk_test_123`  
+    - `Authorization: Bearer eyJhbGciOi...`
     """,
     dependencies=[Depends(verify_api_key)],
     responses={
@@ -189,7 +198,8 @@ async def order_status(
         description="Identificador único de la orden a consultar",
         examples=["ORD-2025-001234"],
         pattern="^[A-Z]{3}-[0-9]{4}-[0-9]{6}$",
-    )
+    ),
+    current_user: Optional[User] = Depends(get_current_user_flexible),
 ):
     """
     **Endpoint para consultar el estado de una orden bancaria**
@@ -228,7 +238,14 @@ async def order_status(
     - Los montos se calculan incluyendo comisiones aplicables
     
     ### 🔐 Autenticación:
-    Requiere API Key válida en el header `X-API-Key`.
+    Puedes autenticarte de dos formas:
+    - API Key en el header `X-API-Key: <key>`
+    - JWT en el header `Authorization: Bearer <token>`
+    
+    Ejemplos de headers:
+    
+    - `X-API-Key: sk_test_123`  
+    - `Authorization: Bearer eyJhbGciOi...`
     """,
     dependencies=[Depends(verify_api_key)],
     responses={
@@ -278,6 +295,7 @@ async def invoice(
         ..., description="ID de la factura a generar", examples=["INV-2025-789012"]
     ),
     data: InvoiceRequest = None,
+    current_user: Optional[User] = Depends(get_current_user_flexible),
 ):
     """
     **Endpoint para generar facturas de órdenes bancarias**

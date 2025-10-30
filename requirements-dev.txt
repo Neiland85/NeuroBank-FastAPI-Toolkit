@@ -20,11 +20,12 @@ safety==3.2.3
 semgrep==1.75.0  # Additional security scanner
 
 # Code Quality
-black==24.4.2  # Code formatter
-isort==5.13.2  # Import sorter
-flake8==7.0.0  # Linter
+ruff==0.6.0  # Linter y formatter todo-en-uno (reemplaza black, isort, flake8)
 mypy==1.10.0  # Type checker
 pre-commit==3.7.1  # Git hooks
+
+# Ruff reemplaza black, isort y flake8 con mejor rendimiento
+# Escrito en Rust, 10-100x más rápido que herramientas Python
 
 # Documentation
 sphinx==7.3.7
