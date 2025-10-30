@@ -5,6 +5,9 @@ from functools import lru_cache
 
 from pydantic_settings import BaseSettings
 
+# Auth Constants
+DEFAULT_TOKEN_TYPE = "bearer"  # noqa: S105  # This is a token type, not a password
+
 
 class Settings(BaseSettings):
     """Configuración de la aplicación optimizada para Railway"""

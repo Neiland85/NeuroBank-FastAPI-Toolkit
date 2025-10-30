@@ -5,6 +5,8 @@ from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, EmailStr, Field, ValidationInfo, field_validator
 
+from app.config import DEFAULT_TOKEN_TYPE
+
 if TYPE_CHECKING:
     import uuid
     from datetime import datetime
@@ -117,7 +119,7 @@ class UserResponse(UserBase):
 
 class Token(BaseModel):
     access_token: str
-    token_type: str = "bearer"
+    token_type: str = DEFAULT_TOKEN_TYPE
     refresh_token: str | None = None
 
 
