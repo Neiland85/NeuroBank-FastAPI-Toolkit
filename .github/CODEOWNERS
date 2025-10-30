@@ -1,0 +1,22 @@
+# Code owners for critical paths
+# Syntax: https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# RBAC/authentication
+/app/auth/*            @Neiland85
+/app/models.py         @Neiland85
+/app/security.py       @Neiland85
+
+# Database & migrations
+/alembic/**            @Neiland85
+/app/database.py       @Neiland85
+
+# API routers for RBAC
+/app/routers/auth.py   @Neiland85
+/app/routers/users.py  @Neiland85
+/app/routers/roles.py  @Neiland85
+
+# CI/CD workflows
+/.github/workflows/**  @Neiland85
+
+# Docs
+/docs/**               @Neiland85

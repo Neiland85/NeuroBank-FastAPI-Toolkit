@@ -8,15 +8,15 @@ import uuid
 from datetime import datetime, timedelta
 from decimal import Decimal
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
-from fastapi import APIRouter, HTTPException, Request, Depends
-from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
-from ..auth.dependencies import require_role, get_current_active_user
-from ..models import User
+
+from app.auth.dependencies import get_current_active_user, require_role
+from app.models import User
 
 # Router configuration
 router = APIRouter(prefix="/backoffice", tags=["Backoffice Dashboard"])
@@ -60,7 +60,7 @@ class DashboardMetrics(BaseModel):
 
 
 @router.get("/", response_class=HTMLResponse, summary="Admin Dashboard Principal")
-async def dashboard_home(request: Request):
+async def dashboard_home(request: Request) -> HTMLResponse:
     """
     🏦 **NeuroBank Admin Dashboard**
 
@@ -80,19 +80,19 @@ async def dashboard_home(request: Request):
 @router.get(
     "/api/metrics", response_model=DashboardMetrics, summary="Métricas del Dashboard"
 )
-async def get_dashboard_metrics():
+async def get_dashboard_metrics() -> DashboardMetrics:
     """
     📊 **Métricas en Tiempo Real**
 
     Retorna métricas actualizadas del sistema bancario.
     """
     return DashboardMetrics(
-        total_transactions=random.randint(120, 180),
-        total_volume=Decimal(str(random.randint(40000, 60000))),
-        active_accounts=random.randint(80, 120),
-        success_rate=round(random.uniform(96.5, 99.2), 1),
-        avg_response_time=round(random.uniform(45.0, 120.0), 1),
-        api_calls_today=random.randint(500, 800),
+        total_transactions=random.randint(120, 180),  # nosec B311 demo metrics
+        total_volume=Decimal(str(random.randint(40000, 60000))),  # nosec B311
+        active_accounts=random.randint(80, 120),  # nosec B311
+        success_rate=round(random.uniform(96.5, 99.2), 1),  # nosec B311
+        avg_response_time=round(random.uniform(45.0, 120.0), 1),  # nosec B311
+        api_calls_today=random.randint(500, 800),  # nosec B311
     )
 
 
@@ -103,7 +103,7 @@ async def search_transactions(
     transaction_type: str = "",
     page: int = 1,
     page_size: int = 20,
-):
+) -> dict:
     """
     🔍 **API de Búsqueda de Transacciones**
 
@@ -111,24 +111,27 @@ async def search_transactions(
     """
     # Generar transacciones mock
     transactions = []
-    total = random.randint(100, 200)
+    total = random.randint(100, 200)  # nosec B311
 
-    for i in range(min(page_size, total)):
+    for _i in range(min(page_size, total)):
         tx_id = str(uuid.uuid4())[:8]
         transactions.append(
             {
                 "id": tx_id,
                 "reference": f"TXN-{tx_id.upper()}",
-                "amount": round(random.uniform(100, 5000), 2),
+                "amount": round(random.uniform(100, 5000), 2),  # nosec B311
                 "currency": "USD",
-                "status": random.choice(
+                "status": random.choice(  # nosec B311
                     ["completed", "pending", "failed", "cancelled"]
                 ),
-                "type": random.choice(["transfer", "deposit", "withdrawal", "payment"]),
-                "user_id": random.randint(1000, 9999),
+                "type": random.choice(
+                    ["transfer", "deposit", "withdrawal", "payment"]
+                ),  # nosec B311
+                "user_id": random.randint(1000, 9999),  # nosec B311
                 "description": f"Transaction {tx_id}",
                 "created_at": (
-                    datetime.now() - timedelta(hours=random.randint(1, 72))
+                    datetime.now()
+                    - timedelta(hours=random.randint(1, 72))  # nosec B311
                 ).isoformat(),
             }
         )
@@ -143,7 +146,7 @@ async def search_transactions(
 
 
 @router.get("/api/system-health", summary="Estado del Sistema")
-async def get_system_health():
+async def get_system_health() -> dict:
     """
     🏥 **Monitoreo de Salud del Sistema**
 
@@ -156,7 +159,7 @@ async def get_system_health():
         "cache": "active",
         "uptime": "99.9%",
         "last_check": datetime.now().isoformat(),
-        "response_time": f"{random.randint(45, 120)}ms",
+        "response_time": f"{random.randint(45, 120)}ms",  # nosec B311
     }
 
 
@@ -170,7 +173,9 @@ async def get_system_health():
     response_class=HTMLResponse,
     summary="Panel de Administración de Transacciones",
 )
-async def admin_transactions(request: Request, current_user: User = Depends(require_role("admin"))):
+async def admin_transactions(
+    request: Request, current_user: User = Depends(require_role("admin"))
+) -> HTMLResponse:
     """
     🔐 **Panel Administrativo de Transacciones**
 
@@ -178,7 +183,11 @@ async def admin_transactions(request: Request, current_user: User = Depends(requ
     """
     return templates.TemplateResponse(
         "admin_transactions.html",
-        {"request": request, "title": "Transaction Management - NeuroBank Admin", "user": current_user},
+        {
+            "request": request,
+            "title": "Transaction Management - NeuroBank Admin",
+            "user": current_user,
+        },
     )
 
 
@@ -187,7 +196,9 @@ async def admin_transactions(request: Request, current_user: User = Depends(requ
     response_class=HTMLResponse,
     summary="Panel de Administración de Usuarios",
 )
-async def admin_users(request: Request, current_user: User = Depends(require_role("admin"))):
+async def admin_users(
+    request: Request, current_user: User = Depends(require_role("admin"))
+) -> HTMLResponse:
     """
     👥 **Panel Administrativo de Usuarios**
 
@@ -195,7 +206,11 @@ async def admin_users(request: Request, current_user: User = Depends(require_rol
     """
     return templates.TemplateResponse(
         "admin_users.html",
-        {"request": request, "title": "User Management - NeuroBank Admin", "user": current_user},
+        {
+            "request": request,
+            "title": "User Management - NeuroBank Admin",
+            "user": current_user,
+        },
     )
 
 
@@ -204,7 +219,7 @@ async def admin_users(request: Request, current_user: User = Depends(require_rol
     response_class=HTMLResponse,
     summary="Panel de Reportes Administrativos",
 )
-def require_admin_or_auditor():
+def require_admin_or_auditor() -> Any:
     async def _checker(current_user: User = Depends(get_current_active_user)) -> User:
         if not any(r.name in ("admin", "auditor") for r in current_user.roles):
             raise HTTPException(status_code=403, detail="Insufficient role")
@@ -216,7 +231,7 @@ def require_admin_or_auditor():
 async def admin_reports(
     request: Request,
     current_user: User = Depends(require_admin_or_auditor()),
-):
+) -> HTMLResponse:
     """
     📈 **Panel de Reportes Administrativos**
 
@@ -224,7 +239,11 @@ async def admin_reports(
     """
     return templates.TemplateResponse(
         "admin_reports.html",
-        {"request": request, "title": "Financial Reports - NeuroBank Admin", "user": current_user},
+        {
+            "request": request,
+            "title": "Financial Reports - NeuroBank Admin",
+            "user": current_user,
+        },
     )
 
 
@@ -234,7 +253,7 @@ async def admin_reports(
 
 
 @router.get("/info", summary="Información del Sistema de Backoffice")
-async def backoffice_info():
+async def backoffice_info() -> dict:
     """
     ℹ️ **Información del Sistema de Backoffice**
 

@@ -30,6 +30,11 @@ htmlcov/
 .mypy_cache/
 .pyre/
 
+# Bases de datos
+*.db
+!alembic.db  # Mantener alembic.db si existe
+app_test.db
+
 # Configuración de IDEs
 .vscode/
 .idea/

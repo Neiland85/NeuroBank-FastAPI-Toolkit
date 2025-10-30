@@ -4,7 +4,7 @@
 
 ### **🔧 Variables Automáticas de Railway (Ya configuradas):**
 - `RAILWAY_PRIVATE_DOMAIN` - Dominio privado del servicio
-- `RAILWAY_PROJECT_NAME` - Nombre del proyecto  
+- `RAILWAY_PROJECT_NAME` - Nombre del proyecto
 - `RAILWAY_ENVIRONMENT_NAME` - Nombre del entorno
 - `RAILWAY_SERVICE_NAME` - Nombre del servicio
 - `RAILWAY_PROJECT_ID` - ID del proyecto
@@ -34,7 +34,7 @@ Ahora incluye toda la info de Railway:
   "environment": "production",
   "railway": {
     "project_name": "tu-proyecto",
-    "service_name": "tu-servicio", 
+    "service_name": "tu-servicio",
     "environment_name": "production",
     "private_domain": "tu-dominio.railway.app"
   }

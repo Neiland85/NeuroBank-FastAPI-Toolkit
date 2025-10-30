@@ -18,11 +18,19 @@ respx==0.21.1  # Mock HTTP requests
 bandit==1.7.8
 safety==3.2.3
 semgrep==1.75.0  # Additional security scanner
+pip-audit==2.7.3  # Auditoría de vulnerabilidades en dependencias
+safety-db==2024.5.1  # Base de datos para safety
 
 # Code Quality
 ruff==0.6.0  # Linter y formatter todo-en-uno (reemplaza black, isort, flake8)
 mypy==1.10.0  # Type checker
+sqlalchemy[mypy]
 pre-commit==3.7.1  # Git hooks
+radon==6.0.1  # Complejidad ciclomática y mantenibilidad
+vulture==2.11  # Detección de código muerto
+interrogate==1.7.0  # Cobertura de docstrings
+pylint==3.2.0  # Linter adicional (opcional)
+codespell==2.3.0  # Spellchecker para código y documentación
 
 # Ruff reemplaza black, isort y flake8 con mejor rendimiento
 # Escrito en Rust, 10-100x más rápido que herramientas Python
@@ -45,9 +53,37 @@ typer==0.12.3  # CLI tools
 # pytest-postgresql==6.0.0
 
 # Performance Testing
-# locust==2.29.1  # Load testing
-# memory-profiler==0.61.0  # Memory profiling
+locust==2.29.1  # Load testing y stress testing
+py-spy==0.3.14  # Profiler de bajo overhead (sampling profiler)
+memray==1.13.0  # Memory profiler moderno de Bloomberg
+scalene==1.5.41  # CPU+GPU+memory profiler con AI-powered insights
 
 # Coverage visualization
 coverage[toml]==7.5.3
 diff-cover==9.1.0
+pytest-html==4.1.1
+pytest-json-report==1.5.0
+
+# Dependency Analysis
+pipdeptree==2.18.1  # Visualización de árbol de dependencias
+deptry==0.16.1  # Detección de dependencias no usadas o faltantes
+
+# Architecture Analysis
+import-linter==2.0  # Validación de reglas de imports y arquitectura
+pydeps==1.12.20  # Visualización de dependencias entre módulos
+
+# Mutation Testing
+mutmut==2.4.5  # Mutation testing para evaluar calidad de tests
+
+# Property-Based Testing
+hypothesis==6.103.0  # Property-based testing framework
+
+# Contract Testing
+pact-python==2.2.0  # Consumer-driven contract testing
+
+# Snapshot Testing
+syrupy==4.6.1  # Snapshot testing para pytest
+
+# CI/CD Tools
+tox==4.15.0  # Testing en múltiples entornos Python
+nox==2024.4.15  # Alternativa moderna a tox

@@ -1,0 +1,33 @@
+name: Lint/Build Error
+description: Error de linter, type-check o build (creado desde logs)
+labels: [lint, automation]
+title: "lint: [tool] breve mensaje"
+body:
+  - type: input
+    id: tool
+    attributes:
+      label: Herramienta
+      placeholder: ruff | mypy | pytest | eslint | otros
+    validations:
+      required: true
+  - type: input
+    id: archivo
+    attributes:
+      label: Archivo
+      placeholder: ruta/archivo:línea
+  - type: textarea
+    id: mensaje
+    attributes:
+      label: Mensaje
+      description: Mensaje exacto del error
+    validations:
+      required: true
+  - type: textarea
+    id: reproduccion
+    attributes:
+      label: Reproducción
+      description: Comando exacto para reproducir
+      placeholder: |
+        ejemplo: ruff check app/
+    validations:
+      required: true

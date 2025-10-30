@@ -44,7 +44,7 @@ uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1 --timeout-keep-aliv
 ### 6. Resources
 ```
 💻 CPU: 2 vCPU
-🧠 Memory: 1 GB  
+🧠 Memory: 1 GB
 🌍 Region: EU West (Amsterdam) - 1 replica
 ```
 
@@ -57,7 +57,7 @@ uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1 --timeout-keep-aliv
 ### 8. Variables de Entorno (¡IMPORTANTE!)
 ```bash
 API_KEY=tu_valor_aqui
-SECRET_KEY=tu_valor_aqui  
+SECRET_KEY=tu_valor_aqui
 DATABASE_URL=postgresql://... (si aplica)
 ENVIRONMENT=production
 ```

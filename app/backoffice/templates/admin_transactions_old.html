@@ -4,27 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
-    
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <style>
         :root {
             --neuro-primary: #1e3a8a;
             --neuro-secondary: #1e40af;
             --neuro-accent: #3b82f6;
         }
-        
+
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         .admin-panel {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
@@ -32,12 +32,12 @@
             backdrop-filter: blur(10px);
             margin: 20px 0;
         }
-        
+
         .navbar-brand {
             font-weight: 700;
             color: var(--neuro-primary) !important;
         }
-        
+
         .btn-neuro {
             background: linear-gradient(45deg, var(--neuro-primary), var(--neuro-accent));
             border: none;
@@ -46,7 +46,7 @@
             padding: 10px 20px;
             font-weight: 600;
         }
-        
+
         .transaction-detail {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
@@ -54,14 +54,14 @@
             margin-bottom: 15px;
             border-left: 4px solid var(--neuro-accent);
         }
-        
+
         .status-badge {
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
         }
-        
+
         .status-completed { background-color: #d1fae5; color: #065f46; }
         .status-pending { background-color: #fef3c7; color: #92400e; }
         .status-failed { background-color: #fee2e2; color: #991b1b; }
@@ -111,7 +111,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="card-body">
                         <!-- Filters -->
                         <div class="row mb-4">
@@ -265,13 +265,13 @@
 
         function updateStats() {
             document.getElementById('totalTransactions').textContent = filteredTransactions.length;
-            
+
             const totalVolume = filteredTransactions.reduce((sum, tx) => sum + parseFloat(tx.amount), 0);
             document.getElementById('totalVolume').textContent = `$${totalVolume.toLocaleString()}`;
-            
+
             const pendingCount = filteredTransactions.filter(tx => tx.status === 'pending').length;
             document.getElementById('pendingCount').textContent = pendingCount;
-            
+
             const failedCount = filteredTransactions.filter(tx => tx.status === 'failed').length;
             document.getElementById('failedCount').textContent = failedCount;
         }
@@ -279,16 +279,16 @@
         function displayTransactions() {
             const tbody = document.getElementById('transactionsTable');
             tbody.innerHTML = '';
-            
+
             const itemsPerPage = 20;
             const start = (currentPage - 1) * itemsPerPage;
             const end = start + itemsPerPage;
             const pageTransactions = filteredTransactions.slice(start, end);
-            
+
             pageTransactions.forEach(tx => {
                 const row = document.createElement('tr');
                 const statusClass = `status-${tx.status}`;
-                
+
                 row.innerHTML = `
                     <td><code>${tx.id}</code></td>
                     <td>
@@ -315,7 +315,7 @@
                 `;
                 tbody.appendChild(row);
             });
-            
+
             updatePagination();
         }
 
@@ -323,15 +323,15 @@
             const pagination = document.getElementById('pagination');
             const itemsPerPage = 20;
             const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
-            
+
             pagination.innerHTML = '';
-            
+
             // Previous button
             const prevLi = document.createElement('li');
             prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
             prevLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage - 1})">Previous</a>`;
             pagination.appendChild(prevLi);
-            
+
             // Page numbers
             for (let i = 1; i <= totalPages; i++) {
                 const li = document.createElement('li');
@@ -339,7 +339,7 @@
                 li.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
                 pagination.appendChild(li);
             }
-            
+
             // Next button
             const nextLi = document.createElement('li');
             nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
@@ -359,13 +359,13 @@
             const statusFilter = document.getElementById('statusFilter').value;
             const typeFilter = document.getElementById('typeFilter').value;
             const amountFilter = document.getElementById('amountFilter').value;
-            
+
             filteredTransactions = transactions.filter(tx => {
                 let matches = true;
-                
+
                 if (statusFilter && tx.status !== statusFilter) matches = false;
                 if (typeFilter && tx.type !== typeFilter) matches = false;
-                
+
                 if (amountFilter) {
                     const amount = parseFloat(tx.amount);
                     switch (amountFilter) {
@@ -383,10 +383,10 @@
                             break;
                     }
                 }
-                
+
                 return matches;
             });
-            
+
             currentPage = 1;
             updateStats();
             displayTransactions();
@@ -417,7 +417,7 @@
                         </div>
                     </div>
                 `;
-                
+
                 new bootstrap.Modal(document.getElementById('transactionModal')).show();
             }
         }
@@ -425,7 +425,7 @@
         function getTransactionIcon(type) {
             const icons = {
                 'transfer': 'fas fa-exchange-alt text-primary',
-                'deposit': 'fas fa-arrow-down text-success', 
+                'deposit': 'fas fa-arrow-down text-success',
                 'withdrawal': 'fas fa-arrow-up text-danger',
                 'payment': 'fas fa-credit-card text-info'
             };

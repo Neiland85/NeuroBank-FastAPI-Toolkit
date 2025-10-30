@@ -6,7 +6,7 @@ async def test_roles_admin_crud_and_permissions(client, admin_headers):
     # Listar roles
     lst = await client.get("/api/roles/", headers=admin_headers)
     assert lst.status_code == 200
-    roles = lst.json()
+    lst.json()
 
     # Crear rol
     create = await client.post(
@@ -37,5 +37,3 @@ async def test_roles_management_forbidden_to_non_admin(client, operator_headers)
         headers=operator_headers,
     )
     assert c.status_code in (401, 403)
-
-

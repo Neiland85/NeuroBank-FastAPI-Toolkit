@@ -1,13 +1,10 @@
-from typing import List
-
-from fastapi import APIRouter, Depends, HTTPException, Path, status
+from fastapi import APIRouter, Depends, Path
 from pydantic import BaseModel, Field
 
-from ..auth.dependencies import verify_api_key, get_current_user_flexible
-from typing import Optional
-from ..models import User
-from ..services.invoice_service import generate_invoice
-from ..services.order_service import get_order_status
+from app.auth.dependencies import get_current_user_flexible, verify_api_key
+from app.models import User
+from app.services.invoice_service import generate_invoice
+from app.services.order_service import get_order_status
 
 # Router con documentación mejorada
 router = APIRouter(
@@ -19,6 +16,9 @@ router = APIRouter(
         500: {"description": "Internal server error"},
     },
 )
+
+# Singletons para evitar B008
+current_user_flexible_dep = Depends(get_current_user_flexible)
 
 # ----- Modelos Pydantic con documentación mejorada -----
 
@@ -126,31 +126,31 @@ class InvoiceResponse(BaseModel):
     summary="📊 Consultar Estado de Orden",
     description="""
     **Consulta el estado actual de una orden bancaria**
-    
-    Este endpoint permite verificar el estado de procesamiento de cualquier 
+
+    Este endpoint permite verificar el estado de procesamiento de cualquier
     transacción bancaria utilizando su identificador único.
-    
+
     ### 🔍 Casos de uso:
     - Seguimiento de transferencias en tiempo real
     - Verificación de estado de pagos
     - Monitoreo de transacciones pendientes
     - Auditoría de operaciones bancarias
-    
+
     ### 📋 Estados posibles:
     - `pending`: Orden recibida, esperando procesamiento
     - `processing`: Transacción en curso
     - `completed`: Operación finalizada exitosamente
     - `failed`: Error en el procesamiento
     - `cancelled`: Orden cancelada por el usuario
-    
+
     ### 🔐 Autenticación:
     Puedes autenticarte de dos formas:
     - API Key en el header `X-API-Key: <key>`
     - JWT en el header `Authorization: Bearer <token>`
-    
+
     Ejemplos de headers:
-    
-    - `X-API-Key: sk_test_123`  
+
+    - `X-API-Key: sk_test_123`
     - `Authorization: Bearer eyJhbGciOi...`
     """,
     dependencies=[Depends(verify_api_key)],
@@ -199,8 +199,8 @@ async def order_status(
         examples=["ORD-2025-001234"],
         pattern="^[A-Z]{3}-[0-9]{4}-[0-9]{6}$",
     ),
-    current_user: Optional[User] = Depends(get_current_user_flexible),
-):
+    _current_user: User | None = current_user_flexible_dep,
+) -> OrderStatusResponse:
     """
     **Endpoint para consultar el estado de una orden bancaria**
 
@@ -216,35 +216,35 @@ async def order_status(
     summary="🧾 Generar Factura",
     description="""
     **Genera una factura oficial para una orden completada**
-    
-    Este endpoint crea una factura detallada para una transacción bancaria 
+
+    Este endpoint crea una factura detallada para una transacción bancaria
     específica, incluyendo todos los datos fiscales requeridos.
-    
+
     ### 📋 Características:
     - Generación automática de ID de factura
     - Cálculo de montos con precisión decimal
     - Timestamp de emisión en formato ISO 8601
     - Cumplimiento con normativas fiscales europeas
-    
+
     ### 💼 Casos de uso:
     - Facturación automática post-transacción
     - Generación de comprobantes para auditorías
     - Documentación fiscal de operaciones
     - Integración con sistemas contables
-    
+
     ### ⚠️ Restricciones:
     - Solo se pueden facturar órdenes con estado `completed`
     - Una orden puede tener múltiples facturas (refacturación)
     - Los montos se calculan incluyendo comisiones aplicables
-    
+
     ### 🔐 Autenticación:
     Puedes autenticarte de dos formas:
     - API Key en el header `X-API-Key: <key>`
     - JWT en el header `Authorization: Bearer <token>`
-    
+
     Ejemplos de headers:
-    
-    - `X-API-Key: sk_test_123`  
+
+    - `X-API-Key: sk_test_123`
     - `Authorization: Bearer eyJhbGciOi...`
     """,
     dependencies=[Depends(verify_api_key)],
@@ -294,13 +294,16 @@ async def invoice(
     invoice_id: str = Path(
         ..., description="ID de la factura a generar", examples=["INV-2025-789012"]
     ),
-    data: InvoiceRequest = None,
-    current_user: Optional[User] = Depends(get_current_user_flexible),
-):
+    data: InvoiceRequest | None = None,
+    _current_user: User | None = current_user_flexible_dep,
+) -> InvoiceResponse:
     """
     **Endpoint para generar facturas de órdenes bancarias**
 
     Procesa la solicitud de facturación y genera un documento oficial
     con todos los detalles fiscales requeridos.
     """
+    if data is None:
+        # Coherencia de tipos; en práctica FastAPI validará body requerido si así se define
+        return generate_invoice("")
     return generate_invoice(data.order_id)

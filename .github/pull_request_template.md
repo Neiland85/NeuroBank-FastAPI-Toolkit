@@ -6,7 +6,7 @@ Este PR implementa la **solución completa para el problema de crashes de Railwa
 
 ### 🎯 **Problema Solucionado**
 - ❌ **Problema**: Aplicación crashes en Railway después de exactamente 2 minutos
-- ❌ **Problema**: Botones y funcionalidades del admin dashboard no operativas  
+- ❌ **Problema**: Botones y funcionalidades del admin dashboard no operativas
 - ❌ **Problema**: Templates genéricos en lugar de específicos
 - ❌ **Problema**: Configuración de despliegue incompleta
 
@@ -88,7 +88,7 @@ Este PR implementa la **solución completa para el problema de crashes de Railwa
 - [ ] Variables de entorno configuradas en Railway
 - [ ] `RAILWAY_TOKEN` configurado en GitHub Secrets
 
-### **Post-merge Actions**  
+### **Post-merge Actions**
 1. **Auto-deploy** se activará automáticamente en `main`
 2. **Health check** validará despliegue exitoso
 3. **Monitoring** confirmará estabilidad post-deploy

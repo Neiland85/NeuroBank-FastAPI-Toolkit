@@ -1,0 +1,24 @@
+name: Tech Debt
+description: Trabajo de mantenimiento o refactor sin bug directo
+labels: [tech-debt]
+title: "debt: [área] resumen breve"
+body:
+  - type: textarea
+    id: motivacion
+    attributes:
+      label: Motivación / Riesgo
+      description: ¿Por qué es necesario?
+    validations:
+      required: true
+  - type: textarea
+    id: alcance
+    attributes:
+      label: Alcance
+      description: Qué archivos o módulos toca
+    validations:
+      required: true
+  - type: textarea
+    id: criterio
+    attributes:
+      label: Criterios de aceptación
+      description: Definición de Done

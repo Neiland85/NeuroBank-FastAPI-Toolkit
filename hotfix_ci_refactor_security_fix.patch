@@ -1,0 +1,105 @@
+diff --git a/app/auth/jwt.py b/app/auth/jwt.py
+index abcdef..123456 100644
+--- a/app/auth/jwt.py
++++ b/app/auth/jwt.py
+@@ -31,9 +31,11 @@
+     expire = datetime.utcnow() + timedelta(minutes=settings.jwt_expire_minutes)
+     to_encode.update({"exp": expire})
+-    return cast(
+-        str,
+-        jwt.encode(
+-            to_encode,
+-            settings.jwt_secret_key or "dev-insecure",
+-            algorithm=settings.jwt_algorithm,
+-        ),
+-    )
++    import os
++    secret_key = settings.jwt_secret_key or os.getenv("JWT_SECRET_KEY", "")
++
++    # Use safe environment variable for key instead of hardcoded fallback
++    return cast("str", jwt.encode(
++        to_encode,
++        secret_key,
++        algorithm=settings.jwt_algorithm,
++    ))
+
+ diff --git a/app/config.py b/app/config.py
+ index abcdef..123456 100644
+--- a/app/config.py
++++ b/app/config.py
+@@ -94,7 +94,9 @@
+             logging.info(
+-                "🔧 Auto-configured API_KEY for testing environment (CI=%s, GITHUB_ACTIONS=%s, ENVIRONMENT=%s)",
+-                os.getenv("CI"),
+-                os.getenv("GITHUB_ACTIONS"),
+-                self.environment,
+-            )
++            logger = logging.getLogger(__name__)
++            logger.info(
++                "🔧 Auto-configured API_KEY for testing environment (CI=%s, GITHUB_ACTIONS=%s, ENVIRONMENT=%s)",
++                os.getenv("CI"),
++                os.getenv("GITHUB_ACTIONS"),
++                self.environment,
++            )
+
+ diff --git a/app/schemas.py b/app/schemas.py
+ index abcdef..123456 100644
+--- a/app/schemas.py
++++ b/app/schemas.py
+@@ -117,8 +117,9 @@
+-class Token(BaseModel):
+-    access_token: str
+-    token_type: str = "bearer"
+-    refresh_token: str | None = None
++from typing import Literal
++
++class Token(BaseModel):
++    access_token: str
++    token_type: Literal["bearer"] = "bearer"
++    refresh_token: str | None = None
+
+ diff --git a/app/routers/operator.py b/app/routers/operator.py
+ index abcdef..123456 100644
+--- a/app/routers/operator.py
++++ b/app/routers/operator.py
+@@ -1,5 +1,7 @@
+-from fastapi import APIRouter, Depends, Path
+-from typing import Optional
++from typing import Optional
++from fastapi import APIRouter, Depends, Path
++from app.schemas import InvoiceRequest
+
+@@ -276,7 +278,7 @@
+-async def generate_invoice(data: Optional[InvoiceRequest] = None):
++async def generate_invoice(data: InvoiceRequest | None = None):
+
+ diff --git a/app/database.py b/app/database.py
+ index abcdef..123456 100644
+--- a/app/database.py
++++ b/app/database.py
+@@ -44,8 +44,10 @@
+ async def init_db() -> None:
+     """Crea las tablas si no existen (útil para desarrollo y tests)."""
+     # Importación tardía para registrar modelos antes de create_all
+-    from app import models  # noqa: F401
++    from app import models  # noqa: F401,E402
+
+ diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+ index abcdef..123456 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -65,6 +65,9 @@
+       - name: 🧩 Pre-commit hooks
+         run: |
+           pre-commit run --all-files || true
+         continue-on-error: true
+
++      - name: 🧪 Security Scan (Trivy FS)
++        run: trivy fs --exit-code 0 --no-progress --severity CRITICAL .
++
+ diff --git a/.env.example b/.env.example
+ index abcdef..123456 100644
+--- a/.env.example
++++ b/.env.example
+@@ +1,1 @@
++# JWT_SECRET_KEY="replace-me-with-a-real-secret"

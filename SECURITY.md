@@ -8,7 +8,7 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability, please send an email to security@neurobank.com. 
+If you discover a security vulnerability, please send an email to security@neurobank.com.
 Do not report security vulnerabilities through public GitHub issues.
 
 ## Security Measures Implemented
@@ -54,7 +54,7 @@ Do not report security vulnerabilities through public GitHub issues.
 ## Security Checklist for Deployment
 
 - [ ] API_KEY configured and strong
-- [ ] SECRET_KEY configured and strong  
+- [ ] SECRET_KEY configured and strong
 - [ ] CORS_ORIGINS properly configured
 - [ ] No wildcard CORS origins
 - [ ] No hardcoded secrets in code

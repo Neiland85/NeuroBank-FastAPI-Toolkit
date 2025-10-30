@@ -4,7 +4,7 @@
 
 ### **🎯 Sprint Goals**
 - ✅ **Infrastructure Monitoring**: CloudWatch dashboards y alertas
-- ✅ **Operational Excellence**: Scripts de deployment y troubleshooting  
+- ✅ **Operational Excellence**: Scripts de deployment y troubleshooting
 - ✅ **Documentation**: Guías completas para operations
 - 🔄 **Security Enhancements**: Advanced monitoring y threat detection
 
@@ -76,7 +76,7 @@ class BankingTransaction(BaseModel):
     amount: Decimal
     currency: str = "USD"
     timestamp: datetime
-    
+
 # Caching implementation
 @cache(ttl=300)  # 5 minutes cache
 async def get_account_balance(account_id: str):
@@ -179,7 +179,7 @@ async def get_account_balance(account_id: str):
 
 ### **🏆 Major Releases**
 - **v1.1**: ✅ Production Infrastructure Complete
-- **v1.2**: 🔄 Monitoring & Operations Excellence  
+- **v1.2**: 🔄 Monitoring & Operations Excellence
 - **v1.3**: 🎯 Advanced Security & Compliance
 - **v2.0**: 🚀 Microservices Architecture
 

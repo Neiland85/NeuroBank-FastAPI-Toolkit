@@ -213,7 +213,7 @@ curl -X POST \
 # Response
 {
   "invoice_id": "INV-2025-789012",
-  "order_id": "ORD-2025-001234", 
+  "order_id": "ORD-2025-001234",
   "amount": 1250.75,
   "currency": "EUR",
   "issued_at": "2025-07-20T15:45:30Z"
@@ -248,7 +248,7 @@ API_KEY=your-production-key    # Opcional (se genera automáticamente)
 # Tests unitarios
 pytest
 
-# Con coverage detallado  
+# Con coverage detallado
 pytest --cov=app --cov-report=html --cov-report=term-missing
 
 # Tests de endpoints específicos
@@ -269,7 +269,7 @@ safety check --json --output safety-report.json
 
 ### **CloudWatch Dashboard**
 - **Lambda Metrics**: Duration, Errors, Invocations, Throttles
-- **API Gateway**: Request count, Latency, 4xx/5xx errors  
+- **API Gateway**: Request count, Latency, 4xx/5xx errors
 - **Custom Metrics**: Business KPIs y performance indicators
 
 ### **Logging estructurado**

@@ -35,7 +35,6 @@ async def test_users_crud_as_admin(client, admin_headers):
     )
     assert assign.status_code == 200
 
-    # Borrar (soft-delete)
     delete = await client.delete(f"/api/users/{user_id}", headers=admin_headers)
     assert delete.status_code in (200, 204)
 
@@ -58,7 +57,7 @@ async def test_users_admin_only_actions_forbidden_to_operator(client, operator_h
     me = await client.get("/api/auth/me", headers=operator_headers)
     assert me.status_code == 200
     my_id = me.json()["id"]
-    upd = await client.put(f"/api/users/{my_id}", json={"full_name": "Op Name"}, headers=operator_headers)
+    upd = await client.put(
+        f"/api/users/{my_id}", json={"full_name": "Op Name"}, headers=operator_headers
+    )
     assert upd.status_code in (401, 403)
-
-

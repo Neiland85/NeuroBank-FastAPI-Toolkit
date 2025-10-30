@@ -1,0 +1,56 @@
+name: "🧬 Mutation Testing"
+
+on:
+  schedule:
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+
+jobs:
+  mutmut:
+    name: "🧬 Mutation Testing with Mutmut"
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+      - name: Run Mutmut
+        run: |
+          mutmut run --paths-to-mutate app/ --tests-dir app/tests/ || true
+      - name: Generate Mutmut report
+        run: |
+          mutmut results > mutmut-results.txt || true
+          mutmut html || true
+      - name: Upload Mutmut report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mutmut-report
+          path: |
+            mutmut-results.txt
+            html/
+      - name: Comment Mutation Results on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            try {
+              const results = fs.readFileSync('mutmut-results.txt', 'utf8');
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## 🧬 Mutation Testing Results\n\n\`\`\`\n${results}\n\`\`\``
+              });
+            } catch (error) {
+              console.log('Could not post comment:', error.message);
+            }

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
-from typing import Optional
+from datetime import UTC, datetime, timedelta
 
 import jwt
 from fastapi import HTTPException, status
@@ -9,25 +8,46 @@ from fastapi import HTTPException, status
 from app.config import get_settings
 from app.schemas import TokenData
 
-
 settings = get_settings()
 
 
+def _get_secret() -> str:
+    """Obtiene el secreto JWT desde Settings. Falla si no está configurado (excepto tests).
+
+    En tests/CI `Settings` ya auto-provee un secreto.
+    """
+    if settings.jwt_secret_key:
+        return settings.jwt_secret_key
+    # En entornos de test, Settings.__init__ configura un secreto temporal
+    # Si llega aquí, es una mala configuración en runtime
+    msg = "JWT secret key is not configured"
+    raise ValueError(msg)
+
+
 def _now() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
+def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
     to_encode = data.copy()
-    expire = _now() + (expires_delta or timedelta(minutes=settings.access_token_expire_minutes))
-    to_encode.update({
-        "exp": expire,
-        "iat": _now(),
-        "nbf": _now(),
-        "iss": "neurobank",
-        "aud": "neurobank-clients",
-    })
-    return jwt.encode(to_encode, settings.jwt_secret_key or "dev-insecure", algorithm=settings.jwt_algorithm)
+    expire = _now() + (
+        expires_delta or timedelta(minutes=settings.access_token_expire_minutes)
+    )
+    to_encode.update(
+        {
+            "exp": expire,
+            "iat": _now(),
+            "nbf": _now(),
+            "iss": "neurobank",
+            "aud": "neurobank-clients",
+        }
+    )
+    secret_key = _get_secret()
+    return jwt.encode(
+        to_encode,
+        secret_key,
+        algorithm=settings.jwt_algorithm,
+    )
 
 
 def create_refresh_token(username: str) -> str:
@@ -41,37 +61,81 @@ def create_refresh_token(username: str) -> str:
         "iss": "neurobank",
         "aud": "neurobank-clients",
     }
-    return jwt.encode(payload, settings.jwt_secret_key or "dev-insecure", algorithm=settings.jwt_algorithm)
+    secret_key = _get_secret()
+    return jwt.encode(
+        payload,
+        secret_key,
+        algorithm=settings.jwt_algorithm,
+    )
 
 
 def decode_token(token: str) -> TokenData:
     try:
         decoded = jwt.decode(
             token,
-            settings.jwt_secret_key or "dev-insecure",
+            _get_secret(),
             algorithms=[settings.jwt_algorithm],
             audience="neurobank-clients",
+            issuer="neurobank",
             options={"require": ["exp", "iat", "nbf", "iss", "aud"]},
         )
         username = decoded.get("sub") or decoded.get("username")
         scopes = decoded.get("scopes", [])
         if not username:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido: sin sujeto")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token inválido: sin sujeto",
+            )
         return TokenData(username=username, scopes=scopes)
     except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token expirado")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Token expirado"
+        )
     except jwt.InvalidTokenError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido"
+        )
+
+
+def decode_refresh_token(token: str) -> TokenData:
+    """Decodifica y valida que el token sea de tipo refresh."""
+    try:
+        decoded = jwt.decode(
+            token,
+            _get_secret(),
+            algorithms=[settings.jwt_algorithm],
+            audience="neurobank-clients",
+            issuer="neurobank",
+            options={"require": ["exp", "iat", "nbf", "iss", "aud"]},
+        )
+        if decoded.get("type") != "refresh":
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token no es de tipo refresh",
+            )
+        username = decoded.get("sub") or decoded.get("username")
+        if not username:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token inválido: sin sujeto",
+            )
+        return TokenData(username=username)
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Token expirado"
+        )
+    except jwt.InvalidTokenError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido"
+        )
 
 
 def get_token_expiry(token: str) -> datetime:
     decoded = jwt.decode(
         token,
-        settings.jwt_secret_key or "dev-insecure",
+        _get_secret(),
         algorithms=[settings.jwt_algorithm],
         options={"verify_signature": False},
     )
     exp = decoded.get("exp")
-    return datetime.fromtimestamp(exp, tz=timezone.utc)
-
-
+    return datetime.fromtimestamp(exp, tz=UTC)

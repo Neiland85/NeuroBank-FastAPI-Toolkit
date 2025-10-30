@@ -1,0 +1,25 @@
+# Bandit YAML configuration for NeuroBank FastAPI Toolkit
+exclude_dirs:
+  - tests
+  - app/tests
+  - .venv
+  - venv
+  - __pycache__
+  - .pytest_cache
+  - node_modules
+  - .git
+
+skips:
+  - B101  # assert_used
+  - B601  # paramiko_calls
+  - B602  # subprocess_popen_with_shell_equals_true
+  - B603  # subprocess_without_shell_equals_true
+  - B607  # start_process_with_partial_path
+
+confidence: MEDIUM
+severity: LOW
+format: json
+
+# Optional includes (commented):
+# include:
+#   - "*.py"

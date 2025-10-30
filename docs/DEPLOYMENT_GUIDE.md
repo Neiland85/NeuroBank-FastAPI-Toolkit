@@ -2,6 +2,45 @@
 
 ## 🎯 **Proceso Completo de Deployment**
 
+### **Fase 0: Configuración de GitHub Secrets**
+
+Antes de ejecutar el CI/CD pipeline, debes configurar los siguientes secrets en tu repositorio de GitHub:
+
+#### **Configurar Secrets en GitHub**
+
+1. **🌐 Ir a Settings → Secrets and variables → Actions**
+   ```
+   URL: https://github.com/USERNAME/NeuroBank-FastAPI-Toolkit/settings/secrets/actions
+   ```
+
+2. **🔑 Agregar los siguientes secrets:**
+   - `DOCKER_USERNAME`: Tu usuario de Docker Hub
+   - `DOCKER_PASSWORD`: Tu contraseña o token de Docker Hub
+   - `RAILWAY_TOKEN`: Token de Railway (si usas Railway para deployment)
+   - `SONAR_TOKEN`: Token de SonarCloud (opcional, para análisis de código)
+   - `CODECOV_TOKEN`: Token de Codecov (opcional, para coverage)
+
+#### **Obtención de Tokens**
+
+**Docker Hub:**
+- ⚠️ **IMPORTANTE**: Usa un **Access Token**, NO tu contraseña
+- Login en: https://hub.docker.com
+- Ir a: Account Settings → Security → New Access Token
+- Crear token con permisos "Read, Write & Delete"
+- Copiar el token generado (solo se muestra una vez)
+
+**Railway:**
+- Login en: https://railway.app
+- Ir a Settings → Tokens → Create New Token
+
+**SonarCloud:**
+- Login en: https://sonarcloud.io
+- Ir a My Account → Security → Generate Token
+
+**Codecov:**
+- Login en: https://codecov.io
+- Ir a Settings → Integrations → GitHub → Token
+
 ### **Fase 1: Pre-Deployment Checklist**
 
 ```bash
@@ -49,7 +88,7 @@ gh workflow run "CI/CD Pipeline" \
   --field deploy_to_aws=true \
   --field environment=production
 
-# Verificar estado del workflow  
+# Verificar estado del workflow
 gh run list --workflow="CI/CD Pipeline" --limit 1
 
 # Ver logs en tiempo real
@@ -97,18 +136,18 @@ curl -X GET "$API_URL/" \
 #### **3.3 Test de Autenticación**
 
 ```bash
-# Test con API Key (si está configurada)
+# Test con API Key (obligatorio usar X-API-Key)
 API_KEY="your-api-key-here"
 
-# Test endpoint protegido
+# Test endpoint protegido (correcto)
 curl -X GET "$API_URL/operator/order-status/ORD123" \
   -H "X-API-Key: $API_KEY" \
   -H "Content-Type: application/json" | jq '.'
 
-# Test con Bearer token
-curl -X GET "$API_URL/operator/order-status/ORD123" \
+# Intento incorrecto: enviar API key en Authorization debe devolver 401
+curl -i -X GET "$API_URL/operator/order-status/ORD123" \
   -H "Authorization: Bearer $API_KEY" \
-  -H "Content-Type: application/json" | jq '.'
+  -H "Content-Type: application/json"
 ```
 
 ### **Fase 4: Troubleshooting**

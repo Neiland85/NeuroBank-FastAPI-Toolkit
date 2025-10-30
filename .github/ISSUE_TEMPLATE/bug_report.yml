@@ -1,0 +1,40 @@
+name: Bug Report
+description: Reporta un fallo reproducible en la app
+labels: [bug]
+title: "bug: [componente] resumen breve"
+body:
+  - type: textarea
+    id: resumen
+    attributes:
+      label: Resumen
+      description: ¿Qué está pasando?
+      placeholder: Descripción breve del bug
+    validations:
+      required: true
+  - type: textarea
+    id: pasos
+    attributes:
+      label: Pasos para reproducir
+      description: Cómo reproducir el problema
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: Comportamiento esperado
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Versión/commit
+      placeholder: vX.Y.Z o SHA
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs relevantes
+      render: shell

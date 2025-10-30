@@ -1,0 +1,19 @@
+# Palabras en español usadas intencionalmente
+administrativo
+Administrativo
+componentes
+Comandos
+inicial
+requiere
+caracteres
+contener
+profesional
+Fase
+oficial
+cliente
+implementes
+ser
+pase
+
+# Términos técnicos aceptados
+selectin

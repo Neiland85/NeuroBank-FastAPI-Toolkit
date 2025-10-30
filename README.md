@@ -1,7 +1,5 @@
 # 🏦 NeuroBank FastAPI Toolkit
 
- 
-
 ## 👥 User Role Management
 
 - **Role-Based Access Control (RBAC)**: Sistema de permisos granular con roles predefinidos
@@ -33,7 +31,7 @@ python scripts/create_admin.py
 
 ### 🔐 Authentication Methods
 
-- API Key (legacy): `X-API-Key: your-api-key`
+- API Key: `X-API-Key: your-api-key`
 - JWT Bearer: `Authorization: Bearer <token>`
 
 # 🏦 NeuroBank FastAPI Toolkit
@@ -41,9 +39,11 @@ python scripts/create_admin.py
 ![NeuroBank Logo](https://img.shields.io/badge/🏦-NeuroBank-1e3a8a?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMjIgOFYxNkgxOFYxMEg2VjE2SDJWOE4xMiAyWiIgZmlsbD0iIzFFM0E4QSIvPgo8L3N2Zz4K)
 
 ### 🚀 **Enterprise-Grade Banking Administration Platform**
+
+> Versiones soportadas de Python: 3.11 y 3.12 (alineado con `pyproject.toml: requires-python >=3.11` y matrices de CI).
 ### ⭐ *Production-Ready FastAPI Application with Modern Admin Dashboard*
 
-**🎯 Designed specifically to impress Banking Industry Recruiters**  
+**🎯 Designed specifically to impress Banking Industry Recruiters**
 *Showcasing Enterprise-Level Python/FastAPI Development Skills*
 
 ---
@@ -68,13 +68,16 @@ python scripts/create_admin.py
 |---|---|---|---|
 | **[LIVE DEMO](#-live-access-points)**<br/>Interactive Dashboard | **[API DOCS](#-api-endpoints)**<br/>Swagger Interface | **[QUICK DEPLOY](#quick-start)**<br/>One-Click Setup | **[FEATURES](#key-features)**<br/>Technical Showcase |
 
+[![Code Quality](https://img.shields.io/badge/code%20quality-A-brightgreen?style=for-the-badge)](https://sonarcloud.io/dashboard?id=neurobank-fastapi-toolkit)
+[![Coverage](https://img.shields.io/codecov/c/github/Neiland85/NeuroBank-FastAPI-Toolkit?style=for-the-badge)](https://codecov.io/gh/Neiland85/NeuroBank-FastAPI-Toolkit)
+[![Security Rating](https://img.shields.io/badge/security-A-brightgreen?style=for-the-badge)](https://sonarcloud.io/dashboard?id=neurobank-fastapi-toolkit)
+[![Maintainability](https://img.shields.io/codeclimate/maintainability/Neiland85/NeuroBank-FastAPI-Toolkit?style=for-the-badge)](https://codeclimate.com/github/Neiland85/NeuroBank-FastAPI-Toolkit)
+
 ---
 
 ### 🎨 **Professional Banking Dashboard Preview**
 
- 
-
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                          🏦 NeuroBank Admin Dashboard                           │
 ├─────────────────────────────────────────────────────────────────────────────────┤
@@ -96,8 +99,6 @@ python scripts/create_admin.py
 
 **� Interactive Features:** Real-time Updates • Advanced Filtering • Mobile Responsive • Chart.js Integration
 
- 
-
 **🏆 Enterprise-Level Features:**
 Real-time Analytics • Transaction Management • User Administration • Security Layer • Production Deploy
 
@@ -112,7 +113,7 @@ cd NeuroBank-FastAPI-Toolkit && git checkout develop
 chmod +x deploy_production.sh && ./deploy_production.sh
 
 # 🎉 Open browser: http://localhost:8000/backoffice/
-```
+```text
 
 **🎯 Perfect for live coding interviews & technical presentations!**
 
@@ -124,38 +125,33 @@ chmod +x deploy_production.sh && ./deploy_production.sh
 |---|---|---|
 | **Lines of Code** | 2,000+ | Professional codebase |
 | **API Endpoints** | 15+ | Comprehensive backend |
-| **UI Components** | 20+ | Modern dashboard |  
+| **UI Components** | 20+ | Modern dashboard |
 | **Docker Ready** | ✅ | Production deployment |
 | **Security Layer** | ✅ | Banking-grade auth |
 | **Real-time Features** | ✅ | Live data updates |
 | **Mobile Responsive** | ✅ | Professional UI/UX |
 | **Documentation** | 100% | Enterprise standard |
 
- 
- 
 
 ---
 
 ## 📋 **Navigation Menu**
 
- 
 
 ### 🎯 **Core Sections**
-[🎯 Project Overview](#project-overview) • [✨ Key Features](#key-features) • [🏗️ Architecture](#architecture) • [🚀 Quick Start](#quick-start)
+[Project Overview](#project-overview) • [Key Features](#key-features) • [Architecture](#architecture) • [Quick Start](#quick-start)
 
-### 📊 **Technical Details**  
-[🔗 Live Access Points](#live-access-points) • [📱 Dashboard Preview](#dashboard-preview) • [🔧 Technical Stack](#technical-stack) • [📂 Project Structure](#project-structure)
+### 📊 **Technical Details**
+[Live Access Points](#live-access-points) • [Dashboard Preview](#dashboard-preview) • [Technical Stack](#technical-stack) • [Project Structure](#project-structure)
 
 ### 🚀 **Deployment & Operations**
-[🌐 API Endpoints](#api-endpoints) • [🚀 Production Deployment](#production-deployment) • [🧪 Testing & Development](#testing--development)
+[API Endpoints](#api-endpoints) • [Production Deployment](#production-deployment) • [Testing & Development](#testing--development)
 
 ### 📈 **Advanced Topics**
-[📊 Monitoring & Health](#-monitoring--health) • [🔒 Security Features](#-security-features) • [📈 Performance](#-performance) • [🎨 UI/UX Design](#-uiux-design)
+[Monitoring & Health](#-monitoring--health) • [Security Features](#-security-features) • [Performance](#-performance) • [UI/UX Design](#-uiux-design)
 
 ### 📚 **Resources**
-[📖 Documentation](#-documentation) • [🤝 Contributing](#-contributing)
-
- 
+[Documentation](#-documentation) • [Contributing](#-contributing)
 
 ---
 
@@ -163,11 +159,11 @@ chmod +x deploy_production.sh && ./deploy_production.sh
 
 ### 🏆 **The Ultimate Banking Tech Showcase**
 
-**NeuroBank FastAPI Toolkit** es una aplicación bancaria de **nivel empresarial** diseñada específicamente para **impresionar a reclutadores técnicos de la industria bancaria**. 
+**NeuroBank FastAPI Toolkit** es una aplicación bancaria de **nivel empresarial** diseñada específicamente para **impresionar a reclutadores técnicos de la industria bancaria**.
 
 🎪 **Este proyecto demuestra:**
 - ✅ **Habilidades Python/FastAPI avanzadas** con patrones async/await
-- ✅ **Arquitectura de microservicios** production-ready  
+- ✅ **Arquitectura de microservicios** production-ready
 - ✅ **Dashboard administrativo completo** con UI moderna
 - ✅ **Mejores prácticas de seguridad** para fintech
 - ✅ **DevOps y deployment** automatizado
@@ -182,7 +178,7 @@ chmod +x deploy_production.sh && ./deploy_production.sh
 | Security best practices | API documentation | Monitoring & logging |
 | Transaction management | Docker containerization | CI/CD ready |
 
- 
+
 
 ### 🎪 **Technical Journey Map**
 
@@ -192,12 +188,12 @@ graph TD
     B --> C[Demostrar Habilidades Enterprise]
     B --> D[Showcase Técnico Completo]
     B --> E[Aplicación Production-Ready]
-    
+
     C --> C1[🔧 Backend APIs]
-    C --> C2[🎨 Frontend Moderno]  
+    C --> C2[🎨 Frontend Moderno]
     C --> C3[🚀 DevOps & Deploy]
     C --> C4[🔒 Security Best Practices]
-    
+
     D --> D1[📊 Real-time Dashboard]
     D --> D2[💳 Transaction Management]
     D --> D3[👥 User Administration]
@@ -210,7 +206,7 @@ graph TD
 
 ### 🏦 **Banking Dashboard**
 - ✅ Professional banking UI/UX
-- ✅ Real-time metrics & analytics  
+- ✅ Real-time metrics & analytics
 - ✅ Interactive data visualization
 - ✅ Mobile-responsive design
 - ✅ Modern Bootstrap 5 theme
@@ -233,10 +229,8 @@ graph TD
 - ✅ Multi-environment deployment
 - ✅ Health checks & monitoring
 - ✅ Nginx reverse proxy
-- ✅ Systemd service integration  
+- ✅ Systemd service integration
 - ✅ CI/CD pipeline ready
-
- 
 
 ---
 
@@ -248,27 +242,27 @@ graph TB
         UI[🎨 Modern Web UI<br/>Bootstrap 5 + Chart.js]
         Mobile[📱 Responsive Design<br/>Mobile-First]
     end
-    
+
     subgraph "🔀 Load Balancer"
         Nginx[🌐 Nginx Reverse Proxy<br/>SSL + Security Headers]
     end
-    
+
     subgraph "🚀 Application Layer"
         FastAPI[⚡ FastAPI Backend<br/>Async/Await + Pydantic]
         Jinja[🎭 Jinja2 Templates<br/>Server-Side Rendering]
     end
-    
+
     subgraph "💾 Data Layer"
         SQLite[(🗄️ SQLite Database<br/>Transaction Data)]
         Mock[🎲 Mock Data Generator<br/>Demo Purposes]
     end
-    
+
     subgraph "📊 Monitoring"
         Health[🏥 Health Checks]
         Metrics[📈 Metrics API]
         Logs[📋 Structured Logging]
     end
-    
+
     UI --> Nginx
     Mobile --> Nginx
     Nginx --> FastAPI
@@ -278,7 +272,7 @@ graph TB
     FastAPI --> Health
     FastAPI --> Metrics
     FastAPI --> Logs
-    
+
     style FastAPI fill:#1e3a8a,stroke:#fff,color:#fff
     style UI fill:#3b82f6,stroke:#fff,color:#fff
     style Nginx fill:#10b981,stroke:#fff,color:#fff
@@ -341,9 +335,18 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 Usa el archivo `.env.example` como base:
 - `DATABASE_URL`: `sqlite+aiosqlite:///./app.db` (dev) o PostgreSQL en prod.
-- `JWT_SECRET_KEY`, `JWT_ALGORITHM`, `ACCESS_TOKEN_EXPIRE_MINUTES`, `REFRESH_TOKEN_EXPIRE_DAYS`.
+- `JWT_SECRET_KEY` (requerido en producción), `JWT_ALGORITHM`, `ACCESS_TOKEN_EXPIRE_MINUTES`, `REFRESH_TOKEN_EXPIRE_DAYS`.
 - `API_KEY`: requerido en producción.
 - `ENVIRONMENT`, `DEBUG`, `LOG_LEVEL`, `PORT`, `CORS_ORIGINS`.
+
+Extras importantes:
+- `MIGRATE_ON_STARTUP`: `true/false` para ejecutar `create_all` en startup (solo dev/test). En producción usar `alembic upgrade head`.
+- `METRICS_ENABLED`: `true/false` para exponer `/metrics` (recomendado deshabilitar o proteger en producción).
+- `RAILWAY_PRIVATE_DOMAIN`: si está presente, se añade a `allow_origins` y se usa `allow_origin_regex: ^https://.*\.railway\.app$`.
+
+Notas:
+- CORS ahora usa `allow_methods=['*']` (incluye `OPTIONS`) para preflight correcto.
+- API Key debe enviarse en el header `X-API-Key`. El uso de `Authorization: Bearer <key>` no está soportado y resultará en 401.
 
 En producción, configura secretos reales y restringe `CORS_ORIGINS` a dominios válidos.
 
@@ -384,17 +387,17 @@ graph LR
         B[📈 Interactive Charts<br/>- Transaction Trends<br/>- Volume Analysis<br/>- Status Distribution]
         C[🔔 System Health<br/>- API Status<br/>- Response Time<br/>- Uptime Monitor]
     end
-    
+
     subgraph "💳 Transaction Panel"
         D[🔍 Advanced Filters<br/>- Status Filter<br/>- Date Range<br/>- Amount Range<br/>- User Search]
         E[📋 Data Table<br/>- Sortable Columns<br/>- Pagination<br/>- Bulk Actions<br/>- Export Options]
         F[🎯 Quick Actions<br/>- View Details<br/>- Edit Transaction<br/>- Status Update<br/>- Generate Report]
     end
-    
+
     A --> D
-    B --> E  
+    B --> E
     C --> F
-    
+
     style A fill:#1e3a8a,stroke:#fff,color:#fff
     style D fill:#10b981,stroke:#fff,color:#fff
     style B fill:#3b82f6,stroke:#fff,color:#fff
@@ -413,7 +416,6 @@ graph LR
 
 ## 🔧 **Technical Stack**
 
-<div align="center">
 
 ### **🏗️ Backend Architecture**
 
@@ -435,7 +437,7 @@ graph LR
 [![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)](https://nginx.org)
 [![Gunicorn](https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white)](https://gunicorn.org)
 
- 
+
 
 ### 📊 **Technical Specifications**
 
@@ -443,7 +445,7 @@ graph LR
 # Core Dependencies - requirements.txt
 fastapi==0.104.1           # ⚡ Modern web framework
 uvicorn[standard]==0.24.0  # 🚀 ASGI server
-jinja2==3.1.3             # 🎭 Template engine  
+jinja2==3.1.3             # 🎭 Template engine
 python-multipart==0.0.9   # 📤 File upload support
 pydantic==2.5.0           # ✅ Data validation
 ```
@@ -484,7 +486,7 @@ pydantic==2.5.0           # ✅ Data validation
 ├── ⚙️ neurobank-fastapi.service         # Systemd service
 ├── 🌐 nginx/nginx.conf                  # Reverse proxy config
 │
-├── 📋 requirements.txt                  # Python dependencies  
+├── 📋 requirements.txt                  # Python dependencies
 ├── 📖 README.md                         # This amazing documentation
 ├── 📄 PRODUCTION_README.md              # Production deployment guide
 ├── 🔢 VERSION                           # Semantic versioning
@@ -516,14 +518,14 @@ graph TD
         C[👥 GET /backoffice/admin/users] --> C1[👤 User Administration]
         D[📈 GET /backoffice/admin/reports] --> D1[📋 Financial Reports]
     end
-    
+
     subgraph "🔧 Data APIs"
         E[📊 GET /backoffice/api/metrics] --> E1[📈 Real-time Metrics]
         F[🔍 GET /backoffice/api/transactions/search] --> F1[🔎 Transaction Search]
         G[🏥 GET /backoffice/api/system-health] --> G1[❤️ System Health]
         H[ℹ️ GET /backoffice/info] --> H1[📋 System Information]
     end
-    
+
     style A fill:#1e3a8a,stroke:#fff,color:#fff
     style E fill:#10b981,stroke:#fff,color:#fff
 ```
@@ -540,7 +542,7 @@ GET /backoffice/
 - **Template**: [`basic_dashboard.html`](./app/backoffice/templates/basic_dashboard.html)
 - **Features**: Real-time metrics, animated counters, system health
 
-#### **Transaction Management**  
+#### **Transaction Management**
 ```http
 GET /backoffice/admin/transactions
 ```
@@ -553,7 +555,7 @@ GET /backoffice/admin/transactions
 ```http
 GET /backoffice/api/metrics
 ```
-- **Response**: 
+- **Response**:
 ```json
 {
   "total_transactions": 156,
@@ -572,7 +574,7 @@ GET /backoffice/api/transactions/search?page=1&page_size=20&status=completed
 - **Parameters**: `query`, `status`, `transaction_type`, `page`, `page_size`
 - **Response**: Paginated transaction list with metadata
 
- 
+
 
 ---
 
@@ -584,27 +586,27 @@ GET /backoffice/api/transactions/search?page=1&page_size=20&status=completed
 graph TD
     subgraph "☁️ Production Environment"
         LB[🌐 Load Balancer<br/>Nginx + SSL]
-        
+
         subgraph "🚀 Application Servers"
             APP1[⚡ FastAPI Instance 1<br/>Gunicorn + Uvicorn]
-            APP2[⚡ FastAPI Instance 2<br/>Gunicorn + Uvicorn] 
+            APP2[⚡ FastAPI Instance 2<br/>Gunicorn + Uvicorn]
             APP3[⚡ FastAPI Instance 3<br/>Gunicorn + Uvicorn]
         end
-        
+
         subgraph "💾 Data Layer"
             DB[(🗄️ SQLite Database)]
             CACHE[(🔄 Redis Cache)]
         end
-        
+
         subgraph "📊 Monitoring"
             HEALTH[🏥 Health Checks]
             METRICS[📈 Metrics Collection]
             LOGS[📋 Centralized Logging]
         end
     end
-    
+
     LB --> APP1
-    LB --> APP2  
+    LB --> APP2
     LB --> APP3
     APP1 --> DB
     APP2 --> DB
@@ -612,14 +614,14 @@ graph TD
     APP1 --> CACHE
     APP2 --> CACHE
     APP3 --> CACHE
-    
+
     APP1 --> HEALTH
     APP2 --> METRICS
     APP3 --> LOGS
-    
+
     style LB fill:#10b981,stroke:#fff,color:#fff
     style APP1 fill:#1e3a8a,stroke:#fff,color:#fff
-    style APP2 fill:#1e3a8a,stroke:#fff,color:#fff  
+    style APP2 fill:#1e3a8a,stroke:#fff,color:#fff
     style APP3 fill:#1e3a8a,stroke:#fff,color:#fff
 ```
 
@@ -650,7 +652,7 @@ services:
       - APP_ENV=production
       - LOG_LEVEL=info
     restart: unless-stopped
-    
+
   nginx:
     image: nginx:alpine
     ports:
@@ -726,10 +728,107 @@ graph LR
     D --> E[🔍 Pull Request Review]
     E --> F[✅ Merge to Develop]
     F --> G[🚀 Deploy to Production]
-    
+
     style A fill:#3b82f6,stroke:#fff,color:#fff
     style G fill:#10b981,stroke:#fff,color:#fff
 ```
+
+---
+
+## 🔬 Análisis y Herramientas de Calidad
+
+### Herramientas Integradas
+
+NeuroBank FastAPI Toolkit incluye un stack completo de herramientas de análisis:
+
+#### 📊 Análisis de Código
+- **Ruff** - Linting y formateo (reemplaza black, isort, flake8)
+- **MyPy** - Type checking estático
+- **Radon** - Complejidad ciclomática y métricas de mantenibilidad
+- **Vulture** - Detección de código muerto
+- **Interrogate** - Cobertura de documentación
+- **SonarQube** - Análisis completo de calidad
+
+#### 🔒 Seguridad
+- **Bandit** - Security scanning de código
+- **Safety** - Auditoría de vulnerabilidades en dependencias
+- **pip-audit** - Auditoría adicional de dependencias
+- **Semgrep** - Static analysis con reglas personalizables
+
+#### 📦 Dependencias y Arquitectura
+- **pipdeptree** - Visualización de árbol de dependencias
+- **deptry** - Detección de dependencias no usadas
+- **import-linter** - Validación de reglas de arquitectura
+- **pydeps** - Visualización de dependencias entre módulos
+
+#### 🧪 Testing Avanzado
+- **pytest** - Unit & integration testing con coverage
+- **mutmut** - Mutation testing para evaluar calidad de tests
+- **hypothesis** - Property-based testing
+- **syrupy** - Snapshot testing
+
+#### ⚡ Performance
+- **Locust** - Load testing y stress testing
+- **py-spy** - CPU profiling de bajo overhead
+- **memray** - Memory profiling moderno
+- **Scalene** - CPU+Memory+GPU profiler con AI insights
+
+### Comandos Rápidos
+
+```bash
+# Setup inicial
+make dev-install
+make docker-up
+
+# Desarrollo diario
+make lint format
+make test
+make coverage
+
+# Análisis completo
+make all-checks
+make security
+make complexity
+make dead-code
+
+# Performance
+make profile
+make load-test
+
+# CI local
+make ci
+```
+
+### CI/CD Pipeline
+
+Pipeline automatizado con GitHub Actions:
+- ✅ Code quality (Ruff, Radon, Vulture, Interrogate)
+- ✅ Type checking (MyPy)
+- ✅ Security scanning (Bandit, Safety, pip-audit, Semgrep)
+- ✅ Dependency analysis (pipdeptree, deptry)
+- ✅ Testing (pytest con coverage en Python 3.11 y 3.12)
+- ✅ SonarCloud analysis
+- ✅ Docker build & push
+- ✅ Deploy automático a Railway
+
+Workflows adicionales:
+- 🧬 Mutation testing (semanal)
+- ⚡ Performance testing (semanal)
+
+### Umbrales de Calidad
+
+| Métrica | Umbral | Estado |
+|---------|--------|--------|
+| Test Coverage | > 80% | ✅ |
+| Complejidad Ciclomática | < C (< 11) | ✅ |
+| Índice Mantenibilidad | > 65 | ✅ |
+| Docstring Coverage | > 80% | ⚠️ |
+| Security Rating | A | ✅ |
+| Duplicación | < 3% | ✅ |
+
+### Documentación Completa
+
+Ver [docs/ANALYSIS_TOOLS_GUIDE.md](docs/ANALYSIS_TOOLS_GUIDE.md) para guía detallada de todas las herramientas.
 
 ---
 
@@ -749,25 +848,25 @@ graph LR
 graph TB
     subgraph "📊 Metrics Collection"
         A[⚡ API Response Times]
-        B[💳 Transaction Volumes]  
+        B[💳 Transaction Volumes]
         C[👥 Active Users]
         D[💾 Database Health]
         E[🔄 Cache Performance]
     end
-    
+
     subgraph "🎯 Monitoring Tools"
         F[📈 Grafana Dashboards]
         G[🚨 Alerting System]
-        H[📋 Log Aggregation] 
+        H[📋 Log Aggregation]
         I[🔍 Performance Profiling]
     end
-    
+
     A --> F
     B --> F
     C --> G
     D --> H
     E --> I
-    
+
     style F fill:#1e3a8a,stroke:#fff,color:#fff
     style G fill:#ef4444,stroke:#fff,color:#fff
 ```
@@ -794,7 +893,7 @@ sequenceDiagram
     participant A as 🔐 Auth Middleware
     participant B as ⚡ Backend API
     participant D as 💾 Database
-    
+
     C->>A: Request with API Key
     A->>A: Validate API Key
     alt ✅ Valid Key
@@ -830,26 +929,26 @@ graph LR
         B[📊 Data Validation<br/>Pydantic Models]
         C[💾 Connection Pooling<br/>Database Optimization]
     end
-    
-    subgraph "🎨 Frontend Optimizations" 
+
+    subgraph "🎨 Frontend Optimizations"
         D[📦 CDN Assets<br/>Bootstrap + Chart.js]
         E[🗜️ Minified Code<br/>CSS + JavaScript]
         F[🖼️ Lazy Loading<br/>Images + Components]
     end
-    
+
     subgraph "🌐 Infrastructure"
         G[🔄 Load Balancing<br/>Nginx Proxy]
         H[💨 Gzip Compression<br/>Static Assets]
         I[⚡ HTTP/2 Support<br/>Modern Protocol]
     end
-    
+
     A --> D
-    B --> E  
+    B --> E
     C --> F
     D --> G
     E --> H
     F --> I
-    
+
     style A fill:#10b981,stroke:#fff,color:#fff
     style D fill:#3b82f6,stroke:#fff,color:#fff
     style G fill:#1e3a8a,stroke:#fff,color:#fff
@@ -871,8 +970,8 @@ graph LR
 
 **Banking Theme** • **Professional Trust** • **Accessibility Compliant**
 
- 
- 
+
+
 
 | **🎨 Component** | **🎯 Purpose** | **📱 Responsive** | **✨ Features** |
 |---|---|---|---|
@@ -891,23 +990,23 @@ graph TD
         B[☰ Hamburger Menu<br/>Collapsible Navigation]
         C[📊 Simplified Charts<br/>Touch-Friendly]
     end
-    
+
     subgraph "💻 Tablet (768px - 1024px)"
         D[📦 Grid Layout<br/>2-Column Design]
         E[📋 Side Navigation<br/>Expanded Menu]
         F[📈 Full Charts<br/>Interactive Elements]
     end
-    
+
     subgraph "🖥️ Desktop (> 1024px)"
         G[🎯 Full Layout<br/>Multi-Column Grid]
         H[🎪 Rich Navigation<br/>All Features Visible]
         I[📊 Advanced Charts<br/>All Interactions]
     end
-    
+
     A --> D --> G
     B --> E --> H
     C --> F --> I
-    
+
     style A fill:#ef4444,stroke:#fff,color:#fff
     style D fill:#f59e0b,stroke:#fff,color:#fff
     style G fill:#10b981,stroke:#fff,color:#fff
@@ -969,7 +1068,6 @@ git push origin feature/amazing-new-feature
 
 ---
 
-<div align="center">
 
 ## 🎉 **Ready to Impress Banking Recruiters!**
 
@@ -993,9 +1091,9 @@ cd NeuroBank-FastAPI-Toolkit
 
 ---
 
-**Built with ❤️ for Banking Industry Recruitment**
+Built with ❤️ for Banking Industry Recruitment
 
-*Showcasing Enterprise-Level Python/FastAPI Development Skills*
+Showcasing Enterprise-Level Python/FastAPI Development Skills
 
 ---
 
@@ -1003,4 +1101,68 @@ cd NeuroBank-FastAPI-Toolkit
 
 NeuroBank-FastAPI-Toolkit
 Senior‑grade FastAPI microservice blueprint for AI‑driven banking. Python 3.10+, Pydantic v2, Docker &amp; AWS stack (Lambda, AppRunner, CloudWatch, X‑Ray) with CI/CD via GitHub Actions.  Incluye clean code, tests completos, observabilidad y módulos listos para estado de pedidos, facturación y analítica.
-# Trigger deployment
+## Trigger deployment
+
+---
+
+## 🔍 Análisis, Calidad y CI/CD
+
+### 🧪 Herramientas y Umbrales
+- **Ruff**: lint/format
+- **mypy**: type-check
+- **pytest + coverage**: cobertura mínima 80%
+- **Bandit/Semgrep/Safety/Pip-Audit**: seguridad
+- **Radon**: complejidad/MI
+- **Vulture**: código muerto
+- **Interrogate**: cobertura docstrings ≥ 80%
+- **Import Linter**: reglas de arquitectura
+- **Deptry**: dependencias
+- **Mutmut**: mutation testing (semanal)
+- **Locust**: performance (semanal)
+
+### 🚦 Comandos Rápidos
+```bash
+# Instalación
+make install           # deps runtime
+make dev-install       # deps dev/ci
+
+# Calidad y análisis
+make lint              # Ruff
+make format            # Formateo
+make type-check        # mypy
+make security          # Bandit/Semgrep/Safety/Pip-Audit
+make complexity        # Radon CC/MI
+make dead-code         # Vulture
+make docstring-coverage# Interrogate
+make dependency-check  # Deptry/Pipdeptree
+make architecture-check# Import Linter
+
+# Tests y cobertura
+pytest --cov=app --cov-report=xml:coverage.xml
+
+# Mutación y rendimiento
+make mutation-test
+make load-test
+
+# SonarCloud
+make sonar             # requiere SONAR_TOKEN
+
+# Docker y ejecución
+make docker-up
+make docker-down
+make run
+```
+
+### 🤖 Workflows de GitHub Actions
+- `ci-cd-pipeline.yml`: Lint, tipos, seguridad, tests, cobertura, SonarCloud, build/push Docker y despliegue (Railway)
+- `mutation-testing.yml`: Mutación semanal (domingo 03:00 UTC)
+- `performance-testing.yml`: Carga/Performance semanal (domingo 04:00 UTC)
+
+Configura secretos del repo: `DOCKER_USERNAME`, `DOCKER_PASSWORD`, `RAILWAY_TOKEN`, `SONAR_TOKEN`.
+
+### 🏷️ Badges de Calidad
+- Calidad y Seguridad en SonarCloud: `sonar.projectKey=neurobank-fastapi-toolkit`
+- Cobertura en Codecov.
+
+[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=neurobank-fastapi-toolkit&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=neurobank-fastapi-toolkit)
+[![Coverage](https://codecov.io/gh/Neiland85/NeuroBank-FastAPI-Toolkit/branch/develop/graph/badge.svg)](https://codecov.io/gh/Neiland85/NeuroBank-FastAPI-Toolkit)
