@@ -47,15 +47,17 @@ class Settings(BaseSettings):
     def _get_cors_origins(self) -> List[str]:
         """Configura CORS origins usando variables de Railway"""
         # Si hay CORS_ORIGINS configurado manualmente, usarlo
-        if os.getenv("CORS_ORIGINS"):
-            return os.getenv("CORS_ORIGINS").split(",")
+        cors_env = os.getenv("CORS_ORIGINS")
+        if cors_env:
+            return cors_env.split(",")
 
         # Si no, construir automáticamente desde Railway
         origins = ["https://*.railway.app"]
 
         # Añadir dominio privado de Railway si existe
-        if os.getenv("RAILWAY_PRIVATE_DOMAIN"):
-            origins.append(f"https://{os.getenv('RAILWAY_PRIVATE_DOMAIN')}")
+        private_domain = os.getenv("RAILWAY_PRIVATE_DOMAIN")
+        if private_domain:
+            origins.append(f"https://{private_domain}")
 
         return origins
 

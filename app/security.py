@@ -43,7 +43,7 @@ def validate_production_config() -> Dict[str, Any]:
 
     # Check API key strength
     api_key = os.getenv("API_KEY", "")
-    if len(api_key) < 16:
+    if api_key and len(api_key) < 16:
         warnings.append("API_KEY should be at least 16 characters long")
 
     # Check CORS configuration
