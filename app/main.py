@@ -11,6 +11,7 @@ from prometheus_fastapi_instrumentator import (
     Instrumentator,  # pyright: ignore[reportMissingImports]
 )
 
+from app.auth.jwt import _get_secret
 from app.backoffice import router as backoffice_router
 from app.config import get_settings
 from app.database import AsyncSessionLocal, init_db
@@ -20,6 +21,8 @@ from app.routers import roles as roles_router
 from app.routers import users as users_router
 from app.services.errors import (
     EmailExistsError,
+    RoleNotFoundError,
+    SystemRoleDeletionError,
     UsernameExistsError,
     UserNotFoundError,
     ValidationError,
@@ -86,7 +89,17 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
     # Startup
-    await init_db()
+    settings = get_settings()
+    # Validar secreto JWT de forma temprana
+    try:
+        _get_secret()
+    except Exception as e:
+        logger.critical("JWT secret key missing or invalid during startup: %s", e)
+        raise
+    # Evitar create_all en producción salvo que esté explícitamente habilitado
+    migrate_on_startup = os.getenv("MIGRATE_ON_STARTUP", "true").lower() == "true"
+    if settings.environment != "production" and migrate_on_startup:
+        await init_db()
 
     async with AsyncSessionLocal() as db:
         await initialize_default_roles(db)
@@ -122,13 +135,19 @@ settings = get_settings()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
+    allow_origin_regex=getattr(settings, "allow_origin_regex", None),
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_methods=["*"],  # incluye OPTIONS para preflight
     allow_headers=["*"],
 )
 
-# Exponer métricas Prometheus en /metrics
-Instrumentator().instrument(app).expose(app)
+# Exponer métricas Prometheus en /metrics (condicional)
+metrics_enabled = os.getenv("METRICS_ENABLED", "true").lower() == "true"
+if metrics_enabled and os.getenv("ENVIRONMENT", "development") != "production":
+    Instrumentator().instrument(app).expose(app)
+elif metrics_enabled and os.getenv("ENVIRONMENT") == "production":
+    # Permitir habilitación explícita en producción via METRICS_ENABLED=true
+    Instrumentator().instrument(app).expose(app)
 
 # Incluir routers
 app.include_router(operator.router, prefix="/api", tags=["api"])
@@ -150,9 +169,7 @@ async def user_not_found_handler(
 
 @app.exception_handler(UsernameExistsError)
 @app.exception_handler(EmailExistsError)
-async def conflict_handler(
-    _request: Request, exc: Exception
-) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
+async def conflict_handler(_request: Request, exc: Exception) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
     return JSONResponse(
         status_code=409, content={"detail": str(exc) or "Resource conflict"}
     )
@@ -160,10 +177,26 @@ async def conflict_handler(
 
 @app.exception_handler(WeakPasswordError)
 @app.exception_handler(ValidationError)
-async def bad_request_handler(
-    _request: Request, exc: Exception
-) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
+async def bad_request_handler(_request: Request, exc: Exception) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
     return JSONResponse(status_code=400, content={"detail": str(exc) or "Bad request"})
+
+
+@app.exception_handler(RoleNotFoundError)
+async def role_not_found_handler(
+    _request: Request, exc: RoleNotFoundError
+) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
+    return JSONResponse(
+        status_code=404, content={"detail": str(exc) or "Role not found"}
+    )
+
+
+@app.exception_handler(SystemRoleDeletionError)
+async def system_role_deletion_handler(
+    _request: Request, exc: SystemRoleDeletionError
+) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
+    return JSONResponse(
+        status_code=400, content={"detail": str(exc) or "Business rule violation"}
+    )
 
 
 # Health check endpoint

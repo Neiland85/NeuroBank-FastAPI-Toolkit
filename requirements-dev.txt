@@ -30,6 +30,7 @@ radon==6.0.1  # Complejidad ciclomática y mantenibilidad
 vulture==2.11  # Detección de código muerto
 interrogate==1.7.0  # Cobertura de docstrings
 pylint==3.2.0  # Linter adicional (opcional)
+codespell==2.3.0  # Spellchecker para código y documentación
 
 # Ruff reemplaza black, isort y flake8 con mejor rendimiento
 # Escrito en Rust, 10-100x más rápido que herramientas Python

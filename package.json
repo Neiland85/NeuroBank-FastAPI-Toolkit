@@ -5,12 +5,14 @@
   "scripts": {
     "optimize": "npm run minify-css && npm run minify-js",
     "minify-css": "cleancss -o app/static/css/styles.min.css app/static/css/*.css",
-    "minify-js": "uglifyjs app/static/js/*.js -o app/static/js/bundle.min.js"
+    "minify-js": "uglifyjs app/static/js/*.js -o app/static/js/bundle.min.js",
+    "lint:md": "markdownlint **/*.md"
   },
   "devDependencies": {
     "clean-css-cli": "^5.6.2",
     "uglify-js": "^3.17.4",
-    "html-minifier-terser": "^7.2.0"
+    "html-minifier-terser": "^7.2.0",
+    "markdownlint-cli": "^0.41.0"
   },
   "repository": {
     "type": "git",

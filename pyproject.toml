@@ -54,7 +54,7 @@ module = [
   "app.routers.operator",
   "app.main",
 ]
-ignore_errors = true
+ignore_errors = false
 
 [tool.coverage.run]
 source = ["app"]

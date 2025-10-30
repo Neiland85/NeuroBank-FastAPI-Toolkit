@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import Depends, HTTPException, Request
 from fastapi.security import (
     HTTPAuthorizationCredentials,
@@ -41,16 +43,22 @@ def verify_api_key(
 ) -> str:
     expected_api_key = get_api_key()
     provided_api_key = None
+    logger = logging.getLogger(__name__)
 
-    if credentials and credentials.credentials:
-        provided_api_key = credentials.credentials
-    elif "x-api-key" in request.headers:
+    # Aceptar SOLO X-API-Key. Rechazar si viene vía Authorization: Bearer.
+    if "x-api-key" in request.headers:
         provided_api_key = request.headers["x-api-key"]
+    elif credentials and credentials.credentials:
+        raise HTTPException(
+            status_code=401,
+            detail="API key no permitida en Authorization. Envíe 'X-API-Key: <key>'",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
     if not provided_api_key:
         raise HTTPException(
             status_code=401,
-            detail="API key required. Use 'Authorization: Bearer <key>' or 'X-API-Key: <key>'",
+            detail="API key required. Use header 'X-API-Key: <key>'",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
@@ -118,6 +126,32 @@ async def get_current_user_flexible(
     credentials: HTTPAuthorizationCredentials | None = Depends(security),
     db: AsyncSession = Depends(get_db),
 ) -> User | None:
+    """
+    Autenticación flexible que soporta JWT Bearer token o API Key.
+
+    Descripción:
+        Intenta autenticar usando un JWT en el header Authorization (Bearer). Si el JWT
+        es inválido/expirado o no hay credenciales, realiza un fallback a autenticación
+        por API Key (preferentemente desde el header 'X-API-Key'). No lanza excepciones
+        en fallos de autenticación esperados; retorna None para permitir lógica de
+        fallback en el endpoint.
+
+    Args:
+        request: Objeto Request de FastAPI para acceder a headers e IP del cliente.
+        credentials: Credenciales Bearer opcionales del header Authorization.
+        db: Sesión asíncrona de SQLAlchemy para consultar el usuario.
+
+    Returns:
+        User | None: El usuario autenticado si el JWT es válido y el usuario existe.
+        None si la autenticación es por API Key o si ambos métodos fallan.
+
+    Notas:
+        - Diseñado para endpoints que aceptan JWT y API Key.
+        - Las excepciones de autenticación esperadas no se propagan; se registra
+          contexto y se retorna None.
+        - Errores de BD y fallos inesperados se propagan para manejo global.
+    """
+    logger = logging.getLogger(__name__)
     # 1) Intentar JWT Bearer si hay credenciales
     if credentials and credentials.scheme and credentials.credentials:
         token_value = credentials.credentials
@@ -128,12 +162,46 @@ async def get_current_user_flexible(
             user = result.scalar_one_or_none()
             if user:
                 return user
-        except Exception:
+            # Usuario no encontrado en BD pero token válido
+            logger.warning(
+                "JWT válido pero usuario no encontrado en BD",
+                extra={
+                    "username": token_data.username,
+                    "client": request.client.host if request.client else "unknown",
+                },
+            )
             return None
+        except HTTPException as e:
+            # Token inválido/expirado/sin subject: esperado en flujo de fallback
+            logger.debug(
+                "Autenticación JWT fallida, intentando fallback a API Key",
+                extra={
+                    "detail": getattr(e, "detail", None),
+                    "status": getattr(e, "status_code", None),
+                    "client": request.client.host if request.client else "unknown",
+                },
+            )
+            return None
+        # Nota: Errores de BD (SQLAlchemyError) y otros inesperados se propagan
+        # intencionalmente para manejo por el exception handler global.
 
     # 2) Fallback API Key
     try:
         verify_api_key(request, credentials)
+        logger.debug(
+            "Autenticación por API Key exitosa",
+            extra={
+                "client": request.client.host if request.client else "unknown",
+            },
+        )
         return None
-    except HTTPException:
+    except HTTPException as e:
+        # Ambos métodos de autenticación fallaron
+        logger.info(
+            "Autenticación flexible fallida: JWT y API Key inválidos",
+            extra={
+                "detail": getattr(e, "detail", None),
+                "client": request.client.host if request.client else "unknown",
+            },
+        )
         return None

@@ -19,3 +19,11 @@ class WeakPasswordError(Exception):
 
 class ValidationError(Exception):
     """Excepción de validación genérica para errores no categorizables."""
+
+
+class RoleNotFoundError(Exception):
+    """Se lanza cuando un rol no existe."""
+
+
+class SystemRoleDeletionError(Exception):
+    """Se lanza cuando se intenta eliminar un rol del sistema (protegido)."""

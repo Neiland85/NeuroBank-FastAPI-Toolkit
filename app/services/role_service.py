@@ -8,6 +8,7 @@ from sqlalchemy.orm import selectinload
 
 from app.models import Permission, Role, User
 from app.schemas import RoleCreate, RoleUpdate
+from app.services.errors import RoleNotFoundError, SystemRoleDeletionError
 
 if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
@@ -57,7 +58,7 @@ async def update_role(
     role = await get_role_by_id(db, role_id)
     if not role:
         msg = "Role not found"
-        raise ValueError(msg)
+        raise RoleNotFoundError(msg)
     if role_data.name is not None:
         role.name = role_data.name
     if role_data.description is not None:
@@ -73,7 +74,7 @@ async def delete_role(db: AsyncSession, role_id: uuid_pkg.UUID) -> bool:
         return False
     if role.name in {"admin", "customer", "auditor"}:
         msg = "System roles cannot be deleted"
-        raise ValueError(msg)
+        raise SystemRoleDeletionError(msg)
     await db.delete(role)
     await db.commit()
     return True
@@ -85,7 +86,7 @@ async def assign_permissions(
     role = await get_role_by_id(db, role_id)
     if not role:
         msg = "Role not found"
-        raise ValueError(msg)
+        raise RoleNotFoundError(msg)
     stmt = select(Permission).where(Permission.name.in_(permission_names))
     res = await db.execute(stmt)
     role.permissions = list(res.scalars().all())

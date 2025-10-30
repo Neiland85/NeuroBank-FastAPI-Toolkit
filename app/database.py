@@ -42,9 +42,14 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 
 
 async def init_db() -> None:
-    """Crea las tablas si no existen (útil para desarrollo y tests)."""
+    """Crea las tablas si no existen (útil para desarrollo y tests).
+
+    En producción se recomienda usar Alembic (migraciones) en lugar de create_all.
+    """
     # Importación tardía para registrar modelos antes de create_all
-    from app import models  # noqa: F401
+    from app import (
+        models,  # noqa: F401 - registro tardío de modelos antes de create_all es intencional
+    )
 
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)

@@ -8,7 +8,11 @@ from fastapi.security import (
 )
 
 from app.auth.dependencies import get_current_user
-from app.auth.jwt import create_access_token, create_refresh_token, decode_token
+from app.auth.jwt import (
+    create_access_token,
+    create_refresh_token,
+    decode_refresh_token,
+)
 from app.database import get_db
 from app.schemas import Token, UserCreate, UserResponse
 from app.services.user_service import (
@@ -64,7 +68,7 @@ async def register(payload: UserCreate, db: AsyncSession = db_dep) -> User:
 
 @router.post("/refresh", response_model=Token, summary="Refrescar token de acceso")
 async def refresh_token(refresh_token: str) -> Token:
-    data = decode_token(refresh_token)
+    data = decode_refresh_token(refresh_token)
     access = create_access_token({"sub": data.username})
     return Token(access_token=access, refresh_token=refresh_token)
 

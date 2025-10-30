@@ -136,18 +136,18 @@ curl -X GET "$API_URL/" \
 #### **3.3 Test de Autenticación**
 
 ```bash
-# Test con API Key (si está configurada)
+# Test con API Key (obligatorio usar X-API-Key)
 API_KEY="your-api-key-here"
 
-# Test endpoint protegido
+# Test endpoint protegido (correcto)
 curl -X GET "$API_URL/operator/order-status/ORD123" \
   -H "X-API-Key: $API_KEY" \
   -H "Content-Type: application/json" | jq '.'
 
-# Test con Bearer token
-curl -X GET "$API_URL/operator/order-status/ORD123" \
+# Intento incorrecto: enviar API key en Authorization debe devolver 401
+curl -i -X GET "$API_URL/operator/order-status/ORD123" \
   -H "Authorization: Bearer $API_KEY" \
-  -H "Content-Type: application/json" | jq '.'
+  -H "Content-Type: application/json"
 ```
 
 ### **Fase 4: Troubleshooting**

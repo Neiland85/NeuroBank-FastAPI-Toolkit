@@ -1,82 +1,6 @@
-PY=python
-PIP=pip
+# NeuroBank FastAPI Toolkit - Makefile
 
-.PHONY: install dev-install lint format type-check security complexity dead-code docstring-coverage dependency-check architecture-check mutation-test profile load-test sonar docs docker-up docker-down migrate run run-prod all-checks ci
-
-install:
-	$(PIP) install -r requirements.txt
-
-dev-install:
-	$(PIP) install -r requirements.txt && $(PIP) install -r requirements-dev.txt
-
-lint:
-	ruff check .
-
-format:
-	ruff format .
-
-type-check:
-	mypy --install-types --non-interactive
-
-security:
-	bandit -r app -f screen || true
-	semgrep scan --config auto || true
-	pip-audit || true
-	safety check || true
-
-complexity:
-	radon cc app -s -a
-	radon mi app -s
-
-dead-code:
-	vulture app --min-confidence 80
-
-docstring-coverage:
-	interrogate -v -f 80 app
-
-dependency-check:
-	deptry . || true
-	pipdeptree -w silence
-
-architecture-check:
-	import-linter --config pyproject.toml
-
-mutation-test:
-	mutmut run --paths-to-mutate app --tests-dir app/tests --use-coverage
-	mutmut results
-
-profile:
-	python -m scalene -m app.main
-
-load-test:
-	locust -f tests/locustfile.py --headless -u 50 -r 10 -t 2m --host http://localhost:8000
-
-sonar:
-	sonar-scanner
-
-docs:
-	mkdocs build --strict
-
-docker-up:
-	docker compose up -d --build
-
-docker-down:
-	docker compose down -v
-
-migrate:
-	alembic upgrade head
-
-run:
-	uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-
-run-prod:
-	uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2
-
-all-checks: lint type-check security complexity dead-code docstring-coverage dependency-check architecture-check
-
-ci: install lint type-check security
-
-.PHONY: help install dev-install test coverage lint format type-check security complexity dead-code docs clean docker-up docker-down migrate profile load-test mutation-test all-checks ci dependency-check architecture-check pydeps sonar docs-serve docker-logs migrate-create run run-prod
+.PHONY: help install dev-install test coverage lint format type-check security complexity dead-code docs clean docker-up docker-down migrate profile load-test mutation-test all-checks ci dependency-check architecture-check pydeps sonar docs-serve docker-logs migrate-create run run-prod spellcheck
 
 PYTHON := python3.11
 PIP := $(PYTHON) -m pip
@@ -113,6 +37,9 @@ format: ## Formatear código con Ruff
 
 type-check: ## Verificar tipos con MyPy
 	$(MYPY) app/
+
+spellcheck: ## Verificar ortografía con codespell
+	codespell -q 2 -I .codespell-ignore-words.txt app README.md docs/
 
 security: ## Análisis de seguridad
 	$(BANDIT) -r app/ -c .bandit
@@ -194,7 +121,7 @@ run: ## Ejecutar servidor de desarrollo
 run-prod: ## Ejecutar servidor de producción
 	uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4 --loop uvloop
 
-all-checks: lint type-check security complexity dead-code docstring-coverage dependency-check architecture-check ## Ejecutar todos los checks
+all-checks: lint type-check spellcheck security complexity dead-code docstring-coverage dependency-check architecture-check ## Ejecutar todos los checks
 	@echo "✅ All checks completed!"
 
 ci: all-checks test coverage ## Simular pipeline CI localmente

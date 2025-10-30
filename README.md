@@ -31,7 +31,7 @@ python scripts/create_admin.py
 
 ### 🔐 Authentication Methods
 
-- API Key (legacy): `X-API-Key: your-api-key`
+- API Key: `X-API-Key: your-api-key`
 - JWT Bearer: `Authorization: Bearer <token>`
 
 # 🏦 NeuroBank FastAPI Toolkit
@@ -39,6 +39,8 @@ python scripts/create_admin.py
 ![NeuroBank Logo](https://img.shields.io/badge/🏦-NeuroBank-1e3a8a?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMjIgOFYxNkgxOFYxMEg2VjE2SDJWOE4xMiAyWiIgZmlsbD0iIzFFM0E4QSIvPgo8L3N2Zz4K)
 
 ### 🚀 **Enterprise-Grade Banking Administration Platform**
+
+> Versiones soportadas de Python: 3.11 y 3.12 (alineado con `pyproject.toml: requires-python >=3.11` y matrices de CI).
 ### ⭐ *Production-Ready FastAPI Application with Modern Admin Dashboard*
 
 **🎯 Designed specifically to impress Banking Industry Recruiters**
@@ -333,9 +335,18 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 Usa el archivo `.env.example` como base:
 - `DATABASE_URL`: `sqlite+aiosqlite:///./app.db` (dev) o PostgreSQL en prod.
-- `JWT_SECRET_KEY`, `JWT_ALGORITHM`, `ACCESS_TOKEN_EXPIRE_MINUTES`, `REFRESH_TOKEN_EXPIRE_DAYS`.
+- `JWT_SECRET_KEY` (requerido en producción), `JWT_ALGORITHM`, `ACCESS_TOKEN_EXPIRE_MINUTES`, `REFRESH_TOKEN_EXPIRE_DAYS`.
 - `API_KEY`: requerido en producción.
 - `ENVIRONMENT`, `DEBUG`, `LOG_LEVEL`, `PORT`, `CORS_ORIGINS`.
+
+Extras importantes:
+- `MIGRATE_ON_STARTUP`: `true/false` para ejecutar `create_all` en startup (solo dev/test). En producción usar `alembic upgrade head`.
+- `METRICS_ENABLED`: `true/false` para exponer `/metrics` (recomendado deshabilitar o proteger en producción).
+- `RAILWAY_PRIVATE_DOMAIN`: si está presente, se añade a `allow_origins` y se usa `allow_origin_regex: ^https://.*\.railway\.app$`.
+
+Notas:
+- CORS ahora usa `allow_methods=['*']` (incluye `OPTIONS`) para preflight correcto.
+- API Key debe enviarse en el header `X-API-Key`. El uso de `Authorization: Bearer <key>` no está soportado y resultará en 401.
 
 En producción, configura secretos reales y restringe `CORS_ORIGINS` a dominios válidos.
 
