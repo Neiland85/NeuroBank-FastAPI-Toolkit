@@ -1,13 +1,11 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING
+import uuid
+from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, EmailStr, Field, ValidationInfo, field_validator
-
-if TYPE_CHECKING:
-    import uuid
-    from datetime import datetime
 
 # ---------- Permission Schemas ----------
 
@@ -117,7 +115,7 @@ class UserResponse(UserBase):
 
 class Token(BaseModel):
     access_token: str
-    token_type: str = "bearer"
+    token_type: Literal["bearer"] = "bearer"  # - not a password
     refresh_token: str | None = None
 
 

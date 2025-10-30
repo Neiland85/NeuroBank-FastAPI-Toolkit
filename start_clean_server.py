@@ -13,11 +13,12 @@ sys.path.insert(0, str(Path.cwd()))
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
-    logging.info("🚀 Iniciando NeuroBank FastAPI Server...")
-    logging.info("📡 URL: http://localhost:8000")
-    logging.info("📊 Dashboard: http://localhost:8000/backoffice/")
-    logging.info("📖 Docs: http://localhost:8000/docs")
-    logging.info("%s", "=" * 50)
+    logger = logging.getLogger(__name__)
+    logger.info("🚀 Iniciando NeuroBank FastAPI Server...")
+    logger.info("📡 URL: http://localhost:8000")
+    logger.info("📊 Dashboard: http://localhost:8000/backoffice/")
+    logger.info("📖 Docs: http://localhost:8000/docs")
+    logger.info("%s", "=" * 50)
 
     try:
         uvicorn.run(
@@ -28,5 +29,5 @@ if __name__ == "__main__":
             log_level="info",
         )
     except Exception:
-        logging.exception("❌ Error iniciando servidor")
+        logger.exception("❌ Error iniciando servidor")
         sys.exit(1)

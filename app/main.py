@@ -13,7 +13,7 @@ from prometheus_fastapi_instrumentator import (
 
 from app.backoffice import router as backoffice_router
 from app.config import get_settings
-from app.database import init_db
+from app.database import AsyncSessionLocal, init_db
 from app.routers import auth as auth_router
 from app.routers import operator
 from app.routers import roles as roles_router
@@ -87,7 +87,6 @@ logger = logging.getLogger(__name__)
 async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
     # Startup
     await init_db()
-    from app.database import AsyncSessionLocal
 
     async with AsyncSessionLocal() as db:
         await initialize_default_roles(db)
@@ -149,7 +148,8 @@ async def user_not_found_handler(
     )
 
 
-@app.exception_handler((UsernameExistsError, EmailExistsError))
+@app.exception_handler(UsernameExistsError)
+@app.exception_handler(EmailExistsError)
 async def conflict_handler(
     _request: Request, exc: Exception
 ) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]
@@ -158,7 +158,8 @@ async def conflict_handler(
     )
 
 
-@app.exception_handler((WeakPasswordError, ValidationError))
+@app.exception_handler(WeakPasswordError)
+@app.exception_handler(ValidationError)
 async def bad_request_handler(
     _request: Request, exc: Exception
 ) -> JSONResponse:  # pyright: ignore[reportGeneralTypeIssues]

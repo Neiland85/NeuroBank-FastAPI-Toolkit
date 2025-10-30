@@ -45,6 +45,7 @@ class Settings(BaseSettings):
         os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30")
     )
     refresh_token_expire_days: int = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS", "7"))
+    min_password_length: int = int(os.getenv("MIN_PASSWORD_LENGTH", "8"))
 
     # Railway Specific Variables (todas disponibles)
     railway_project_id: str = os.getenv("RAILWAY_PROJECT_ID", "")
@@ -94,12 +95,17 @@ class Settings(BaseSettings):
         # En modo test o CI, asegurar que tenemos una API key
         if is_testing and not self.api_key:
             self.api_key = "test_secure_key_for_testing_only_not_production"
-            logging.info(
+            logger = logging.getLogger(__name__)
+            logger.info(
                 "🔧 Auto-configured API_KEY for testing environment (CI=%s, GITHUB_ACTIONS=%s, ENVIRONMENT=%s)",
                 os.getenv("CI"),
                 os.getenv("GITHUB_ACTIONS"),
                 self.environment,
             )
+
+        # En modo test o CI, asegurar secret para JWT
+        if is_testing and not self.jwt_secret_key:
+            self.jwt_secret_key = "test_secret_key_for_testing_only"  # noqa: S105
 
         # Validación de configuración crítica solo en producción real (no testing)
         if self.environment == "production" and not is_testing and not self.api_key:

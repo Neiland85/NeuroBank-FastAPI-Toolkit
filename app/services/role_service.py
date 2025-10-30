@@ -178,3 +178,12 @@ async def initialize_default_roles(db: AsyncSession) -> None:
             db, RoleCreate(name="auditor", description="Read-only auditor")
         )
         await assign_permissions(db, auditor.id, read_only)
+
+    # Operator con permisos de lectura básicos
+    operator = await get_role_by_name(db, "operator")
+    if not operator:
+        read_only = [f"{r}:read" for r in ["transactions", "accounts"]]
+        operator = await create_role(
+            db, RoleCreate(name="operator", description="Operations operator")
+        )
+        await assign_permissions(db, operator.id, read_only)

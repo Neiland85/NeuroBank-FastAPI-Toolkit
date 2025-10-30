@@ -1,0 +1,202 @@
+[
+  {
+    "cell": null,
+    "code": "TC006",
+    "end_location": {
+      "column": 12,
+      "row": 34
+    },
+    "filename": "/Users/estudio/Projects/GitHub/PYTHON3/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit-1/app/auth/jwt.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "\"str\"",
+          "end_location": {
+            "column": 12,
+            "row": 34
+          },
+          "location": {
+            "column": 9,
+            "row": 34
+          }
+        }
+      ],
+      "message": "Add quotes"
+    },
+    "location": {
+      "column": 9,
+      "row": 34
+    },
+    "message": "Add quotes to type expression in `typing.cast()`",
+    "noqa_row": 34,
+    "url": "https://docs.astral.sh/ruff/rules/runtime-cast-value"
+  },
+  {
+    "cell": null,
+    "code": "TC006",
+    "end_location": {
+      "column": 12,
+      "row": 55
+    },
+    "filename": "/Users/estudio/Projects/GitHub/PYTHON3/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit-1/app/auth/jwt.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "\"str\"",
+          "end_location": {
+            "column": 12,
+            "row": 55
+          },
+          "location": {
+            "column": 9,
+            "row": 55
+          }
+        }
+      ],
+      "message": "Add quotes"
+    },
+    "location": {
+      "column": 9,
+      "row": 55
+    },
+    "message": "Add quotes to type expression in `typing.cast()`",
+    "noqa_row": 55,
+    "url": "https://docs.astral.sh/ruff/rules/runtime-cast-value"
+  },
+  {
+    "cell": null,
+    "code": "LOG015",
+    "end_location": {
+      "column": 14,
+      "row": 102
+    },
+    "filename": "/Users/estudio/Projects/GitHub/PYTHON3/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit-1/app/config.py",
+    "fix": null,
+    "location": {
+      "column": 13,
+      "row": 97
+    },
+    "message": "`info()` call on root logger",
+    "noqa_row": 97,
+    "url": "https://docs.astral.sh/ruff/rules/root-logger-call"
+  },
+  {
+    "cell": null,
+    "code": "PLC0415",
+    "end_location": {
+      "column": 27,
+      "row": 47
+    },
+    "filename": "/Users/estudio/Projects/GitHub/PYTHON3/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit-1/app/database.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 47
+    },
+    "message": "`import` should be at the top-level of a file",
+    "noqa_row": 47,
+    "url": "https://docs.astral.sh/ruff/rules/import-outside-top-level"
+  },
+  {
+    "cell": null,
+    "code": "PLC0415",
+    "end_location": {
+      "column": 47,
+      "row": 90
+    },
+    "filename": "/Users/estudio/Projects/GitHub/PYTHON3/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit-1/app/main.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 90
+    },
+    "message": "`import` should be at the top-level of a file",
+    "noqa_row": 90,
+    "url": "https://docs.astral.sh/ruff/rules/import-outside-top-level"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 56,
+      "row": 8
+    },
+    "filename": "/Users/estudio/Projects/GitHub/PYTHON3/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit-1/app/routers/operator.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from typing import Optional\n\nfrom fastapi import APIRouter, Depends, Path\nfrom pydantic import BaseModel, Field\n\nfrom app.auth.dependencies import get_current_user_flexible, verify_api_key\nfrom app.models import User\nfrom app.services.invoice_service import generate_invoice\nfrom app.services.order_service import get_order_status\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 10
+          },
+          "location": {
+            "column": 1,
+            "row": 1
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 1
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "noqa_row": 1,
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 35,
+      "row": 298
+    },
+    "filename": "/Users/estudio/Projects/GitHub/PYTHON3/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit-1/app/routers/operator.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "InvoiceRequest | None",
+          "end_location": {
+            "column": 35,
+            "row": 298
+          },
+          "location": {
+            "column": 11,
+            "row": 298
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 11,
+      "row": 298
+    },
+    "message": "Use `X | None` for type annotations",
+    "noqa_row": 298,
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "S105",
+    "end_location": {
+      "column": 31,
+      "row": 120
+    },
+    "filename": "/Users/estudio/Projects/GitHub/PYTHON3/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit-1/app/schemas.py",
+    "fix": null,
+    "location": {
+      "column": 23,
+      "row": 120
+    },
+    "message": "Possible hardcoded password assigned to: \"token_type\"",
+    "noqa_row": 120,
+    "url": "https://docs.astral.sh/ruff/rules/hardcoded-password-string"
+  }
+]

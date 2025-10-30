@@ -3,6 +3,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import (
+    OAuth2PasswordRequestForm,  # - used at runtime via factory
+)
 
 from app.auth.dependencies import get_current_user
 from app.auth.jwt import create_access_token, create_refresh_token, decode_token
@@ -15,12 +18,19 @@ from app.services.user_service import (
 )
 
 if TYPE_CHECKING:
-    from fastapi.security import OAuth2PasswordRequestForm
     from sqlalchemy.ext.asyncio import AsyncSession
 
     from app.models import User
 
 router = APIRouter(prefix="/auth", tags=["🔐 Authentication"])
+
+
+# Factory para obtener el formulario OAuth2 en tiempo de ejecución (evita ForwardRef)
+def get_oauth2_form():
+    from fastapi.security import OAuth2PasswordRequestForm as _Form
+
+    return _Form
+
 
 # Singletons para evitar B008
 db_dep = Depends(get_db)
@@ -29,7 +39,8 @@ current_user_dep = Depends(get_current_user)
 
 @router.post("/login", response_model=Token, summary="Iniciar sesión (OAuth2)")
 async def login(
-    form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = db_dep
+    form_data: "OAuth2PasswordRequestForm" = Depends(get_oauth2_form()),  # noqa: UP037
+    db: AsyncSession = db_dep,
 ) -> Token:
     user = await authenticate_user(db, form_data.username, form_data.password)
     if not user:

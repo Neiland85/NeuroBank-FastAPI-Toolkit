@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from datetime import UTC, datetime, timedelta
 from typing import cast
 
@@ -30,11 +31,12 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
             "aud": "neurobank-clients",
         }
     )
+    secret_key = settings.jwt_secret_key or os.getenv("JWT_SECRET_KEY", "")
     return cast(
         "str",
         jwt.encode(
             to_encode,
-            settings.jwt_secret_key or "dev-insecure",
+            secret_key,
             algorithm=settings.jwt_algorithm,
         ),
     )
@@ -51,11 +53,12 @@ def create_refresh_token(username: str) -> str:
         "iss": "neurobank",
         "aud": "neurobank-clients",
     }
+    secret_key = settings.jwt_secret_key or os.getenv("JWT_SECRET_KEY", "")
     return cast(
         "str",
         jwt.encode(
             payload,
-            settings.jwt_secret_key or "dev-insecure",
+            secret_key,
             algorithm=settings.jwt_algorithm,
         ),
     )
