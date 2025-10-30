@@ -94,7 +94,8 @@ class Settings(BaseSettings):
         # En modo test o CI, asegurar que tenemos una API key
         if is_testing and not self.api_key:
             self.api_key = "test_secure_key_for_testing_only_not_production"
-            logging.info(
+            logger = logging.getLogger(__name__)
+            logger.info(
                 "🔧 Auto-configured API_KEY for testing environment (CI=%s, GITHUB_ACTIONS=%s, ENVIRONMENT=%s)",
                 os.getenv("CI"),
                 os.getenv("GITHUB_ACTIONS"),

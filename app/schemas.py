@@ -114,10 +114,13 @@ class UserResponse(UserBase):
 
 # ---------- Auth Schemas ----------
 
+# Token type constant (OAuth2 specification, not a secret)
+TOKEN_TYPE_BEARER = "bearer"  # noqa: S105
+
 
 class Token(BaseModel):
     access_token: str
-    token_type: str = "bearer"
+    token_type: str = TOKEN_TYPE_BEARER
     refresh_token: str | None = None
 
 

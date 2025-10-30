@@ -31,7 +31,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
         }
     )
     return cast(
-        str,
+        "str",
         jwt.encode(
             to_encode,
             settings.jwt_secret_key or "dev-insecure",
@@ -52,7 +52,7 @@ def create_refresh_token(username: str) -> str:
         "aud": "neurobank-clients",
     }
     return cast(
-        str,
+        "str",
         jwt.encode(
             payload,
             settings.jwt_secret_key or "dev-insecure",
