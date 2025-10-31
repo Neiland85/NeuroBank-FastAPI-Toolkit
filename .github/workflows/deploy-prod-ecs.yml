@@ -92,4 +92,3 @@ jobs:
           service: ${{ matrix.svc.ecs_service }}
           cluster: neurobank-prod
           wait-for-service-stability: true
-

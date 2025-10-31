@@ -4,7 +4,7 @@
 
 **Situación Inicial:**
 - ❌ railway.json VACÍO
-- ❌ start.sh VACÍO  
+- ❌ start.sh VACÍO
 - ❌ Templates NO conectados con router
 - ❌ Configuración Railway subóptima
 - ❌ Botones y funcionalidades NO funcionaban
@@ -14,7 +14,7 @@
 - ✅ start.sh OPTIMIZADO para Railway
 - ✅ Templates CONECTADOS correctamente:
   - `/admin/transactions` → `admin_transactions.html` ✅
-  - `/admin/users` → `admin_users.html` ✅  
+  - `/admin/users` → `admin_users.html` ✅
   - `/admin/reports` → `admin_reports.html` ✅
 - ✅ Dockerfile OPTIMIZADO con uvloop y single worker
 - ✅ requirements.txt MEJORADO con uvloop y requests
@@ -68,7 +68,7 @@
 - ✅ Modal de detalles
 - ✅ JavaScript totalmente operativo
 
-#### **admin_users.html** 
+#### **admin_users.html**
 - ✅ Gestión completa de usuarios
 - ✅ Filtros por estado y tipo de cuenta
 - ✅ Búsqueda por nombre/email/ID

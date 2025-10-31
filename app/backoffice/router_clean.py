@@ -8,11 +8,9 @@ import uuid
 from datetime import datetime, timedelta
 from decimal import Decimal
 from enum import Enum
-from typing import Any, Dict, List
 
-from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi import APIRouter, Request
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
@@ -107,11 +105,11 @@ async def search_transactions(
 
     Endpoint para filtrar transacciones con múltiples criterios.
     """
-    # Generar transacciones mock
     transactions = []
     total = random.randint(100, 200)
 
-    for i in range(min(page_size, total)):
+    # ⚙️ corrección B007: variable no usada reemplazada por "_"
+    for _ in range(min(page_size, total)):
         tx_id = str(uuid.uuid4())[:8]
         transactions.append(
             {
@@ -257,3 +255,4 @@ async def backoffice_info():
             "Real-time data updates",
         ],
     }
+

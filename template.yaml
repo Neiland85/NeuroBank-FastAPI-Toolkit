@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
   NeuroBank FastAPI Toolkit
-  
+
   SAM Template para desplegar la aplicación FastAPI en AWS Lambda con API Gateway
 
 # Parámetros configurables
@@ -15,7 +15,7 @@ Parameters:
       - staging
       - production
     Description: Environment stage
-    
+
   ApiKey:
     Type: String
     Default: default-api-key-change-me
@@ -46,7 +46,7 @@ Resources:
       CodeUri: .
       Handler: lambda_handler.lambda_handler
       Description: NeuroBank FastAPI Toolkit API
-      
+
       # Configuración de eventos
       Events:
         ApiEvent:
@@ -61,10 +61,10 @@ Resources:
             Path: /
             Method: ANY
             RestApiId: !Ref NeuroBankApi
-      
+
       # Configuración de red y seguridad
       ReservedConcurrencyLimit: 10
-      
+
       # Políticas IAM
       Policies:
         - CloudWatchLogsFullAccess
@@ -85,14 +85,14 @@ Resources:
       Name: !Sub 'NeuroBank-${Environment}-API'
       StageName: !Ref Environment
       Description: API Gateway para NeuroBank FastAPI Toolkit
-      
+
       # Configuración CORS
       Cors:
         AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
         AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
         AllowOrigin: "'*'"
         AllowCredentials: false
-      
+
       # Configuración de autenticación - SAM maneja automáticamente Usage Plan
       Auth:
         ApiKeyRequired: true
@@ -105,7 +105,7 @@ Resources:
           Throttle:
             BurstLimit: 100
             RateLimit: 50
-      
+
       # Configuración de logging
       AccessLogSetting:
         DestinationArn: !GetAtt ApiGatewayLogGroup.Arn
@@ -120,7 +120,7 @@ Resources:
            "status":"$context.status",
            "protocol":"$context.protocol",
            "responseLength":"$context.responseLength"}
-      
+
       # Variables de stage
       Variables:
         Environment: !Ref Environment
@@ -222,8 +222,8 @@ Outputs:
       Stack: ${AWS::StackName}
       Región: ${AWS::Region}
       Entorno: ${Environment}
-      
-      🔑 IMPORTANTE: 
+
+      🔑 IMPORTANTE:
       - La API Key se genera automáticamente
       - Configúrala en GitHub Secrets como API_KEY
       - El endpoint requiere el header X-Api-Key para autenticación

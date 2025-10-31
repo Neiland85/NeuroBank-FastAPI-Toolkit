@@ -16,26 +16,26 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     # ✅ AÑADIR ESTAS VARIABLES DE ENTORNO
     env:
       API_KEY: "NeuroBankDemo2025-SecureKey-ForTestingOnly"
       ENVIRONMENT: "testing"
       CI: "true"
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-    
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    
+
     - name: Run tests
       run: |
         python -m pytest --cov=app --cov-report=xml --cov-report=html

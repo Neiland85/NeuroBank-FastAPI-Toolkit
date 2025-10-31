@@ -1,5 +1,3 @@
-import os
-
 import pytest
 from httpx import ASGITransport, AsyncClient
 
@@ -86,7 +84,8 @@ async def test_order_status_forbidden():
         transport=ASGITransport(app=app), base_url="http://test"
     ) as ac:
         resp = await ac.get(
-            "/api/order/ORD-2025-001234", headers={"X-API-Key": "wrong-api-key"}
+            "/api/order/ORD-2025-001234",
+            headers={"X-API-Key": "wrong-api-key"},
         )
 
     assert resp.status_code == 403

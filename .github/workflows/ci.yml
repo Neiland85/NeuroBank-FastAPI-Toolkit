@@ -66,4 +66,3 @@ jobs:
       - name: Build ${{ matrix.service.name }}
         if: steps.ctx.outputs.exists == 'true'
         run: docker build -t neurobank/${{ matrix.service.name }}:ci ${{ matrix.service.path }}
-

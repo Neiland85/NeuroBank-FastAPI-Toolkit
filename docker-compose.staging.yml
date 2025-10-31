@@ -57,4 +57,3 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
       TOPIC_TRADE_SIGNALS: "trade_signals"
     depends_on: [kafka]
-

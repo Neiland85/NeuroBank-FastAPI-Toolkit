@@ -29,4 +29,3 @@ jobs:
         run: |
           echo "Deploying to Railway Staging..."
           railway up --service neurobank-fastapi --yes
-

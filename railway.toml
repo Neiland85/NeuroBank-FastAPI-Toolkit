@@ -34,4 +34,3 @@ name = "control-service"
 start = "python -u main.py"
 rootDir = "trading_ai_system/control_service"
 env = { ENVIRONMENT = "staging" }
-

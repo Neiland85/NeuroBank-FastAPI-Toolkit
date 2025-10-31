@@ -1,5 +1,5 @@
-import os
 import json
+import os
 import sys
 from functools import lru_cache
 from typing import List, Optional
@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     host: str = "0.0.0.0"
     port: int = int(os.getenv("PORT", 8000))
     workers: int = int(os.getenv("WORKERS", 1))
-    
+
     # Security / Secrets
     secret_key: Optional[str] = os.getenv("SECRET_KEY")
 

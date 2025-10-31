@@ -20,7 +20,7 @@ API_KEY = tu-api-key-para-la-app (opcional)
    - ARN: `arn:aws:iam::120242956739:oidc-provider/token.actions.githubusercontent.com`
    - Audience: `sts.amazonaws.com`
 
-2. **IAM Role**: `GitHubActionsOIDCRole` 
+2. **IAM Role**: `GitHubActionsOIDCRole`
    - ARN: `arn:aws:iam::120242956739:role/GitHubActionsOIDCRole`
    - Trust policy configurada para: `Neiland85/NeuroBank-FastAPI-Toolkit`
    - Permisos para ECR, Lambda, CloudFormation
@@ -34,7 +34,7 @@ API_KEY = tu-api-key-para-la-app (opcional)
 1. **Push automático** ejecuta solo **tests** y **security scans**
 2. **Deployment requiere confirmación manual**:
    - Ve a GitHub Actions en tu repositorio
-   - Selecciona "CI/CD Pipeline"  
+   - Selecciona "CI/CD Pipeline"
    - Haz clic en "Run workflow"
    - Selecciona "true" para desplegar a AWS
 3. **No deployments automáticos** - total control del usuario
@@ -105,7 +105,7 @@ aws cloudformation describe-stacks --stack-name neurobank-api --region eu-west-1
 # Ver logs de Lambda
 aws logs tail /aws/lambda/NeuroBank-Function --region eu-west-1 --follow
 
-# Listar versiones en ECR  
+# Listar versiones en ECR
 aws ecr list-images --repository-name neurobank-fastapi --region eu-west-1
 
 # Verificar el rol OIDC
@@ -118,7 +118,7 @@ aws iam list-open-id-connect-providers
 ## 🔄 Workflow Jobs
 
 1. **test**: Pytest con coverage
-2. **security**: Bandit + Safety scanning  
+2. **security**: Bandit + Safety scanning
 3. **deployment-check**: Verifica configuración OIDC
 4. **build-and-deploy**: Deployment completo a AWS
 

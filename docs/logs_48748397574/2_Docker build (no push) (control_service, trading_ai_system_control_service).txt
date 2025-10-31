@@ -92,22 +92,22 @@
 2025-10-30T06:48:14.0892470Z ##[group]Checking out the ref
 2025-10-30T06:48:14.0895908Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/36/merge
 2025-10-30T06:48:14.1517006Z Note: switching to 'refs/remotes/pull/36/merge'.
-2025-10-30T06:48:14.1517977Z 
+2025-10-30T06:48:14.1517977Z
 2025-10-30T06:48:14.1518685Z You are in 'detached HEAD' state. You can look around, make experimental
 2025-10-30T06:48:14.1520067Z changes and commit them, and you can discard any commits you make in this
 2025-10-30T06:48:14.1521202Z state without impacting any branches by switching back to a branch.
-2025-10-30T06:48:14.1521867Z 
+2025-10-30T06:48:14.1521867Z
 2025-10-30T06:48:14.1522374Z If you want to create a new branch to retain commits you create, you may
 2025-10-30T06:48:14.1523789Z do so (now or later) by using -c with the switch command. Example:
-2025-10-30T06:48:14.1524403Z 
+2025-10-30T06:48:14.1524403Z
 2025-10-30T06:48:14.1524712Z   git switch -c <new-branch-name>
-2025-10-30T06:48:14.1525166Z 
+2025-10-30T06:48:14.1525166Z
 2025-10-30T06:48:14.1525464Z Or undo this operation with:
-2025-10-30T06:48:14.1525909Z 
+2025-10-30T06:48:14.1525909Z
 2025-10-30T06:48:14.1526206Z   git switch -
-2025-10-30T06:48:14.1526953Z 
+2025-10-30T06:48:14.1526953Z
 2025-10-30T06:48:14.1527620Z Turn off this advice by setting config variable advice.detachedHead to false
-2025-10-30T06:48:14.1528668Z 
+2025-10-30T06:48:14.1528668Z
 2025-10-30T06:48:14.1529580Z HEAD is now at 13fccd9 Merge 50c435b96ba846ba728e3ea72021f667cf169b35 into f0c60eb3ca5d19fa101884318f72015a6aa94884
 2025-10-30T06:48:14.1532887Z ##[endgroup]
 2025-10-30T06:48:14.1564325Z [command]/usr/bin/git log -1 --format=%H

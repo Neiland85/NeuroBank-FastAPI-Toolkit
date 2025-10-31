@@ -2,7 +2,6 @@ from typing import Final
 
 from passlib.hash import bcrypt as bcrypt_hasher
 
-
 MAX_BCRYPT_LENGTH: Final[int] = 72
 
 
@@ -19,5 +18,3 @@ def verify_password(password: str, hashed: str) -> bool:
         return False
     safe = password[:MAX_BCRYPT_LENGTH]
     return bcrypt_hasher.verify(safe, hashed)
-
-

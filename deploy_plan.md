@@ -49,4 +49,3 @@
 
 - Staging: `railway deployments` → rollback one-click
 - Prod: mantener 2 task defs en ECS; rollback cambiando el `taskDefinition` del servicio
-

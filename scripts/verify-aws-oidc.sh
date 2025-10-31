@@ -33,7 +33,7 @@ if aws sts get-caller-identity &> /dev/null; then
     ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
     echo -e "   ${GREEN}✅ AWS configurado correctamente${NC}"
     echo "   📋 Account ID: $ACCOUNT"
-    
+
     if [ "$ACCOUNT" = "120242956739" ]; then
         echo -e "   ${GREEN}✅ Account ID correcto${NC}"
     else
@@ -66,7 +66,7 @@ ROLE_NAME="GitHubActionsOIDCRole"
 if aws iam get-role --role-name "$ROLE_NAME" &> /dev/null; then
     echo -e "   ${GREEN}✅ IAM Role existe${NC}"
     echo "   📋 Role: $ROLE_NAME"
-    
+
     # Verificar trust policy
     TRUST_POLICY=$(aws iam get-role --role-name "$ROLE_NAME" --query 'Role.AssumeRolePolicyDocument' --output text)
     if echo "$TRUST_POLICY" | grep -q "Neiland85/NeuroBank-FastAPI-Toolkit"; then

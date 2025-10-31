@@ -102,22 +102,22 @@
 2025-10-30T06:48:16.8776575Z ##[group]Checking out the ref
 2025-10-30T06:48:16.8779561Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/36/merge
 2025-10-30T06:48:16.9269054Z Note: switching to 'refs/remotes/pull/36/merge'.
-2025-10-30T06:48:16.9270691Z 
+2025-10-30T06:48:16.9270691Z
 2025-10-30T06:48:16.9272124Z You are in 'detached HEAD' state. You can look around, make experimental
 2025-10-30T06:48:16.9275880Z changes and commit them, and you can discard any commits you make in this
 2025-10-30T06:48:16.9279585Z state without impacting any branches by switching back to a branch.
-2025-10-30T06:48:16.9281936Z 
+2025-10-30T06:48:16.9281936Z
 2025-10-30T06:48:16.9283324Z If you want to create a new branch to retain commits you create, you may
 2025-10-30T06:48:16.9286515Z do so (now or later) by using -c with the switch command. Example:
-2025-10-30T06:48:16.9288352Z 
+2025-10-30T06:48:16.9288352Z
 2025-10-30T06:48:16.9288946Z   git switch -c <new-branch-name>
-2025-10-30T06:48:16.9290197Z 
+2025-10-30T06:48:16.9290197Z
 2025-10-30T06:48:16.9290607Z Or undo this operation with:
-2025-10-30T06:48:16.9291268Z 
+2025-10-30T06:48:16.9291268Z
 2025-10-30T06:48:16.9291741Z   git switch -
-2025-10-30T06:48:16.9292254Z 
+2025-10-30T06:48:16.9292254Z
 2025-10-30T06:48:16.9293149Z Turn off this advice by setting config variable advice.detachedHead to false
-2025-10-30T06:48:16.9294601Z 
+2025-10-30T06:48:16.9294601Z
 2025-10-30T06:48:16.9296715Z HEAD is now at 13fccd9 Merge 50c435b96ba846ba728e3ea72021f667cf169b35 into f0c60eb3ca5d19fa101884318f72015a6aa94884
 2025-10-30T06:48:16.9301310Z ##[endgroup]
 2025-10-30T06:48:16.9314263Z [command]/usr/bin/git log -1 --format=%H
@@ -451,7 +451,7 @@
 2025-10-30T06:48:55.7415435Z Downloading pycparser-2.23-py3-none-any.whl (118 kB)
 2025-10-30T06:48:55.7477633Z Downloading wrapt-2.0.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (114 kB)
 2025-10-30T06:48:59.7931410Z Installing collected packages: nvidia-cusparselt-cu12, mpmath, wrapt, websockets, uvloop, urllib3, typing-extensions, triton, sympy, sniffio, six, pyyaml, python-multipart, python-json-logger, python-dotenv, pycparser, propcache, pluggy, packaging, nvidia-nvtx-cu12, nvidia-nvshmem-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufile-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, numpy, networkx, multidict, MarkupSafe, loguru, jmespath, iniconfig, idna, httptools, h11, fsspec, frozenlist, filelock, coverage, click, charset_normalizer, certifi, attrs, annotated-types, aiohappyeyeballs, yarl, uvicorn, requests, python-dateutil, pytest, pydantic-core, nvidia-cusparse-cu12, nvidia-cufft-cu12, nvidia-cudnn-cu12, mangum, jinja2, httpcore, cffi, anyio, aiosignal, watchfiles, starlette, pytest-cov, pytest-asyncio, pydantic, pycoingecko, pycares, nvidia-cusolver-cu12, httpx, cryptography, botocore, aiohttp, torch, s3transfer, pydantic-settings, fastapi, aws-xray-sdk, aiodns, hyperliquid, boto3, watchtower
-2025-10-30T06:49:53.3792649Z 
+2025-10-30T06:49:53.3792649Z
 2025-10-30T06:49:53.3831090Z Successfully installed MarkupSafe-3.0.3 aiodns-3.5.0 aiohappyeyeballs-2.6.1 aiohttp-3.10.11 aiosignal-1.4.0 annotated-types-0.7.0 anyio-4.11.0 attrs-25.4.0 aws-xray-sdk-2.13.0 boto3-1.40.62 botocore-1.40.62 certifi-2025.10.5 cffi-2.0.0 charset_normalizer-3.4.4 click-8.3.0 coverage-7.11.0 cryptography-46.0.3 fastapi-0.116.1 filelock-3.20.0 frozenlist-1.8.0 fsspec-2025.9.0 h11-0.16.0 httpcore-1.0.9 httptools-0.7.1 httpx-0.27.0 hyperliquid-0.4.66 idna-3.11 iniconfig-2.3.0 jinja2-3.1.6 jmespath-1.0.1 loguru-0.7.2 mangum-0.17.0 mpmath-1.3.0 multidict-6.7.0 networkx-3.5 numpy-2.3.4 nvidia-cublas-cu12-12.8.4.1 nvidia-cuda-cupti-cu12-12.8.90 nvidia-cuda-nvrtc-cu12-12.8.93 nvidia-cuda-runtime-cu12-12.8.90 nvidia-cudnn-cu12-9.10.2.21 nvidia-cufft-cu12-11.3.3.83 nvidia-cufile-cu12-1.13.1.3 nvidia-curand-cu12-10.3.9.90 nvidia-cusolver-cu12-11.7.3.90 nvidia-cusparse-cu12-12.5.8.93 nvidia-cusparselt-cu12-0.7.1 nvidia-nccl-cu12-2.27.5 nvidia-nvjitlink-cu12-12.8.93 nvidia-nvshmem-cu12-3.3.20 nvidia-nvtx-cu12-12.8.90 packaging-25.0 pluggy-1.6.0 propcache-0.4.1 pycares-4.11.0 pycoingecko-3.2.0 pycparser-2.23 pydantic-2.7.0 pydantic-core-2.18.1 pydantic-settings-2.2.1 pytest-8.2.0 pytest-asyncio-0.23.6 pytest-cov-5.0.0 python-dateutil-2.9.0.post0 python-dotenv-1.0.1 python-json-logger-2.0.7 python-multipart-0.0.18 pyyaml-6.0.3 requests-2.32.4 s3transfer-0.14.0 six-1.17.0 sniffio-1.3.1 starlette-0.47.2 sympy-1.14.0 torch-2.9.0 triton-3.5.0 typing-extensions-4.15.0 urllib3-2.5.0 uvicorn-0.29.0 uvloop-0.21.0 watchfiles-1.1.1 watchtower-3.0.0 websockets-15.0.1 wrapt-2.0.0 yarl-1.22.0
 2025-10-30T06:49:55.3819036Z Collecting flake8
 2025-10-30T06:49:55.4993702Z   Downloading flake8-7.3.0-py2.py3-none-any.whl.metadata (3.8 kB)
@@ -596,7 +596,7 @@
 2025-10-30T06:49:59.6217085Z     Found existing installation: setuptools 65.5.0
 2025-10-30T06:49:59.9528914Z     Uninstalling setuptools-65.5.0:
 2025-10-30T06:50:00.0432994Z       Successfully uninstalled setuptools-65.5.0
-2025-10-30T06:50:03.6138600Z 
+2025-10-30T06:50:03.6138600Z
 2025-10-30T06:50:03.6184211Z Successfully installed astroid-4.0.1 authlib-1.6.5 bandit-1.8.6 black-25.9.0 dill-0.4.0 dparse-0.6.4 flake8-7.3.0 isort-7.0.0 joblib-1.5.2 markdown-it-py-4.0.0 marshmallow-4.0.1 mccabe-0.7.0 mdurl-0.1.2 mypy-extensions-1.1.0 nltk-3.9.2 pathspec-0.12.1 platformdirs-4.5.0 psutil-7.1.2 pycodestyle-2.14.0 pyflakes-3.4.0 pygments-2.19.2 pylint-4.0.2 pytokens-0.2.0 regex-2025.10.23 rich-14.2.0 ruamel-yaml-0.18.16 ruamel.yaml.clib-0.2.14 safety-3.6.2 safety-schemas-0.0.16 setuptools-80.9.0 shellingham-1.5.4 stevedore-5.5.0 tenacity-9.1.2 tomlkit-0.13.3 tqdm-4.67.1 typer-0.20.0
 2025-10-30T06:50:03.7995888Z ##[group]Run black --check --diff .
 2025-10-30T06:50:03.7996176Z [36;1mblack --check --diff .[0m
@@ -614,17 +614,17 @@
 2025-10-30T06:50:05.3331115Z --- /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/config.py	2025-10-30 06:48:16.888244+00:00
 2025-10-30T06:50:05.3334961Z +++ /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/config.py	2025-10-30 06:50:05.330803+00:00
 2025-10-30T06:50:05.3337664Z @@ -17,11 +17,11 @@
-2025-10-30T06:50:05.3338888Z  
+2025-10-30T06:50:05.3338888Z
 2025-10-30T06:50:05.3340162Z      # Server Configuration
 2025-10-30T06:50:05.3341491Z      host: str = "0.0.0.0"
 2025-10-30T06:50:05.3342790Z      port: int = int(os.getenv("PORT", 8000))
 2025-10-30T06:50:05.3344157Z      workers: int = int(os.getenv("WORKERS", 1))
 2025-10-30T06:50:05.3349074Z would reformat /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/config.py
-2025-10-30T06:50:05.3349861Z -    
+2025-10-30T06:50:05.3349861Z -
 2025-10-30T06:50:05.3350556Z +
 2025-10-30T06:50:05.3350966Z      # Security / Secrets
 2025-10-30T06:50:05.3351534Z      secret_key: Optional[str] = os.getenv("SECRET_KEY")
-2025-10-30T06:50:05.3356569Z  
+2025-10-30T06:50:05.3356569Z
 2025-10-30T06:50:05.3357213Z      # Environment Configuration
 2025-10-30T06:50:05.3357620Z      environment: str = os.getenv(
 2025-10-30T06:50:05.3846775Z --- /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/routers/trading.py	2025-10-30 06:48:16.888244+00:00
@@ -632,11 +632,11 @@
 2025-10-30T06:50:05.3849184Z @@ -8,10 +8,11 @@
 2025-10-30T06:50:05.3849502Z  from datetime import datetime
 2025-10-30T06:50:05.3850059Z  from pycoingecko import CoinGeckoAPI
-2025-10-30T06:50:05.3850454Z  
+2025-10-30T06:50:05.3850454Z
 2025-10-30T06:50:05.3850728Z  router = APIRouter()
 2025-10-30T06:50:05.3851073Z  cg = CoinGeckoAPI()
 2025-10-30T06:50:05.3851386Z +
-2025-10-30T06:50:05.3851641Z  
+2025-10-30T06:50:05.3851641Z
 2025-10-30T06:50:05.3851989Z  # === AGENTE RL SIMPLE (PPO-like) ===
 2025-10-30T06:50:05.3852446Z  class SimplePPOAgent(nn.Module):
 2025-10-30T06:50:05.3852923Z      def __init__(self, input_size=5, hidden_size=64):
@@ -646,12 +646,12 @@
 2025-10-30T06:50:05.3854662Z          policy = torch.softmax(self.policy_head(x), dim=-1)
 2025-10-30T06:50:05.3855171Z          value = self.value_head(x)
 2025-10-30T06:50:05.3855584Z          return policy, value
-2025-10-30T06:50:05.3855934Z  
+2025-10-30T06:50:05.3855934Z
 2025-10-30T06:50:05.3856185Z +
 2025-10-30T06:50:05.3856467Z  agent = SimplePPOAgent()
 2025-10-30T06:50:05.3856822Z  agent.eval()
 2025-10-30T06:50:05.3857099Z +
-2025-10-30T06:50:05.3857360Z  
+2025-10-30T06:50:05.3857360Z
 2025-10-30T06:50:05.3857710Z  # === DATOS REALES BTC (Coingecko) + ORDERBOOK MOCK ===
 2025-10-30T06:50:05.3858178Z  def get_btc_data():
 2025-10-30T06:50:05.3858495Z      try:
@@ -665,7 +665,7 @@
 2025-10-30T06:50:05.4040867Z          print(f"Coingecko fallback: {e}")
 2025-10-30T06:50:05.4041346Z          price = 67000.0 + np.random.normal(0, 1000)
 2025-10-30T06:50:05.4041855Z          volume_24h = random.uniform(1000, 5000) * 1000
-2025-10-30T06:50:05.4042288Z  
+2025-10-30T06:50:05.4042288Z
 2025-10-30T06:50:05.4042580Z      # Orderbook simulado (5 niveles)
 2025-10-30T06:50:05.4043112Z -    bids = [(price * (1 - 0.0001 * (j+1)), random.uniform(0.1, 2.0)) for j in range(5)]
 2025-10-30T06:50:05.4043822Z -    asks = [(price * (1 + 0.0001 * (j+1)), random.uniform(0.1, 2.0)) for j in range(5)]
@@ -676,7 +676,7 @@
 2025-10-30T06:50:05.4045982Z +        (price * (1 + 0.0001 * (j + 1)), random.uniform(0.1, 2.0)) for j in range(5)
 2025-10-30T06:50:05.4046507Z +    ]
 2025-10-30T06:50:05.4046961Z      imbalance = sum(qty for _, qty in bids) - sum(qty for _, qty in asks)
-2025-10-30T06:50:05.4047651Z  
+2025-10-30T06:50:05.4047651Z
 2025-10-30T06:50:05.4047915Z      return {
 2025-10-30T06:50:05.4048261Z          "timestamp": datetime.now().isoformat(),
 2025-10-30T06:50:05.4048713Z          "price": round(price, 2),
@@ -687,12 +687,12 @@
 2025-10-30T06:50:05.4050848Z +        "asks": asks,
 2025-10-30T06:50:05.4051165Z      }
 2025-10-30T06:50:05.4051427Z +
-2025-10-30T06:50:05.4051688Z  
+2025-10-30T06:50:05.4051688Z
 2025-10-30T06:50:05.4052617Z  # === ENDPOINT: SEÑAL DE TRADING ===
 2025-10-30T06:50:05.4053058Z  @router.get("/imbalance")
 2025-10-30T06:50:05.4053463Z  async def get_imbalance_and_signal():
 2025-10-30T06:50:05.4053922Z      tick = get_btc_data()
-2025-10-30T06:50:05.4054265Z -    
+2025-10-30T06:50:05.4054265Z -
 2025-10-30T06:50:05.4054544Z +
 2025-10-30T06:50:05.4055005Z      # Estado para RL: [imbalance, price_change, volume_norm, spread, momentum]
 2025-10-30T06:50:05.4055641Z -    state = torch.tensor([[
@@ -714,7 +714,7 @@
 2025-10-30T06:50:05.4112548Z +        ],
 2025-10-30T06:50:05.4112854Z +        dtype=torch.float32,
 2025-10-30T06:50:05.4113225Z +    )
-2025-10-30T06:50:05.4113494Z  
+2025-10-30T06:50:05.4113494Z
 2025-10-30T06:50:05.4113788Z      with torch.no_grad():
 2025-10-30T06:50:05.4114175Z          policy, value = agent(state)
 2025-10-30T06:50:05.4114627Z          action_idx = policy.argmax().item()
@@ -732,7 +732,7 @@
 2025-10-30T06:50:05.4120292Z +        "orderbook_snapshot": {"bids": tick["bids"][:3], "asks": tick["asks"][:3]},
 2025-10-30T06:50:05.4120882Z      }
 2025-10-30T06:50:05.4121160Z +
-2025-10-30T06:50:05.4121407Z  
+2025-10-30T06:50:05.4121407Z
 2025-10-30T06:50:05.4121707Z  # === ENDPOINT: ESTADO DEL AGENTE ===
 2025-10-30T06:50:05.4122148Z  @router.get("/agent/status")
 2025-10-30T06:50:05.4122547Z  async def agent_status():
@@ -748,8 +748,8 @@
 2025-10-30T06:50:05.4238016Z --- /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/docs/trading_ai_system_updated/trading_ai_system/control_service/main.py	2025-10-30 06:48:16.889244+00:00
 2025-10-30T06:50:05.4239191Z +++ /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/docs/trading_ai_system_updated/trading_ai_system/control_service/main.py	2025-10-30 06:50:05.421931+00:00
 2025-10-30T06:50:05.4239826Z @@ -20,15 +20,17 @@
-2025-10-30T06:50:05.4240186Z  
-2025-10-30T06:50:05.4240333Z  
+2025-10-30T06:50:05.4240186Z
+2025-10-30T06:50:05.4240333Z
 2025-10-30T06:50:05.4240710Z  def get_exchange() -> ccxt.Exchange:
 2025-10-30T06:50:05.4240975Z      api_key = os.getenv("EXCHANGE_API_KEY")
 2025-10-30T06:50:05.4241385Z      secret = os.getenv("EXCHANGE_SECRET")
@@ -766,16 +766,16 @@
 2025-10-30T06:50:05.4244597Z +        }
 2025-10-30T06:50:05.4244790Z +    )
 2025-10-30T06:50:05.4245027Z      return exchange
-2025-10-30T06:50:05.4245290Z  
-2025-10-30T06:50:05.4245488Z  
+2025-10-30T06:50:05.4245290Z
+2025-10-30T06:50:05.4245488Z
 2025-10-30T06:50:05.4245750Z  @retry(wait=wait_fixed(5), stop=stop_after_attempt(5))
 2025-10-30T06:50:05.4246233Z  def create_consumer(topic: str) -> KafkaConsumer:
 2025-10-30T06:50:05.4246641Z @@ -46,11 +48,13 @@
 2025-10-30T06:50:05.4247064Z  def calculate_position_size(balance: float, risk_fraction: float) -> float:
 2025-10-30T06:50:05.4247764Z      """Calculate position size based on available balance and risk fraction."""
 2025-10-30T06:50:05.4248283Z      return balance * risk_fraction
-2025-10-30T06:50:05.4248615Z  
-2025-10-30T06:50:05.4248821Z  
+2025-10-30T06:50:05.4248615Z
+2025-10-30T06:50:05.4248821Z
 2025-10-30T06:50:05.4249301Z -def place_order(exchange: ccxt.Exchange, symbol: str, signal: int, amount: float) -> None:
 2025-10-30T06:50:05.4249900Z +def place_order(
 2025-10-30T06:50:05.4250438Z +    exchange: ccxt.Exchange, symbol: str, signal: int, amount: float
@@ -803,8 +803,8 @@
 2025-10-30T06:50:05.4262392Z @@ -89,6 +95,6 @@
 2025-10-30T06:50:05.4262556Z          # Place order
 2025-10-30T06:50:05.4262775Z          place_order(exchange, symbol, signal, amount)
-2025-10-30T06:50:05.4263008Z  
-2025-10-30T06:50:05.4263205Z  
+2025-10-30T06:50:05.4263008Z
+2025-10-30T06:50:05.4263205Z
 2025-10-30T06:50:05.4263358Z  if __name__ == "__main__":
 2025-10-30T06:50:05.4263549Z -    main()
 2025-10-30T06:50:05.4263714Z \ No newline at end of file
@@ -817,8 +817,8 @@
 2025-10-30T06:50:05.4269446Z @@ -95,6 +95,6 @@
 2025-10-30T06:50:05.4269626Z          producer.flush()
 2025-10-30T06:50:05.4269909Z          print(f"[INFERENCE] {symbol} price={price:.2f} signal={signal}")
-2025-10-30T06:50:05.4270429Z  
-2025-10-30T06:50:05.4270625Z  
+2025-10-30T06:50:05.4270429Z
+2025-10-30T06:50:05.4270625Z
 2025-10-30T06:50:05.4270846Z  if __name__ == "__main__":
 2025-10-30T06:50:05.4271135Z -    main()
 2025-10-30T06:50:05.4271365Z \ No newline at end of file
@@ -844,20 +844,20 @@
 2025-10-30T06:50:05.4278825Z +        }
 2025-10-30T06:50:05.4278970Z +    )
 2025-10-30T06:50:05.4279125Z      return exchange
-2025-10-30T06:50:05.4279289Z  
-2025-10-30T06:50:05.4279427Z  
+2025-10-30T06:50:05.4279289Z
+2025-10-30T06:50:05.4279427Z
 2025-10-30T06:50:05.4279624Z  def normalise_ticker(symbol: str, ticker: Dict) -> Dict:
 2025-10-30T06:50:05.4280129Z      """Normalise the raw ticker data into a flat dict suitable for JSON serialisation."""
 2025-10-30T06:50:05.4280494Z @@ -87,6 +89,6 @@
 2025-10-30T06:50:05.4280939Z          # Sleep for a second – adjust for your latency requirements
 2025-10-30T06:50:05.4281229Z          time.sleep(1)
-2025-10-30T06:50:05.4281395Z  
-2025-10-30T06:50:05.4281533Z  
+2025-10-30T06:50:05.4281395Z
+2025-10-30T06:50:05.4281533Z
 2025-10-30T06:50:05.4281682Z  if __name__ == "__main__":
 2025-10-30T06:50:05.4281874Z -    main()
 2025-10-30T06:50:05.4282034Z \ No newline at end of file
 2025-10-30T06:50:05.4282224Z +    main()
-2025-10-30T06:50:05.4337705Z 
+2025-10-30T06:50:05.4337705Z
 2025-10-30T06:50:05.4338150Z Oh no! 💥 💔 💥
 2025-10-30T06:50:05.4338609Z 5 files would be reformatted, 23 files would be left unchanged.
 2025-10-30T06:50:05.4621132Z ##[error]Process completed with exit code 1.

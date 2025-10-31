@@ -144,7 +144,6 @@ async def health_check():
     - Verificación de deployments
     - Debugging y troubleshooting
     """
-    import datetime
     import os
 
     return JSONResponse(

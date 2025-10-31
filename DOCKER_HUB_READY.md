@@ -3,7 +3,7 @@
 ## ✅ Configuration Status
 
 - **Docker Hub Token**: Generated and configured
-- **GitHub Variables**: DOCKER_USER set to 'neiland'  
+- **GitHub Variables**: DOCKER_USER set to 'neiland'
 - **GitHub Secrets**: DOCKER_PAT configured with access token
 - **Permissions**: Read, Write, Delete access to Docker Hub
 - **Token Expiration**: Never

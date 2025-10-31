@@ -48,4 +48,3 @@ jobs:
 
       - name: Deploy Control
         run: railway up --service control-service --yes
-

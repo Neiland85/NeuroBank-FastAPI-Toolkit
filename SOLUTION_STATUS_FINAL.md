@@ -25,7 +25,7 @@
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     # ✅ Variables de entorno para tests
     env:
       API_KEY: "NeuroBankDemo2025-SecureKey-ForTestingOnly"
@@ -37,7 +37,7 @@ jobs:
 ```yaml
   security:
     runs-on: ubuntu-latest
-    
+
     # ✅ Variables de entorno para security checks
     env:
       API_KEY: "NeuroBankDemo2025-SecureKey-ForTestingOnly"
@@ -85,7 +85,7 @@ El workflow debería mostrar:
 ## 🎉 **ESTADO FINAL**
 
 - **🔧 CI/CD**: Completamente solucionado con doble protección
-- **🚂 Railway**: Listo para deployment automático  
+- **🚂 Railway**: Listo para deployment automático
 - **🔒 Security**: Validación robusta mantenida
 - **📚 Documentation**: Completa y actualizada
 - **✅ Production Ready**: 100% verificado

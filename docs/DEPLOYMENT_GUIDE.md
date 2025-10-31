@@ -49,7 +49,7 @@ gh workflow run "CI/CD Pipeline" \
   --field deploy_to_aws=true \
   --field environment=production
 
-# Verificar estado del workflow  
+# Verificar estado del workflow
 gh run list --workflow="CI/CD Pipeline" --limit 1
 
 # Ver logs en tiempo real

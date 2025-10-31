@@ -20,7 +20,11 @@ if __name__ == "__main__":
 
     try:
         uvicorn.run(
-            "app.main:app", host="0.0.0.0", port=8000, reload=True, log_level="info"
+            "app.main:app",
+            host="0.0.0.0",
+            port=8000,
+            reload=True,
+            log_level="info",
         )
     except Exception as e:
         print(f"❌ Error iniciando servidor: {e}")

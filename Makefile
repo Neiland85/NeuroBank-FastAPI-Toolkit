@@ -37,4 +37,3 @@ aws-login:
 release-prod:
 	git tag -a $(TAG) -m "Release $(TAG)"
 	git push origin $(TAG)
-

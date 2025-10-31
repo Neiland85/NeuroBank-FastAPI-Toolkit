@@ -1,0 +1,34 @@
+[tool.black]
+line-length = 88
+target-version = ['py311']
+exclude = '''
+/(
+  \.git
+| \.venv
+| build
+| dist
+| migrations
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_first_party = "app"
+skip = ["migrations", ".venv"]
+
+[tool.ruff]
+line-length = 88
+extend-select = ["B", "I", "F", "E", "W"]
+ignore = ["E501", "B008"]
+target-version = "py311"
+fix = true
+exclude = ["migrations", ".venv"]
+
+[tool.mypy]
+python_version = 3.11
+ignore_missing_imports = true
+disallow_untyped_defs = false
+strict_optional = true
+warn_unused_ignores = true
+exclude = 'migrations|venv|build|dist'

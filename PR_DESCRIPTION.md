@@ -71,11 +71,11 @@ async def verify_api_key(
         token = authorization.split(" ")[1]
         if token == VALID_API_KEY:
             return token
-    
+
     # X-API-Key Header Authentication
     if x_api_key == VALID_API_KEY:
         return x_api_key
-    
+
     raise HTTPException(
         status_code=401,
         detail="Authentication required. Provide valid Bearer token or X-API-Key header"
@@ -96,7 +96,7 @@ class OrderStatusResponse(BaseModel):
             }
         }
     )
-    
+
     order_id: str = Field(..., description="Unique order identifier")
     status: str = Field(..., description="Current order status")
     amount: float = Field(..., description="Order amount in USD")
@@ -107,7 +107,7 @@ class OrderStatusResponse(BaseModel):
 ```python
 # Modern HTTPx Testing with ASGITransport
 client = AsyncClient(
-    transport=ASGITransport(app=app), 
+    transport=ASGITransport(app=app),
     base_url="http://test"
 )
 
@@ -146,7 +146,7 @@ pytest -v
 # ===================================== test session starts ======================================
 # platform darwin -- Python 3.12.3, pytest-8.2.0, pluggy-1.6.0
 # collected 7 items
-# 
+#
 # app/tests/test_main.py::test_health_check PASSED                     [ 14%]
 # app/tests/test_main.py::test_root_endpoint PASSED                    [ 28%]
 # app/tests/test_operator.py::test_order_status PASSED                 [ 42%]
@@ -154,7 +154,7 @@ pytest -v
 # app/tests/test_operator.py::test_order_status_with_bearer_token PASSED [ 71%]
 # app/tests/test_operator.py::test_order_status_unauthorized PASSED     [ 85%]
 # app/tests/test_operator.py::test_order_status_forbidden PASSED        [100%]
-# 
+#
 # ====================================== 7 passed in 0.50s ======================================
 ```
 

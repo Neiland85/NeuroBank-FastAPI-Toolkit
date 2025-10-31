@@ -14,17 +14,17 @@
 2025-10-30T06:50:05.3330857Z --- /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/config.py	2025-10-30 06:48:16.888244+00:00
 2025-10-30T06:50:05.3334945Z +++ /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/config.py	2025-10-30 06:50:05.330803+00:00
 2025-10-30T06:50:05.3337655Z @@ -17,11 +17,11 @@
-2025-10-30T06:50:05.3338883Z  
+2025-10-30T06:50:05.3338883Z
 2025-10-30T06:50:05.3340153Z      # Server Configuration
 2025-10-30T06:50:05.3341483Z      host: str = "0.0.0.0"
 2025-10-30T06:50:05.3342782Z      port: int = int(os.getenv("PORT", 8000))
 2025-10-30T06:50:05.3344150Z      workers: int = int(os.getenv("WORKERS", 1))
 2025-10-30T06:50:05.3349050Z would reformat /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/config.py
-2025-10-30T06:50:05.3349845Z -    
+2025-10-30T06:50:05.3349845Z -
 2025-10-30T06:50:05.3350549Z +
 2025-10-30T06:50:05.3350961Z      # Security / Secrets
 2025-10-30T06:50:05.3351528Z      secret_key: Optional[str] = os.getenv("SECRET_KEY")
-2025-10-30T06:50:05.3356552Z  
+2025-10-30T06:50:05.3356552Z
 2025-10-30T06:50:05.3357207Z      # Environment Configuration
 2025-10-30T06:50:05.3357614Z      environment: str = os.getenv(
 2025-10-30T06:50:05.3846697Z --- /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/app/routers/trading.py	2025-10-30 06:48:16.888244+00:00
@@ -32,11 +32,11 @@
 2025-10-30T06:50:05.3849176Z @@ -8,10 +8,11 @@
 2025-10-30T06:50:05.3849498Z  from datetime import datetime
 2025-10-30T06:50:05.3849913Z  from pycoingecko import CoinGeckoAPI
-2025-10-30T06:50:05.3850450Z  
+2025-10-30T06:50:05.3850450Z
 2025-10-30T06:50:05.3850724Z  router = APIRouter()
 2025-10-30T06:50:05.3851069Z  cg = CoinGeckoAPI()
 2025-10-30T06:50:05.3851382Z +
-2025-10-30T06:50:05.3851637Z  
+2025-10-30T06:50:05.3851637Z
 2025-10-30T06:50:05.3851985Z  # === AGENTE RL SIMPLE (PPO-like) ===
 2025-10-30T06:50:05.3852441Z  class SimplePPOAgent(nn.Module):
 2025-10-30T06:50:05.3852918Z      def __init__(self, input_size=5, hidden_size=64):
@@ -46,12 +46,12 @@
 2025-10-30T06:50:05.3854657Z          policy = torch.softmax(self.policy_head(x), dim=-1)
 2025-10-30T06:50:05.3855167Z          value = self.value_head(x)
 2025-10-30T06:50:05.3855580Z          return policy, value
-2025-10-30T06:50:05.3855930Z  
+2025-10-30T06:50:05.3855930Z
 2025-10-30T06:50:05.3856181Z +
 2025-10-30T06:50:05.3856463Z  agent = SimplePPOAgent()
 2025-10-30T06:50:05.3856818Z  agent.eval()
 2025-10-30T06:50:05.3857095Z +
-2025-10-30T06:50:05.3857357Z  
+2025-10-30T06:50:05.3857357Z
 2025-10-30T06:50:05.3857705Z  # === DATOS REALES BTC (Coingecko) + ORDERBOOK MOCK ===
 2025-10-30T06:50:05.3858175Z  def get_btc_data():
 2025-10-30T06:50:05.3858483Z      try:
@@ -65,7 +65,7 @@
 2025-10-30T06:50:05.4040863Z          print(f"Coingecko fallback: {e}")
 2025-10-30T06:50:05.4041342Z          price = 67000.0 + np.random.normal(0, 1000)
 2025-10-30T06:50:05.4041851Z          volume_24h = random.uniform(1000, 5000) * 1000
-2025-10-30T06:50:05.4042284Z  
+2025-10-30T06:50:05.4042284Z
 2025-10-30T06:50:05.4042576Z      # Orderbook simulado (5 niveles)
 2025-10-30T06:50:05.4043107Z -    bids = [(price * (1 - 0.0001 * (j+1)), random.uniform(0.1, 2.0)) for j in range(5)]
 2025-10-30T06:50:05.4043818Z -    asks = [(price * (1 + 0.0001 * (j+1)), random.uniform(0.1, 2.0)) for j in range(5)]
@@ -76,7 +76,7 @@
 2025-10-30T06:50:05.4045977Z +        (price * (1 + 0.0001 * (j + 1)), random.uniform(0.1, 2.0)) for j in range(5)
 2025-10-30T06:50:05.4046503Z +    ]
 2025-10-30T06:50:05.4046958Z      imbalance = sum(qty for _, qty in bids) - sum(qty for _, qty in asks)
-2025-10-30T06:50:05.4047646Z  
+2025-10-30T06:50:05.4047646Z
 2025-10-30T06:50:05.4047911Z      return {
 2025-10-30T06:50:05.4048257Z          "timestamp": datetime.now().isoformat(),
 2025-10-30T06:50:05.4048708Z          "price": round(price, 2),
@@ -87,12 +87,12 @@
 2025-10-30T06:50:05.4050844Z +        "asks": asks,
 2025-10-30T06:50:05.4051161Z      }
 2025-10-30T06:50:05.4051423Z +
-2025-10-30T06:50:05.4051685Z  
+2025-10-30T06:50:05.4051685Z
 2025-10-30T06:50:05.4052610Z  # === ENDPOINT: SEÑAL DE TRADING ===
 2025-10-30T06:50:05.4053053Z  @router.get("/imbalance")
 2025-10-30T06:50:05.4053446Z  async def get_imbalance_and_signal():
 2025-10-30T06:50:05.4053919Z      tick = get_btc_data()
-2025-10-30T06:50:05.4054261Z -    
+2025-10-30T06:50:05.4054261Z -
 2025-10-30T06:50:05.4054540Z +
 2025-10-30T06:50:05.4055000Z      # Estado para RL: [imbalance, price_change, volume_norm, spread, momentum]
 2025-10-30T06:50:05.4055636Z -    state = torch.tensor([[
@@ -114,7 +114,7 @@
 2025-10-30T06:50:05.4112545Z +        ],
 2025-10-30T06:50:05.4112850Z +        dtype=torch.float32,
 2025-10-30T06:50:05.4113221Z +    )
-2025-10-30T06:50:05.4113490Z  
+2025-10-30T06:50:05.4113490Z
 2025-10-30T06:50:05.4113783Z      with torch.no_grad():
 2025-10-30T06:50:05.4114170Z          policy, value = agent(state)
 2025-10-30T06:50:05.4114623Z          action_idx = policy.argmax().item()
@@ -132,7 +132,7 @@
 2025-10-30T06:50:05.4120285Z +        "orderbook_snapshot": {"bids": tick["bids"][:3], "asks": tick["asks"][:3]},
 2025-10-30T06:50:05.4120878Z      }
 2025-10-30T06:50:05.4121157Z +
-2025-10-30T06:50:05.4121404Z  
+2025-10-30T06:50:05.4121404Z
 2025-10-30T06:50:05.4121703Z  # === ENDPOINT: ESTADO DEL AGENTE ===
 2025-10-30T06:50:05.4122144Z  @router.get("/agent/status")
 2025-10-30T06:50:05.4122544Z  async def agent_status():
@@ -148,8 +148,8 @@
 2025-10-30T06:50:05.4237992Z --- /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/docs/trading_ai_system_updated/trading_ai_system/control_service/main.py	2025-10-30 06:48:16.889244+00:00
 2025-10-30T06:50:05.4239181Z +++ /home/runner/work/NeuroBank-FastAPI-Toolkit/NeuroBank-FastAPI-Toolkit/docs/trading_ai_system_updated/trading_ai_system/control_service/main.py	2025-10-30 06:50:05.421931+00:00
 2025-10-30T06:50:05.4239823Z @@ -20,15 +20,17 @@
-2025-10-30T06:50:05.4240182Z  
-2025-10-30T06:50:05.4240332Z  
+2025-10-30T06:50:05.4240182Z
+2025-10-30T06:50:05.4240332Z
 2025-10-30T06:50:05.4240706Z  def get_exchange() -> ccxt.Exchange:
 2025-10-30T06:50:05.4240966Z      api_key = os.getenv("EXCHANGE_API_KEY")
 2025-10-30T06:50:05.4241381Z      secret = os.getenv("EXCHANGE_SECRET")
@@ -166,16 +166,16 @@
 2025-10-30T06:50:05.4244595Z +        }
 2025-10-30T06:50:05.4244788Z +    )
 2025-10-30T06:50:05.4245023Z      return exchange
-2025-10-30T06:50:05.4245286Z  
-2025-10-30T06:50:05.4245486Z  
+2025-10-30T06:50:05.4245286Z
+2025-10-30T06:50:05.4245486Z
 2025-10-30T06:50:05.4245747Z  @retry(wait=wait_fixed(5), stop=stop_after_attempt(5))
 2025-10-30T06:50:05.4246229Z  def create_consumer(topic: str) -> KafkaConsumer:
 2025-10-30T06:50:05.4246630Z @@ -46,11 +48,13 @@
 2025-10-30T06:50:05.4247059Z  def calculate_position_size(balance: float, risk_fraction: float) -> float:
 2025-10-30T06:50:05.4247758Z      """Calculate position size based on available balance and risk fraction."""
 2025-10-30T06:50:05.4248280Z      return balance * risk_fraction
-2025-10-30T06:50:05.4248609Z  
-2025-10-30T06:50:05.4248818Z  
+2025-10-30T06:50:05.4248609Z
+2025-10-30T06:50:05.4248818Z
 2025-10-30T06:50:05.4249296Z -def place_order(exchange: ccxt.Exchange, symbol: str, signal: int, amount: float) -> None:
 2025-10-30T06:50:05.4249896Z +def place_order(
 2025-10-30T06:50:05.4250320Z +    exchange: ccxt.Exchange, symbol: str, signal: int, amount: float
@@ -203,8 +203,8 @@
 2025-10-30T06:50:05.4262390Z @@ -89,6 +95,6 @@
 2025-10-30T06:50:05.4262554Z          # Place order
 2025-10-30T06:50:05.4262773Z          place_order(exchange, symbol, signal, amount)
-2025-10-30T06:50:05.4263005Z  
-2025-10-30T06:50:05.4263196Z  
+2025-10-30T06:50:05.4263005Z
+2025-10-30T06:50:05.4263196Z
 2025-10-30T06:50:05.4263356Z  if __name__ == "__main__":
 2025-10-30T06:50:05.4263546Z -    main()
 2025-10-30T06:50:05.4263711Z \ No newline at end of file
@@ -217,8 +217,8 @@
 2025-10-30T06:50:05.4269444Z @@ -95,6 +95,6 @@
 2025-10-30T06:50:05.4269624Z          producer.flush()
 2025-10-30T06:50:05.4269906Z          print(f"[INFERENCE] {symbol} price={price:.2f} signal={signal}")
-2025-10-30T06:50:05.4270426Z  
-2025-10-30T06:50:05.4270623Z  
+2025-10-30T06:50:05.4270426Z
+2025-10-30T06:50:05.4270623Z
 2025-10-30T06:50:05.4270842Z  if __name__ == "__main__":
 2025-10-30T06:50:05.4271132Z -    main()
 2025-10-30T06:50:05.4271362Z \ No newline at end of file
@@ -244,20 +244,20 @@
 2025-10-30T06:50:05.4278823Z +        }
 2025-10-30T06:50:05.4278968Z +    )
 2025-10-30T06:50:05.4279123Z      return exchange
-2025-10-30T06:50:05.4279287Z  
-2025-10-30T06:50:05.4279425Z  
+2025-10-30T06:50:05.4279287Z
+2025-10-30T06:50:05.4279425Z
 2025-10-30T06:50:05.4279621Z  def normalise_ticker(symbol: str, ticker: Dict) -> Dict:
 2025-10-30T06:50:05.4280125Z      """Normalise the raw ticker data into a flat dict suitable for JSON serialisation."""
 2025-10-30T06:50:05.4280492Z @@ -87,6 +89,6 @@
 2025-10-30T06:50:05.4280935Z          # Sleep for a second – adjust for your latency requirements
 2025-10-30T06:50:05.4281227Z          time.sleep(1)
-2025-10-30T06:50:05.4281393Z  
-2025-10-30T06:50:05.4281531Z  
+2025-10-30T06:50:05.4281393Z
+2025-10-30T06:50:05.4281531Z
 2025-10-30T06:50:05.4281675Z  if __name__ == "__main__":
 2025-10-30T06:50:05.4281872Z -    main()
 2025-10-30T06:50:05.4282032Z \ No newline at end of file
 2025-10-30T06:50:05.4282222Z +    main()
-2025-10-30T06:50:05.4337688Z 
+2025-10-30T06:50:05.4337688Z
 2025-10-30T06:50:05.4338139Z Oh no! 💥 💔 💥
 2025-10-30T06:50:05.4338605Z 5 files would be reformatted, 23 files would be left unchanged.
 2025-10-30T06:50:05.4621110Z ##[error]Process completed with exit code 1.

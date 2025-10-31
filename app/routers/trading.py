@@ -1,15 +1,15 @@
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
-from typing import Dict
-import torch
-import torch.nn as nn
-import numpy as np
 import random
 from datetime import datetime
+
+import numpy as np
+import torch
+import torch.nn as nn
+from fastapi import APIRouter
 from pycoingecko import CoinGeckoAPI
 
 router = APIRouter()
 cg = CoinGeckoAPI()
+
 
 # === AGENTE RL SIMPLE (PPO-like) ===
 class SimplePPOAgent(nn.Module):
@@ -27,23 +27,29 @@ class SimplePPOAgent(nn.Module):
         value = self.value_head(x)
         return policy, value
 
+
 agent = SimplePPOAgent()
 agent.eval()
+
 
 # === DATOS REALES BTC (Coingecko) + ORDERBOOK MOCK ===
 def get_btc_data():
     try:
-        data = cg.get_price(ids='bitcoin', vs_currencies='usd', include_24hr_vol='true')
-        price = data['bitcoin']['usd']
-        volume_24h = data['bitcoin']['usd_24h_vol']
+        data = cg.get_price(ids="bitcoin", vs_currencies="usd", include_24hr_vol="true")
+        price = data["bitcoin"]["usd"]
+        volume_24h = data["bitcoin"]["usd_24h_vol"]
     except Exception as e:
         print(f"Coingecko fallback: {e}")
         price = 67000.0 + np.random.normal(0, 1000)
         volume_24h = random.uniform(1000, 5000) * 1000
 
     # Orderbook simulado (5 niveles)
-    bids = [(price * (1 - 0.0001 * (j+1)), random.uniform(0.1, 2.0)) for j in range(5)]
-    asks = [(price * (1 + 0.0001 * (j+1)), random.uniform(0.1, 2.0)) for j in range(5)]
+    bids = [
+        (price * (1 - 0.0001 * (j + 1)), random.uniform(0.1, 2.0)) for j in range(5)
+    ]
+    asks = [
+        (price * (1 + 0.0001 * (j + 1)), random.uniform(0.1, 2.0)) for j in range(5)
+    ]
     imbalance = sum(qty for _, qty in bids) - sum(qty for _, qty in asks)
 
     return {
@@ -52,22 +58,28 @@ def get_btc_data():
         "volume_24h": round(volume_24h, 2),
         "imbalance": round(imbalance, 4),
         "bids": bids,
-        "asks": asks
+        "asks": asks,
     }
+
 
 # === ENDPOINT: SEÑAL DE TRADING ===
 @router.get("/imbalance")
 async def get_imbalance_and_signal():
     tick = get_btc_data()
-    
+
     # Estado para RL: [imbalance, price_change, volume_norm, spread, momentum]
-    state = torch.tensor([[
-        tick["imbalance"] / 10.0,
-        0.001,  # mock delta
-        min(tick["volume_24h"] / 1e9, 1.0),
-        (tick["asks"][0][0] - tick["bids"][0][0]) / tick["price"],
-        random.uniform(-0.01, 0.01)
-    ]], dtype=torch.float32)
+    state = torch.tensor(
+        [
+            [
+                tick["imbalance"] / 10.0,
+                0.001,  # mock delta
+                min(tick["volume_24h"] / 1e9, 1.0),
+                (tick["asks"][0][0] - tick["bids"][0][0]) / tick["price"],
+                random.uniform(-0.01, 0.01),
+            ]
+        ],
+        dtype=torch.float32,
+    )
 
     with torch.no_grad():
         policy, value = agent(state)
@@ -84,11 +96,9 @@ async def get_imbalance_and_signal():
         "signal": signal,
         "confidence": round(confidence, 4),
         "value_estimate": round(value.item(), 4),
-        "orderbook_snapshot": {
-            "bids": tick["bids"][:3],
-            "asks": tick["asks"][:3]
-        }
+        "orderbook_snapshot": {"bids": tick["bids"][:3], "asks": tick["asks"][:3]},
     }
+
 
 # === ENDPOINT: ESTADO DEL AGENTE ===
 @router.get("/agent/status")
@@ -98,5 +108,5 @@ async def agent_status():
         "status": "loaded",
         "input_size": 5,
         "actions": ["LONG", "SHORT", "HOLD"],
-        "torch_version": torch.__version__
+        "torch_version": torch.__version__,
     }

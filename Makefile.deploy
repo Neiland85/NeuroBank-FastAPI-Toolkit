@@ -10,4 +10,3 @@ build-all:
 	docker build -t $(ECR)/neurobank/ingestion:local trading_ai_system/ingestion_service
 	docker build -t $(ECR)/neurobank/inference:local trading_ai_system/inference_service
 	docker build -t $(ECR)/neurobank/control:local trading_ai_system/control_service
-

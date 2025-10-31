@@ -19,7 +19,7 @@ api_key
 # ❌ Antes: Campo obligatorio
 api_key: str = os.getenv("API_KEY")
 
-# ✅ Después: Campo opcional para tests  
+# ✅ Después: Campo opcional para tests
 api_key: Optional[str] = os.getenv("API_KEY")
 ```
 
@@ -76,20 +76,20 @@ print(s.api_key)    # ✅ "test_secure_key_for_testing_only_not_production"
 
 ### **❌ Estado Inicial:**
 - Pydantic v1 imports ❌
-- API_KEY siempre obligatorio ❌  
+- API_KEY siempre obligatorio ❌
 - Tests fallan sin API_KEY ❌
 - No compatibilidad CI/CD ❌
 
 ### **✅ Estado Después Primer Fix:**
 - Pydantic v2 compatible ✅
-- API_KEY siempre obligatorio ❌  
+- API_KEY siempre obligatorio ❌
 - Tests fallan sin API_KEY ❌
 - ValidationError en CI/CD ❌
 
 ### **🎯 Estado Final (Ambos Fixes):**
 - Pydantic v2 compatible ✅
 - API_KEY opcional en tests ✅
-- Tests pasan sin API_KEY ✅  
+- Tests pasan sin API_KEY ✅
 - CI/CD compatible ✅
 - Producción segura ✅
 
@@ -123,7 +123,7 @@ feat/railway-deployment-optimization:
 
 **El proyecto ahora puede:**
 - 🧪 Ejecutar tests en CI/CD sin configuración previa
-- 🚂 Deployar en Railway con configuración segura  
+- 🚂 Deployar en Railway con configuración segura
 - 🔒 Mantener validación estricta en producción
 - 🛠️ Funcionar en desarrollo local
 

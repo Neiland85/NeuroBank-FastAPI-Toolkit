@@ -123,7 +123,7 @@ chmod +x deploy_production.sh && ./deploy_production.sh
 |---|---|---|
 | **Lines of Code** | 2,000+ | Professional codebase |
 | **API Endpoints** | 15+ | Comprehensive backend |
-| **UI Components** | 20+ | Modern dashboard |  
+| **UI Components** | 20+ | Modern dashboard |
 | **Docker Ready** | ✅ | Production deployment |
 | **Security Layer** | ✅ | Banking-grade auth |
 | **Real-time Features** | ✅ | Live data updates |
@@ -143,7 +143,7 @@ chmod +x deploy_production.sh && ./deploy_production.sh
 ### 🎯 **Core Sections**
 [🎯 Project Overview](#project-overview) • [✨ Key Features](#key-features) • [🏗️ Architecture](#architecture) • [🚀 Quick Start](#quick-start)
 
-### 📊 **Technical Details**  
+### 📊 **Technical Details**
 [🔗 Live Access Points](#live-access-points) • [📱 Dashboard Preview](#dashboard-preview) • [🔧 Technical Stack](#technical-stack) • [📂 Project Structure](#project-structure)
 
 ### 🚀 **Deployment & Operations**
@@ -167,11 +167,11 @@ chmod +x deploy_production.sh && ./deploy_production.sh
 
 </div>
 
-**NeuroBank FastAPI Toolkit** es una aplicación bancaria de **nivel empresarial** diseñada específicamente para **impresionar a reclutadores técnicos de la industria bancaria**. 
+**NeuroBank FastAPI Toolkit** es una aplicación bancaria de **nivel empresarial** diseñada específicamente para **impresionar a reclutadores técnicos de la industria bancaria**.
 
 🎪 **Este proyecto demuestra:**
 - ✅ **Habilidades Python/FastAPI avanzadas** con patrones async/await
-- ✅ **Arquitectura de microservicios** production-ready  
+- ✅ **Arquitectura de microservicios** production-ready
 - ✅ **Dashboard administrativo completo** con UI moderna
 - ✅ **Mejores prácticas de seguridad** para fintech
 - ✅ **DevOps y deployment** automatizado
@@ -198,12 +198,12 @@ graph TD
     B --> C[Demostrar Habilidades Enterprise]
     B --> D[Showcase Técnico Completo]
     B --> E[Aplicación Production-Ready]
-    
+
     C --> C1[🔧 Backend APIs]
-    C --> C2[🎨 Frontend Moderno]  
+    C --> C2[🎨 Frontend Moderno]
     C --> C3[🚀 DevOps & Deploy]
     C --> C4[🔒 Security Best Practices]
-    
+
     D --> D1[📊 Real-time Dashboard]
     D --> D2[💳 Transaction Management]
     D --> D3[👥 User Administration]
@@ -220,7 +220,7 @@ graph TD
 
 ### 🏦 **Banking Dashboard**
 - ✅ Professional banking UI/UX
-- ✅ Real-time metrics & analytics  
+- ✅ Real-time metrics & analytics
 - ✅ Interactive data visualization
 - ✅ Mobile-responsive design
 - ✅ Modern Bootstrap 5 theme
@@ -246,7 +246,7 @@ graph TD
 - ✅ Multi-environment deployment
 - ✅ Health checks & monitoring
 - ✅ Nginx reverse proxy
-- ✅ Systemd service integration  
+- ✅ Systemd service integration
 - ✅ CI/CD pipeline ready
 
 </td>
@@ -263,27 +263,27 @@ graph TB
         UI[🎨 Modern Web UI<br/>Bootstrap 5 + Chart.js]
         Mobile[📱 Responsive Design<br/>Mobile-First]
     end
-    
+
     subgraph "🔀 Load Balancer"
         Nginx[🌐 Nginx Reverse Proxy<br/>SSL + Security Headers]
     end
-    
+
     subgraph "🚀 Application Layer"
         FastAPI[⚡ FastAPI Backend<br/>Async/Await + Pydantic]
         Jinja[🎭 Jinja2 Templates<br/>Server-Side Rendering]
     end
-    
+
     subgraph "💾 Data Layer"
         SQLite[(🗄️ SQLite Database<br/>Transaction Data)]
         Mock[🎲 Mock Data Generator<br/>Demo Purposes]
     end
-    
+
     subgraph "📊 Monitoring"
         Health[🏥 Health Checks]
         Metrics[📈 Metrics API]
         Logs[📋 Structured Logging]
     end
-    
+
     UI --> Nginx
     Mobile --> Nginx
     Nginx --> FastAPI
@@ -293,7 +293,7 @@ graph TB
     FastAPI --> Health
     FastAPI --> Metrics
     FastAPI --> Logs
-    
+
     style FastAPI fill:#1e3a8a,stroke:#fff,color:#fff
     style UI fill:#3b82f6,stroke:#fff,color:#fff
     style Nginx fill:#10b981,stroke:#fff,color:#fff
@@ -378,17 +378,17 @@ graph LR
         B[📈 Interactive Charts<br/>- Transaction Trends<br/>- Volume Analysis<br/>- Status Distribution]
         C[🔔 System Health<br/>- API Status<br/>- Response Time<br/>- Uptime Monitor]
     end
-    
+
     subgraph "💳 Transaction Panel"
         D[🔍 Advanced Filters<br/>- Status Filter<br/>- Date Range<br/>- Amount Range<br/>- User Search]
         E[📋 Data Table<br/>- Sortable Columns<br/>- Pagination<br/>- Bulk Actions<br/>- Export Options]
         F[🎯 Quick Actions<br/>- View Details<br/>- Edit Transaction<br/>- Status Update<br/>- Generate Report]
     end
-    
+
     A --> D
-    B --> E  
+    B --> E
     C --> F
-    
+
     style A fill:#1e3a8a,stroke:#fff,color:#fff
     style D fill:#10b981,stroke:#fff,color:#fff
     style B fill:#3b82f6,stroke:#fff,color:#fff
@@ -437,7 +437,7 @@ graph LR
 # Core Dependencies - requirements.txt
 fastapi==0.104.1           # ⚡ Modern web framework
 uvicorn[standard]==0.24.0  # 🚀 ASGI server
-jinja2==3.1.3             # 🎭 Template engine  
+jinja2==3.1.3             # 🎭 Template engine
 python-multipart==0.0.9   # 📤 File upload support
 pydantic==2.5.0           # ✅ Data validation
 ```
@@ -478,7 +478,7 @@ pydantic==2.5.0           # ✅ Data validation
 ├── ⚙️ neurobank-fastapi.service         # Systemd service
 ├── 🌐 nginx/nginx.conf                  # Reverse proxy config
 │
-├── 📋 requirements.txt                  # Python dependencies  
+├── 📋 requirements.txt                  # Python dependencies
 ├── 📖 README.md                         # This amazing documentation
 ├── 📄 PRODUCTION_README.md              # Production deployment guide
 ├── 🔢 VERSION                           # Semantic versioning
@@ -510,14 +510,14 @@ graph TD
         C[👥 GET /backoffice/admin/users] --> C1[👤 User Administration]
         D[📈 GET /backoffice/admin/reports] --> D1[📋 Financial Reports]
     end
-    
+
     subgraph "🔧 Data APIs"
         E[📊 GET /backoffice/api/metrics] --> E1[📈 Real-time Metrics]
         F[🔍 GET /backoffice/api/transactions/search] --> F1[🔎 Transaction Search]
         G[🏥 GET /backoffice/api/system-health] --> G1[❤️ System Health]
         H[ℹ️ GET /backoffice/info] --> H1[📋 System Information]
     end
-    
+
     style A fill:#1e3a8a,stroke:#fff,color:#fff
     style E fill:#10b981,stroke:#fff,color:#fff
 ```
@@ -535,7 +535,7 @@ GET /backoffice/
 - **Template**: [`basic_dashboard.html`](./app/backoffice/templates/basic_dashboard.html)
 - **Features**: Real-time metrics, animated counters, system health
 
-#### **Transaction Management**  
+#### **Transaction Management**
 ```http
 GET /backoffice/admin/transactions
 ```
@@ -551,7 +551,7 @@ GET /backoffice/admin/transactions
 ```http
 GET /backoffice/api/metrics
 ```
-- **Response**: 
+- **Response**:
 ```json
 {
   "total_transactions": 156,
@@ -582,27 +582,27 @@ GET /backoffice/api/transactions/search?page=1&page_size=20&status=completed
 graph TD
     subgraph "☁️ Production Environment"
         LB[🌐 Load Balancer<br/>Nginx + SSL]
-        
+
         subgraph "🚀 Application Servers"
             APP1[⚡ FastAPI Instance 1<br/>Gunicorn + Uvicorn]
-            APP2[⚡ FastAPI Instance 2<br/>Gunicorn + Uvicorn] 
+            APP2[⚡ FastAPI Instance 2<br/>Gunicorn + Uvicorn]
             APP3[⚡ FastAPI Instance 3<br/>Gunicorn + Uvicorn]
         end
-        
+
         subgraph "💾 Data Layer"
             DB[(🗄️ SQLite Database)]
             CACHE[(🔄 Redis Cache)]
         end
-        
+
         subgraph "📊 Monitoring"
             HEALTH[🏥 Health Checks]
             METRICS[📈 Metrics Collection]
             LOGS[📋 Centralized Logging]
         end
     end
-    
+
     LB --> APP1
-    LB --> APP2  
+    LB --> APP2
     LB --> APP3
     APP1 --> DB
     APP2 --> DB
@@ -610,14 +610,14 @@ graph TD
     APP1 --> CACHE
     APP2 --> CACHE
     APP3 --> CACHE
-    
+
     APP1 --> HEALTH
     APP2 --> METRICS
     APP3 --> LOGS
-    
+
     style LB fill:#10b981,stroke:#fff,color:#fff
     style APP1 fill:#1e3a8a,stroke:#fff,color:#fff
-    style APP2 fill:#1e3a8a,stroke:#fff,color:#fff  
+    style APP2 fill:#1e3a8a,stroke:#fff,color:#fff
     style APP3 fill:#1e3a8a,stroke:#fff,color:#fff
 ```
 
@@ -649,7 +649,7 @@ services:
       - APP_ENV=production
       - LOG_LEVEL=info
     restart: unless-stopped
-    
+
   nginx:
     image: nginx:alpine
     ports:
@@ -730,7 +730,7 @@ graph LR
     D --> E[🔍 Pull Request Review]
     E --> F[✅ Merge to Develop]
     F --> G[🚀 Deploy to Production]
-    
+
     style A fill:#3b82f6,stroke:#fff,color:#fff
     style G fill:#10b981,stroke:#fff,color:#fff
 ```
@@ -753,25 +753,25 @@ graph LR
 graph TB
     subgraph "📊 Metrics Collection"
         A[⚡ API Response Times]
-        B[💳 Transaction Volumes]  
+        B[💳 Transaction Volumes]
         C[👥 Active Users]
         D[💾 Database Health]
         E[🔄 Cache Performance]
     end
-    
+
     subgraph "🎯 Monitoring Tools"
         F[📈 Grafana Dashboards]
         G[🚨 Alerting System]
-        H[📋 Log Aggregation] 
+        H[📋 Log Aggregation]
         I[🔍 Performance Profiling]
     end
-    
+
     A --> F
     B --> F
     C --> G
     D --> H
     E --> I
-    
+
     style F fill:#1e3a8a,stroke:#fff,color:#fff
     style G fill:#ef4444,stroke:#fff,color:#fff
 ```
@@ -798,7 +798,7 @@ sequenceDiagram
     participant A as 🔐 Auth Middleware
     participant B as ⚡ Backend API
     participant D as 💾 Database
-    
+
     C->>A: Request with API Key
     A->>A: Validate API Key
     alt ✅ Valid Key
@@ -834,26 +834,26 @@ graph LR
         B[📊 Data Validation<br/>Pydantic Models]
         C[💾 Connection Pooling<br/>Database Optimization]
     end
-    
-    subgraph "🎨 Frontend Optimizations" 
+
+    subgraph "🎨 Frontend Optimizations"
         D[📦 CDN Assets<br/>Bootstrap + Chart.js]
         E[🗜️ Minified Code<br/>CSS + JavaScript]
         F[🖼️ Lazy Loading<br/>Images + Components]
     end
-    
+
     subgraph "🌐 Infrastructure"
         G[🔄 Load Balancing<br/>Nginx Proxy]
         H[💨 Gzip Compression<br/>Static Assets]
         I[⚡ HTTP/2 Support<br/>Modern Protocol]
     end
-    
+
     A --> D
-    B --> E  
+    B --> E
     C --> F
     D --> G
     E --> H
     F --> I
-    
+
     style A fill:#10b981,stroke:#fff,color:#fff
     style D fill:#3b82f6,stroke:#fff,color:#fff
     style G fill:#1e3a8a,stroke:#fff,color:#fff
@@ -899,23 +899,23 @@ graph TD
         B[☰ Hamburger Menu<br/>Collapsible Navigation]
         C[📊 Simplified Charts<br/>Touch-Friendly]
     end
-    
+
     subgraph "💻 Tablet (768px - 1024px)"
         D[📦 Grid Layout<br/>2-Column Design]
         E[📋 Side Navigation<br/>Expanded Menu]
         F[📈 Full Charts<br/>Interactive Elements]
     end
-    
+
     subgraph "🖥️ Desktop (> 1024px)"
         G[🎯 Full Layout<br/>Multi-Column Grid]
         H[🎪 Rich Navigation<br/>All Features Visible]
         I[📊 Advanced Charts<br/>All Interactions]
     end
-    
+
     A --> D --> G
     B --> E --> H
     C --> F --> I
-    
+
     style A fill:#ef4444,stroke:#fff,color:#fff
     style D fill:#f59e0b,stroke:#fff,color:#fff
     style G fill:#10b981,stroke:#fff,color:#fff

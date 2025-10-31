@@ -126,7 +126,7 @@ Railway asigna automáticamente:
 
 ### Endpoints Importantes:
 - Health: `/health`
-- Docs: `/docs`  
+- Docs: `/docs`
 - Admin: `/backoffice/`
 
 ### Variables Railway Disponibles:

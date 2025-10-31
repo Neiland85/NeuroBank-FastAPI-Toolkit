@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title or "NeuroBank Admin" }}</title>
-    
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
-    
+
     <style>
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         .admin-panel {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
@@ -24,7 +24,7 @@
             backdrop-filter: blur(15px);
             margin: 20px 0;
         }
-        
+
         .btn-neuro {
             background: linear-gradient(45deg, #1e3a8a, #3b82f6);
             border: none;
@@ -33,14 +33,14 @@
             padding: 10px 20px;
             font-weight: 600;
         }
-        
+
         .filter-section {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 30px;
         }
-        
+
         .transaction-card {
             background: white;
             border-radius: 15px;
@@ -49,19 +49,19 @@
             padding: 20px;
             transition: all 0.3s ease;
         }
-        
+
         .transaction-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
-        
+
         .status-badge {
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
         }
-        
+
         .status-completed { background-color: #d1fae5; color: #065f46; }
         .status-pending { background-color: #fef3c7; color: #92400e; }
         .status-failed { background-color: #fee2e2; color: #991b1b; }
@@ -142,7 +142,7 @@
                             <h5>Filtros</h5>
                             <div class="row g-3">
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" id="searchQuery" 
+                                    <input type="text" class="form-control" id="searchQuery"
                                            placeholder="Buscar transacciones..." onkeyup="searchTransactions()">
                                 </div>
                                 <div class="col-md-2">
@@ -189,7 +189,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -200,24 +200,24 @@
         async function loadTransactions() {
             try {
                 console.log('Loading transactions...');
-                
+
                 // Show loading
                 document.getElementById('loading').style.display = 'block';
-                
+
                 const response = await fetch('/backoffice/api/transactions/search?page=1&page_size=20');
                 const data = await response.json();
-                
+
                 console.log('Data received:', data);
-                
+
                 displayTransactions(data.transactions || []);
                 updateStats(data);
-                
+
                 // Hide loading
                 document.getElementById('loading').style.display = 'none';
-                
+
             } catch (error) {
                 console.error('Error loading transactions:', error);
-                document.getElementById('transactionsList').innerHTML = 
+                document.getElementById('transactionsList').innerHTML =
                     '<div class="alert alert-danger">Error cargando transacciones: ' + error.message + '</div>';
                 document.getElementById('loading').style.display = 'none';
             }
@@ -226,7 +226,7 @@
         // Display transactions
         function displayTransactions(transactions) {
             const container = document.getElementById('transactionsList');
-            
+
             if (!transactions || transactions.length === 0) {
                 container.innerHTML = '<div class="alert alert-info">No se encontraron transacciones</div>';
                 return;
@@ -255,16 +255,16 @@
         // Update statistics
         function updateStats(data) {
             const transactions = data.transactions || [];
-            
+
             document.getElementById('totalTransactions').textContent = data.total || transactions.length;
-            
+
             const totalVolume = transactions.reduce((sum, t) => sum + Math.abs(t.amount || 0), 0);
             document.getElementById('totalVolume').textContent = '$' + totalVolume.toLocaleString();
-            
+
             const completedCount = transactions.filter(t => t.status === 'completed').length;
             const successRate = transactions.length > 0 ? (completedCount / transactions.length * 100).toFixed(1) : 0;
             document.getElementById('successRate').textContent = successRate + '%';
-            
+
             const avgAmount = transactions.length > 0 ? totalVolume / transactions.length : 0;
             document.getElementById('avgAmount').textContent = '$' + avgAmount.toLocaleString(undefined, {maximumFractionDigits: 0});
         }

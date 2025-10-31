@@ -1,6 +1,4 @@
-from typing import List
-
-from fastapi import APIRouter, Depends, HTTPException, Path, status
+from fastapi import APIRouter, Depends, Path
 from pydantic import BaseModel, Field
 
 from ..auth.dependencies import verify_api_key
@@ -124,23 +122,23 @@ class InvoiceResponse(BaseModel):
     summary="📊 Consultar Estado de Orden",
     description="""
     **Consulta el estado actual de una orden bancaria**
-    
-    Este endpoint permite verificar el estado de procesamiento de cualquier 
+
+    Este endpoint permite verificar el estado de procesamiento de cualquier
     transacción bancaria utilizando su identificador único.
-    
+
     ### 🔍 Casos de uso:
     - Seguimiento de transferencias en tiempo real
     - Verificación de estado de pagos
     - Monitoreo de transacciones pendientes
     - Auditoría de operaciones bancarias
-    
+
     ### 📋 Estados posibles:
     - `pending`: Orden recibida, esperando procesamiento
     - `processing`: Transacción en curso
     - `completed`: Operación finalizada exitosamente
     - `failed`: Error en el procesamiento
     - `cancelled`: Orden cancelada por el usuario
-    
+
     ### 🔐 Autenticación:
     Requiere API Key válida en el header `X-API-Key`.
     """,
@@ -206,27 +204,27 @@ async def order_status(
     summary="🧾 Generar Factura",
     description="""
     **Genera una factura oficial para una orden completada**
-    
-    Este endpoint crea una factura detallada para una transacción bancaria 
+
+    Este endpoint crea una factura detallada para una transacción bancaria
     específica, incluyendo todos los datos fiscales requeridos.
-    
+
     ### 📋 Características:
     - Generación automática de ID de factura
     - Cálculo de montos con precisión decimal
     - Timestamp de emisión en formato ISO 8601
     - Cumplimiento con normativas fiscales europeas
-    
+
     ### 💼 Casos de uso:
     - Facturación automática post-transacción
     - Generación de comprobantes para auditorías
     - Documentación fiscal de operaciones
     - Integración con sistemas contables
-    
+
     ### ⚠️ Restricciones:
     - Solo se pueden facturar órdenes con estado `completed`
     - Una orden puede tener múltiples facturas (refacturación)
     - Los montos se calculan incluyendo comisiones aplicables
-    
+
     ### 🔐 Autenticación:
     Requiere API Key válida en el header `X-API-Key`.
     """,
