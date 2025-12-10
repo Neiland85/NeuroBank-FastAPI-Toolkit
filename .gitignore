@@ -56,3 +56,7 @@ Thumbs.db
 bandit-report.json
 safety-report.json
 .env.local
+
+# Phantasm Files
+NeuroBank-FastAPI-Toolkit-1/
+
