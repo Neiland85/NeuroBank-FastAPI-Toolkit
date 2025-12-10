@@ -38,7 +38,7 @@ jobs:
     if: github.event.inputs.skip_tests != 'true'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
@@ -50,7 +50,7 @@ jobs:
     if: github.event.inputs.skip_tests != 'true'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       - run: pip install bandit safety -r requirements.txt
@@ -64,7 +64,7 @@ jobs:
     if: github.event.inputs.force_deploy == 'true'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
