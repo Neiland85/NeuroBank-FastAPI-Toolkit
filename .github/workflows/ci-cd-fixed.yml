@@ -1,7 +1,12 @@
 name: CI/CD Pipeline - Fixed
 
 on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
   workflow_dispatch:
+
     inputs:
       skip_tests:
         description: 'Skip tests?'
