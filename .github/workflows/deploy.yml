@@ -27,6 +27,7 @@ jobs:
       # ============================================================
       - name: Log in to GHCR
         run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io \
           echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io \
             -u "${{ github.actor }}" --password-stdin
 
