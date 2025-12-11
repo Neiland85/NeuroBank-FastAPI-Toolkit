@@ -1,4 +1,4 @@
-name: CI – Security Scan
+name: CI - Security Scan
 
 on:
   pull_request:
