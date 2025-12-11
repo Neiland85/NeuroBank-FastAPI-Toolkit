@@ -3,13 +3,12 @@ import sys
 from functools import lru_cache
 from typing import List, Optional
 
-from pydantic_settings import BaseSettings
 from pydantic import Field
+from pydantic_settings import BaseSettings
+
 
 class BaseAppSettings(BaseSettings):
-    model_config = {
-        "extra": "ignore"
-    }
+    model_config = {"extra": "ignore"}
 
     cors_origins: list[str] = Field(default_factory=list)
 
@@ -23,7 +22,8 @@ class BaseAppSettings(BaseSettings):
     otel_service_name: str | None = "neurobank-fastapi"
     otel_python_logging_auto_instrumentation_enabled: bool | None = False
 
-class Settings(BaseAppSettings): # type: ignore
+
+class Settings(BaseAppSettings):  # type: ignore
     """Configuración de la aplicación optimizada para Railway"""
 
     # API Configuration
