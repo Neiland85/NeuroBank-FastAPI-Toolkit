@@ -1,4 +1,4 @@
-name: CD – Deploy to Railway
+name: CD - Deploy to Railway
 
 on:
   push:

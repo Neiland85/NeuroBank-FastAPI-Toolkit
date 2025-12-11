@@ -1,0 +1,62 @@
+name: CI - Quality Checks
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches:
+      - "feature/**"
+
+jobs:
+  quality-checks:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies and tools
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install black isort autoflake bandit safety pytest pytest-asyncio pytest-cov
+
+      - name: Run linters
+        run: |
+          echo "--- Running Black ---"
+          black --check app
+          echo "--- Running isort ---"
+          isort --check-only app
+
+      - name: Run security scans
+        run: |
+          echo "--- Running Bandit ---"
+          bandit -r app -ll
+          echo "--- Running Safety ---"
+          safety check -r requirements.txt || true
+
+      - name: Run unit tests
+        run: pytest -q --disable-warnings --maxfail=1
