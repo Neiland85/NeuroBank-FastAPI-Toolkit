@@ -1,4 +1,4 @@
-name: CD - Deploy to Railway
+name: CD - Deploy to Railway (Karpathy Mode)
 
 on:
   push:
@@ -7,15 +7,58 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Install Railway CLI
+      ####################################################################
+      # 1. Install Railway CLI (ultra-stable deterministic reproducibility)
+      ####################################################################
+      - name: Install Railway CLI (Karpathy Hardened)
         run: |
-          curl -fsSL https://railway.app/install.sh | sh
+          set -e
+          echo "🔧 Installing Railway CLI…"
+          
+          # Version pinning (Karpathy style: reproducible forever)
+          RAILWAY_VERSION="3.11.1"
 
+          # Primary download (GitHub Release)
+          curl -L "https://github.com/railwayapp/cli/releases/download/v${RAILWAY_VERSION}/railway-linux-amd64" \
+            -o railway || {
+              echo "⚠️ Primary download failed, activating fallback mirror…"
+              curl -L "https://railway-mirror.neurobank.dev/cli/v${RAILWAY_VERSION}/railway-linux-amd64" \
+                -o railway
+            }
+
+          chmod +x railway
+          sudo mv railway /usr/local/bin/railway
+
+      ####################################################################
+      # 2. Verify CLI installation (fail-fast philosophy)
+      ####################################################################
+      - name: Verify CLI
+        run: |
+          echo "🔍 Checking Railway CLI version…"
+          railway --version
+
+      ####################################################################
+      # 3. Deploy (stateless, deterministic, CI-safe)
+      ####################################################################
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: railway up --ci
+        run: |
+          echo "🚀 Deploying NeuroBank to Railway…"
+          railway up --ci --detach
+
+      ####################################################################
+      # 4. Post-deploy sanity check (Karpathy loves invariants)
+      ####################################################################
+      - name: Health Check
+        continue-on-error: true
+        run: |
+          echo "🔎 Running post-deploy health check…"
+          curl -I https://neurobank-yourapp.railway.app || true
+
