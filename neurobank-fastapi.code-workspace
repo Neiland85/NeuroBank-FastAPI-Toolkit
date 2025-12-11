@@ -17,7 +17,16 @@
       "**/*.pyc": true,
       ".venv": true
     },
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "cSpell.words": [
+      "asyncio",
+      "dotenv",
+      "jinja",
+      "loguru",
+      "pydantic",
+      "starlette",
+      "uvloop"
+    ]
   },
   "extensions": {
     "recommendations": [
