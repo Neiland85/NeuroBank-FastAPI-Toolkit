@@ -1,50 +1,61 @@
-# NeuroBank FastAPI Toolkit - Production Dockerfile optimized for Railway
-FROM python:3.14-slim
+# ============================================
+# STAGE 1 — BUILDER
+# Compilación limpia, reproducible, sin root
+# ============================================
+FROM python:3.11-slim AS builder
 
-# Establecer el directorio de trabajo
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
 WORKDIR /app
 
-# Instalar dependencias del sistema optimizado para Railway
-RUN apt-get update && apt-get install -y \
-  gcc \
-  curl \
-  && rm -rf /var/lib/apt/lists/* \
-  && apt-get clean
+# Dependencias del sistema mínimas y suficientes
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copiar archivos de dependencias primero para mejor cache de Docker
+# Copiamos dependencias del proyecto
 COPY requirements.txt .
 
-# Instalar dependencias de Python con optimizaciones
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
-  pip install --no-cache-dir -r requirements.txt
+# Usamos wheels para maximizar reproducibilidad
+RUN pip install --upgrade pip wheel && \
+    pip wheel --no-cache-dir --no-deps -r requirements.txt -w /wheels
 
-# Copiar el código de la aplicación
-COPY ./app ./app
-COPY lambda_handler.py .
-COPY start.sh .
 
-# Hacer ejecutable el script de inicio
-RUN chmod +x start.sh
+# ============================================
+# STAGE 2 — RUNTIME ULTRALIGHT
+# Cero herramientas innecesarias, zero trust
+# ============================================
+FROM python:3.11-slim AS runtime
 
-# Crear usuario no-root para seguridad y configurar permisos
-RUN groupadd -r appuser && useradd -r -g appuser appuser && \
-  chown -R appuser:appuser /app
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PATH="/home/appuser/.local/bin:${PATH}"
+
+WORKDIR /app
+
+# Crear usuario no-root y seguro
+RUN useradd -m appuser
+
+# Copiar wheels + instalar sin red
+COPY --from=builder /wheels /wheels
+RUN pip install --no-cache-dir /wheels/*
+
+# Copiamos solo el código (sin tests, sin dev)
+COPY app ./app
+
+# Ajustar permisos
+RUN chown -R appuser:appuser /app
 USER appuser
 
-# Exponer el puerto dinámico de Railway
-EXPOSE $PORT
+# ============================================
+# EJECUCIÓN — UVICORN KARPATHIAN MODE
+# ============================================
+EXPOSE 8000
 
-# Configurar variables de entorno optimizadas para Railway
-ENV PYTHONPATH=/app
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PORT=8000
-ENV ENVIRONMENT=production
-ENV WORKERS=1
-
-# Health check específico para Railway con puerto dinámico
-HEALTHCHECK --interval=30s --timeout=30s --start-period=10s --retries=3 \
-  CMD sh -c 'curl -f http://localhost:$PORT/health || exit 1'
-
-# Comando optimizado para Railway con puerto dinámico
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1 --loop uvloop --timeout-keep-alive 120 --access-log"]
+# Workers definidos por CPU (Karpathy-approved)
+CMD ["uvicorn", "app.main:app", \
+     "--host", "0.0.0.0", \
+     "--port", "8000", \
+     "--workers", "2"]
