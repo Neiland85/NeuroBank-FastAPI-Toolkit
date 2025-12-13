@@ -14,7 +14,7 @@ def pytest_configure(config):
     test_env = {
         "API_KEY": "test-api-key-12345678",
         "SECRET_KEY": "test-secret-key-87654321",
-        'CORS_ORIGINS': '["*"]',
+        "CORS_ORIGINS": '["*"]',
         "ENVIRONMENT": "testing",
         "DEBUG": "false",
         "LOG_LEVEL": "INFO",
