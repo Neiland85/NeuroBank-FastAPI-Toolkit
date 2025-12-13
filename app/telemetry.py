@@ -36,16 +36,16 @@ def setup_telemetry(app: FastAPI) -> None:
     """
     logger.info("🔧 Setting up telemetry...")
 
-    # Add startup event for telemetry initialization
-    @app.on_event("startup")
+    # Use router events instead of deprecated on_event
     async def startup_telemetry():
         logger.info("📊 Telemetry initialized successfully")
         logger.info(f"📍 Application: {app.title} v{app.version}")
 
-    # Add shutdown event for cleanup
-    @app.on_event("shutdown")
     async def shutdown_telemetry():
         logger.info("📊 Telemetry shutdown complete")
+
+    app.router.on_startup.append(startup_telemetry)
+    app.router.on_shutdown.append(shutdown_telemetry)
 
     logger.info("✅ Telemetry setup complete")
 
