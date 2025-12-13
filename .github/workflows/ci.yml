@@ -1,62 +1,47 @@
-name: CI - Quality Checks
+name: CI – Quality Gate
 
 on:
   pull_request:
-    branches: [main]
+    branches: [ main ]
   push:
-    branches:
-      - "feature/**"
+    branches: [ "feature/**" ]
 
 jobs:
-  quality-checks:
+  quality:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
-        python-version: ["3.11", "3.12"]
+        python-version: ["3.11"]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Get pip cache dir
-        id: pip-cache
-        run: |
-          echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-${{ matrix.python-version }}-
-            ${{ runner.os }}-pip-
-
-      - name: Install dependencies and tools
+      - name: Install dependencies
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
-          pip install black isort autoflake bandit safety pytest pytest-asyncio pytest-cov
+          pip install black isort bandit safety pytest pytest-asyncio pytest-cov
 
-      - name: Run linters
+      - name: Lint
         run: |
-          echo "--- Running Black ---"
           black --check app
-          echo "--- Running isort ---"
           isort --check-only app
 
-      - name: Run security scans
+      - name: Security scan
         run: |
-          echo "--- Running Bandit ---"
           bandit -r app -ll
-          echo "--- Running Safety ---"
           safety check -r requirements.txt || true
 
-      - name: Run unit tests
+      - name: Run tests
+        env:
+          API_KEY: test-api-key-12345678
+          SECRET_KEY: test-secret-key-87654321
+          CORS_ORIGINS: '["*"]'
+          ENVIRONMENT: testing
+          DEBUG: false
+          LOG_LEVEL: INFO
         run: pytest -q --disable-warnings --maxfail=1

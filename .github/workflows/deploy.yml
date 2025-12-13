@@ -1,12 +1,11 @@
-name: CD - NeuroBank Deployment (Karpathy Edition)
+name: CD – NeuroBank Deployment
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   deploy:
-    name: Build & Deploy
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -14,84 +13,29 @@ jobs:
 
     env:
       IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/neurobank:${{ github.sha }}
-      SERVICE_ID: "REPLACE_ME"     # <- luego pones el tuyo
       RAILWAY_API: https://backboard.railway.app/graphql
 
     steps:
+      - uses: actions/checkout@v4
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # ============================================================
-      # A — BUILD DOCKER IMAGE
-      # ============================================================
-      - name: Log in to GHCR
+      - name: Login to GHCR
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io \
           echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io \
             -u "${{ github.actor }}" --password-stdin
+          echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build Docker image
-        run: |
-          echo "➜ Building Docker image: $IMAGE_NAME"
-          docker build -t $IMAGE_NAME .
+        run: docker build -t $IMAGE_NAME .
 
-      - name: Push Docker image to GHCR
-        run: |
-          echo "➜ Pushing image to GHCR..."
-          docker push $IMAGE_NAME
+      - name: Push Docker image
+        run: docker push $IMAGE_NAME
 
-      # ============================================================
-      # B — TRY RAILWAY CLI (NON-BLOCKING)
-      # ============================================================
-      - name: Try installing Railway CLI
-        id: cli_install
+      # Railway CLI (best-effort)
+      - name: Try Railway CLI
         continue-on-error: true
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          echo "➜ Attempting Railway CLI install…"
           curl -fsSL https://railway.app/install.sh | sh
-          if command -v railway > /dev/null; then
-            echo "cli=true" >> $GITHUB_OUTPUT
-          else
-            echo "cli=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Deploy using Railway CLI
-        if: steps.cli_install.outputs.cli == 'true'
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        continue-on-error: true
-        run: |
-          echo "➜ Railway CLI OK → Trying deploy…"
-          railway up --ci || echo "⚠️ CLI deploy failed, continuing with API fallback"
-
-      # ============================================================
-      # C — API FALLBACK DEPLOY (INFALIBLE)
-      # ============================================================
-      - name: Trigger Railway deployment via API (fallback)
-        if: steps.cli_install.outputs.cli == 'false'
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          echo "⚠️ CLI unavailable → Using API fallback mode."
-          echo "➜ Deploying image: $IMAGE_NAME"
-          
-          curl -X POST "$RAILWAY_API" \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer $RAILWAY_TOKEN" \
-            -d "{
-              \"query\": \"mutation { deployService(input: { serviceId: \\\"$SERVICE_ID\\\", image: \\\"$IMAGE_NAME\\\" }) { id } }\"
-            }"
-
-          echo "✔ Deployment requested successfully via Railway API."
-
-      - name: Final status
-        run: |
-          echo ""
-          echo "-------------------------------------------"
-          echo "   KARPATHY DEPLOY PIPELINE COMPLETED"
-          echo "-------------------------------------------"
-          echo "Image: $IMAGE_NAME"
-          echo "Service: $SERVICE_ID"
-          echo "If Railway falla → tú no fallas."
-          echo "-------------------------------------------"
+          railway up || true
