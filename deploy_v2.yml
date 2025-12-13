@@ -1,0 +1,41 @@
+name: CD - Deploy to Railway (API mode)
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      
+      - name: Build Docker image
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/neurobank:${{ github.sha }}
+          docker build -t $IMAGE_NAME .
+          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
+
+      - name: Push Docker image
+        run: docker push $IMAGE_NAME
+
+      - name: Trigger Railway Deployment via API
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          SERVICE_ID="TU_SERVICE_ID"
+          echo "➜ Triggering Railway Deploy of image: $IMAGE_NAME"
+          
+          curl -X POST "https://backboard.railway.app/graphql" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $RAILWAY_TOKEN" \
+            -d "{
+              \"query\": \"mutation { deployService(input: { serviceId: \\\"$SERVICE_ID\\\", image: \\\"$IMAGE_NAME\\\" }) { id } }\"
+            }"
