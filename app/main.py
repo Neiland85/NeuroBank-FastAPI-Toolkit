@@ -16,20 +16,16 @@ settings = get_settings()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Application startup and shutdown lifecycle."""
     try:
         setup_logging()
         logging.info("Logging configured successfully")
     except Exception as exc:
         logging.basicConfig(level=logging.INFO)
-        logging.error(
-            "Failed to configure logging, using fallback configuration",
-            exc_info=exc,
-        )
+        logging.error(f"Failed to configure logging: {exc}")
 
     yield
 
-    logging.info("Application shutdown completed")
+    logging.info("Application shutdown")
 
 
 app = FastAPI(
@@ -39,7 +35,6 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
@@ -48,12 +43,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Routers
-app.include_router(operator.router, prefix="/api")
-app.include_router(backoffice_router, prefix="/backoffice")
 
-
-@app.get("/", tags=["Root"])
+@app.get("/", response_class=JSONResponse)
 async def root():
     return {
         "message": "Welcome to NeuroBank FastAPI Toolkit",
@@ -69,16 +60,12 @@ async def root():
         },
         "features": [
             "FastAPI",
-            "Async IO",
-            "Clean Architecture",
-            "CI/CD Ready",
+            "Pydantic v2",
+            "AsyncIO",
+            "Structured logging",
         ],
     }
 
 
-@app.get("/health", tags=["Health"])
-async def health_check():
-    return JSONResponse(
-        status_code=200,
-        content={"status": "ok"},
-    )
+app.include_router(operator.router, prefix="/api")
+app.include_router(backoffice_router, prefix="/backoffice")
