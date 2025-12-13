@@ -6,10 +6,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.config import get_settings
-from app.utils.logging import setup_logging
 from app.backoffice import router as backoffice_router
+from app.config import get_settings
 from app.routers import operator
+from app.utils.logging import setup_logging
 
 APP_NAME = "NeuroBank FastAPI Toolkit"
 APP_VERSION = "1.0.0"
