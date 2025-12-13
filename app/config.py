@@ -1,123 +1,53 @@
-import logging
-from contextlib import asynccontextmanager
-from typing import Dict
+"""
+Application configuration and settings.
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+This module provides a centralized configuration management system using Pydantic.
+It MUST NOT import FastAPI, routers, or app.main to avoid circular dependencies.
+"""
 
-from app.backoffice.router import router as backoffice_router
-from app.config import get_settings
-from app.routers import operator
-from app.utils.logging import setup_logging
+import os
+from functools import lru_cache
+from typing import List
 
-# -------------------------------------------------------------------
-# Settings
-# -------------------------------------------------------------------
-
-settings = get_settings()
-
-APP_NAME = settings.app_name
-APP_VERSION = settings.app_version
-
-# -------------------------------------------------------------------
-# Lifespan (startup / shutdown)
-# -------------------------------------------------------------------
+from pydantic_settings import BaseSettings
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup
-    try:
-        setup_logging(settings.log_level)
-        logging.info("Logging configured correctly")
-    except Exception as exc:  # pragma: no cover
-        logging.basicConfig(level=logging.INFO)
-        logging.error("Failed to configure logging: %s", exc)
+class Settings(BaseSettings):
+    """Application settings loaded from environment variables."""
 
-    yield
+    # Application
+    app_name: str = "NeuroBank FastAPI Toolkit"
+    app_version: str = "1.0.0"
+    environment: str = "development"
+    debug: bool = False
 
-    # Shutdown
-    logging.info("Application shutdown complete")
+    # Security
+    api_key: str = ""
+    secret_key: str = ""
 
+    # CORS
+    cors_origins: List[str] = ["*"]
 
-# -------------------------------------------------------------------
-# FastAPI App
-# -------------------------------------------------------------------
+    # Logging
+    log_level: str = "INFO"
 
-app = FastAPI(
-    title=APP_NAME,
-    version=APP_VERSION,
-    debug=settings.debug,
-    lifespan=lifespan,
-    docs_url="/docs",
-    redoc_url="/redoc",
-)
+    class Config:
+        env_file = ".env"
+        case_sensitive = False
+        extra = "ignore"  # Ignore extra environment variables
 
-# -------------------------------------------------------------------
-# Middleware
-# -------------------------------------------------------------------
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.cors_origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# -------------------------------------------------------------------
-# Routers
-# -------------------------------------------------------------------
-
-app.include_router(operator.router, prefix="/api", tags=["api"])
-app.include_router(backoffice_router, prefix="/backoffice", tags=["backoffice"])
-
-# -------------------------------------------------------------------
-# Endpoints
-# -------------------------------------------------------------------
+    @property
+    def is_production(self) -> bool:
+        """Check if running in production environment."""
+        return self.environment.lower() == "production"
 
 
-@app.get(
-    "/",
-    summary="API Root",
-    response_description="API metadata and useful links",
-)
-async def root() -> Dict[str, object]:
-    return {
-        "message": f"Welcome to {APP_NAME}",
-        "version": APP_VERSION,
-        "status": "operational",
-        "documentation": {
-            "swagger_ui": "/docs",
-            "redoc": "/redoc",
-        },
-        "endpoints": {
-            "health_check": "/health",
-            "operator_operations": "/api",
-            "backoffice": "/backoffice",
-        },
-        "features": [
-            "🏦 Banking Operations",
-            "🔐 API Key Authentication",
-            "📊 Admin Dashboard",
-            "☁️ Railway Ready",
-        ],
-    }
+@lru_cache()
+def get_settings() -> Settings:
+    """
+    Get cached settings instance.
 
-
-@app.get(
-    "/health",
-    summary="Health check",
-    response_description="Service health status",
-)
-async def health_check() -> JSONResponse:
-    return JSONResponse(
-        status_code=200,
-        content={
-            "status": "healthy",
-            "service": APP_NAME,
-            "version": APP_VERSION,
-            "environment": settings.environment,
-        },
-    )
+    Uses lru_cache to ensure settings are loaded once and reused.
+    This avoids repeated environment variable reads.
+    """
+    return Settings()
