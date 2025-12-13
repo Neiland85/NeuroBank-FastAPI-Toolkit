@@ -16,8 +16,6 @@ os.environ.setdefault(
 from app.main import app
 
 # Vercel expects the app to be named 'app'
-# If your FastAPI app is named differently, change this
-app = app
 
 
 # Optional: Add Vercel-specific middleware or configuration

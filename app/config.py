@@ -5,7 +5,6 @@ This module provides a centralized configuration management system using Pydanti
 It MUST NOT import FastAPI, routers, or app.main to avoid circular dependencies.
 """
 
-import os
 from functools import lru_cache
 from typing import List
 
