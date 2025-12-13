@@ -1,5 +1,5 @@
-from contextlib import asynccontextmanager
 import logging
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,7 +9,6 @@ from app.backoffice import router as backoffice_router
 from app.config import get_settings
 from app.routers import operator
 from app.utils.logging import setup_logging
-
 
 settings = get_settings()
 
