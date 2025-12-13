@@ -1,89 +1,123 @@
-import os
-import sys
-from functools import lru_cache
-from typing import List, Optional
+import logging
+from contextlib import asynccontextmanager
+from typing import Dict
 
-from pydantic import Field
-from pydantic_settings import BaseSettings
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+
+from app.backoffice.router import router as backoffice_router
+from app.config import get_settings
+from app.routers import operator
+from app.utils.logging import setup_logging
+
+# -------------------------------------------------------------------
+# Settings
+# -------------------------------------------------------------------
+
+settings = get_settings()
+
+APP_NAME = settings.app_name
+APP_VERSION = settings.app_version
+
+# -------------------------------------------------------------------
+# Lifespan (startup / shutdown)
+# -------------------------------------------------------------------
 
 
-class BaseAppSettings(BaseSettings):
-    model_config = {"extra": "ignore"}
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    try:
+        setup_logging(settings.log_level)
+        logging.info("Logging configured correctly")
+    except Exception as exc:  # pragma: no cover
+        logging.basicConfig(level=logging.INFO)
+        logging.error("Failed to configure logging: %s", exc)
 
-    cors_origins: List[str] = Field(default_factory=list)
+    yield
 
-    secret_key: Optional[str] = None
-    workers: int = 1
-    ci: bool = False
-    github_actions: bool = False
-
-    otel_exporter_otlp_endpoint: Optional[str] = None
-    otel_service_name: str = "neurobank-fastapi"
-    otel_python_logging_auto_instrumentation_enabled: bool = False
+    # Shutdown
+    logging.info("Application shutdown complete")
 
 
-class Settings(BaseAppSettings):
-    """Configuración centralizada de la aplicación"""
+# -------------------------------------------------------------------
+# FastAPI App
+# -------------------------------------------------------------------
 
-    # API
-    api_key: Optional[str] = os.getenv("API_KEY")
-    app_name: str = "NeuroBank FastAPI Toolkit"
-    app_version: str = "1.0.0"
+app = FastAPI(
+    title=APP_NAME,
+    version=APP_VERSION,
+    debug=settings.debug,
+    lifespan=lifespan,
+    docs_url="/docs",
+    redoc_url="/redoc",
+)
 
-    # Server
-    # ❗ NO default 0.0.0.0 (Bandit B104)
-    host: str = os.getenv("HOST", "127.0.0.1")
-    port: int = int(os.getenv("PORT", 8000))
+# -------------------------------------------------------------------
+# Middleware
+# -------------------------------------------------------------------
 
-    # Environment
-    environment: str = os.getenv("ENVIRONMENT", "development")
-    debug: bool = os.getenv("DEBUG", "false").lower() == "true"
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.cors_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-    # Logging
-    log_level: str = os.getenv(
-        "LOG_LEVEL",
-        "INFO" if environment == "production" else "DEBUG",
+# -------------------------------------------------------------------
+# Routers
+# -------------------------------------------------------------------
+
+app.include_router(operator.router, prefix="/api", tags=["api"])
+app.include_router(backoffice_router, prefix="/backoffice", tags=["backoffice"])
+
+# -------------------------------------------------------------------
+# Endpoints
+# -------------------------------------------------------------------
+
+
+@app.get(
+    "/",
+    summary="API Root",
+    response_description="API metadata and useful links",
+)
+async def root() -> Dict[str, object]:
+    return {
+        "message": f"Welcome to {APP_NAME}",
+        "version": APP_VERSION,
+        "status": "operational",
+        "documentation": {
+            "swagger_ui": "/docs",
+            "redoc": "/redoc",
+        },
+        "endpoints": {
+            "health_check": "/health",
+            "operator_operations": "/api",
+            "backoffice": "/backoffice",
+        },
+        "features": [
+            "🏦 Banking Operations",
+            "🔐 API Key Authentication",
+            "📊 Admin Dashboard",
+            "☁️ Railway Ready",
+        ],
+    }
+
+
+@app.get(
+    "/health",
+    summary="Health check",
+    response_description="Service health status",
+)
+async def health_check() -> JSONResponse:
+    return JSONResponse(
+        status_code=200,
+        content={
+            "status": "healthy",
+            "service": APP_NAME,
+            "version": APP_VERSION,
+            "environment": settings.environment,
+        },
     )
-
-    # Railway
-    railway_private_domain: str = os.getenv("RAILWAY_PRIVATE_DOMAIN", "")
-
-    def _get_cors_origins(self) -> List[str]:
-        cors_env = os.getenv("CORS_ORIGINS")
-        if cors_env:
-            return [origin.strip() for origin in cors_env.split(",")]
-
-        origins = ["https://*.railway.app"]
-
-        if self.railway_private_domain:
-            origins.append(f"https://{self.railway_private_domain}")
-
-        return origins
-
-    class Config:
-        env_file = ".env"
-        case_sensitive = False
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-        self.cors_origins = self._get_cors_origins()
-
-        is_testing = (
-            bool(os.getenv("PYTEST_CURRENT_TEST"))
-            or "pytest" in " ".join(sys.argv)
-            or os.getenv("CI") == "true"
-            or os.getenv("GITHUB_ACTIONS") == "true"
-            or self.environment in {"testing", "development", "dev"}
-        )
-
-        if is_testing and not self.api_key:
-            self.api_key = "test_secure_key_for_testing_only_not_production"
-
-        if self.environment == "production" and not is_testing and not self.api_key:
-            raise ValueError("API_KEY environment variable is required in production")
-
-
-@lru_cache
-def get_settings() -> Settings:
-    return Settings()
