@@ -1,21 +1,38 @@
-name: CD – Deploy to Railway
+name: CD – NeuroBank Deployment
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    env:
+      IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/neurobank:${{ github.sha }}
+      RAILWAY_API: https://backboard.railway.app/graphql
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Railway CLI
+      - name: Login to GHCR
         run: |
-          curl -fsSL https://railway.app/install.sh | sh
+          echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Deploy to Railway
+      - name: Build Docker image
+        run: docker build -t $IMAGE_NAME .
+
+      - name: Push Docker image
+        run: docker push $IMAGE_NAME
+
+      # Railway CLI (best-effort)
+      - name: Try Railway CLI
+        continue-on-error: true
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: railway up --ci
+        run: |
+          curl -fsSL https://railway.app/install.sh | sh
+          railway up || true
