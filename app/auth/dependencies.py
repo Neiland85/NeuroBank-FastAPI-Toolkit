@@ -5,6 +5,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from ..config import get_settings
 
+
 # Configuración del esquema de seguridad
 security = HTTPBearer(auto_error=False)
 

@@ -1,8 +1,9 @@
 """
 Logging configuration module.
 
-This module configures structured JSON logging for the application.
-It reads configuration internally to avoid circular dependencies.
+Configures structured JSON logging for the application.
+Reads configuration from environment variables internally to avoid
+circular dependencies with app.config.
 """
 
 import logging
@@ -12,46 +13,41 @@ import sys
 from pythonjsonlogger import jsonlogger
 
 
-def setup_logging():
+def setup_logging() -> None:
     """
-    Configure application logging system with NO parameters.
+    Configure application logging system.
 
-    Reads configuration from environment variables internally to avoid
-    circular import dependencies with app.config module.
-
-    This function MUST be called with zero arguments to satisfy CodeQL
-    and maintain architectural boundaries.
+    IMPORTANT:
+    - This function MUST be called with ZERO arguments.
+    - Configuration is read exclusively from environment variables.
+    - Designed to satisfy CodeQL and avoid circular imports.
     """
-    # Read log level from environment, default to INFO
+    # Read log level from environment (default: INFO)
     log_level = os.getenv("LOG_LEVEL", "INFO").upper()
-
-    # Validate log level
     numeric_level = getattr(logging, log_level, logging.INFO)
 
-    # Create JSON formatter
     formatter = jsonlogger.JsonFormatter(
-        fmt="%(asctime)s %(name)s %(levelname)s %(message)s"
+        "%(asctime)s %(name)s %(levelname)s %(message)s"
     )
 
-    # Configure handler for stdout
     handler = logging.StreamHandler(sys.stdout)
     handler.setFormatter(formatter)
 
-    # Configure root logger
     root_logger = logging.getLogger()
+
+    # Prevent duplicate handlers if setup_logging is called twice
+    if not root_logger.handlers:
+        root_logger.addHandler(handler)
+
     root_logger.setLevel(numeric_level)
 
-    # Clear existing handlers to avoid duplicates
-    root_logger.handlers.clear()
-    root_logger.addHandler(handler)
-
-    # Configure uvicorn logger
-    uvicorn_logger = logging.getLogger("uvicorn")
-    uvicorn_logger.setLevel(numeric_level)
-
-    return root_logger
+    # Uvicorn loggers (important in prod)
+    for logger_name in ("uvicorn", "uvicorn.error", "uvicorn.access"):
+        logging.getLogger(logger_name).setLevel(numeric_level)
 
 
 def get_logger(name: str) -> logging.Logger:
-    """Get a configured logger for the specified module."""
+    """
+    Return a logger configured by setup_logging.
+    """
     return logging.getLogger(name)
