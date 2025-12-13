@@ -2,13 +2,13 @@
 # Estas dependencias son solo para desarrollo, testing y CI/CD
 
 # Testing Framework
-pytest==8.2.0
+pytest==8.4.2
 pytest-asyncio==0.23.6
 pytest-cov==5.0.0
 pytest-mock==3.14.0
 pytest-xdist==3.6.0  # Para tests paralelos
 pytest-timeout==2.3.1  # Timeout para tests
-pytest-env==1.2.0  # Variables de entorno para tests
+pytest-env==0.8.2  # Variables de entorno para tests
 
 # HTTP Testing
 httpx==0.27.0

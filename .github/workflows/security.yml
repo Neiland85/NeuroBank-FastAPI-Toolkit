@@ -2,28 +2,17 @@ name: CI – Security Scan
 
 on:
   pull_request:
-    branches: [main]
-  push:
-    branches:
-      - "feature/**"
+    branches: [ main ]
 
 jobs:
   security:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install security tooling
-        run: pip install bandit safety
-
-      - name: Run Bandit
-        run: bandit -r app -ll
-
-      - name: Dependency vulnerability scan
-        run: safety check -r requirements.txt || true
+      - run: pip install bandit safety
+      - run: bandit -r app -ll
+      - run: safety check -r requirements.txt || true

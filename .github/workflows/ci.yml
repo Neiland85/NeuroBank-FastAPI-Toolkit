@@ -1,0 +1,47 @@
+name: CI – Quality Gate
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ "feature/**" ]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install black isort bandit safety pytest pytest-asyncio pytest-cov
+
+      - name: Lint
+        run: |
+          black --check app
+          isort --check-only app
+
+      - name: Security scan
+        run: |
+          bandit -r app -ll
+          safety check -r requirements.txt || true
+
+      - name: Run tests
+        env:
+          API_KEY: test-api-key-12345678
+          SECRET_KEY: test-secret-key-87654321
+          CORS_ORIGINS: '["*"]'
+          ENVIRONMENT: testing
+          DEBUG: false
+          LOG_LEVEL: INFO
+        run: pytest -q --disable-warnings --maxfail=1
