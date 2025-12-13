@@ -10,8 +10,8 @@ This is the ONLY place where:
 Dependencies flow: main.py -> config.py, routers (NEVER the reverse)
 """
 
-import logging
 from contextlib import asynccontextmanager
+import logging
 from typing import Dict
 
 from fastapi import FastAPI
@@ -19,6 +19,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.backoffice.router import router as backoffice_router
+from app.config import get_settings
 from app.routers import operator
 from app.utils.logging import setup_logging
 
@@ -29,35 +30,29 @@ async def lifespan(app: FastAPI):
     Application lifespan manager.
 
     Configures logging on startup and ensures clean shutdown.
-    Settings are imported lazily inside the function to avoid circular imports.
     """
-    # Lazy import to avoid circular dependency
-    from app.config import get_settings
-
     settings = get_settings()
 
-    # Startup
     try:
-        setup_logging()  # NO arguments - CodeQL requirement
+        setup_logging()  # MUST be zero-arg (CodeQL)
         logging.info("Logging configured successfully")
-        logging.info(f"Starting {settings.app_name} v{settings.app_version}")
-        logging.info(f"Environment: {settings.environment}")
-    except Exception as exc:
+        logging.info("Starting %s v%s", settings.app_name, settings.app_version)
+        logging.info("Environment: %s", settings.environment)
+    except Exception as exc:  # pragma: no cover - defensive fallback
         logging.basicConfig(level=logging.INFO)
         logging.error("Failed to configure logging, using basic config", exc_info=exc)
 
     yield
 
-    # Shutdown
     logging.info("Application shutdown completed")
 
 
-# Lazy settings access
-from app.config import get_settings
+# -------------------------------------------------------------------
+# App initialization
+# -------------------------------------------------------------------
 
 settings = get_settings()
 
-# Create FastAPI app
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
@@ -67,7 +62,10 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
-# Configure CORS middleware
+# -------------------------------------------------------------------
+# Middleware
+# -------------------------------------------------------------------
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
@@ -76,9 +74,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routers
-app.include_router(operator.router, prefix="/api", tags=["API"])
+# -------------------------------------------------------------------
+# Routers
+# -------------------------------------------------------------------
+
+app.include_router(operator.router)
 app.include_router(backoffice_router)
+
+# -------------------------------------------------------------------
+# Endpoints
+# -------------------------------------------------------------------
 
 
 @app.get(
@@ -98,14 +103,14 @@ async def root() -> Dict[str, object]:
         },
         "endpoints": {
             "health_check": "/health",
-            "operator_operations": "/api",
+            "api": "/api",
             "backoffice": "/backoffice",
         },
         "features": [
-            "🏦 Banking Operations",
-            "🔐 API Key Authentication",
-            "📊 Admin Backoffice Dashboard",
-            "☁️ Cloud & Serverless Ready",
+            "Banking Operations API",
+            "API Key Authentication",
+            "Admin Backoffice Dashboard",
+            "Cloud & Serverless Ready",
         ],
     }
 

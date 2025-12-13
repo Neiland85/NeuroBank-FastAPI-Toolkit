@@ -1,10 +1,11 @@
 import os
 
-import pytest
 from httpx import ASGITransport, AsyncClient
+import pytest
 
 from app.config import get_settings
 from app.main import app
+
 
 # Obtener API key del sistema de configuración
 settings = get_settings()
@@ -36,12 +37,12 @@ async def test_generate_invoice():
         transport=ASGITransport(app=app), base_url="http://test"
     ) as ac:
         resp = await ac.post(
-            "/api/invoice/INV-2025-001",
+            "/api/invoice",
             json={"order_id": "ORD-2025-001234"},
             headers={"X-API-Key": TEST_API_KEY},
         )
 
-    assert resp.status_code == 200
+    assert resp.status_code == 201
     data = resp.json()
     assert data["order_id"] == "ORD-2025-001234"
     assert "invoice_id" in data

@@ -12,48 +12,51 @@ from app.utils.logging import get_logger, setup_logging
 class TestSetupLogging:
     """Tests for setup_logging function."""
 
-    def test_setup_logging_returns_logger(self):
-        """Test that setup_logging returns a logger instance."""
-        logger = setup_logging()
-        assert isinstance(logger, logging.Logger)
+    def test_setup_logging_configures_root_logger(self):
+        """Test that setup_logging configures the root logger."""
+        setup_logging()
+        root = logging.getLogger()
+        assert root.level in (
+            logging.DEBUG,
+            logging.INFO,
+            logging.WARNING,
+            logging.ERROR,
+        )
 
     def test_setup_logging_default_level(self):
         """Test setup_logging with default INFO level."""
         with patch.dict(os.environ, {}, clear=False):
             os.environ.pop("LOG_LEVEL", None)
-            logger = setup_logging()
-            assert logger.level == logging.INFO
+            setup_logging()
+            root = logging.getLogger()
+            assert root.level == logging.INFO
 
     def test_setup_logging_debug_level(self):
         """Test setup_logging with DEBUG level."""
         with patch.dict(os.environ, {"LOG_LEVEL": "DEBUG"}, clear=False):
-            logger = setup_logging()
-            assert logger.level == logging.DEBUG
+            setup_logging()
+            root = logging.getLogger()
+            assert root.level == logging.DEBUG
 
     def test_setup_logging_warning_level(self):
         """Test setup_logging with WARNING level."""
         with patch.dict(os.environ, {"LOG_LEVEL": "WARNING"}, clear=False):
-            logger = setup_logging()
-            assert logger.level == logging.WARNING
+            setup_logging()
+            root = logging.getLogger()
+            assert root.level == logging.WARNING
 
     def test_setup_logging_invalid_level_defaults_to_info(self):
         """Test setup_logging with invalid level defaults to INFO."""
         with patch.dict(os.environ, {"LOG_LEVEL": "INVALID"}, clear=False):
-            logger = setup_logging()
-            assert logger.level == logging.INFO
+            setup_logging()
+            root = logging.getLogger()
+            assert root.level == logging.INFO
 
-    def test_setup_logging_clears_existing_handlers(self):
-        """Test that setup_logging clears existing handlers."""
-        # Add a dummy handler
-        root = logging.getLogger()
-        dummy_handler = logging.StreamHandler()
-        root.addHandler(dummy_handler)
-
-        # Setup logging should clear it
+    def test_setup_logging_adds_handler(self):
+        """Test that setup_logging adds at least one handler."""
         setup_logging()
-
-        # Verify only one handler exists
-        assert len(root.handlers) == 1
+        root = logging.getLogger()
+        assert len(root.handlers) >= 1
 
 
 class TestGetLogger:

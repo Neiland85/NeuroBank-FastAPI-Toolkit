@@ -10,6 +10,7 @@ from typing import Optional
 
 from fastapi import FastAPI
 
+
 logger = logging.getLogger(__name__)
 
 
