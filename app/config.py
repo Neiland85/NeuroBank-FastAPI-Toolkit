@@ -31,29 +31,21 @@ class Settings(BaseAppSettings):
     app_version: str = "1.0.0"
 
     # Server
-    host: str = os.getenv("HOST", "0.0.0.0")
+    # ❗ NO default 0.0.0.0 (Bandit B104)
+    host: str = os.getenv("HOST", "127.0.0.1")
     port: int = int(os.getenv("PORT", 8000))
 
     # Environment
     environment: str = os.getenv("ENVIRONMENT", "development")
     debug: bool = os.getenv("DEBUG", "false").lower() == "true"
 
-    # AWS
-    aws_region: str = os.getenv("AWS_REGION", "eu-west-1")
-
     # Logging
     log_level: str = os.getenv(
         "LOG_LEVEL",
-        "INFO" if os.getenv("ENVIRONMENT") == "production" else "DEBUG",
+        "INFO" if environment == "production" else "DEBUG",
     )
 
     # Railway
-    railway_project_id: str = os.getenv("RAILWAY_PROJECT_ID", "")
-    railway_environment_id: str = os.getenv("RAILWAY_ENVIRONMENT_ID", "")
-    railway_service_id: str = os.getenv("RAILWAY_SERVICE_ID", "")
-    railway_project_name: str = os.getenv("RAILWAY_PROJECT_NAME", "")
-    railway_environment_name: str = os.getenv("RAILWAY_ENVIRONMENT_NAME", "")
-    railway_service_name: str = os.getenv("RAILWAY_SERVICE_NAME", "")
     railway_private_domain: str = os.getenv("RAILWAY_PRIVATE_DOMAIN", "")
 
     def _get_cors_origins(self) -> List[str]:
