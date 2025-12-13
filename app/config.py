@@ -10,38 +10,33 @@ from pydantic_settings import BaseSettings
 class BaseAppSettings(BaseSettings):
     model_config = {"extra": "ignore"}
 
-    cors_origins: list[str] = Field(default_factory=list)
+    cors_origins: List[str] = Field(default_factory=list)
 
-    # Opcionales
-    secret_key: str | None = None
-    workers: int | None = 1
-    ci: bool | None = False
-    github_actions: bool | None = False
+    secret_key: Optional[str] = None
+    workers: int = 1
+    ci: bool = False
+    github_actions: bool = False
 
-    # OpenTelemetry
-    otel_exporter_otlp_endpoint: str | None = None
-    otel_service_name: str | None = "neurobank-fastapi"
-    otel_python_logging_auto_instrumentation_enabled: bool | None = False
+    otel_exporter_otlp_endpoint: Optional[str] = None
+    otel_service_name: str = "neurobank-fastapi"
+    otel_python_logging_auto_instrumentation_enabled: bool = False
 
 
 class Settings(BaseAppSettings):
-    """Configuración de la aplicación optimizada para Railway y CI"""
+    """Configuración centralizada de la aplicación"""
 
     # API
     api_key: Optional[str] = os.getenv("API_KEY")
     app_name: str = "NeuroBank FastAPI Toolkit"
     app_version: str = "1.0.0"
 
-    # Server (⚠️ NO hardcodear 0.0.0.0)
-    host: str = os.getenv("HOST", "127.0.0.1")
+    # Server
+    host: str = os.getenv("HOST", "0.0.0.0")
     port: int = int(os.getenv("PORT", 8000))
 
     # Environment
     environment: str = os.getenv("ENVIRONMENT", "development")
     debug: bool = os.getenv("DEBUG", "false").lower() == "true"
-
-    # CORS
-    cors_origins: List[str] = []
 
     # AWS
     aws_region: str = os.getenv("AWS_REGION", "eu-west-1")
@@ -62,8 +57,9 @@ class Settings(BaseAppSettings):
     railway_private_domain: str = os.getenv("RAILWAY_PRIVATE_DOMAIN", "")
 
     def _get_cors_origins(self) -> List[str]:
-        if os.getenv("CORS_ORIGINS"):
-            return os.getenv("CORS_ORIGINS").split(",")
+        cors_env = os.getenv("CORS_ORIGINS")
+        if cors_env:
+            return [origin.strip() for origin in cors_env.split(",")]
 
         origins = ["https://*.railway.app"]
 
@@ -96,6 +92,6 @@ class Settings(BaseAppSettings):
             raise ValueError("API_KEY environment variable is required in production")
 
 
-@lru_cache()
+@lru_cache
 def get_settings() -> Settings:
     return Settings()
