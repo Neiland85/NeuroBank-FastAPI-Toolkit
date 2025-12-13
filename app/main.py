@@ -1,5 +1,5 @@
-import logging
 from contextlib import asynccontextmanager
+import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,7 +18,7 @@ settings = get_settings()
 async def lifespan(app: FastAPI):
     """Application startup and shutdown lifecycle."""
     try:
-        setup_logging()  # sin argumentos: CodeQL + seguridad felices
+        setup_logging()
         logging.info("Logging configured successfully")
     except Exception as exc:
         logging.basicConfig(level=logging.INFO)
@@ -39,7 +39,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS configuration
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
