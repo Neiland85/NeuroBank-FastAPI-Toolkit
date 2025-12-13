@@ -12,16 +12,16 @@ jobs:
       packages: write
 
     env:
-      IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/neurobank:${{ github.sha }}
       RAILWAY_API: https://backboard.railway.app/graphql
 
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set image name (lowercase)
+        run: echo "IMAGE_NAME=ghcr.io/$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')/neurobank:${{ github.sha }}" >> $GITHUB_ENV
+
       - name: Login to GHCR
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-          echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
 
       - name: Build Docker image
         run: docker build -t $IMAGE_NAME .
