@@ -1,6 +1,5 @@
 import logging
 from contextlib import asynccontextmanager
-from typing import Dict
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,51 +10,35 @@ from app.config import get_settings
 from app.routers import operator
 from app.utils.logging import setup_logging
 
-# -------------------------------------------------------------------
-# Settings
-# -------------------------------------------------------------------
-
 settings = get_settings()
-
-APP_NAME = settings.app_name
-APP_VERSION = settings.app_version
-
-# -------------------------------------------------------------------
-# Lifespan
-# -------------------------------------------------------------------
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    """
+    Application lifespan manager.
+    Configures logging safely on startup and ensures clean shutdown.
+    """
     try:
-        setup_logging(settings.log_level)
-        logging.info("Logging configured")
-    except Exception as exc:  # pragma: no cover
+        setup_logging()  # ⚠️ SIN ARGUMENTOS (CodeQL FIX)
+        logging.info("Logging configured successfully")
+    except Exception as exc:
         logging.basicConfig(level=logging.INFO)
-        logging.error("Logging fallback activated: %s", exc)
+        logging.error("Failed to configure logging, using basic config", exc_info=exc)
 
     yield
 
-    logging.info("Application shutdown complete")
+    logging.info("Application shutdown completed")
 
-
-# -------------------------------------------------------------------
-# App
-# -------------------------------------------------------------------
 
 app = FastAPI(
-    title=APP_NAME,
-    version=APP_VERSION,
+    title=settings.app_name,
+    version=settings.app_version,
     debug=settings.debug,
     lifespan=lifespan,
-    docs_url="/docs",
-    redoc_url="/redoc",
 )
 
-# -------------------------------------------------------------------
-# Middleware
-# -------------------------------------------------------------------
-
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
@@ -64,23 +47,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# -------------------------------------------------------------------
 # Routers
-# -------------------------------------------------------------------
-
-app.include_router(operator.router, prefix="/api", tags=["api"])
-app.include_router(backoffice_router, prefix="/backoffice")
-
-# -------------------------------------------------------------------
-# Endpoints
-# -------------------------------------------------------------------
+app.include_router(operator.router, prefix="/api", tags=["API"])
+app.include_router(backoffice_router)  # el prefijo vive en el router
 
 
-@app.get("/")
-async def root() -> Dict[str, object]:
+@app.get(
+    "/",
+    summary="🏠 API Root",
+    response_class=JSONResponse,
+)
+async def root():
     return {
-        "message": f"Welcome to {APP_NAME}",
-        "version": APP_VERSION,
+        "message": "Welcome to NeuroBank FastAPI Toolkit",
+        "version": settings.app_version,
         "status": "operational",
         "documentation": {
             "swagger_ui": "/docs",
@@ -89,25 +69,11 @@ async def root() -> Dict[str, object]:
         "endpoints": {
             "health_check": "/health",
             "operator_operations": "/api",
-            "backoffice": "/backoffice",
         },
         "features": [
             "🏦 Banking Operations",
             "🔐 API Key Authentication",
-            "📊 Admin Dashboard",
-            "☁️ Railway Ready",
+            "📊 Admin Backoffice Dashboard",
+            "☁️ Cloud & Serverless Ready",
         ],
     }
-
-
-@app.get("/health")
-async def health_check() -> JSONResponse:
-    return JSONResponse(
-        status_code=200,
-        content={
-            "status": "healthy",
-            "service": APP_NAME,
-            "version": APP_VERSION,
-            "environment": settings.environment,
-        },
-    )
