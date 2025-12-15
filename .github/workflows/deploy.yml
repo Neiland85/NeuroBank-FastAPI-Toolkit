@@ -15,7 +15,7 @@ jobs:
       RAILWAY_API: https://backboard.railway.app/graphql
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set image name (lowercase)
         run: echo "IMAGE_NAME=ghcr.io/$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')/neurobank:${{ github.sha }}" >> $GITHUB_ENV
