@@ -88,4 +88,4 @@ uvloop==0.22.1
 watchfiles==1.1.0
 watchtower==3.4.0
 websockets==15.0.1
-wrapt==1.17.2
+wrapt==2.0.1
