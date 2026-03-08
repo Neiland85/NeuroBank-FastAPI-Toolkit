@@ -59,8 +59,10 @@ PyYAML==6.0.2
 referencing==0.36.2
 regex==2024.11.6
 requests==2.32.4
-rich==14.0.0
+rich==14.2.0
 rich-toolkit==0.14.8
+rich==14.0.0
+rich-toolkit==0.17.0
 rpds-py==0.30.0
 ruamel.yaml==0.18.14
 ruamel.yaml.clib==0.2.12
@@ -80,9 +82,9 @@ tqdm==4.67.1
 typer==0.16.0
 typing_extensions==4.14.1
 ujson==5.10.0
-urllib3==2.5.0
+urllib3==2.6.2
 uvicorn==0.29.0
-uvloop==0.21.0
+uvloop==0.22.1
 watchfiles==1.1.0
 watchtower==3.4.0
 websockets==15.0.1
