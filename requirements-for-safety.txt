@@ -82,7 +82,7 @@ typing_extensions==4.14.1
 ujson==5.10.0
 urllib3==2.6.2
 uvicorn==0.29.0
-uvloop==0.21.0
+uvloop==0.22.1
 watchfiles==1.1.0
 watchtower==3.4.0
 websockets==15.0.1
