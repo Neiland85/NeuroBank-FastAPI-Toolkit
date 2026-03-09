@@ -1,6 +1,6 @@
 annotated-types==0.7.0
 anyio==4.9.0
-attrs==25.3.0
+attrs==25.4.0
 Authlib==1.6.0
 aws-sam-translator==1.99.0
 aws-xray-sdk==2.14.0
